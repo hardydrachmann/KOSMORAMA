@@ -5,3 +5,12 @@
   right: 0.4em;
   position: absolute;
 }
+#btn-align-right {
+  right: 0.8em;
+  position: absolute;
+}
+#header-lang {
+  bottom: 0.1em;
+  left: 0.4em;
+  position: absolute;
+}
