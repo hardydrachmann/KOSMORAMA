@@ -1,16 +1,45 @@
-/* Empty. Add your own CSS if you like */
+/* Background color */
+.backgroundColor{
+    background: blue;
+    background:linear-gradient(to left, #445573, #556b91);
+}
+
+/* Centers the image */
+#centerImg{
+    position: relative;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 80%;
+}
+
+#help {
+    position: absolute;
+    height: 10%;
+    width: 10%;
+    bottom: 1.5em;
+    right: 0em;
+    margin: 2em;
+}
 
 #btn-lang {
   top: 0.3em;
   right: 0.4em;
   position: absolute;
 }
+
+.helpButton {
+    font-size:5em;
+}
+
 #btn-align-right {
   right: 0.8em;
   position: absolute;
 }
+
 #header-lang {
   bottom: 0.1em;
   left: 0.4em;
   position: absolute;
 }
+
