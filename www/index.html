@@ -28,16 +28,12 @@
 
 <body ng-app="kosmoramaApp" ng-controller="IndexController">
   <ion-pane>
-    <ion-header-bar class="bar-stable">
+    <ion-header-bar class="bar-dark">
       <h1 class="title">{{getText('title')}}</h1>
+      <button id="btn-lang" ng-click="toggleLang()">Language</button>
     </ion-header-bar>
 
-    <ion-content>
-      <button ng-click="toggleLang()">Language</button>
-      <ion-nav-view style="height:100%">
-
-      </ion-nav-view>
-    </ion-content>
+    <ion-nav-view style="margin-top:3em"></ion-nav-view>
 
   </ion-pane>
 </body>
