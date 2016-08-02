@@ -1,1 +1,16 @@
 /* Empty. Add your own CSS if you like */
+
+/* Background color */
+.backgroundColor{
+    background: blue;
+    background:linear-gradient(blue, #111f44, blue);
+}
+
+/* Centers the image */
+#centerImg{
+    position: relative;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+
