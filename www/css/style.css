@@ -1,5 +1,3 @@
-/* Empty. Add your own CSS if you like */
-
 /* Background color */
 .backgroundColor{
     background: blue;
@@ -12,5 +10,11 @@
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
+}
+
+#btn-lang {
+  top: 0.3em;
+  right: 0.4em;
+  position: absolute;
 }
 
