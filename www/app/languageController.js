@@ -1,4 +1,4 @@
-angular.module('kosmoramaApp').controller('LanguageController', function($scope) {
+angular.module('kosmoramaApp').controller('LanguageController', function($scope, $window) {
   $scope.lang = 'da';
   $scope.text = '';
 

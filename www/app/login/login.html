@@ -1,15 +1,12 @@
-<div class="list list-inset">
-  <label class="item item-input">
-    <i class="icon ion-person placeholder-icon"></i>
-    <input type="password" placeholder="Login ID" style="text-align:right">
-  </label>
-</div>
+  <div class="list list-inset">
+    <label class="item item-input">
+      <i class="icon ion-person placeholder-icon"></i>
+      <input ng-model="password" type="password" placeholder="Login ID" style="text-align:right">
+    </label>
+  </div>
 
-<a href="#/home">
-<button class="button button-small button-positive" id="btn-align-right">
-  Login
-</button>
-</a>
-
-
-<!--               <a href="#/home">HOME</a> -->
+  <a href="#">
+    <button ng-click="login()" class="button button-small button-positive" id="btn-align-right">
+      Login
+    </button>
+  </a>
