@@ -5,5 +5,7 @@ node_modules/
 platforms/
 plugins/
 kill.bat
-emulate.bat
+emulator.bat
+browser.bat
+phone.bat
 build.bat
