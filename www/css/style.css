@@ -43,3 +43,30 @@
   position: absolute;
 }
 
+.text-white {
+  color: white;
+}
+
+#trainingPlanHeader{
+  color:white;
+  text-align: center;
+  margin:1em;
+}
+
+.btn-bottom{
+  bottom: 4em;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.tpDivBackground{
+  background-color: rgba(0,0,0,0.1);
+  margin:auto;
+  width:90%;
+}
+
+.button{
+  background-color: #303c50;
+  color: white;
+  
+}

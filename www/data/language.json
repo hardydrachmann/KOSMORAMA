@@ -7,5 +7,15 @@
     "welcome": {
         "da": "Velkommen",
         "eng": "Welcome"
+    },
+    
+    "trainingPlan": {
+        "da": "Her er dagens træning",
+        "eng": "Here's todays training"
+    },
+    
+    "trainingPlanBtn": {
+        "da": "Fortsæt",
+        "eng": "Continue"
     }
 }
