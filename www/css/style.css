@@ -1,25 +1,42 @@
 /* Background color */
-.backgroundColor{
-    background: blue;
-    background:linear-gradient(to left, #445573, #556b91);
+
+.backgroundColor {
+  background: blue;
+  background: linear-gradient(to left, #445573, #556b91);
 }
 
+
 /* Centers the image */
-#centerImg{
-    position: relative;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    width: 80%;
+
+#centerImg {
+  position: relative;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 80%;
+}
+
+#help-text {
+  font-size: 2em;
+  margin: 1em;
+  margin-top: 3em;
+  text-align: center;
 }
 
 #btn-help {
-    position: absolute;
-    height: 10%;
-    width: 10%;
-    bottom: 1.5em;
-    right: 0em;
-    margin: 2em;
+  position: absolute;
+  height: 10%;
+  width: 10%;
+  bottom: 1.5em;
+  right: 0em;
+  margin: 2em;
+}
+
+#btn-close {
+  position: absolute;
+  bottom: 2em;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 #btn-lang {
@@ -28,8 +45,8 @@
   position: absolute;
 }
 
-.helpButton {
-    font-size:5em;
+.tap-button {
+  font-size: 5em;
 }
 
 #btn-align-right {
@@ -43,3 +60,29 @@
   position: absolute;
 }
 
+.text-white {
+  color: white;
+}
+
+#trainingPlanHeader {
+  color: white;
+  text-align: center;
+  margin: 1em;
+}
+
+.btn-bottom {
+  bottom: 4em;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.tpDivBackground {
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: auto;
+  width: 90%;
+}
+
+.button {
+  background-color: #303c50;
+  color: white;
+}
