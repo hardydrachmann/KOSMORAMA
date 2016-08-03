@@ -1,11 +1,26 @@
 {
-    "title": {
-        "da": "KOSMORAMA DANSK",
-        "eng": "KOSMORAMA ENGLISH"
-    },
-
     "welcome": {
         "da": "Velkommen",
         "eng": "Welcome"
+    },
+
+    "trainingPlan": {
+        "da": "Her er dagens træning",
+        "eng": "Here's todays training"
+    },
+
+    "trainingPlanBtn": {
+        "da": "Fortsæt",
+        "eng": "Continue"
+    },
+    
+    "instruction": {
+        "da": "Lav denne øvelse",
+        "eng": "Do this exercise"
+    },
+    
+    "homeHelp": {
+        "da": "Hjælp til forsiden.",
+        "eng": "Help for the home page."
     }
 }

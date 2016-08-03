@@ -21,6 +21,7 @@
 
   <!-- your app's js -->
   <script src="app/app.js"></script>
+  <script src="app/help/helpController.js"></script>
   <script src="app/home/homeController.js"></script>
   <script src="app/login/loginController.js"></script>
   <script src="app/trainingPlan/trainingPlanController.js"></script>
@@ -32,12 +33,15 @@
 
 <body ng-app="kosmoramaApp" ng-controller="LanguageController">
   <ion-pane>
-    <ion-header-bar class="bar-positive">
-      <h4 id="header-lang" style="color:white">{{getText('title')}}</h4>
+    <ion-header-bar class="headerColor">
+      <img id="headerImg" src="img/logo.png">
       <button id="btn-lang" ng-click="toggleLang()">Language</button>
     </ion-header-bar>
 
-    <ion-nav-view style="margin-top:3em"></ion-nav-view>
+    <div style="margin-top:3em">
+      <help id="helpSection" style="display:none"></help>
+      <ion-nav-view></ion-nav-view>
+    </div>
 
   </ion-pane>
 </body>

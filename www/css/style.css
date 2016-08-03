@@ -1,25 +1,50 @@
 /* Background color */
-.backgroundColor{
-    background: blue;
-    background:linear-gradient(to left, #445573, #556b91);
+
+.backgroundColor {
+  background: blue;
+  background: linear-gradient(to left, #445573, #556b91);
 }
+
 
 /* Centers the image */
-#centerImg{
-    position: relative;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    width: 80%;
+
+#centerImg {
+  position: relative;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 80%;
 }
 
-#help {
-    position: absolute;
-    height: 10%;
-    width: 10%;
-    bottom: 1.5em;
-    right: 0em;
-    margin: 2em;
+#headerImg {
+  max-width: 80%;
+  max-height: 80%;
+  width: auto;
+  height: auto;
+
+}
+
+#help-text {
+  font-size: 2em;
+  margin: 1em;
+  margin-top: 3em;
+  text-align: center;
+}
+
+#btn-help {
+  position: absolute;
+  height: 10%;
+  width: 10%;
+  bottom: 1.5em;
+  right: 0em;
+  margin: 2em;
+}
+
+#btn-close {
+  position: absolute;
+  bottom: 2em;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 #btn-lang {
@@ -28,12 +53,46 @@
   position: absolute;
 }
 
-.helpButton {
-    font-size:5em;
+.tap-button {
+  font-size: 5em;
 }
 
 #header-lang {
   bottom: 0.1em;
   left: 0.4em;
   position: absolute;
+}
+
+.text-white {
+  color: white;
+}
+
+#trainingPlanHeader {
+  color: white;
+  text-align: center;
+  margin-top: 3vh;
+  margin-bottom: 6vh;
+}
+
+.btn-bottom {
+  bottom: 2em;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background-color: #303c50;
+  color: white;
+}
+
+.tpDivBackground {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #303c50;
+  margin: auto;
+  width: 90%;
+}
+
+.icon-color {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.headerColor {
+  background-color: #303c50;
 }
