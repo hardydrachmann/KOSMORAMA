@@ -7,5 +7,10 @@
     "welcome": {
         "da": "Velkommen",
         "eng": "Welcome"
+    },
+    
+    "instruction": {
+        "da": "Lav denne øvelse",
+        "eng": "Do this exercise"
     }
 }
