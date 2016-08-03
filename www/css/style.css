@@ -16,6 +16,14 @@
   width: 80%;
 }
 
+#headerImg {
+  max-width: 80%;
+  max-height: 80%;
+  width: auto;
+  height: auto;
+  
+}
+
 #help-text {
   font-size: 2em;
   margin: 1em;
@@ -88,5 +96,9 @@
 
 .icon-color {
   color: rgba(255, 255, 255, 0.4);
+}
+
+.headerColor {
+  background-color: #303c50;
 }
 
