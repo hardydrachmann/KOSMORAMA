@@ -67,22 +67,26 @@
 #trainingPlanHeader {
   color: white;
   text-align: center;
-  margin: 1em;
+  margin-top: 3vh;
+  margin-bottom: 6vh;
 }
 
 .btn-bottom {
-  bottom: 4em;
+  bottom: 2em;
   position: absolute;
   transform: translate(-50%, -50%);
+  background-color: #303c50;
+  color: white;
 }
 
 .tpDivBackground {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #303c50;
   margin: auto;
   width: 90%;
 }
 
-.button {
-  background-color: #303c50;
-  color: white;
+.icon-color {
+  color: rgba(255, 255, 255, 0.4);
 }
+
