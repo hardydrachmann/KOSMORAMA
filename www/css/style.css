@@ -13,6 +13,14 @@
   width: 80%;
 }
 
+#headerImg {
+  max-width: 80%;
+  max-height: 80%;
+  width: auto;
+  height: auto;
+
+}
+
 #help-text {
   line-height: 1.5em;
   font-size: 2em;
@@ -47,11 +55,6 @@
   font-size: 5em;
 }
 
-#btn-align-right {
-  right: 0.8em;
-  position: absolute;
-}
-
 #header-lang {
   bottom: 0.1em;
   left: 0.4em;
@@ -65,22 +68,29 @@
 #trainingPlanHeader {
   color: white;
   text-align: center;
-  margin: 1em;
+  margin-top: 3vh;
+  margin-bottom: 6vh;
 }
 
 .btn-bottom {
-  bottom: 4em;
+  bottom: 2em;
   position: absolute;
   transform: translate(-50%, -50%);
+  background-color: #303c50;
+  color: white;
 }
 
 .tpDivBackground {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #303c50;
   margin: auto;
   width: 90%;
 }
 
-.button {
+.icon-color {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.headerColor {
   background-color: #303c50;
-  color: white;
 }

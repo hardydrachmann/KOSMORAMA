@@ -1,12 +1,31 @@
-angular.module('kosmoramaApp').controller('LoginController', function($scope) {
+angular.module('kosmoramaApp').controller('LoginController', function($scope, $ionicPopup, $timeout, $state) {
 
-  $scope.password = '';
+  $scope.id = '';
+
+  $(document).ready(function() {
+    var id = window.localStorage.getItem('id');
+    if (id != undefined && !id.isEmpty) {
+      //$state.go('home');
+    }
+  });
 
   $scope.login = function() {
-
-    // window.location.hostname.concat('#/home');
-    // console.log($scope.password);
-
+    window.localStorage.setItem('id', $scope.id);
+    $state.go('home');
   };
 
+  $scope.logout = function() {
+    window.localStorage.removeItem('id');
+    $state.go('login');
+  };
+
+  $scope.showPopUpMessage = function(message) {
+    var popUp = $ionicPopup.show({
+      title: 'message:',
+      template: message
+    });
+    $timeout(function() {
+      popUp.close();
+    }, 2000);
+  };
 });

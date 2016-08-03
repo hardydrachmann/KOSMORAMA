@@ -7,6 +7,9 @@
 <link href="lib/components/font-awesome/font-awesome.css">
 
 <head>
+  <!--  favicon.ico missing bug fix -->
+  <link rel="shortcut icon" href="">
+
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
   <title></title>
@@ -30,8 +33,8 @@
 
 <body ng-app="kosmoramaApp" ng-controller="LanguageController">
   <ion-pane>
-    <ion-header-bar class="bar-positive">
-      <h4 id="header-lang" style="color:white">{{getText('title')}}</h4>
+    <ion-header-bar class="headerColor">
+      <img id="headerImg" src="img/logo.png">
       <button id="btn-lang" ng-click="toggleLang()">Language</button>
     </ion-header-bar>
 
@@ -40,12 +43,12 @@
       <ion-nav-view></ion-nav-view>
     </div>
 
-    <ion-tabs class="tabs-icon-top">
+    <ion-tabs ng-controller="LoginController" class="tabs-icon-top">
       <ion-tab title="Help" ng-click="help()" icon="ion-help">
       </ion-tab>
       <ion-tab title="Home" icon="ion-home">
       </ion-tab>
-      <ion-tab title="Logout" icon="ion-log-out">
+      <ion-tab title="Logout" ng-click="logout()" icon="ion-log-out">
       </ion-tab>
     </ion-tabs>
 
