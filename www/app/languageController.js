@@ -1,6 +1,9 @@
 angular.module('kosmoramaApp').controller('LanguageController', function($scope) {
     $scope.lang = 'da';
     $scope.text = '';
+    $scope.langs = ['da', 'eng', 'de'];
+    $scope.lang = 'da';
+    $scope.selectedLang = 'da';
 
     $scope.loadText = function() {
         $.getJSON('data/language.json', function(data) {

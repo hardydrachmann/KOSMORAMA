@@ -35,7 +35,7 @@
   <ion-pane>
     <ion-header-bar class="headerColor">
       <img id="headerImg" src="img/logo.png">
-      <button id="btn-lang" ng-click="toggleLang()">Language</button>
+      <select id="btn-lang" ng-model="lang" ng-options="lang for lang in langs track by lang"></select>
     </ion-header-bar>
 
     <div style="margin-top:3em">
