@@ -37,7 +37,7 @@ angular.module('kosmoramaApp', ['ionic'])
     templateUrl: 'app/login/login.html',
     controller: 'LoginController'
   })
-  
+
   .state('trainingPlan', {
     url: '/trainingPlan',
     templateUrl: 'app/trainingPlan/trainingPlan.html',

@@ -21,7 +21,7 @@
   max-height: 80%;
   width: auto;
   height: auto;
-  
+
 }
 
 #help-text {
@@ -55,11 +55,6 @@
 
 .tap-button {
   font-size: 5em;
-}
-
-#btn-align-right {
-  right: 0.8em;
-  position: absolute;
 }
 
 #header-lang {
@@ -101,4 +96,3 @@
 .headerColor {
   background-color: #303c50;
 }
-
