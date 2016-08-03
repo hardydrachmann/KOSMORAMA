@@ -5,10 +5,7 @@
   background: linear-gradient(to left, #445573, #556b91);
 }
 
-
-/* Centers the image */
-
-#centerImg {
+#center-img {
   position: relative;
   transform: translate(-50%, -50%);
   top: 50%;
@@ -17,6 +14,7 @@
 }
 
 #help-text {
+  line-height: 1.5em;
   font-size: 2em;
   margin: 1em;
   margin-top: 3em;
