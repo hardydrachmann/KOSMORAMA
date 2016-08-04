@@ -23,5 +23,16 @@
     "homeHelp": {
         "da": "Hjælp til forsiden.",
         "eng": "Help for the home page."
+    },
+    
+    "trainingPlanHelp":{
+        "da":"",
+        "eng":""
+    },
+    
+    "trainingInstructionHelp":{
+        "da":"",
+        "eng":""
     }
+    
 }

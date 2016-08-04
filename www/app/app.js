@@ -26,7 +26,7 @@ angular.module('kosmoramaApp', ['ionic'])
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   $ionicConfigProvider.tabs.position('bottom');
   $ionicConfigProvider.tabs.style('standard');
-  
+
   $stateProvider
 
     .state('home', {
@@ -46,7 +46,14 @@ angular.module('kosmoramaApp', ['ionic'])
     templateUrl: 'app/trainingPlan/trainingPlan.html',
     controller: 'TrainingPlanController'
   })
-  
+
+  .state('language', {
+    url: '/language',
+    templateUrl: 'app/language/language.html',
+    controller: 'LanguageController'
+
+  })
+
   .state('trainingInstruction', {
     url: '/trainingInstruction',
     templateUrl: 'app/trainingInstruction/trainingInstruction.html',
