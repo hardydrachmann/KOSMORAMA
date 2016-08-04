@@ -15,6 +15,18 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope)
         language: 'English',
         tag: 'eng',
         url: 'img/flags/UK.png'
+    }, {
+        language: 'Norsk',
+        tag: 'no',
+        url: 'img/flags/NO.png'
+    }, {
+        language: 'Svenska',
+        tag: 'se',
+        url: 'img/flags/SWE.png'
+    }, {
+        language: 'Suomi',
+        tag: 'fi',
+        url: 'img/flags/FI.png'
     }];
     
     $scope.selectLanguage = function(language){
