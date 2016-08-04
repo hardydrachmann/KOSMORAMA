@@ -78,7 +78,7 @@
   background-color: #303c50;
 }
 #login-watermark {
-  position: absolute;
+  position: relative;;
   top: 13%;
   vertical-align: middle;
   text-align: center;
