@@ -7,5 +7,5 @@ plugins/
 kill.bat
 emulator.bat
 browser.bat
-phone.bat
+device.bat
 build.bat
