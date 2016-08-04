@@ -2,6 +2,7 @@
   background: blue;
   background: linear-gradient(to left, #445573, #556b91);
 }
+
 #center-img {
   position: relative;
   transform: translate(-50%, -50%);
@@ -9,12 +10,14 @@
   left: 50%;
   width: 80%;
 }
+
 #headerImg {
   max-width: 80%;
   max-height: 80%;
   width: auto;
   height: auto;
 }
+
 #help-text {
   line-height: 1.5em;
   font-size: 2em;
@@ -22,6 +25,7 @@
   margin-top: 3em;
   text-align: center;
 }
+
 #btn-help {
   position: absolute;
   height: 10%;
@@ -30,34 +34,41 @@
   right: 0em;
   margin: 2em;
 }
+
 #btn-close {
   position: absolute;
   bottom: 2em;
   left: 50%;
   transform: translateX(-50%);
 }
+
 #btn-lang {
   top: 0.3em;
   right: 0.4em;
   position: absolute;
 }
+
 .tap-button {
   font-size: 5em;
 }
+
 #header-lang {
   bottom: 0.1em;
   left: 0.4em;
   position: absolute;
 }
+
 .text-white {
   color: white;
 }
+
 #trainingPlanHeader {
   color: white;
   text-align: center;
   margin-top: 3vh;
   margin-bottom: 6vh;
 }
+
 .btn-bottom {
   bottom: 2em;
   position: absolute;
@@ -65,6 +76,7 @@
   background-color: #303c50;
   color: white;
 }
+
 .tpDivBackground {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: #303c50;
@@ -72,22 +84,24 @@
   width: 90%;
 }
 
-.languageMenu h2{
-  margin-top:1.75em;
-  padding-bottom:1em;
+.languageMenu h2 {
+  margin-top: 1.75em;
+  padding-bottom: 1em;
 }
 
-.languageMenu div{
-    background-color: rgba(255, 255, 255, 0.1);
+.languageMenu div {
+  background-color: rgba(255, 255, 255, 0.1);
   border-color: #303c50;
 }
 
 .icon-color {
   color: rgba(255, 255, 255, 0.4);
 }
-.headerColor {
+
+.accent-color {
   background-color: #303c50;
 }
+
 #login-watermark {
   position: relative;
   top: 25%;
@@ -95,10 +109,12 @@
   transform: translateX(-50%);
   width: 55%;
 }
+
 #login-box {
   margin: auto;
   height: 40%;
 }
+
 #login-box input {
   position: relative;
   left: 50%;
@@ -109,9 +125,11 @@
   height: 50%;
   font-size: 2.5em;
 }
+
 #login-box input:focus::-webkit-input-placeholder {
   color: transparent;
 }
+
 .video-container {
   position: relative;
   padding-bottom: 56.25%;
@@ -119,7 +137,10 @@
   height: 0;
   overflow: hidden;
 }
-.video-container iframe, .video-container object, .video-container embed {
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
   position: absolute;
   top: 0;
   left: 0;

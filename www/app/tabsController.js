@@ -1,4 +1,4 @@
-angular.module('kosmoramaApp').controller('TabsController', function($scope) {
+angular.module('kosmoramaApp').controller('TabsController', function($scope, $ionicHistory) {
     $scope.showHelpTab = true;
     $scope.showHomeTab = true;
     $scope.showLoginTab = true;
@@ -18,7 +18,7 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope) {
     };
 
     $scope.loginToggle = function() {
-        loggedIn = !loggedIn;
+        loggedIn = $ionicHistory.currentView().stateName !== 'login';
         $scope.showLogoutTab = loggedIn;
         $scope.showLoginTab = !loggedIn;
     };
