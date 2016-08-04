@@ -1,13 +1,8 @@
-/* Background color */
-
 .backgroundColor {
   background: blue;
   background: linear-gradient(to left, #445573, #556b91);
 }
-
-/* Centers the image */
-
-#centerImg {
+#center-img {
   position: relative;
   transform: translate(-50%, -50%);
   top: 50%;
@@ -21,6 +16,7 @@
   height: auto;
 }
 #help-text {
+  line-height: 1.5em;
   font-size: 2em;
   margin: 1em;
   margin-top: 3em;
@@ -92,19 +88,30 @@
   margin: auto;
   margin-top: 15%;
 }
-
 #login-box input {
-  position:  relative;
+  position: relative;
   left: 50%;
   transform: translateX(-50%);
   top: 15%;
   width: 90%;
-  text-align:center;
-  height:20%;
+  text-align: center;
+  height: 20%;
   font-size: 2.5em;
 }
-
-#login-box input:focus::-webkit-input-placeholder
-{
-    color: transparent;
+#login-box input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+}
+.video-container iframe, .video-container object, .video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }

@@ -23,7 +23,10 @@ angular.module('kosmoramaApp', ['ionic'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  $ionicConfigProvider.tabs.position('bottom');
+  $ionicConfigProvider.tabs.style('standard');
+  
   $stateProvider
 
     .state('home', {
@@ -42,6 +45,12 @@ angular.module('kosmoramaApp', ['ionic'])
     url: '/trainingPlan',
     templateUrl: 'app/trainingPlan/trainingPlan.html',
     controller: 'TrainingPlanController'
+  })
+  
+  .state('trainingInstruction', {
+    url: '/trainingInstruction',
+    templateUrl: 'app/trainingInstruction/trainingInstruction.html',
+    controller: 'TrainingInstructionController'
   });
 
   $urlRouterProvider.otherwise('/login');

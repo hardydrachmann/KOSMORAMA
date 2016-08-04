@@ -1,6 +1,9 @@
-angular.module('kosmoramaApp').controller('LanguageController', function($scope, $window) {
+angular.module('kosmoramaApp').controller('LanguageController', function($scope) {
     $scope.lang = 'da';
     $scope.text = '';
+    $scope.langs = ['da', 'eng', 'de'];
+    $scope.lang = 'da';
+    $scope.selectedLang = 'da';
 
     $scope.loadText = function() {
         $.getJSON('data/language.json', function(data) {
@@ -21,7 +24,7 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
         if ($scope.text[name] != undefined) {
             return $scope.text[name][$scope.lang];
         }
-        return 'If you see this text, you need to fix the language toggle!!!';
+        return 'If you see this text, the language toggle needs fixing or the help text is missing!!!';
     };
 
     $scope.help = function() {
@@ -34,5 +37,4 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
             helpSection.css('display', 'none');
         }
     };
-
 });

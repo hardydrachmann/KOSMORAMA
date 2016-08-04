@@ -16,6 +16,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $i
 
   $scope.logout = function() {
     window.localStorage.removeItem('id');
+    $state.go('login');
   };
 
   $scope.showPopUpMessage = function(message) {

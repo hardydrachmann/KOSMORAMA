@@ -25,6 +25,7 @@
   <script src="app/home/homeController.js"></script>
   <script src="app/login/loginController.js"></script>
   <script src="app/trainingPlan/trainingPlanController.js"></script>
+  <script src="app/trainingInstruction/trainingInstructionController.js"></script>
   <script src="app/languageController.js"></script>
   <script src="lib/components/angular-material/angular-material.js"></script>
   <script src="lib/components/jquery/dist/jquery.js"></script>
@@ -35,13 +36,24 @@
   <ion-pane>
     <ion-header-bar class="headerColor">
       <img id="headerImg" src="img/logo.png">
-      <button id="btn-lang" ng-click="toggleLang()">Language</button>
+      <select id="btn-lang" ng-model="lang" ng-options="lang for lang in langs track by lang">
+      <option style="background-image:url(img/flags/DK.png);">DK</option>
+      </select>
     </ion-header-bar>
 
     <div style="margin-top:3em">
       <help id="helpSection" style="display:none"></help>
       <ion-nav-view></ion-nav-view>
     </div>
+
+    <ion-tabs ng-controller="LoginController" class="tabs-icon-top">
+      <ion-tab title="Help" ng-click="help()" icon="ion-help">
+      </ion-tab>
+      <ion-tab title="Home" icon="ion-home">
+      </ion-tab>
+      <ion-tab title="Logout" ng-click="logout()" icon="ion-log-out">
+      </ion-tab>
+    </ion-tabs>
 
   </ion-pane>
 </body>
