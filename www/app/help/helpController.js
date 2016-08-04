@@ -4,6 +4,17 @@ angular.module('kosmoramaApp')
     $scope.getState = function() {
         return $state.current.name;
     };
+
+    $scope.help = function() {
+        var helpSection = $('#helpSection');
+        var display = helpSection.css('display');
+        if (display === 'none') {
+            helpSection.css('display', 'block');
+        }
+        else {
+            helpSection.css('display', 'none');
+        }
+    };
 })
 
 .directive('help', function() {
