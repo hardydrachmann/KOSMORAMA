@@ -46,6 +46,11 @@ angular.module('kosmoramaApp', ['ionic'])
     controller: 'TrainingPlanController'
   })
 
+  .state('language', {
+    url: '/language',
+    templateUrl: 'app/language/language.html'
+  })
+
   .state('trainingInstruction', {
     url: '/trainingInstruction',
     templateUrl: 'app/trainingInstruction/trainingInstruction.html',

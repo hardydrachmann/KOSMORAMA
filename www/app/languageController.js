@@ -1,9 +1,27 @@
 angular.module('kosmoramaApp').controller('LanguageController', function($scope) {
-    $scope.lang = 'da';
     $scope.text = '';
-    $scope.langs = ['da', 'eng', 'de'];
+    //$scope.langs = ['da', 'eng', 'de'];
     $scope.lang = 'da';
-    $scope.selectedLang = 'da';
+
+    $scope.langs = [{
+        language: 'Dansk',
+        tag: 'da',
+        url: 'img/flags/DK.png'
+    }, {
+        language: 'Deutsch',
+        tag: 'de',
+        url: 'img/flags/GER.png'
+    }, {
+        language: 'English',
+        tag: 'eng',
+        url: 'img/flags/UK.png'
+    }];
+    
+    $scope.selectLanguage = function(language){
+        console.log(language.tag);
+        $scope.lang = language.tag;
+        console.log($scope.lang);
+    };
     
     $scope.loadText = function() {
         $.getJSON('data/language.json', function(data) {
@@ -11,10 +29,6 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope)
         });
     };
     $scope.loadText();
-
-    $scope.toggleLang = function() {
-        $scope.lang = $scope.lang == 'da' ? 'eng' : 'da';
-    };
 
     $scope.getText = function(name) {
         if (!$scope.text) {
