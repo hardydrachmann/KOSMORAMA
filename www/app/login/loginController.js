@@ -1,6 +1,6 @@
 angular.module('kosmoramaApp').controller('LoginController', function($scope, $ionicPopup, $timeout, $state) {
 
-  $scope.id = '';
+  $scope.loginId = '';
 
   $(document).ready(function() {
     var encryptedId = window.localStorage.getItem('kosmoramaId');
@@ -11,10 +11,15 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $i
     }
   });
 
+  $scope.setLoginId = function() {
+    $scope.loginId = $('#setId').val();
+  }
+
   $scope.login = function() {
-    if ($scope.id) {
+    console.log('før if: ' + $scope.loginId);
+    if ($scope.loginId) {
       var key = $scope.getRandomKey();
-      var id = sjcl.encrypt(key, $scope.id);
+      var id = sjcl.encrypt(key, $scope.loginId);
       window.localStorage.setItem('kosmoramaId', id);
       window.localStorage.setItem('kosmoramaKey', key);
       $state.go('home');

@@ -1,7 +1,7 @@
 <div class="backgroundColor">
 
   <div id="login-box">
-    <input ng-model="id" type="text" placeholder="Login ID">
+    <input ng-change="{{setLoginId()}}" id="setId" ng-model="loginId" type="text" placeholder="Login ID">
   </div>
 
   <div>
