@@ -32,26 +32,29 @@
     <script src="lib/components/jquery/dist/jquery.js"></script>
 </head>
 
-<body ng-app="kosmoramaApp" ng-controller="LanguageController">
-    <ion-pane ng-controller="HelpController">
-
-        <ion-header-bar class="headerColor">
-            <img id="headerImg" src="img/logo.png">
-            <select id="btn-lang" ng-model="lang" ng-options="lang for lang in langs track by lang"></select>
-        </ion-header-bar>
-
-        <div style="margin-top:3em">
-            <help id="helpSection" style="display:none"></help>
-            <ion-nav-view></ion-nav-view>
-        </div>
-
+<body ng-app="kosmoramaApp">
+    <ion-pane>
         <div ng-controller="LoginController">
-            <ion-tabs ng-controller="TabsController" class="tabs-icon-top">
-                <ion-tab ng-if="showHelpTab" title="Help" ng-click="help(); helpToggle()" icon="ion-help"></ion-tab>
-                <ion-tab ng-if="showHomeTab" title="Home" icon="ion-home"></ion-tab>
-                <ion-tab ng-if="showLogoutTab" title="Logout" ng-click="logout(); loginToggle()" icon="ion-log-out"></ion-tab>
-                <ion-tab ng-if="showLoginTab" title="Login" ng-click="login(); loginToggle()" icon="ion-log-in"></ion-tab>
-            </ion-tabs>
+            <div ng-controller="HelpController">
+                <div ng-controller="LanguageController">
+                    <ion-header-bar class="headerColor">
+                        <img id="headerImg" src="img/logo.png">
+                        <select id="btn-lang" ng-model="lang" ng-options="lang for lang in langs track by lang"></select>
+                    </ion-header-bar>
+
+                    <div style="margin-top:3em">
+                        <help id="helpSection" style="display:none"></help>
+                        <ion-nav-view></ion-nav-view>
+                    </div>
+
+                    <ion-tabs ng-controller="TabsController" class="tabs-icon-top">
+                        <ion-tab ng-if="showHelpTab" title="Help" ng-click="help(); helpToggle()" icon="ion-help"></ion-tab>
+                        <ion-tab ng-if="showHomeTab" title="Home" icon="ion-home"></ion-tab>
+                        <ion-tab ng-if="showLogoutTab" title="Logout" ng-click="logout(); loginToggle()" icon="ion-log-out"></ion-tab>
+                        <ion-tab ng-if="showLoginTab" title="Login" ng-click="login(); loginToggle()" icon="ion-log-in"></ion-tab>
+                    </ion-tabs>
+                </div>
+            </div>
         </div>
     </ion-pane>
 </body>
