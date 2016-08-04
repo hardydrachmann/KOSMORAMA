@@ -17,6 +17,12 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $io
         }
     };
 
+    // $scope.loginToggle = function() {
+    //     loggedIn = !loggedIn;
+    //     $scope.showLogoutTab = loggedIn;
+    //     $scope.showLoginTab = !loggedIn;
+    // };
+
     $scope.loginToggle = function() {
         loggedIn = $ionicHistory.currentView().stateName !== 'login';
         $scope.showLogoutTab = loggedIn;
