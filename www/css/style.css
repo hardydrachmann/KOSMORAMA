@@ -3,6 +3,11 @@
   background: linear-gradient(to left, #445573, #556b91);
 }
 
+.nav-tab {
+  background-color: #00050F !important;
+  color: white;
+}
+
 #center-img {
   position: relative;
   transform: translate(-50%, -50%);
