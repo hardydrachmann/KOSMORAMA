@@ -9,7 +9,6 @@
 <head>
     <!--  favicon.ico missing bug fix -->
     <link rel="shortcut icon" href="">
-
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
@@ -54,7 +53,7 @@
                             <ion-tab class="nav-tab" ng-if="showHelpTab" title="Help" ng-click="help(); helpToggle()" icon="ion-help"></ion-tab>
                             <ion-tab class="nav-tab" ng-if="showLangTab" title="Language" icon="ion-chatbubble-working"></ion-tab>
                             <ion-tab class="nav-tab" ng-if="showLogoutTab" title="Logout" ng-click="logout(); loginToggle()" icon="ion-log-out"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLoginTab" title="Login" ng-click="login(); loginToggle()" icon="ion-log-in"></ion-tab>
+                            <ion-tab id="login-tab" class="nav-tab" ng-if="showLoginTab" title="Login" ng-click="login(); loginToggle()" icon="ion-log-in"></ion-tab>
                         </ion-tabs>
                     </div>
                 </div>

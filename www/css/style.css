@@ -115,12 +115,12 @@
   width: 55%;
 }
 
-#login-box {
+#login-form {
   margin: auto;
   height: 40%;
 }
 
-#login-box input {
+#login-form input {
   position: relative;
   left: 50%;
   transform: translateX(-50%);
@@ -131,7 +131,7 @@
   font-size: 2.5em;
 }
 
-#login-box input:focus::-webkit-input-placeholder {
+#login-form input:focus::-webkit-input-placeholder {
   color: transparent;
 }
 

@@ -21,6 +21,10 @@ angular.module('kosmoramaApp', ['ionic'])
       StatusBar.styleDefault();
     }
   });
+  $ionicPlatform.registerBackButtonAction(function(e) {
+    e.preventDefault();
+    return false;
+  }, 101);
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
