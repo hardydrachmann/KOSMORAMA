@@ -1,14 +1,23 @@
-angular.module('kosmoramaApp').controller('TabsController', function($scope, $ionicHistory) {
+angular.module('kosmoramaApp').controller('TabsController', function($scope, $timeout, $ionicHistory) {
+
     $scope.showHelpTab = true;
-    $scope.showHomeTab = true;
+    $scope.showLangTab = true;
     $scope.showLoginTab = true;
     $scope.showLogoutTab = false;
+
+    $(document).ready(function() {
+        $timeout(function() {
+            loggedIn = $ionicHistory.currentView().stateName !== 'login';
+            $scope.showLogoutTab = loggedIn;
+            $scope.showLoginTab = !loggedIn;
+        }, 250);
+    });
 
     var helpActive = false;
     var loggedIn = false;
     $scope.helpToggle = function() {
         helpActive = !helpActive;
-        $scope.showHomeTab = !helpActive;
+        $scope.showLangTab = !helpActive;
         if (loggedIn) {
             $scope.showLogoutTab = !helpActive;
         }
@@ -17,15 +26,12 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $io
         }
     };
 
-    // $scope.loginToggle = function() {
-    //     loggedIn = !loggedIn;
-    //     $scope.showLogoutTab = loggedIn;
-    //     $scope.showLoginTab = !loggedIn;
-    // };
-
     $scope.loginToggle = function() {
-        loggedIn = $ionicHistory.currentView().stateName !== 'login';
-        $scope.showLogoutTab = loggedIn;
-        $scope.showLoginTab = !loggedIn;
+        var login = $('#setId').val();
+        if (login === undefined || login) {
+            loggedIn = !loggedIn;
+            $scope.showLogoutTab = loggedIn;
+            $scope.showLoginTab = !loggedIn;
+        }
     };
 });
