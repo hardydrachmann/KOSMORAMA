@@ -16,18 +16,4 @@ angular.module('kosmoramaApp')
             $state.go(toState);
         }
     };
-})
-
-.directive('help', function() {
-    return {
-        templateUrl: 'app/help/help.html',
-        controller: 'HelpController'
-    };
-})
-
-.directive('questionMark', function() {
-    return {
-        templateUrl: 'app/help/question-mark.html',
-        controller: 'HelpController'
-    };
 });

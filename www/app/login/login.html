@@ -1,9 +1,10 @@
 <div class="backgroundColor">
 
-  <div id="login-box">
+  <form id="login-form" action="#" ng-submit="login(); setTabs();">
     <input ng-change="{{setLoginId()}}" id="setId" ng-model="loginId" type="text" placeholder="Login ID">
-  </div>
+  </form>
 
   <div>
     <img src="img/login-watermark.png" id="login-watermark"></img>
   </div>
+</div>

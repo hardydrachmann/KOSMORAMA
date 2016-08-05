@@ -21,6 +21,10 @@ angular.module('kosmoramaApp', ['ionic'])
             StatusBar.styleDefault();
         }
     });
+    $ionicPlatform.registerBackButtonAction(function(e) {
+        e.preventDefault();
+        return false;
+    }, 101);
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
@@ -35,14 +39,14 @@ angular.module('kosmoramaApp', ['ionic'])
         controller: 'HomeController'
     })
 
-    .state('help', {
-        url: '/help',
-        templateUrl: 'app/help/help.html'
-    })
-
     .state('login', {
         url: '/login',
         templateUrl: 'app/login/login.html'
+    })
+
+    .state('help', {
+        url: '/help',
+        templateUrl: 'app/help/help.html'
     })
 
     .state('trainingPlan', {
@@ -56,10 +60,10 @@ angular.module('kosmoramaApp', ['ionic'])
         templateUrl: 'app/language/language.html'
     })
 
-    .state('trainingInstruction', {
-        url: '/trainingInstruction',
-        templateUrl: 'app/trainingInstruction/trainingInstruction.html',
-        controller: 'TrainingInstructionController'
+    .state('trainingDemo', {
+        url: '/trainingDemo',
+        templateUrl: 'app/trainingDemo/trainingDemo.html',
+        controller: 'TrainingDemoController'
     });
 
     $urlRouterProvider.otherwise('/login');

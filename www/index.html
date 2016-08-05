@@ -9,7 +9,6 @@
 <head>
     <!--  favicon.ico missing bug fix -->
     <link rel="shortcut icon" href="">
-
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
@@ -28,7 +27,7 @@
     <script src="app/tabsController.js"></script>
     <script src="app/popupService.js"></script>
     <script src="app/trainingPlan/trainingPlanController.js"></script>
-    <script src="app/trainingInstruction/trainingInstructionController.js"></script>
+    <script src="app/trainingDemo/trainingDemoController.js"></script>
     <script src="lib/components/angular-material/angular-material.js"></script>
     <script src="lib/components/jquery/dist/jquery.js"></script>
     <script src="lib/components/sjcl/sjcl.js"></script>
@@ -51,9 +50,9 @@
 
                         <ion-tabs class="tabs-icon-top">
                             <ion-tab class="nav-tab" ng-if="showHelpTab" title="Help" ng-click="helpToggle(); setTabs();" icon="ion-help"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLangTab" title="Language" ng-click="langToggle(); setTabs()" icon="ion-chatbubble-working"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLogoutTab" title="Logout" ng-click="logout(); setTabs();" icon="ion-log-out"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLoginTab" title="Login" ng-click="login(); setTabs();" icon="ion-log-in"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showLangTab" title="Language" ng-click="langToggle(); setTabs();" icon="ion-chatbubble-working"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showLogoutTab" title="Logout" ng-click="logout(); setTabs()" icon="ion-log-out"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showLoginTab" title="Login" ng-click="login(); setTabs()" icon="ion-log-in" id="login-tab"></ion-tab>
                         </ion-tabs>
                     </div>
                 </div>

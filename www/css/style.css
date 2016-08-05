@@ -65,6 +65,7 @@
 
 .text-white {
   color: white;
+  margin:0 2vh 0 2vh;
 }
 
 #trainingPlanHeader {
@@ -87,6 +88,13 @@
   border-color: #303c50;
   margin: auto;
   width: 90%;
+}
+
+.darkTransparent {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-color: #303c50;
+  margin-top: 2vh;
+  height: 100%;
 }
 
 .languageMenu h2 {
@@ -115,12 +123,12 @@
   width: 55%;
 }
 
-#login-box {
+#login-form {
   margin: auto;
   height: 40%;
 }
 
-#login-box input {
+#login-form input {
   position: relative;
   left: 50%;
   transform: translateX(-50%);
@@ -131,7 +139,7 @@
   font-size: 2.5em;
 }
 
-#login-box input:focus::-webkit-input-placeholder {
+#login-form input:focus::-webkit-input-placeholder {
   color: transparent;
 }
 
