@@ -13,7 +13,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
 
     $scope.setLoginId = function() {
         $scope.loginId = $('#setId').val();
-    }
+    };
 
     $scope.login = function() {
         if ($scope.loginId) {
