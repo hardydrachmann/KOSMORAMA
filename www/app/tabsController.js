@@ -2,8 +2,14 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $st
 
     $scope.showHelpTab = true;
     $scope.showLangTab = true;
+    $scope.showContTab = false;
     $scope.showLoginTab = true;
     $scope.showLogoutTab = false;
+
+    $scope.continue = function() {
+        // Temporary function.
+        $state.go('trainingDemo');
+    };
 
     $(document).ready(function() {
         $timeout(function() {
@@ -18,6 +24,7 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $st
         $timeout(function() {
             $scope.showHelpTab = false;
             $scope.showLangTab = false;
+            $scope.showContTab = false;
             $scope.showLoginTab = false;
             $scope.showLogoutTab = false;
             $timeout(function() {
@@ -35,7 +42,7 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $st
                         break;
                     case 'trainingPlan':
                         $scope.showHelpTab = true;
-                        $scope.showLangTab = true; // change to continue tab.
+                        $scope.showContTab = true; // change to continue tab.
                         $scope.showLogoutTab = true;
                     case 'help':
                         $scope.showHelpTab = true;
