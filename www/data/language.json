@@ -15,9 +15,14 @@
         "de": "BACON!"
     },
     
-    "instruction": {
+    "trainingDemoTitle": {
         "da": "Lav denne øvelse",
         "eng": "Do this exercise"
+    },
+    
+    "trainingDemoDescription": {
+        "da": "Beskrivelse for øvelse",
+        "eng": "Description for exercise"
     },
     
     "homeHelp": {
@@ -30,7 +35,7 @@
         "eng":""
     },
     
-    "trainingInstructionHelp":{
+    "trainingDemoHelp":{
         "da":"",
         "eng":""
     }

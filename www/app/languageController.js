@@ -2,7 +2,8 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope)
     $scope.text = '';
     //$scope.langs = ['da', 'eng', 'de'];
     $scope.lang = 'da';
-
+    
+    //skal flyttes
     $scope.langs = [{
         language: 'Dansk',
         tag: 'da',
