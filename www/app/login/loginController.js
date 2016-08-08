@@ -1,4 +1,4 @@
-angular.module('kosmoramaApp').controller('LoginController', function($scope, $state, popupService) {
+angular.module('kosmoramaApp').controller('LoginController', function($scope, $state, $ionicLoading, $timeout, popupService) {
 
     $scope.loginId = '';
 
@@ -16,15 +16,30 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
         $scope.loginId = $('#setId').val();
     };
 
-    $scope.login = function() {
-        if ($scope.loginId) {
-            var key = $scope.getRandomKey();
-            var id = sjcl.encrypt(key, $scope.loginId);
-            window.localStorage.setItem('kosmoramaId', id);
-            window.localStorage.setItem('kosmoramaKey', key);
-            $state.go('home');
-        }
-    };
+  $scope.showLoading = function() {
+    $ionicLoading.show({
+      template: '<ion-spinner></ion-spinner>'
+    });
+  };
+
+  $scope.hideLoading = function() {
+    $ionicLoading.hide();
+  };
+
+  $scope.login = function() {
+    if ($scope.loginId) {
+      $scope.showLoading();
+      var key = $scope.getRandomKey();
+      var id = sjcl.encrypt(key, $scope.loginId);
+      window.localStorage.setItem('kosmoramaId', id);
+      window.localStorage.setItem('kosmoramaKey', key);
+      $('#setId').val('');
+      $timeout(function() {
+        $state.go('home');
+        $scope.hideLoading();
+      }, 1000); // Timeout currently only to display loading spinner.
+    }
+  };
 
     $scope.logout = function() {
         popupService.confirmPopup('Exit', 'Are you sure?', function() {
