@@ -2,12 +2,10 @@
   background: blue;
   background: linear-gradient(to left, #445573, #556b91);
 }
-
 .nav-tab {
   background-color: #00050F !important;
   color: white;
 }
-
 #center-img {
   position: relative;
   transform: translate(-50%, -50%);
@@ -15,14 +13,12 @@
   left: 50%;
   width: 80%;
 }
-
 #headerImg {
   max-width: 80%;
   max-height: 80%;
   width: auto;
   height: auto;
 }
-
 #help-text {
   line-height: 1.5em;
   font-size: 2em;
@@ -30,7 +26,6 @@
   margin-top: 3em;
   text-align: center;
 }
-
 #btn-help {
   position: absolute;
   height: 10%;
@@ -39,42 +34,43 @@
   right: 0em;
   margin: 2em;
 }
-
 #btn-close {
   position: absolute;
   bottom: 2em;
   left: 50%;
   transform: translateX(-50%);
 }
-
 #btn-lang {
   top: 0.3em;
   right: 0.4em;
   position: absolute;
 }
-
 .tap-button {
   font-size: 5em;
 }
-
 #header-lang {
   bottom: 0.1em;
   left: 0.4em;
   position: absolute;
 }
-
 .text-white {
   color: white;
-  margin:0 2vh 0 2vh;
+  margin: 0 2vh 0 2vh;
 }
-
 #trainingPlanHeader {
   color: white;
   text-align: center;
   margin-top: 3vh;
   margin-bottom: 6vh;
 }
-
+.trainingName {
+  font-size: 15px;
+  font-style: italic;
+  font-weight: bold;
+  color: white;
+  background: inherit;
+  resize: none;
+}
 .btn-bottom {
   bottom: 2em;
   position: absolute;
@@ -82,39 +78,33 @@
   background-color: #303c50;
   color: white;
 }
-
 .tpDivBackground {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: #303c50;
   margin: auto;
   width: 90%;
 }
-
 .darkTransparent {
   background-color: rgba(0, 0, 0, 0.3);
   border-color: #303c50;
-  margin-top: 2vh;
+  padding-top: 2vh;
+  margin-bottom: 2vh;
   height: 100%;
 }
-
 .languageMenu h2 {
   margin-top: 1.75em;
   padding-bottom: 1em;
 }
-
 .languageMenu div {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: #303c50;
 }
-
 .icon-color {
   color: rgba(255, 255, 255, 0.4);
 }
-
 .accent-color {
   background-color: #303c50;
 }
-
 #login-watermark {
   position: relative;
   top: 25%;
@@ -122,12 +112,10 @@
   transform: translateX(-50%);
   width: 55%;
 }
-
 #login-form {
   margin: auto;
   height: 40%;
 }
-
 #login-form input {
   position: relative;
   left: 50%;
@@ -138,11 +126,9 @@
   height: 50%;
   font-size: 2.5em;
 }
-
 #login-form input:focus::-webkit-input-placeholder {
   color: transparent;
 }
-
 .video-container {
   position: relative;
   padding-bottom: 56.25%;
@@ -150,10 +136,7 @@
   height: 0;
   overflow: hidden;
 }
-
-.video-container iframe,
-.video-container object,
-.video-container embed {
+.video-container iframe, .video-container object, .video-container embed {
   position: absolute;
   top: 0;
   left: 0;

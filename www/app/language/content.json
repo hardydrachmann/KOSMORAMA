@@ -1,42 +1,54 @@
 {
     "welcome": {
-        "da": "Velkommen",
-        "eng": "Welcome"
+        "da_DK": "Velkommen",
+        "en_US": "Welcome"
     },
 
     "trainingPlan": {
-        "da": "Her er dagens træning",
-        "eng": "Here's todays training"
+        "da_DK": "Her er dagens træning",
+        "en_US": "Here's todays training"
     },
 
     "trainingPlanBtn": {
-        "da": "Fortsæt",
-        "eng": "Continue",
-        "de": "BACON!"
+        "da_DK": "Fortsæt",
+        "en_US": "Continue",
+        "de_AT": "BACON!"
     },
-    
+
     "trainingDemoTitle": {
-        "da": "Lav denne øvelse",
-        "eng": "Do this exercise"
+        "da_DK": "Lav denne øvelse",
+        "en_US": "Do this exercise"
     },
-    
+
     "trainingDemoDescription": {
-        "da": "Beskrivelse for øvelse",
-        "eng": "Description for exercise"
+        "da_DK": "Beskrivelse for øvelse",
+        "en_US": "Description for exercise"
     },
-    
+
     "homeHelp": {
-        "da": "Hjælp til forsiden.",
-        "eng": "Help for the home page."
+        "da_DK": "Hjælp til forsiden.",
+        "en_US": "Help for the home page."
     },
-    
+
     "trainingPlanHelp":{
-        "da":"",
-        "eng":""
+        "da_DK":"",
+        "en_US":""
     },
-    
+
     "trainingDemoHelp":{
-        "da":"",
-        "eng":""
+        "da_DK":"",
+        "en_US":""
+    },
+
+    "trainingPlanRepetitions":{
+        "da_DK":"Gentagelser: ",
+        "en_US":"Repetitions: "
+    },
+
+    "trainingPlanDuration":{
+        "da_DK":"Tid pr gentagelse: ",
+        "en_US":"Time pr repetition: "
     }
+
+
 }
