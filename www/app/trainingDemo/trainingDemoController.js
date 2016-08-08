@@ -1,3 +1,3 @@
 angular.module('kosmoramaApp').controller('TrainingDemoController', function($scope, $state, $sce) {
-  $scope.video= $sce.trustAsResourceUrl('https://www.youtube.com/embed/xx2cxo8WQoM?rel=0&showinfo=0');
+  $scope.video= $sce.trustAsResourceUrl('https://www.youtube.com/embed/xx2cxo8WQoM?rel=0&showinfo=0&loop=0&playlist=xx2cxo8WQoM');
 });
