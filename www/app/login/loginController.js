@@ -18,7 +18,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
 
   $scope.showLoading = function() {
     $ionicLoading.show({
-      template: '<ion-spinner icon="lines"></ion-spinner>'
+      template: '<ion-spinner icon="lines" class="spinner-positive"></ion-spinner>'
     });
   };
 
