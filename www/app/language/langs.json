@@ -1,25 +1,25 @@
 [{
     "language": "Dansk",
-    "tag": "da",
+    "tag": "da_DK",
     "url": "img/flags/DK.png"
 }, {
     "language": "Deutsch",
-    "tag": "de",
+    "tag": "de_AT",
     "url": "img/flags/GER.png"
 }, {
     "language": "English",
-    "tag": "eng",
+    "tag": "en_US",
     "url": "img/flags/UK.png"
 }, {
     "language": "Norsk",
-    "tag": "no",
+    "tag": "nb_NO",
     "url": "img/flags/NO.png"
 }, {
     "language": "Svenska",
-    "tag": "se",
+    "tag": "sv_SE",
     "url": "img/flags/SWE.png"
 }, {
     "language": "Suomi",
-    "tag": "fi",
+    "tag": "da_DK",
     "url": "img/flags/FI.png"
 }]

@@ -7,7 +7,7 @@
 <link href="lib/components/font-awesome/font-awesome.css">
 
 <head>
-    <link rel="shortcut icon" href="img/ionic.png"/>
+    <link rel="shortcut icon" href="img/ionic.png" />
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
@@ -24,9 +24,11 @@
     <script src="app/login/loginController.js"></script>
     <script src="app/language/languageController.js"></script>
     <script src="app/tabsController.js"></script>
-    <script src="app/popupService.js"></script>
+    <script src="app/services/popupService.js"></script>
     <script src="app/trainingPlan/trainingPlanController.js"></script>
     <script src="app/trainingDemo/trainingDemoController.js"></script>
+    <script src="app/dataLayer/dataService.js"></script>
+    <script src="app/training/trainingController.js"></script>
     <script src="lib/components/angular-material/angular-material.js"></script>
     <script src="lib/components/jquery/dist/jquery.js"></script>
     <script src="lib/components/sjcl/sjcl.js"></script>
@@ -34,10 +36,10 @@
 
 <body ng-app="kosmoramaApp">
     <ion-pane>
-        <div ng-controller="LoginController">
-            <div ng-controller="HelpController">
-                <div ng-controller="LanguageController">
-                    <div ng-controller="TabsController">
+        <div ng-controller="TabsController">
+            <div ng-controller="LoginController">
+                <div ng-controller="HelpController">
+                    <div ng-controller="LanguageController">
 
                         <ion-header-bar class="accent-color">
                             <img id="headerImg" src="img/logo.png">

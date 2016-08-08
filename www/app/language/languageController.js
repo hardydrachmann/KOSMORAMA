@@ -1,11 +1,28 @@
 angular.module('kosmoramaApp').controller('LanguageController', function($scope, $state, $ionicHistory) {
     $scope.text = {};
-    $scope.lang = 'da';
+    $scope.lang = '';
     $scope.langs = [];
+
+    $(document).ready(function() {
+        var lang = window.localStorage.getItem('kosmoramaLang');
+        if (!lang) {
+            $state.go('language');
+        }
+        else {
+            $scope.lang = lang;
+        }
+    });
 
     $scope.setLanguage = function(language) {
         $scope.lang = language.tag;
-        $state.go($ionicHistory.backView().stateName);
+        window.localStorage.setItem('kosmoramaLang', $scope.lang);
+        var backView = $ionicHistory.backView();
+        if (backView) {
+            $state.go(backView.stateName);
+        }
+        else {
+            $state.go('login');
+        }
     };
 
     $scope.langToggle = function() {
@@ -32,7 +49,7 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
             $scope.loadText();
             return '';
         }
-        if ($scope.text[name] != undefined) {
+        if ($scope.text[name] !== undefined) {
             return $scope.text[name][$scope.lang];
         }
         return 'If you see this text, the language toggle needs fixing or the help text is missing!!!';
