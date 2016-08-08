@@ -1,7 +1,9 @@
 <div class="backgroundColor">
+
     <ion-scroll style="height:84vh">
         <div class="list languageMenu">
-            <div class="item item-thumbnail-left" ng-repeat="lang in langs" ng-click="setLanguage(lang); setTabs();">
+
+            <div class="item item-thumbnail-left" ng-repeat="lang in langs | orderBy:'language'" ng-click="setLanguage(lang); setTabs();">
                 <img src="{{lang.url}}">
                 <h2 class="text-white">{{lang.language}}</h2>
             </div>

@@ -1,11 +1,28 @@
 angular.module('kosmoramaApp').controller('LanguageController', function($scope, $state, $ionicHistory) {
     $scope.text = {};
-    $scope.lang = 'en_US';
+    $scope.lang = '';
     $scope.langs = [];
+
+    $(document).ready(function() {
+        var lang = window.localStorage.getItem('kosmoramaLang');
+        if (!lang) {
+            $state.go('language');
+        }
+        else {
+            $scope.lang = lang;
+        }
+    });
 
     $scope.setLanguage = function(language) {
         $scope.lang = language.tag;
-        $state.go($ionicHistory.backView().stateName);
+        window.localStorage.setItem('kosmoramaLang', $scope.lang);
+        var backView = $ionicHistory.backView();
+        if (backView) {
+            $state.go(backView.stateName);
+        }
+        else {
+            $state.go('login');
+        }
     };
 
     $scope.langToggle = function() {

@@ -4,9 +4,4 @@
 node_modules/
 platforms/
 plugins/
-kill.bat
-emulator.bat
-browser.bat
-device.bat
-build.bat
-lib
+lib/
