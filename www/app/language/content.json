@@ -5,19 +5,18 @@
     },
 
     "trainingPlan": {
-        "da": "Her er dagens træning",
-        "eng": "Here's todays training"
+        "da": "Dagens træning",
+        "eng": "Today's training"
     },
 
     "trainingPlanBtn": {
         "da": "Fortsæt",
-        "eng": "Continue",
-        "de": "BACON!"
+        "eng": "Continue"
     },
     
     "trainingDemoTitle": {
-        "da": "Lav denne øvelse",
-        "eng": "Do this exercise"
+        "da": "Sådan laves øvelsen:",
+        "eng": "Howto perform the exercise:"
     },
     
     "trainingDemoDescription": {
@@ -25,18 +24,23 @@
         "eng": "Description for exercise"
     },
     
+    "loginHelp": {
+        "da": "Skriv din kode ind her for at logge dig ind i træningssystemet og starte din træning. Hvis du er i tvivl om hvad din kode er, kan du kontakte din terapeut.",
+        "eng": "Enter your access code to log in to the virtual training system and start working out. If you are in doubt what your code is, you can contact your therapist"
+    },
+    
     "homeHelp": {
-        "da": "Hjælp til forsiden.",
-        "eng": "Help for the home page."
+        "da": "Tryk på logoet på skærmen for at fortsætte til oversigt over dagens træning. Du kan ikke vende tilbage fra træningen, når den er påbegyndt.",
+        "eng": "Tap the logo on the screen to continue to your daily training overview. You will not be able to return to this point when the training has started."
     },
     
     "trainingPlanHelp":{
-        "da":"",
-        "eng":""
+        "da":"Her er en oversigt over dagens træning. Tryk på fortsæt for at begynde træningen fra listens først punkt.",
+        "eng":"This is an overview of today's exercise. Tap continue to begin the exercise in the top of the list."
     },
     
     "trainingDemoHelp":{
-        "da":"",
-        "eng":""
+        "da":"Her ser du et eksempel på, hvordan din træning skal udføres. Ønskes det, kan videoen  genafspilles.",
+        "eng":"Here you can see an example of how to perform your exercise. If you want, you can replay the video."
     }
 }
