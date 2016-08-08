@@ -42,13 +42,15 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $st
                         break;
                     case 'trainingPlan':
                         $scope.showHelpTab = true;
-                        $scope.showContTab = true; // change to continue tab.
+                        $scope.showContTab = true;
                         $scope.showLogoutTab = true;
+                        break;
                     case 'help':
                         $scope.showHelpTab = true;
                         break;
                     case 'language':
                         $scope.showLangTab = true;
+                        break;
                 }
             }, 100);
         });
