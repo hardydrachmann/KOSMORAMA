@@ -36,7 +36,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
       $timeout(function() {
         $state.go('home');
         $scope.hideLoading();
-      }, 1000);
+      }, 2000);
     }
   };
 
