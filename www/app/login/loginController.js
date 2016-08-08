@@ -1,4 +1,4 @@
-angular.module('kosmoramaApp').controller('LoginController', function($scope, $state, $ionicPlatform, $timeout) {
+angular.module('kosmoramaApp').controller('LoginController', function($scope, $state, $ionicPlatform, $ionicLoading, $timeout) {
 
   $scope.loginId = '';
 
@@ -15,13 +15,28 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     $scope.loginId = $('#setId').val();
   };
 
+  $scope.showLoading = function() {
+    $ionicLoading.show({
+      template: '<ion-spinner></ion-spinner>'
+    });
+  };
+
+  $scope.hideLoading = function() {
+    $ionicLoading.hide();
+  };
+
   $scope.login = function() {
     if ($scope.loginId) {
+      $scope.showLoading();
       var key = $scope.getRandomKey();
       var id = sjcl.encrypt(key, $scope.loginId);
       window.localStorage.setItem('kosmoramaId', id);
       window.localStorage.setItem('kosmoramaKey', key);
-      $state.go('home');
+      $('#setId').val('');
+      $timeout(function() {
+        $state.go('home');
+        $scope.hideLoading();
+      }, 1000);
     }
   };
 
