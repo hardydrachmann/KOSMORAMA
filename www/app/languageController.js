@@ -29,12 +29,12 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope)
         url: 'img/flags/FI.png'
     }];
     
+    //Changes current language to the language selected in the menu.
     $scope.selectLanguage = function(language){
-        console.log(language.tag);
         $scope.lang = language.tag;
-        console.log($scope.lang);
     };
     
+    //Loads the language text from the language.json.
     $scope.loadText = function() {
         $.getJSON('data/language.json', function(data) {
             $scope.text = data;
@@ -42,6 +42,7 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope)
     };
     $scope.loadText();
 
+    //Used in various views, to get the text for a given variable. Example: {{getText('trainingPlan')}}
     $scope.getText = function(name) {
         if (!$scope.text) {
             $scope.loadText();
