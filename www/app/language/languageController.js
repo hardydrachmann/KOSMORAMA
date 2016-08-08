@@ -49,7 +49,7 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
             $scope.loadText();
             return '';
         }
-        if ($scope.text[name] != undefined) {
+        if ($scope.text[name] !== undefined) {
             return $scope.text[name][$scope.lang];
         }
         return 'If you see this text, the language toggle needs fixing or the help text is missing!!!';
