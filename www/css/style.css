@@ -93,7 +93,8 @@
 .darkTransparent {
   background-color: rgba(0, 0, 0, 0.3);
   border-color: #303c50;
-  margin-top: 2vh;
+  padding-top: 2vh;
+  margin-bottom: 2vh;
   height: 100%;
 }
 
