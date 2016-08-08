@@ -1,15 +1,23 @@
-angular.module('kosmoramaApp').controller('LanguageController', function($scope) {
+angular.module('kosmoramaApp').controller('LanguageController', function($scope, $state, $ionicHistory) {
     $scope.text = {};
     $scope.lang = 'da';
     $scope.langs = [];
 
-
-    //Loads the language text from the language.json.
     $scope.setLanguage = function(language) {
         $scope.lang = language.tag;
+        $state.go($ionicHistory.backView().stateName);
     };
 
-    $scope.loadText = function() {
+    $scope.langToggle = function() {
+        if ($ionicHistory.currentView().stateName != 'language') {
+            $state.go('language');
+        }
+        else {
+            $state.go($ionicHistory.backView().stateName);
+        }
+    };
+
+    var loadData = function() {
         $.getJSON('app/language/content.json', function(data) {
             $scope.text = data;
         });
@@ -17,9 +25,8 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope)
             $scope.langs = data;
         });
     };
-    $scope.loadText();
+    loadData();
 
-    //Used in various views, to get the text for a given variable. Example: {{getText('trainingPlan')}}
     $scope.getText = function(name) {
         if (!$scope.text) {
             $scope.loadText();
@@ -29,5 +36,11 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope)
             return $scope.text[name][$scope.lang];
         }
         return 'If you see this text, the language toggle needs fixing or the help text is missing!!!';
+    };
+})
+
+.directive('language', function() {
+    return {
+        templateUrl: 'app/language/language.html',
     };
 });

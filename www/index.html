@@ -7,9 +7,7 @@
 <link href="lib/components/font-awesome/font-awesome.css">
 
 <head>
-    <!--  favicon.ico missing bug fix -->
-    <link rel="shortcut icon" href="">
-
+    <link rel="shortcut icon" href="img/ionic.png"/>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
@@ -24,11 +22,11 @@
     <script src="app/help/helpController.js"></script>
     <script src="app/home/homeController.js"></script>
     <script src="app/login/loginController.js"></script>
+    <script src="app/language/languageController.js"></script>
     <script src="app/tabsController.js"></script>
     <script src="app/popupService.js"></script>
     <script src="app/trainingPlan/trainingPlanController.js"></script>
-    <script src="app/trainingInstruction/trainingInstructionController.js"></script>
-    <script src="app/languageController.js"></script>
+    <script src="app/trainingDemo/trainingDemoController.js"></script>
     <script src="lib/components/angular-material/angular-material.js"></script>
     <script src="lib/components/jquery/dist/jquery.js"></script>
     <script src="lib/components/sjcl/sjcl.js"></script>
@@ -46,15 +44,15 @@
                         </ion-header-bar>
 
                         <div style="margin-top:3em">
-                            <help id="helpSection" style="display:none"></help>
                             <ion-nav-view></ion-nav-view>
                         </div>
 
                         <ion-tabs class="tabs-icon-top">
-                            <ion-tab class="nav-tab" ng-if="showHelpTab" title="Help" ng-click="help(); helpToggle()" icon="ion-help"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLangTab" title="Language" icon="ion-chatbubble-working"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLogoutTab" title="Logout" ng-click="logout(); loginToggle()" icon="ion-log-out"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLoginTab" title="Login" ng-click="login(); loginToggle()" icon="ion-log-in"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showHelpTab" title="Help" ng-click="helpToggle(); setTabs();" icon="ion-help"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showLangTab" title="Language" ng-click="langToggle(); setTabs();" icon="ion-chatbubble-working"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showContTab" title="Continue" ng-click="continue(); setTabs();" icon="ion-play"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showLogoutTab" title="Logout" ng-click="logout(); setTabs()" icon="ion-log-out"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showLoginTab" title="Login" ng-click="login(); setTabs()" icon="ion-log-in" id="login-tab"></ion-tab>
                         </ion-tabs>
                     </div>
                 </div>

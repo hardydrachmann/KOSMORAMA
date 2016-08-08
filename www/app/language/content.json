@@ -1,0 +1,42 @@
+{
+    "welcome": {
+        "da_DK": "Velkommen",
+        "en_US": "Welcome"
+    },
+
+    "trainingPlan": {
+        "da_DK": "Her er dagens træning",
+        "en_US": "Here's todays training"
+    },
+
+    "trainingPlanBtn": {
+        "da_DK": "Fortsæt",
+        "en_US": "Continue",
+        "de_AT": "BACON!"
+    },
+    
+    "trainingDemoTitle": {
+        "da_DK": "Lav denne øvelse",
+        "en_US": "Do this exercise"
+    },
+    
+    "trainingDemoDescription": {
+        "da_DK": "Beskrivelse for øvelse",
+        "en_US": "Description for exercise"
+    },
+    
+    "homeHelp": {
+        "da_DK": "Hjælp til forsiden.",
+        "en_US": "Help for the home page."
+    },
+    
+    "trainingPlanHelp":{
+        "da_DK":"",
+        "en_US":""
+    },
+    
+    "trainingDemoHelp":{
+        "da_DK":"",
+        "en_US":""
+    }
+}

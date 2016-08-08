@@ -1,0 +1,25 @@
+[{
+    "language": "Dansk",
+    "tag": "da",
+    "url": "img/flags/DK.png"
+}, {
+    "language": "Deutsch",
+    "tag": "de",
+    "url": "img/flags/GER.png"
+}, {
+    "language": "English",
+    "tag": "eng",
+    "url": "img/flags/UK.png"
+}, {
+    "language": "Norsk",
+    "tag": "no",
+    "url": "img/flags/NO.png"
+}, {
+    "language": "Svenska",
+    "tag": "se",
+    "url": "img/flags/SWE.png"
+}, {
+    "language": "Suomi",
+    "tag": "fi",
+    "url": "img/flags/FI.png"
+}]

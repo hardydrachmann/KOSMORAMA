@@ -1,32 +1,19 @@
 angular.module('kosmoramaApp')
 
-.controller('HelpController', function($scope, $state) {
+.controller('HelpController', function($scope, $state, $ionicHistory) {
     $scope.getState = function() {
-        return $state.current.name;
+        var prevView = $ionicHistory.backView();
+        if (prevView)
+            return prevView.stateName;
     };
 
-    $scope.help = function() {
-        var helpSection = $('#helpSection');
-        var display = helpSection.css('display');
-        if (display === 'none') {
-            helpSection.css('display', 'block');
+    $scope.helpToggle = function() {
+        if ($ionicHistory.currentView().stateName != 'help') {
+            $state.go('help');
         }
         else {
-            helpSection.css('display', 'none');
+            var toState = $ionicHistory.backView().stateName;
+            $state.go(toState);
         }
-    };
-})
-
-.directive('help', function() {
-    return {
-        templateUrl: 'app/help/help.html',
-        controller: 'HelpController'
-    };
-})
-
-.directive('questionMark', function() {
-    return {
-        templateUrl: 'app/help/question-mark.html',
-        controller: 'HelpController'
     };
 });
