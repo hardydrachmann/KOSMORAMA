@@ -1,4 +1,4 @@
-angular.module('kosmoramaApp').controller('LoginController', function($scope, $state, $ionicPlatform, $ionicLoading, $timeout) {
+angular.module('kosmoramaApp').controller('LoginController', function($scope, $state, $ionicLoading, $timeout, popupService) {
 
   $scope.loginId = '';
 
@@ -7,6 +7,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     var key = window.localStorage.getItem('kosmoramaKey');
     if (encryptedId && key) {
       var decryptedId = sjcl.decrypt(key, encryptedId);
+      // Does the decrypted key match the database value?
       $state.go('home');
     }
   });
@@ -17,7 +18,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
 
   $scope.showLoading = function() {
     $ionicLoading.show({
-      template: '<ion-spinner></ion-spinner>'
+      template: '<ion-spinner icon="lines"></ion-spinner>'
     });
   };
 
@@ -34,16 +35,20 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
       window.localStorage.setItem('kosmoramaKey', key);
       $('#setId').val('');
       $timeout(function() {
-        $state.go('home');
+        $scope.setTabs();
         $scope.hideLoading();
-      }, 2000);
+        $state.go('home');
+      }, 2000); // Timeout currently only to display loading spinner.
     }
   };
 
   $scope.logout = function() {
-    window.localStorage.removeItem('kosmoramaId');
-    window.localStorage.removeItem('kosmoramaKey');
-    $state.go('login');
+    popupService.confirmPopup('Exit', 'Are you sure?', function() {
+      window.localStorage.removeItem('kosmoramaId');
+      window.localStorage.removeItem('kosmoramaKey');
+      $state.go('login');
+      $scope.setTabs();
+    });
   };
 
   var minASCII = 33;
