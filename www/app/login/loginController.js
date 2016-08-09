@@ -12,7 +12,10 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
   });
 
   $scope.setUserScreenNumber = function() {
-    $scope.userScreenNumber = $('#setUserScreenNumber').val();
+    var inputValue = $('#setUserScreenNumber').val();
+    if (inputValue) {
+      $scope.userScreenNumber = inputValue;
+    }
   };
 
   $scope.showLoading = function() {
@@ -20,37 +23,38 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
       template: '<ion-spinner icon="lines" class="spinner-positive"></ion-spinner>'
     });
   };
-
   $scope.hideLoading = function() {
     $ionicLoading.hide();
   };
 
   $scope.login = function() {
     if ($scope.userScreenNumber) {
+      $scope.showLoading();
       dataService.getUser($scope.userScreenNumber, function(result) {
         if (result) {
-          $scope.showLoading();
           var key = $scope.getRandomKey();
           var id = sjcl.encrypt(key, $scope.userScreenNumber);
           window.localStorage.setItem('kosmoramaId', id);
           window.localStorage.setItem('kosmoramaKey', key);
           $('#setUserScreenNumber').val('');
-          $timeout(function() {
-            $scope.setTabs();
-            $scope.hideLoading();
-            $state.go('home');
-          }, 2000);
+          $scope.setTabs();
+          $scope.hideLoading();
+          $state.go('home');
         } else {
-          popupService.popup($scope.getText('loginHelp'), 5000);
+          $scope.hideLoading();
+          popupService.AlertPopup($scope.getText('loginFail'));
         }
       });
+    } else {
+      popupService.AlertPopup($scope.getText('loginHelp'));
     }
   };
 
   $scope.logout = function() {
-    popupService.confirmPopup('Logout', '', function() {
+    popupService.confirmPopup($scope.getText('logoutText') + '?', '', function() {
       window.localStorage.removeItem('kosmoramaId');
       window.localStorage.removeItem('kosmoramaKey');
+      $scope.userScreenNumber = '';
       $state.go('login');
       $scope.setTabs();
     });

@@ -1,3 +1,11 @@
-angular.module('kosmoramaApp').controller('HomeController', function($scope, $state) {
-  $scope.data = 'home data';
+angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, dataService) {
+    $scope.hasMail = false;
+    $scope.getMails = function() {
+        dataService.getUser($scope.userScreenNumber, function(user) {
+            console.log(user);
+            dataService.getTraining(user.Id, function(data) {
+                console.log(data);
+            });
+        });
+    };
 });

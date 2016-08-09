@@ -51,7 +51,7 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $st
             $scope.showContTab = true;
             $scope.showLogoutTab = true;
             break;
-            case 'feedback':
+          case 'feedback':
             $scope.showHelpTab = true;
             $scope.showContTab = true;
             $scope.showLogoutTab = true;
@@ -64,6 +64,7 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $st
             break;
         }
       }, 100);
+
     });
   };
 });
