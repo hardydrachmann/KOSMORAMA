@@ -7,60 +7,60 @@
 <link href="lib/components/font-awesome/font-awesome.css">
 
 <head>
-    <link rel="shortcut icon" href="img/ionic.png" />
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+  <link rel="shortcut icon" href="img/ionic.png" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title></title>
 
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+  <!-- ionic/angularjs js -->
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
 
-    <!-- your app's js -->
-    <script src="app/app.js"></script>
-    <script src="app/help/helpController.js"></script>
-    <script src="app/home/homeController.js"></script>
-    <script src="app/login/loginController.js"></script>
-    <script src="app/language/languageController.js"></script>
-    <script src="app/tabsController.js"></script>
-    <script src="app/services/popupService.js"></script>
-    <script src="app/trainingPlan/trainingPlanController.js"></script>
-    <script src="app/feedback/feedbackController.js"></script>
-    <script src="app/dataLayer/dataService.js"></script>
-    <script src="app/training/trainingController.js"></script>
-    <script src="lib/components/angular-material/angular-material.js"></script>
-    <script src="lib/components/jquery/dist/jquery.js"></script>
-    <script src="lib/components/sjcl/sjcl.js"></script>
+  <!-- your app's js -->
+  <script src="app/app.js"></script>
+  <script src="app/help/helpController.js"></script>
+  <script src="app/home/homeController.js"></script>
+  <script src="app/login/loginController.js"></script>
+  <script src="app/language/languageController.js"></script>
+  <script src="app/tabsController.js"></script>
+  <script src="app/services/popupService.js"></script>
+  <script src="app/trainingPlan/trainingPlanController.js"></script>
+  <script src="app/feedback/feedbackController.js"></script>
+  <script src="app/dataLayer/dataService.js"></script>
+  <script src="app/training/trainingController.js"></script>
+  <script src="lib/components/angular-material/angular-material.js"></script>
+  <script src="lib/components/jquery/dist/jquery.js"></script>
+  <script src="lib/components/sjcl/sjcl.js"></script>
 </head>
 
 <body ng-app="kosmoramaApp">
-    <ion-pane>
-        <div ng-controller="TabsController">
-            <div ng-controller="LoginController">
-                <div ng-controller="HelpController">
-                    <div ng-controller="LanguageController">
+  <ion-pane>
+    <div ng-controller="TabsController">
+      <div ng-controller="LanguageController">
+        <div ng-controller="LoginController">
+          <div ng-controller="HelpController">
 
-                        <ion-header-bar class="accent-color">
-                            <img id="headerImg" src="img/logo.png">
-                        </ion-header-bar>
+            <ion-header-bar class="accent-color">
+              <img id="headerImg" src="img/logo.png">
+            </ion-header-bar>
 
-                        <div style="margin-top:3em">
-                            <ion-nav-view></ion-nav-view>
-                        </div>
-
-                        <ion-tabs class="tabs-icon-top">
-                            <ion-tab class="nav-tab" ng-if="showHelpTab" title="Help" ng-click="helpToggle(); setTabs();" icon="ion-help"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLangTab" title="Language" ng-click="langToggle(); setTabs();" icon="ion-chatbubble-working"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showContTab" title="Continue" ng-click="continue(); setTabs();" icon="ion-play"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLogoutTab" title="Logout" ng-click="logout(); setTabs()" icon="ion-log-out"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLoginTab" title="Login" ng-click="login(); setTabs()" icon="ion-log-in" id="login-tab"></ion-tab>
-                        </ion-tabs>
-                    </div>
-                </div>
+            <div style="margin-top:3em">
+              <ion-nav-view></ion-nav-view>
             </div>
+
+            <ion-tabs class="tabs-icon-top">
+              <ion-tab class="nav-tab" ng-if="showHelpTab" title="Help" ng-click="helpToggle(); setTabs();" icon="ion-help"></ion-tab>
+              <ion-tab class="nav-tab" ng-if="showLangTab" title="Language" ng-click="langToggle(); setTabs();" icon="ion-chatbubble-working"></ion-tab>
+              <ion-tab class="nav-tab" ng-if="showContTab" title="Continue" ng-click="continue(); setTabs();" icon="ion-play"></ion-tab>
+              <ion-tab class="nav-tab" ng-if="showLogoutTab" title="Logout" ng-click="logout(); setTabs()" icon="ion-log-out"></ion-tab>
+              <ion-tab class="nav-tab" ng-if="showLoginTab" title="Login" ng-click="login(); setTabs()" icon="ion-log-in" id="login-tab"></ion-tab>
+            </ion-tabs>
+          </div>
         </div>
-    </ion-pane>
+      </div>
+    </div>
+  </ion-pane>
 </body>
 
 </html>
