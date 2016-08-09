@@ -29,7 +29,7 @@ angular.module('kosmoramaApp').factory('dataService', function($http) {
       }
     }).success(function(userdata) {
       callback(userdata.result);
-    }).error(function(data, status, headers, config) {
+    }).error(function(userdata, status, headers, config) {
       console.log('testfail', userdata, status, headers, config);
       callback('error');
     });

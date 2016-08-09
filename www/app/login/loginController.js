@@ -62,17 +62,3 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     return key;
   };
 });
-
-
-
-
-
-
-
-
-
-$scope.getUser = function(userScreenNumber) {
-  dataService.factory.getUser(userScreenNumber, function(userdata) {
-    var user = userdata[0];
-  });
-};
