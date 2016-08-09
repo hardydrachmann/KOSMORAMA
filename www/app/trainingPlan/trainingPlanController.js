@@ -7,7 +7,6 @@ angular.module('kosmoramaApp').controller('TrainingPlanController', function($sc
   var initialPictureURLString = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
   var initialPictureString = '/picture/picture.png';
 
-
   $scope.getTraining = function(userId) {
     dataService.getTraining(userId, function(trainingData) {
       if (trainingData.length === 0) {
