@@ -30,7 +30,7 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
             callback(userdata.result);
         }).error(function(data, status, headers, config) {
             console.log('testfail', data, status, headers, config);
-            callback('error');
+            callback(null);
         });
 
     };
