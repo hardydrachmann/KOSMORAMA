@@ -33,9 +33,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     if ($scope.userScreenNumber) {
       $scope.showLoading();
       dataService.getUser($scope.userScreenNumber, function(result) {
-        console.log(result)
         if (result) {
-          console.log('Please go here');
           var key = $scope.getRandomKey();
           var id = sjcl.encrypt(key, $scope.userScreenNumber);
           window.localStorage.setItem('kosmoramaId', id);
