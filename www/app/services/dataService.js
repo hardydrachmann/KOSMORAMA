@@ -4,7 +4,7 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
 
   var url = 'http://176.62.203.178/Comm/DataService';
   //var url = 'http://localhost:8080/Comm/DataService';
-  var userScreenNumber = 'AA10';
+  var hardcodedScreenNumber = 'AA10';
 
   // This function gets a user by the Screen number entered on login.
   this.getUser = function(userScreenNumber, callback) {
@@ -15,7 +15,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
       method: 'GetUsers',
       params: userScreenNumber
     };
-
     var dataString = JSON.stringify(content); //Converting javascript to Json
 
     // Doing the http post request

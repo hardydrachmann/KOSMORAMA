@@ -191,7 +191,17 @@
   height: 6em;
 }
 
+
 #timer {
   color: #303c50;
+}
+
+#feedbackImg{
+ top: 2px;
+}
+
+#feedbackDiv, .img{
+  min-height: 75px;
+  max-height: 75px;
 }
 
