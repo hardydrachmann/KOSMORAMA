@@ -16,7 +16,6 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     if (inputValue) {
       $scope.userScreenNumber = inputValue;
     }
-    console.log($scope.userScreenNumber);
   };
 
   $scope.showLoading = function() {
@@ -24,7 +23,6 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
       template: '<ion-spinner icon="lines" class="spinner-positive"></ion-spinner>'
     });
   };
-
   $scope.hideLoading = function() {
     $ionicLoading.hide();
   };
@@ -42,14 +40,12 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
           $scope.setTabs();
           $scope.hideLoading();
           $state.go('home');
-        }
-        else {
+        } else {
           $scope.hideLoading();
           popupService.AlertPopup($scope.getText('loginFail'));
         }
       });
-    }
-    else {
+    } else {
       popupService.AlertPopup($scope.getText('loginHelp'));
     }
   };
@@ -58,6 +54,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     popupService.confirmPopup($scope.getText('logoutText') + '?', '', function() {
       window.localStorage.removeItem('kosmoramaId');
       window.localStorage.removeItem('kosmoramaKey');
+      $scope.userScreenNumber = '';
       $state.go('login');
       $scope.setTabs();
     });
