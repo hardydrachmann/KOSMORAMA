@@ -15,7 +15,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
       method: 'GetUsers',
       params: userScreenNumber
     };
-
     var dataString = JSON.stringify(content); //Converting javascript to Json
 
     // Doing the http post request

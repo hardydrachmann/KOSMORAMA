@@ -1,5 +1,5 @@
 angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, dataService) {
-    $scope.hasMail = true;
+    $scope.hasMail = false;
     $scope.getMails = function() {
         dataService.getUser($scope.userScreenNumber, function(user) {
             console.log(user);
