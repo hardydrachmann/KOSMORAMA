@@ -12,7 +12,10 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
   });
 
   $scope.setUserScreenNumber = function() {
-    $scope.userScreenNumber = $('#setUserScreenNumber').val();
+    var inputValue = $('#setUserScreenNumber').val();
+    if (inputValue) {
+      $scope.userScreenNumber = inputValue;
+    }
   };
 
   $scope.showLoading = function() {
@@ -40,7 +43,8 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
             $scope.hideLoading();
             $state.go('home');
           }, 2000);
-        } else {
+        }
+        else {
           popupService.popup($scope.getText('loginHelp'), 5000);
         }
       });
@@ -51,6 +55,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     popupService.confirmPopup('Logout', '', function() {
       window.localStorage.removeItem('kosmoramaId');
       window.localStorage.removeItem('kosmoramaKey');
+      $scope.userScreenNumber = '';
       $state.go('login');
       $scope.setTabs();
     });
