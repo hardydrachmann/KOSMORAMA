@@ -27,14 +27,13 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }).success(function(userdata) {
-      callback(userdata.result);
+      callback(userdata.result[0]);
     }).error(function(data, status, headers, config) {
       console.log('testfail', data, status, headers, config);
       callback(null);
     });
 
   };
-
 
   //This function gets the trainig for a user on the current day.
   this.getTraining = function(UserId, callback) {
@@ -61,7 +60,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
       console.log('testfail', trainingData, status, headers, config);
       callback('error');
     });
-
   };
 
   //This function post traning data.
