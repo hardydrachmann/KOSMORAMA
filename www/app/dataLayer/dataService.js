@@ -37,7 +37,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
 
     //This function gets the trainig for a user on the current day.
     this.getTraining = function(UserId, callback) {
-
         var content = {
             id: '1',
             method: 'GetScheduledTrainingAndQuestionnaires',

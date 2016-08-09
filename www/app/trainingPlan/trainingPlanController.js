@@ -5,9 +5,8 @@ angular.module('kosmoramaApp').controller('TrainingPlanController', function($sc
   var name = '';
   var language = $scope.lang;
 
-
   $scope.getTraining = function(userId) {
-    dataService.factory.getTraining(userId, function(trainingData) {
+    dataService.getTraining(userId, function(trainingData) {
       if (trainingData.length === 0) {
         console.log('error', 'ingen træning idag');
       } else {
