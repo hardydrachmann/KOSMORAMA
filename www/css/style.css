@@ -148,3 +148,12 @@
   width: 6em;
   height: 6em;
 }
+
+#feedbackImg{
+ top: 2px;
+}
+
+#feedbackDiv, .img{
+  min-height: 75px;
+  max-height: 75px;
+}
