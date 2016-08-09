@@ -13,9 +13,9 @@ angular.module('kosmoramaApp').controller('TrainingPlanController', function($sc
         console.log('error', 'ingen træning idag');
       } else {
         $scope.TrainigItems = trainingData[0].TrainingItems;
-        console.log('Traning Array: ', $scope.TrainigItems);
-        console.log('Schedule info Object: ', trainingData['0']);
-        console.log('ExerciseId', $scope.TrainigItems[0].ExerciseId);
+        // console.log('Traning Array: ', $scope.TrainigItems);
+        // console.log('Schedule info Object: ', trainingData['0']);
+        // console.log('ExerciseId', $scope.TrainigItems[0].ExerciseId);
       }
     });
   };
@@ -28,7 +28,7 @@ angular.module('kosmoramaApp').controller('TrainingPlanController', function($sc
   };
 
   $scope.picture = function(ExerciseId) {
-    console.log('id', ExerciseId);
+  //  console.log('id', ExerciseId);
     var pic = initialPictureURLString + ExerciseId + initialPictureString;
     if (pic) {
       return pic;

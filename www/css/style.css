@@ -76,6 +76,14 @@
   color: white;
   margin: 0 2vh 0 2vh;
 }
+<<<<<<< HEAD
+=======
+.thumbImg {
+    position: inherit;
+    width: 200px;
+  height: 200px;
+}
+>>>>>>> a46cb44b4f406bc9f1ab7fd4745ececc0b25a362
 
 #trainingPlanHeader {
   color: white;
