@@ -7,13 +7,15 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     var key = window.localStorage.getItem('kosmoramaKey');
     if (encryptedId && key) {
       var decryptedId = sjcl.decrypt(key, encryptedId);
-      // Does the decrypted id match the database value?
       $state.go('home');
     }
   });
 
   $scope.setUserScreenNumber = function() {
-    $scope.userScreenNumber = $('#setUserScreenNumber').val();
+    var inputValue = $('#setUserScreenNumber').val();
+    if (inputValue) {
+      $scope.userScreenNumber = inputValue;
+    }
   };
 
   $scope.showLoading = function() {
@@ -28,17 +30,24 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
 
   $scope.login = function() {
     if ($scope.userScreenNumber) {
-      $scope.showLoading();
-      var key = $scope.getRandomKey();
-      var id = sjcl.encrypt(key, $scope.userScreenNumber);
-      window.localStorage.setItem('kosmoramaId', id);
-      window.localStorage.setItem('kosmoramaKey', key);
-      $('#setUserScreenNumber').val('');
-      $timeout(function() {
-        $scope.setTabs();
-        $scope.hideLoading();
-        $state.go('home');
-      }, 2000); // Timeout currently only to display loading spinner.
+      dataService.getUser($scope.userScreenNumber, function(result) {
+        if (result) {
+          $scope.showLoading();
+          var key = $scope.getRandomKey();
+          var id = sjcl.encrypt(key, $scope.userScreenNumber);
+          window.localStorage.setItem('kosmoramaId', id);
+          window.localStorage.setItem('kosmoramaKey', key);
+          $('#setUserScreenNumber').val('');
+          $timeout(function() {
+            $scope.setTabs();
+            $scope.hideLoading();
+            $state.go('home');
+          }, 2000);
+        }
+        else {
+          popupService.popup($scope.getText('loginHelp'), 5000);
+        }
+      });
     }
   };
 
@@ -46,6 +55,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     popupService.confirmPopup('Logout', '', function() {
       window.localStorage.removeItem('kosmoramaId');
       window.localStorage.removeItem('kosmoramaKey');
+      $scope.userScreenNumber = '';
       $state.go('login');
       $scope.setTabs();
     });
@@ -61,18 +71,5 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     }
     return key;
   };
+
 });
-
-
-
-
-
-
-
-
-
-$scope.getUser = function(userScreenNumber) {
-  dataService.factory.getUser(userScreenNumber, function(userdata) {
-    var user = userdata[0];
-  });
-};

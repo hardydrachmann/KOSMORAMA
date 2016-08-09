@@ -1,14 +1,13 @@
 // This is a data Service factory which get and post data in Api-service.
 
-angular.module('kosmoramaApp').factory('dataService', function($http) {
+angular.module('kosmoramaApp').service('dataService', function($http) {
 
   var url = 'http://176.62.203.178/Comm/DataService';
   //var url = 'http://localhost:8080/Comm/DataService';
-  var factory = {};
   var userScreenNumber = 'AA10';
 
   // This function gets a user by the Screen number entered on login.
-  factory.getUser = function(userScreenNumber, callback) {
+  this.getUser = function(userScreenNumber, callback) {
 
     //Preparing the content for the header required to get user in Api-service
     var content = {
@@ -28,16 +27,16 @@ angular.module('kosmoramaApp').factory('dataService', function($http) {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }).success(function(userdata) {
-      callback(userdata.result);
+      callback(userdata.result[0]);
     }).error(function(data, status, headers, config) {
-      console.log('testfail', userdata, status, headers, config);
-      callback('error');
+      console.log('testfail', data, status, headers, config);
+      callback(null);
     });
 
   };
 
   //This function gets the trainig for a user on the current day.
-  factory.getTraining = function(UserId, callback) {
+  this.getTraining = function(UserId, callback) {
 
     var content = {
       id: '1',
@@ -65,8 +64,7 @@ angular.module('kosmoramaApp').factory('dataService', function($http) {
 
   //This function post traning data.
   //Still needs work
-  factory.postData = function(id, callback) {
-    var x = id;
+  this.postData = function(id, callback) {
     var traningReport = [{
       "PlanExerciseId": 250575,
       "Id": 212031,
@@ -100,10 +98,5 @@ angular.module('kosmoramaApp').factory('dataService', function($http) {
       console.log('testfail', trainingData, status, headers, config);
       callback('error');
     });
-  };
-
-  //This returns the factory which was choosen from any controller.
-  return {
-    factory: factory
   };
 });

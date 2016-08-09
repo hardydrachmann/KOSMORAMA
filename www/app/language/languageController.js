@@ -1,4 +1,4 @@
-angular.module('kosmoramaApp').controller('LanguageController', function($scope, $state, $ionicHistory) {
+angular.module('kosmoramaApp').controller('LanguageController', function($scope, $state, $ionicHistory, dataService) {
     $scope.text = {};
     $scope.lang = '';
     $scope.langs = [];
