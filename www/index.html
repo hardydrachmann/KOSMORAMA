@@ -56,11 +56,11 @@
                         </div>
 
                         <ion-tabs class="tabs-icon-top">
-                            <ion-tab class="nav-tab" ng-if="showHelpTab" title="Help" ng-click="helpToggle(); setTabs();" icon="ion-help"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLangTab" title="Language" ng-click="langToggle(); setTabs();" icon="ion-chatbubble-working"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showContTab" title="Continue" ng-click="continue(); setTabs();" icon="ion-play"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLogoutTab" title="Logout" ng-click="logout(); setTabs()" icon="ion-log-out"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="showLoginTab" title="Login" ng-click="login(); setTabs()" icon="ion-log-in" id="login-tab"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showHelpTab" title="{{getText('helpTab')}}" ng-click="helpToggle(); setTabs();" icon="ion-help"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showLangTab" title="{{getText('languageTab')}}" ng-click="langToggle(); setTabs();" icon="ion-chatbubble-working"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showContTab" title="{{getText('continueTab')}}" ng-click="continue(); setTabs();" icon="ion-play"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showLogoutTab" title="{{getText('logoutText')}}" ng-click="logout(); setTabs()" icon="ion-log-out"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="showLoginTab" title="{{getText('loginText')}}" ng-click="login(); setTabs()" icon="ion-log-in" id="login-tab"></ion-tab>
                         </ion-tabs>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 <div class="backgroundColor">
-    <a ng-click="getMailData()">
-        <i id="mail-link" class="accent-color ion-email"></i>
+    <a ng-click="getMails()">
+        <i ng-if="hasMail" id="mail-link" class="accent-color ion-email-unread"></i>
+        <i ng-if="!hasMail" id="mail-link" class="accent-color ion-email"></i>
     </a>
     <a href="#/trainingPlan" ng-click="setTabs()">
         <img id="center-img" src="img/home_logo.png"></img>

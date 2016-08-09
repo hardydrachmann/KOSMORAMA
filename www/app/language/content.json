@@ -14,10 +14,6 @@
     "en_US": "How to perform the exercise:"
   },
 
-  "trainingPlanBtn": {
-    "da_DK": "Fortsæt",
-    "en_US": "Continue"
-  },
 
   "trainingDemoDescription": {
     "da_DK": "Beskrivelse for øvelse",
@@ -44,19 +40,29 @@
     "en_US": "The access code you've entered does not exist, please try again."
   },
 
+  "loginText": {
+    "da_DK": "Log ind",
+    "en_US": "Log in"
+  },
+
   "logoutText": {
     "da_DK": "Log ud",
     "en_US": "Log out"
   },
 
-  "languageTabText": {
+  "languageTab": {
     "da_DK": "Sprog",
     "en_US": "Language"
   },
 
-  "helpTabText": {
+  "helpTab": {
     "da_DK": "Hjælp",
     "en_US": "Help"
+  },
+
+  "continueTab": {
+    "da_DK": "Fortsæt",
+    "en_US": "Continue"
   },
 
   "homeHelp": {
