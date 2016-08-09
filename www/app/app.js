@@ -68,8 +68,8 @@ angular.module('kosmoramaApp', ['ionic'])
 
     .state('trainingDemo', {
         url: '/trainingDemo',
-        templateUrl: 'app/trainingDemo/trainingDemo.html',
-        controller: 'TrainingDemoController'
+        templateUrl: 'app/training/trainingDemo.html',
+        controller: 'TrainingController'
     });
 
     $urlRouterProvider.otherwise('/login');
