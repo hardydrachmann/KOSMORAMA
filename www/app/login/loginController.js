@@ -12,10 +12,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
   });
 
   $scope.setUserScreenNumber = function() {
-    var inputValue = $('#setUserScreenNumber').val();
-    if (inputValue) {
-      $scope.userScreenNumber = inputValue;
-    }
+    $scope.userScreenNumber = $('#setUserScreenNumber').val();
   };
 
   $scope.showLoading = function() {
@@ -30,32 +27,31 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
 
   $scope.login = function() {
     if ($scope.userScreenNumber) {
+      $scope.showLoading();
       dataService.getUser($scope.userScreenNumber, function(result) {
-        if (result) {
-          $scope.showLoading();
+        if (result.length > 0) {
           var key = $scope.getRandomKey();
           var id = sjcl.encrypt(key, $scope.userScreenNumber);
           window.localStorage.setItem('kosmoramaId', id);
           window.localStorage.setItem('kosmoramaKey', key);
           $('#setUserScreenNumber').val('');
-          $timeout(function() {
-            $scope.setTabs();
-            $scope.hideLoading();
-            $state.go('home');
-          }, 2000);
-        }
-        else {
-          popupService.popup($scope.getText('loginHelp'), 5000);
+          $scope.setTabs();
+          $scope.hideLoading();
+          $state.go('home');
+        } else {
+          $scope.hideLoading();
+          popupService.AlertPopup($scope.getText('loginFail'));
         }
       });
+    } else {
+      popupService.AlertPopup($scope.getText('loginHelp'));
     }
   };
 
   $scope.logout = function() {
-    popupService.confirmPopup('Logout', '', function() {
+    popupService.confirmPopup($scope.getText('logoutText') + '?', '', function() {
       window.localStorage.removeItem('kosmoramaId');
       window.localStorage.removeItem('kosmoramaKey');
-      $scope.userScreenNumber = '';
       $state.go('login');
       $scope.setTabs();
     });
