@@ -48,6 +48,12 @@ angular.module('kosmoramaApp', ['ionic'])
         url: '/help',
         templateUrl: 'app/help/help.html'
     })
+    
+    .state('mail', {
+        url: '/mail',
+        templateUrl: 'app/home/mail.html',
+        controller: 'HomeController'
+    })
 
     .state('trainingPlan', {
         url: '/trainingPlan',

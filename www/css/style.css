@@ -12,6 +12,14 @@
   font-size: 5em;
 }
 
+.inactive-mail {
+  display: none;
+}
+
+.active-mail {
+  display: block;
+}
+
 .nav-tab {
   background-color: #00050F !important;
   color: white;
@@ -78,8 +86,8 @@
 }
 
 .thumbImg {
-    position: inherit;
-    width: 200px;
+  position: inherit;
+  width: 200px;
   height: 200px;
 }
 
@@ -190,4 +198,3 @@
   width: 6em;
   height: 6em;
 }
-

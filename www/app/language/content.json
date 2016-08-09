@@ -65,6 +65,11 @@
     "en_US": "Continue"
   },
 
+  "mailDone": {
+    "da_DK": "Læst",
+    "en_US": "Done"
+  },
+  
   "homeHelp": {
     "da_DK": "Tryk på logoet på skærmen for at fortsætte til oversigt over dagens træning. Du kan ikke vende tilbage fra træningen, når den er påbegyndt.",
     "en_US": "Tap the logo on the screen to continue to your daily training overview. You will not be able to return to this point when the training has started."

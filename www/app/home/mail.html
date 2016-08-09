@@ -1,0 +1,36 @@
+<style>
+    .mail-title {
+        float: left;
+    }
+    
+    .mail-timestamp {
+        float: right;
+    }
+    
+    .mail-done {
+        position: relative;
+        margin: 1em;
+        float: right;
+    }
+</style>
+
+<h1>Back to home + show old messages</h1>
+
+<ion-scroll style="height:69%">
+    <div class="list">
+        <div class="item" ng-repeat="mail in mails" ng-click="toggleMailDisplay($index)">
+            <h2 class="mail-title">
+                {{mail.title}}
+            </h2>
+            <h3 class="mail-timestamp">
+                {{mail.timestamp}}
+            </h3>
+            <br>
+            <div id="{{'mail' + $index}}" class="inactive-mail">
+                <hr> {{mail.message}}
+                <br>
+                <button class="mail-done" ng-click="logMail($index)">{{getText('mailDone')}}</button>
+            </div>
+        </div>
+    </div>
+</ion-scroll>
