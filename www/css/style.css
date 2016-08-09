@@ -58,8 +58,11 @@
   margin: 0 2vh 0 2vh;
 }
 .thumbImg {
-transform: scale(1,1);
+    position: inherit;
+    width: 200px;
+  height: 200px;
 }
+
 #trainingPlanHeader {
   color: white;
   text-align: center;
