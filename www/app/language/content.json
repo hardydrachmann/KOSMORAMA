@@ -78,5 +78,10 @@
   "trainingDemoHelp": {
     "da_DK": "Her ser du et eksempel på, hvordan din træning skal udføres. Ønskes det, kan videoen  genafspilles.",
     "en_US": "Here you can see an example of how to perform your exercise. If you want, you can replay the video."
+  },
+
+  "headerTitle": {
+    "da_DK": "Virtuel træning",
+    "en_US": "Virtual training"
   }
 }
