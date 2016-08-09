@@ -33,11 +33,23 @@
   width: 80%;
 }
 
-#headerImg {
+#headerLogo {
+  position: relative;
   max-width: 80%;
   max-height: 80%;
   width: auto;
   height: auto;
+  top: 0.2em;
+  left: 1em;
+}
+
+#headerTitle {
+  position: relative;
+  bottom: 0.7em;
+  left: 1.3em;
+  color: white;
+  font-family: Sans-Serif;
+  font-size: 110%;
 }
 
 #help-text {
@@ -148,7 +160,7 @@
   background-color: #303c50;
 }
 
-#login-watermark {
+#login_watermark {
   position: relative;
   top: 25%;
   left: 50%;
@@ -197,4 +209,18 @@
 .spinner svg {
   width: 6em;
   height: 6em;
+}
+
+#timer {
+  color: #303c50;
+}
+
+#feedbackImg {
+  top: 2px;
+}
+
+#feedbackDiv,
+.img {
+  min-height: 75px;
+  max-height: 75px;
 }

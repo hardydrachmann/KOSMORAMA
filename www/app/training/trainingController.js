@@ -13,6 +13,7 @@ angular.module('kosmoramaApp').controller('TrainingController', function($scope,
       } else {
         $scope.TrainingItems = trainingData[0].TrainingItems;
         $scope.video();
+        $scope.timer();
       }
     });
   };
@@ -31,17 +32,31 @@ angular.module('kosmoramaApp').controller('TrainingController', function($scope,
     console.log('URL: ', url);
     if (url) {
       //$scope.myVid = $sce.trustAsResourceUrl(url+ '/embed/xx2cxo8WQoM?rel=0&showinfo=0');
-      $scope.myVid = $sce.trustAsResourceUrl('https://www.youtube.com/embed/xx2cxo8WQoM?rel=0&showinfo=0&loop=0&playlist=xx2cxo8WQoM');
+      $scope.myVid = $sce.trustAsResourceUrl('https://www.youtube.com/embed/xx2cxo8WQoM?rel=0&showinfo=0');
     }
   };
   
+  $scope.formatTime = function(time) {
+    var min = Math.floor(time / 60);
+    var sec = time - min * 60;
+    return min + " minutes " + sec + " seconds"
+  };
   
+  $scope.timer = function() {
+    rep = $scope.TrainingItems[0].Repetitions;
+    timerep = $scope.TrainingItems[0].TimeSet*60;
+    timepause = $scope.TrainingItems[0].Pause*60;
+    console.log("Repetitions: " + rep);
+    console.log("Time pr rep: " + timerep);
+    $scope.counter = timerep;
+  };
   // timer stuff
   var mytimeout = null;
-  var rep = 3;
-  var timerep = 10;
-  var timepause = 5;
-  $scope.counter = timerep;
+  var rep;
+  var timerep;
+  
+  var timepause;
+  $scope.counter = null;
   var pause = false;
   
   
