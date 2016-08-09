@@ -36,7 +36,7 @@
   left: 1.3em;
   color: white;
   font-family: Sans-Serif;
-  font-size:110%;
+  font-size: 110%;
 }
 #help-text {
   line-height: 1.5em;
@@ -170,6 +170,9 @@
 .spinner svg {
   width: 6em;
   height: 6em;
+}
+#timer {
+  color: #303c50;
 }
 #feedbackImg {
   top: 2px;
