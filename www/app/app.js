@@ -65,11 +65,17 @@ angular.module('kosmoramaApp', ['ionic'])
         url: '/language',
         templateUrl: 'app/language/language.html'
     })
+    
+    .state('feedback', {
+        url: '/feedback',
+        templateUrl: 'app/feedback/feedback.html',
+        controller: 'FeedbackController'
+    })
 
     .state('trainingDemo', {
         url: '/trainingDemo',
-        templateUrl: 'app/trainingDemo/trainingDemo.html',
-        controller: 'TrainingDemoController'
+        templateUrl: 'app/training/trainingDemo.html',
+        controller: 'TrainingController'
     });
 
     $urlRouterProvider.otherwise('/login');
