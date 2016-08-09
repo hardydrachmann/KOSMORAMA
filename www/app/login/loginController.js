@@ -1,19 +1,19 @@
-angular.module('kosmoramaApp').controller('LoginController', function($scope, $state, $ionicLoading, $timeout, popupService) {
+angular.module('kosmoramaApp').controller('LoginController', function($scope, $state, $ionicLoading, $timeout, popupService, dataService) {
 
-  $scope.loginId = '';
+  $scope.userScreenNumber = '';
 
   $(document).ready(function() {
     var encryptedId = window.localStorage.getItem('kosmoramaId');
     var key = window.localStorage.getItem('kosmoramaKey');
     if (encryptedId && key) {
       var decryptedId = sjcl.decrypt(key, encryptedId);
-      // Does the decrypted key match the database value?
+      // Does the decrypted id match the database value?
       $state.go('home');
     }
   });
 
-  $scope.setLoginId = function() {
-    $scope.loginId = $('#setId').val();
+  $scope.setUserScreenNumber = function() {
+    $scope.userScreenNumber = $('#setUserScreenNumber').val();
   };
 
   $scope.showLoading = function() {
@@ -27,13 +27,13 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
   };
 
   $scope.login = function() {
-    if ($scope.loginId) {
+    if ($scope.userScreenNumber) {
       $scope.showLoading();
       var key = $scope.getRandomKey();
-      var id = sjcl.encrypt(key, $scope.loginId);
+      var id = sjcl.encrypt(key, $scope.userScreenNumber);
       window.localStorage.setItem('kosmoramaId', id);
       window.localStorage.setItem('kosmoramaKey', key);
-      $('#setId').val('');
+      $('#setUserScreenNumber').val('');
       $timeout(function() {
         $scope.setTabs();
         $scope.hideLoading();
@@ -43,7 +43,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
   };
 
   $scope.logout = function() {
-    popupService.confirmPopup('Exit', 'Are you sure?', function() {
+    popupService.confirmPopup('Logout', '', function() {
       window.localStorage.removeItem('kosmoramaId');
       window.localStorage.removeItem('kosmoramaKey');
       $state.go('login');
@@ -62,3 +62,17 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     return key;
   };
 });
+
+
+
+
+
+
+
+
+
+$scope.getUser = function(userScreenNumber) {
+  dataService.factory.getUser(userScreenNumber, function(userdata) {
+    var user = userdata[0];
+  });
+};
