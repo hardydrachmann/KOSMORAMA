@@ -30,8 +30,8 @@ angular.module('kosmoramaApp').controller('TrainingDemoController', function($sc
     var url = $scope.TrainingItems[0].ExeciseUrl;
     console.log('URL: ', url);
     if (url) {
-      //$scope.myVid = $sce.trustAsResourceUrl(url+ '/embed/xx2cxo8WQoM?rel=0&showinfo=0');
-      $scope.myVid = $sce.trustAsResourceUrl('https://www.youtube.com/embed/xx2cxo8WQoM?rel=0&showinfo=0');
+      $scope.myVid = $sce.trustAsResourceUrl(url+ '/embed/xx2cxo8WQoM?rel=0&showinfo=0');
+      //$scope.myVid = $sce.trustAsResourceUrl('https://www.youtube.com/embed/xx2cxo8WQoM?rel=0&showinfo=0');
     }
   };
 
