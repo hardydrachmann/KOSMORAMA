@@ -32,9 +32,7 @@ angular.module('kosmoramaApp', ['ionic'])
     $ionicConfigProvider.tabs.position('bottom');
     $ionicConfigProvider.tabs.style('standard');
 
-    $stateProvider
-
-        .state('home', {
+    $stateProvider.state('home', {
         url: '/home',
         templateUrl: 'app/home/home.html',
         controller: 'HomeController'

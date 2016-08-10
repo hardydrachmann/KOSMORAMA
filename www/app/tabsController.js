@@ -63,10 +63,23 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $st
             }
         }, 100);
     };
-    
+
     $scope.continue = function() {
-        // Temporary functionality.
-        $state.go('trainingDemo');
+        var state = $ionicHistory.currentView().stateName;
+        switch (state) {
+            case 'trainingPlan':
+                $state.go('trainingDemo');
+                break;
+            case 'trainingDemo':
+                $state.go('training');
+                break;
+            case 'training':
+                $state.go('feedback');
+                break;
+            case 'feedback':
+                $state.go('trainingPlan');
+                break;
+        }
         $scope.setTabs();
     };
 });
