@@ -3,6 +3,8 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
     $scope.hasMail = false;
 
     var getMails = function() {
+
+      console.log('userId', $scope.userScreenNumber);
         // Produce mock data.
         for (var i = 0; i < 10; i++) {
             $scope.mails.push({
@@ -29,5 +31,9 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 
     $scope.logMail = function(index) {
         console.log($scope.mails[index]);
+    };
+
+    $scope.newMail = function(){
+      return '1';
     };
 });
