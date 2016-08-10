@@ -1,91 +1,97 @@
-angular.module('kosmoramaApp').controller('TrainingController', function($scope, $state, $sce, dataService, $timeout) {
+var app = angular.module('kosmoramaApp');
+app.controller('TrainingController', function($scope, $state, $sce, $timeout, dataService) {
 
-  $scope.video = '';
-  var description = '';
-  var language = $scope.lang;
-  $scope.TrainingItems = [];
-  var url = '';
+    $scope.TrainingItems = [];
 
-  $scope.getTraining = function(userId) {
-    dataService.getTraining(userId, function(trainingData) {
-      if (trainingData.length === 0) {
-        console.log('error', 'ingen træning idag');
-      } else {
-        $scope.TrainingItems = trainingData[0].TrainingItems;
-        $scope.video();
-        $scope.timer();
-      }
-    });
-  };
-  $scope.getTraining(79);
-
-  $scope.trainingDescription = function() {
-    var langs = $scope.TrainingItems[0];
-    if (langs) {
-      description = langs.LangDesc[language];
-      return description;
-    }
-  };
-
-  $scope.video = function() {
-    var url = $scope.TrainingItems[0].ExeciseUrl;
-    console.log('URL: ', url);
-    if (url) {
-      //$scope.myVid = $sce.trustAsResourceUrl(url+ '/embed/xx2cxo8WQoM?rel=0&showinfo=0');
-      $scope.myVid = $sce.trustAsResourceUrl('https://www.youtube.com/embed/xx2cxo8WQoM?rel=0&showinfo=0');
-    }
-  };
-  
-  $scope.formatTime = function(time) {
-    var min = Math.floor(time / 60);
-    var sec = time - min * 60;
-    return min + " minutes " + sec + " seconds"
-  };
-  
-  $scope.timer = function() {
-    rep = $scope.TrainingItems[0].Repetitions;
-    timerep = $scope.TrainingItems[0].TimeSet*60;
-    timepause = $scope.TrainingItems[0].Pause*60;
-    console.log("Repetitions: " + rep);
-    console.log("Time pr rep: " + timerep);
-    $scope.counter = timerep;
-  };
-  // timer stuff
-  var mytimeout = null;
-  var rep;
-  var timerep;
-  
-  var timepause;
-  $scope.counter = null;
-  var pause = false;
-  
-  
-  $scope.onTimeout = function() {
-    if($scope.counter === 0) {
-      $timeout.cancel(mytimeout);
-      if(rep > 0) 
-            if(!pause) {
-              $scope.startExcerciseTimer();
-            } else {
-              $scope.startPauseTimer();
+    function getTraining(userId) {
+        dataService.getTraining(userId, function(data) {
+            console.log(data);
+            if (data.length > 0) {
+                $scope.TrainingItems = data[0].TrainingItems;
             }
-      return;
+        });
     }
-    $scope.counter--;
-    mytimeout = $timeout($scope.onTimeout, 1000);
-  };
-  
-  $scope.startExcerciseTimer = function() {
-    $scope.counter = timerep + 1;
-    pause = true;
-    rep--;
-    mytimeout = $timeout($scope.onTimeout);
-  };
-  
-  $scope.startPauseTimer = function() {
-    $scope.counter = timepause + 1;
-    pause = false;
-    mytimeout = $timeout($scope.onTimeout);
-  };
+    getTraining(79);
 
+    $scope.getTrainingName = function(trainingItem) {
+        // Returns the appropriate language name for the selected item.
+        return trainingItem.LangName[$scope.lang];
+    };
+
+    $scope.trainingDescription = function() {
+        // Returns the appropriate language description for the next exercise.
+        var item = $scope.TrainingItems[0];
+        if (item != undefined) {
+            return item.LangDesc[$scope.lang];
+        }
+    };
+
+    $scope.getVideo = function() {
+        var item = $scope.TrainingItems[0];
+        if (item != undefined) {
+            var url = item.ExeciseUrl;
+            if (url) {
+                return $sce.trustAsResourceUrl('https://www.youtube.com/embed/xx2cxo8WQoM?rel=0&showinfo=0');
+                //return $sce.trustAsResourceUrl(url + '/embed/xx2cxo8WQoM?rel=0&showinfo=0');
+            }
+        }
+    };
+
+    var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
+    var urn = '/picture/picture.png';
+    $scope.getPicture = function(exerciseId) {
+        return url + exerciseId + urn;
+    };
+
+    // Timer stuff for video playback.
+    var mytimeout = null;
+    var rep;
+    var timerep;
+    var timepause;
+    var pause = false;
+    $scope.counter = null;
+
+    $scope.formatTime = function(time) {
+        var min = Math.floor(time / 60);
+        var sec = time - min * 60;
+        return min + " minutes " + sec + " seconds"
+    };
+
+    $scope.timer = function() {
+        rep = $scope.TrainingItems[0].Repetitions;
+        timerep = $scope.TrainingItems[0].TimeSet * 60;
+        timepause = $scope.TrainingItems[0].Pause * 60;
+        console.log("Repetitions: " + rep);
+        console.log("Time pr rep: " + timerep);
+        $scope.counter = timerep;
+    };
+
+    $scope.onTimeout = function() {
+        if ($scope.counter === 0) {
+            $timeout.cancel(mytimeout);
+            if (rep > 0)
+                if (!pause) {
+                    $scope.startExcerciseTimer();
+                }
+                else {
+                    $scope.startPauseTimer();
+                }
+            return;
+        }
+        $scope.counter--;
+        mytimeout = $timeout($scope.onTimeout, 1000);
+    };
+
+    $scope.startExcerciseTimer = function() {
+        $scope.counter = timerep + 1;
+        pause = true;
+        rep--;
+        mytimeout = $timeout($scope.onTimeout);
+    };
+
+    $scope.startPauseTimer = function() {
+        $scope.counter = timepause + 1;
+        pause = false;
+        mytimeout = $timeout($scope.onTimeout);
+    };
 });

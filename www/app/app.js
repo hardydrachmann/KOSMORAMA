@@ -44,6 +44,11 @@ angular.module('kosmoramaApp', ['ionic'])
         templateUrl: 'app/login/login.html'
     })
 
+    .state('language', {
+        url: '/language',
+        templateUrl: 'app/language/language.html'
+    })
+
     .state('help', {
         url: '/help',
         templateUrl: 'app/help/help.html'
@@ -57,8 +62,14 @@ angular.module('kosmoramaApp', ['ionic'])
 
     .state('trainingPlan', {
         url: '/trainingPlan',
-        templateUrl: 'app/trainingPlan/trainingPlan.html',
-        controller: 'TrainingPlanController'
+        templateUrl: 'app/training/trainingPlan.html',
+        controller: 'TrainingController'
+    })
+
+    .state('trainingDemo', {
+        url: '/trainingDemo',
+        templateUrl: 'app/training/trainingDemo.html',
+        controller: 'TrainingController'
     })
     
     .state('training', {
@@ -66,22 +77,11 @@ angular.module('kosmoramaApp', ['ionic'])
         templateUrl: 'app/training/training.html',
         controller: 'TrainingController'
     })
-
-    .state('language', {
-        url: '/language',
-        templateUrl: 'app/language/language.html'
-    })
     
     .state('feedback', {
         url: '/feedback',
         templateUrl: 'app/feedback/feedback.html',
         controller: 'FeedbackController'
-    })
-
-    .state('trainingDemo', {
-        url: '/trainingDemo',
-        templateUrl: 'app/training/trainingDemo.html',
-        controller: 'TrainingController'
     });
 
     $urlRouterProvider.otherwise('/login');
