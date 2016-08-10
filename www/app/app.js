@@ -16,6 +16,7 @@ angular.module('kosmoramaApp', ['ionic'])
             // from snapping when text inputs are focused. Ionic handles this internally for
             // a much nicer keyboard experience.
             cordova.plugins.Keyboard.disableScroll(true);
+            navigator.splashscreen.hide();
         }
         if (window.StatusBar) {
             StatusBar.styleDefault();
@@ -31,9 +32,7 @@ angular.module('kosmoramaApp', ['ionic'])
     $ionicConfigProvider.tabs.position('bottom');
     $ionicConfigProvider.tabs.style('standard');
 
-    $stateProvider
-
-        .state('home', {
+    $stateProvider.state('home', {
         url: '/home',
         templateUrl: 'app/home/home.html',
         controller: 'HomeController'
@@ -44,11 +43,16 @@ angular.module('kosmoramaApp', ['ionic'])
         templateUrl: 'app/login/login.html'
     })
 
+    .state('language', {
+        url: '/language',
+        templateUrl: 'app/language/language.html'
+    })
+
     .state('help', {
         url: '/help',
         templateUrl: 'app/help/help.html'
     })
-    
+
     .state('mail', {
         url: '/mail',
         templateUrl: 'app/home/mail.html',
@@ -57,31 +61,26 @@ angular.module('kosmoramaApp', ['ionic'])
 
     .state('trainingPlan', {
         url: '/trainingPlan',
-        templateUrl: 'app/trainingPlan/trainingPlan.html',
-        controller: 'TrainingPlanController'
-    })
-    
-    .state('training', {
-        url: '/training',
-        templateUrl: 'app/training/training.html',
+        templateUrl: 'app/training/trainingPlan.html',
         controller: 'TrainingController'
-    })
-
-    .state('language', {
-        url: '/language',
-        templateUrl: 'app/language/language.html'
-    })
-    
-    .state('feedback', {
-        url: '/feedback',
-        templateUrl: 'app/feedback/feedback.html',
-        controller: 'FeedbackController'
     })
 
     .state('trainingDemo', {
         url: '/trainingDemo',
         templateUrl: 'app/training/trainingDemo.html',
         controller: 'TrainingController'
+    })
+
+    .state('training', {
+        url: '/training',
+        templateUrl: 'app/training/training.html',
+        controller: 'TrainingController'
+    })
+
+    .state('feedback', {
+        url: '/feedback',
+        templateUrl: 'app/feedback/feedback.html',
+        controller: 'FeedbackController'
     });
 
     $urlRouterProvider.otherwise('/login');
