@@ -16,6 +16,7 @@ angular.module('kosmoramaApp', ['ionic'])
             // from snapping when text inputs are focused. Ionic handles this internally for
             // a much nicer keyboard experience.
             cordova.plugins.Keyboard.disableScroll(true);
+            navigator.splashscreen.hide();
         }
         if (window.StatusBar) {
             StatusBar.styleDefault();
@@ -53,7 +54,7 @@ angular.module('kosmoramaApp', ['ionic'])
         url: '/help',
         templateUrl: 'app/help/help.html'
     })
-    
+
     .state('mail', {
         url: '/mail',
         templateUrl: 'app/home/mail.html',
@@ -71,13 +72,13 @@ angular.module('kosmoramaApp', ['ionic'])
         templateUrl: 'app/training/trainingDemo.html',
         controller: 'TrainingController'
     })
-    
+
     .state('training', {
         url: '/training',
         templateUrl: 'app/training/training.html',
         controller: 'TrainingController'
     })
-    
+
     .state('feedback', {
         url: '/feedback',
         templateUrl: 'app/feedback/feedback.html',

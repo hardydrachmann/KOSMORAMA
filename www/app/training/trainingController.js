@@ -5,7 +5,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
 
     function getTraining(userId) {
         dataService.getTraining(userId, function(data) {
-            console.log(data);
             if (data.length > 0) {
                 $scope.TrainingItems = data[0].TrainingItems;
             }

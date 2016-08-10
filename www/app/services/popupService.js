@@ -1,4 +1,4 @@
-angular.module('kosmoramaApp').service('popupService', ['$ionicPopup', '$timeout', function($ionicPopup, $timeout) {
+angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $timeout) {
 
   this.popup = function(message, time) {
     var popup = $ionicPopup.show({
@@ -35,4 +35,4 @@ angular.module('kosmoramaApp').service('popupService', ['$ionicPopup', '$timeout
     });
   };
 
-}]);
+});
