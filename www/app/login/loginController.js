@@ -40,14 +40,12 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
           $scope.setTabs();
           $scope.hideLoading();
           $state.go('home');
-        }
-        else {
+        } else {
           $scope.hideLoading();
           popupService.AlertPopup($scope.getText('loginFail'));
         }
       });
-    }
-    else {
+    } else {
       popupService.AlertPopup($scope.getText('loginHelp'));
     }
   };
