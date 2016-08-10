@@ -7,6 +7,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     var key = window.localStorage.getItem('kosmoramaKey');
     if (encryptedId && key) {
       var decryptedId = sjcl.decrypt(key, encryptedId);
+      $scope.userScreenNumber = decryptedId;
       $state.go('home');
     }
   });
