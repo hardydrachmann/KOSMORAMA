@@ -1,4 +1,4 @@
-<div class="backgroundColor">
+<div class="backgroundColor" ng-click='startExcerciseTimer()'>
 
     <div class="row">
         <div class="col">
@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col">
             <div class="video-container" >
-                <iframe src="{{myVid}}" frameborder="0" allowfullscreen ng-click="startExcerciseTimer()"></iframe>
+                <iframe src="{{myVid}}" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
   
     <div class="text-center">
         <h2 id="timer"> {{formatTime(counter)}}</h2>
-        <button ng-click='startExcerciseTimer()'>Start
+        <button ng-click='startExcerciseTimer()'>Start Øvelse
     </div>
     
     
