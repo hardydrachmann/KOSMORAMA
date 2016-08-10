@@ -30,7 +30,13 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
         if (item != undefined) {
             var url = item.ExeciseUrl;
             if (url) {
-                return $sce.trustAsResourceUrl('https://www.youtube.com/embed/xx2cxo8WQoM?rel=0&showinfo=0');
+                if(url.startsWith("https")){
+                    var exerciseUrl = url.substring(26,37)
+                }
+                else if(url.startsWith("http")){
+                    var exerciseUrl = url.substring(25,36)
+                }
+                return $sce.trustAsResourceUrl(exerciseUrl);
                 //return $sce.trustAsResourceUrl(url + '/embed/xx2cxo8WQoM?rel=0&showinfo=0');
             }
         }
