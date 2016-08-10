@@ -1,4 +1,4 @@
-angular.module('kosmoramaApp').controller('LoginController', function($scope, $state, $ionicLoading, $timeout, popupService, dataService) {
+angular.module('kosmoramaApp').controller('LoginController', function($scope, $state, $timeout, popupService, dataService, loadingService) {
 
   $scope.userScreenNumber = '';
 
@@ -19,18 +19,9 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
     }
   };
 
-  $scope.showLoading = function() {
-    $ionicLoading.show({
-      template: '<ion-spinner icon="lines" class="spinner-positive"></ion-spinner>'
-    });
-  };
-  $scope.hideLoading = function() {
-    $ionicLoading.hide();
-  };
-
   $scope.login = function() {
     if ($scope.userScreenNumber) {
-      $scope.showLoading();
+      loadingService.showLoading();
       dataService.getUser($scope.userScreenNumber, function(result) {
         if (result) {
           var key = $scope.getRandomKey();
@@ -39,10 +30,10 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
           window.localStorage.setItem('kosmoramaKey', key);
           $('#setUserScreenNumber').val('');
           $scope.setTabs();
-          $scope.hideLoading();
+          loadingService.hideLoading();
           $state.go('home');
         } else {
-          $scope.hideLoading();
+          loadingService.hideLoading();
           popupService.AlertPopup($scope.getText('loginFail'));
         }
       });
