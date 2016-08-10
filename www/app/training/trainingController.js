@@ -3,13 +3,13 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
 
     $scope.TrainingItems = [];
 
-    function getTraining(userId) {
+    var getTraining = function(userId) {
         dataService.getTraining(userId, function(data) {
             if (data.length > 0) {
                 $scope.TrainingItems = data[0].TrainingItems;
             }
         });
-    }
+    };
     getTraining(79);
 
     $scope.getTrainingName = function(trainingItem) {
