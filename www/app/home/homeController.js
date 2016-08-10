@@ -1,4 +1,4 @@
-angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, dataService) {
+angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, $ionicHistory, dataService) {
     $scope.mails = [];
     $scope.hasMail = false;
 
@@ -8,12 +8,17 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
             $scope.mails.push({
                 title: 'title' + i,
                 message: 'message' + i,
-                timestamp: '2016'
+                timestamp: '2016',
+                isRead: false
             });
         }
         $scope.hasMail = $scope.mails.length > 0;
     };
     getMails();
+
+    $scope.closeMailView = function() {
+        $state.go($ionicHistory.backView().stateName);
+    };
 
     $scope.toggleMailDisplay = function(index) {
         var mail = $('#mail' + index);
@@ -29,5 +34,9 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 
     $scope.logMail = function(index) {
         console.log($scope.mails[index]);
+    };
+
+    $scope.newMail = function() {
+        return '';
     };
 });

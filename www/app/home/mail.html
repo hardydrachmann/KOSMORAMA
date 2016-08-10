@@ -12,16 +12,29 @@
         margin: 1em;
         float: right;
     }
+    
+    .mail-back-button {
+        margin: 2em;
+    }
 </style>
 
-<h1>Back to home + show old messages</h1>
+<div>
+    <button class="mail-back-button" ng-click="closeMailView()">{{getText('back')}}</button>
+</div>
 
 <ion-scroll style="height:69%">
     <div class="list">
         <div class="item" ng-repeat="mail in mails" ng-click="toggleMailDisplay($index)">
-            <h2 class="mail-title">
-                {{mail.title}}
-            </h2>
+            <div>
+                <h2 ng-switch on="mail.isRead" class="mail-title">
+                    <strong ng-switch-when="false">
+                        {{mail.title}}
+                    </strong>
+                    <span ng-switch-when="true">
+                        {{mail.title}}
+                    </span>
+                </h2>
+            </div>
             <h3 class="mail-timestamp">
                 {{mail.timestamp}}
             </h3>

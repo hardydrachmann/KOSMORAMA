@@ -12,6 +12,17 @@
   font-size: 5em;
 }
 
+#numberOfMails {
+  left: 0;
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  font-size: 45px;
+  top: 22px;
+  width: 100%;
+  color: Blue;
+}
+
 .inactive-mail {
   display: none;
 }
