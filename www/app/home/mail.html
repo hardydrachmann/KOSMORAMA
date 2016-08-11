@@ -12,7 +12,7 @@
         margin: 1em;
         float: right;
     }
-    
+
     .mail-back-button {
         margin: 2em;
     }
@@ -26,21 +26,24 @@
     <div class="list">
         <div class="item" ng-repeat="mail in mails" ng-click="toggleMailDisplay($index)">
             <div>
-                <h2 ng-switch on="mail.isRead" class="mail-title">
+                <h2 ng-switch on="mail.IsRead" class="mail-title">
                     <strong ng-switch-when="false">
-                        {{mail.title}}
+                        {{mail.Title}}
                     </strong>
                     <span ng-switch-when="true">
-                        {{mail.title}}
+                        {{mail.Title}}
+                    </span>
+                    <span ng-switch-when="null">
+                        {{mail.Title}}
                     </span>
                 </h2>
             </div>
             <h3 class="mail-timestamp">
-                {{mail.timestamp}}
+                {{mail.Time}}
             </h3>
             <br>
             <div id="{{'mail' + $index}}" class="inactive-mail">
-                <hr> {{mail.message}}
+                <hr> {{mail.Content}}
                 <br>
                 <button class="mail-done" ng-click="logMail($index)">{{getText('mailDone')}}</button>
             </div>
