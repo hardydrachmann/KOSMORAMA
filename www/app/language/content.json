@@ -29,6 +29,11 @@
     "da_DK": "Tid pr gentagelse: ",
     "en_US": "Time pr repetition: "
   },
+  
+  "back": {
+    "da_DK": "Tilbage",
+    "en_US": "Back"
+  },
 
   "loginHelp": {
     "da_DK": "Skriv din kode ind feltet 'Login ID' for at logge dig ind i træningssystemet og starte din træning. Hvis du er i tvivl om hvad din kode er, kan du kontakte din terapeut.",

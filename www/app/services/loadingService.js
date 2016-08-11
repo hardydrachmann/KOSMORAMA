@@ -4,7 +4,7 @@ angular.module('kosmoramaApp').service('loadingService', function($ionicLoading)
 
   this.showLoading = function() {
     $ionicLoading.show({
-      template: '<ion-spinner icon="lines" class="spinner-positive"></ion-spinner>'
+      template: '<ion-spinner icon="dots" class="spinner-positive"></ion-spinner>'
     });
   };
 
