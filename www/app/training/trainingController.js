@@ -4,12 +4,13 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
   $scope.TrainingItems = [];
 
   var getTraining = function(userId) {
-    loadingService.loaderShow();
     dataService.getTraining(userId, function(data) {
       if (data.length > 0) {
         $scope.TrainingItems = data[0].TrainingItems;
       }
       loadingService.loaderHide();
+      $scope.loadPlayer();
+      $scope.timer();
     });
   };
   getTraining(79);
@@ -29,13 +30,14 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
 
   var getVideo = function() {
     var item = $scope.TrainingItems[0];
-    if (item != undefined) {
+    if (item) {
       var url = item.ExeciseUrl;
       if (url) {
         var exerciseUrl;
         if (url.startsWith("https")) {
           exerciseUrl = url.substring(26, 37);
-        } else if (url.startsWith("http")) {
+        }
+        else if (url.startsWith("http")) {
           exerciseUrl = url.substring(25, 36);
         }
         return exerciseUrl;
@@ -53,11 +55,12 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
   // Timer stuff for video playback.
   var player;
 
-  function loadPlayer() {
+  $scope.loadPlayer = function() {
+    console.log('loading player...');
     player = new YT.Player('player', {
       videoId: getVideo()
     });
-  }
+  };
 
   var mytimeout = null;
   var rep = 1;
@@ -69,7 +72,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
   $scope.formatTime = function(time) {
     var min = Math.floor(time / 60);
     var sec = time - min * 60;
-    return min + " minutes " + sec + " seconds";
+    return min + " minutes " + sec + " seconds"
   };
 
   $scope.timer = function() {
@@ -86,7 +89,8 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
       if (rep > 0)
         if (!pause) {
           $scope.startExcerciseTimer();
-        } else {
+        }
+        else {
           $scope.startPauseTimer();
         }
       else
@@ -97,10 +101,16 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     mytimeout = $timeout($scope.onTimeout, 1000);
   };
 
+  var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
+  var urn = '/picture/picture.png';
+  $scope.getPicture = function(exerciseId) {
+    return url + exerciseId + urn;
+  };
+
   $scope.startExcerciseTimer = function() {
     console.log('click');
-    player.loadPlaylist(getVideo());
-    player.setLoop(true);
+    // player.loadPlaylist(getVideo());
+    // player.setLoop(true);
     $scope.counter = timerep;
     player.playVideo();
     pause = true;
@@ -114,5 +124,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     pause = false;
     mytimeout = $timeout($scope.onTimeout);
   };
+
 
 });

@@ -1,4 +1,4 @@
-angular.module('kosmoramaApp').controller('TabsController', function($scope, $state, $timeout, $ionicHistory) {
+angular.module('kosmoramaApp').controller('TabsController', function($scope, $rootScope, $state, $timeout, $ionicHistory) {
 
     $scope.showHelpTab = true;
     $scope.showLangTab = true;
@@ -65,6 +65,7 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $st
     };
 
     $scope.continue = function() {
+        $rootScope.$broadcast('continueEvent');
         var state = $ionicHistory.currentView().stateName;
         switch (state) {
             case 'trainingPlan':
