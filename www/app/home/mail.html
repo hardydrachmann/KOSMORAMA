@@ -24,22 +24,19 @@
 
 <ion-scroll style="height:69%">
     <div class="list">
-        <div class="item" ng-repeat="mail in mails" ng-click="toggleMailDisplay($index)">
+        <div class="item" ng-repeat="mail in mails | orderBy:Time:true" ng-click="toggleMailDisplay($index)">
             <div>
                 <h2 ng-switch on="mail.IsRead" class="mail-title">
                     <strong ng-switch-when="false">
                         {{mail.Title}}
                     </strong>
-                    <span ng-switch-when="true">
-                        {{mail.Title}}
-                    </span>
-                    <span ng-switch-when="null">
+                    <span ng-switch-default>
                         {{mail.Title}}
                     </span>
                 </h2>
             </div>
             <h3 class="mail-timestamp">
-                {{mail.Time}}
+                {{mail.Time | date}}
             </h3>
             <br>
             <div id="{{'mail' + $index}}" class="inactive-mail">
