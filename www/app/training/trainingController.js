@@ -1,19 +1,29 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $sce, $timeout, dataService, loadingService) {
+app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, dataService, loadingService) {
 
   $scope.TrainingItems = [];
 
+  $(document).ready(function() {
+    console.log('document is ready');
+    getTraining(79);
+    $scope.destroyPlayer();
+    $scope.loadPlayer();
+  });
+
   var getTraining = function(userId) {
+    loadingService.loaderShow();
     dataService.getTraining(userId, function(data) {
       if (data.length > 0) {
         $scope.TrainingItems = data[0].TrainingItems;
       }
-      loadingService.loaderHide();
-      $scope.loadPlayer();
       $scope.timer();
+      loadingService.loaderHide();
     });
   };
-  getTraining(79);
+
+  $rootScope.$on('continueEvent', function() {
+    console.log('event is called');
+  });
 
   $scope.getTrainingName = function(trainingItem) {
     // Returns the appropriate language name for the selected item.
@@ -36,8 +46,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
         var exerciseUrl;
         if (url.startsWith("https")) {
           exerciseUrl = url.substring(26, 37);
-        }
-        else if (url.startsWith("http")) {
+        } else if (url.startsWith("http")) {
           exerciseUrl = url.substring(25, 36);
         }
         return exerciseUrl;
@@ -62,6 +71,14 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     });
   };
 
+  $scope.destroyPlayer = function() {
+    console.log('preparing to destroy player');
+    if (player) {
+      player.destroy();
+      console.log('player destroyed');
+    }
+  };
+
   var mytimeout = null;
   var rep = 1;
   var timerep;
@@ -72,7 +89,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
   $scope.formatTime = function(time) {
     var min = Math.floor(time / 60);
     var sec = time - min * 60;
-    return min + " minutes " + sec + " seconds"
+    return min + " minutes " + sec + " seconds";
   };
 
   $scope.timer = function() {
@@ -89,8 +106,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
       if (rep > 0)
         if (!pause) {
           $scope.startExcerciseTimer();
-        }
-        else {
+        } else {
           $scope.startPauseTimer();
         }
       else
@@ -99,12 +115,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     }
     $scope.counter--;
     mytimeout = $timeout($scope.onTimeout, 1000);
-  };
-
-  var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
-  var urn = '/picture/picture.png';
-  $scope.getPicture = function(exerciseId) {
-    return url + exerciseId + urn;
   };
 
   $scope.startExcerciseTimer = function() {
@@ -124,6 +134,4 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     pause = false;
     mytimeout = $timeout($scope.onTimeout);
   };
-
-
 });

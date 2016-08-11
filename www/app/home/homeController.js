@@ -14,7 +14,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
       loadingService.loaderHide();
     });
   };
-   getMails();
+  getMails();
 
   $scope.closeMailView = function() {
     $state.go($ionicHistory.backView().stateName);
