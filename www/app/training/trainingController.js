@@ -8,7 +8,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
           if (data.length > 0) {
             $scope.TrainingItems = data[0].TrainingItems;
           }
-          loadPlayer();
+          $scope.loadPlayer();
           $scope.timer();
         });
       };
@@ -54,7 +54,8 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
       // Timer stuff for video playback.
       var player;
 
-      function loadPlayer() {
+      $scope.loadPlayer = function () {
+        console.log('loading player...');
         player = new YT.Player('player', {
             videoId: getVideo()
           })
@@ -101,8 +102,8 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
 
         $scope.startExcerciseTimer = function() {
           console.log('click');
-          player.loadPlaylist(getVideo());
-          player.setLoop(true);
+          // player.loadPlaylist(getVideo());
+          // player.setLoop(true);
           $scope.counter = timerep;
           player.playVideo();
           pause = true;
