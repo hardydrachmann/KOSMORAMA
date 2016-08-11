@@ -9,7 +9,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
         $scope.TrainingItems = data[0].TrainingItems;
       }
       loadingService.loaderHide();
-      // $scope.loadPlayer();
+      $scope.loadPlayer();
       $scope.timer();
     });
   };
