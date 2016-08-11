@@ -4,13 +4,14 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
   $scope.TrainingItems = [];
 
   var getTraining = function(userId) {
+    loadingService.loaderShow();
     dataService.getTraining(userId, function(data) {
       if (data.length > 0) {
         $scope.TrainingItems = data[0].TrainingItems;
       }
-      loadingService.loaderHide();
       $scope.loadPlayer();
       $scope.timer();
+      loadingService.loaderHide();
     });
   };
   getTraining(79);
@@ -36,8 +37,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
         var exerciseUrl;
         if (url.startsWith("https")) {
           exerciseUrl = url.substring(26, 37);
-        }
-        else if (url.startsWith("http")) {
+        } else if (url.startsWith("http")) {
           exerciseUrl = url.substring(25, 36);
         }
         return exerciseUrl;
@@ -72,7 +72,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
   $scope.formatTime = function(time) {
     var min = Math.floor(time / 60);
     var sec = time - min * 60;
-    return min + " minutes " + sec + " seconds"
+    return min + " minutes " + sec + " seconds";
   };
 
   $scope.timer = function() {
@@ -89,8 +89,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
       if (rep > 0)
         if (!pause) {
           $scope.startExcerciseTimer();
-        }
-        else {
+        } else {
           $scope.startPauseTimer();
         }
       else
