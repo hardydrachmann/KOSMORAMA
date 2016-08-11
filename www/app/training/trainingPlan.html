@@ -8,8 +8,9 @@
         <div class="list">
             <div class="col-5"></div>
             <div class="item item-thumbnail-left col-90 tpDivBackground" ng-repeat="item in TrainingItems">
-                <img src="{{getPicture(item.ExerciseId)}}" class="thumbImg">
-                <h2 class="text-white"><textarea class="trainingName">{{getTrainingName(item)}}</textarea></h2>
+                <img src="{{getPicture(item.ExerciseId)}}">
+                <p id="trainingName">{{getTrainingName(item)}}</p>
+                <hr/>
                 <h3 class="text-white">{{getText('trainingPlanRepetitions')}}{{item.Repetitions}}</h3>
                 <h3 class="text-white">{{getText('trainingPlanDuration')}}{{item.TimeSet*60}}</h3>
             </div>

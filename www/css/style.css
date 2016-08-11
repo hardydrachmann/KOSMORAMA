@@ -121,13 +121,15 @@
   margin-bottom: 6vh;
 }
 
-.trainingName {
+#trainingName {
   font-size: 15px;
   font-style: italic;
   font-weight: bold;
+  max-width: auto;
+  max-height: auto;
   color: white;
-  background: inherit;
-  resize: none;
+  white-space: normal;
+
 }
 
 .btn-bottom {

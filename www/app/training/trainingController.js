@@ -20,14 +20,14 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     $scope.trainingDescription = function() {
         // Returns the appropriate language description for the next exercise.
         var item = $scope.TrainingItems[0];
-        if (item != undefined) {
+        if (item !== undefined) {
             return item.LangDesc[$scope.lang];
         }
     };
 
     $scope.getVideo = function() {
         var item = $scope.TrainingItems[0];
-        if (item != undefined) {
+        if (item !== undefined) {
             var url = item.ExeciseUrl;
             if (url) {
                 return $sce.trustAsResourceUrl('https://www.youtube.com/embed/xx2cxo8WQoM?rel=0&showinfo=0');
@@ -39,6 +39,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
     var urn = '/picture/picture.png';
     $scope.getPicture = function(exerciseId) {
+      console.log(url + exerciseId + urn);
         return url + exerciseId + urn;
     };
 
@@ -53,7 +54,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     $scope.formatTime = function(time) {
         var min = Math.floor(time / 60);
         var sec = time - min * 60;
-        return min + " minutes " + sec + " seconds"
+        return min + " minutes " + sec + " seconds";
     };
 
     $scope.timer = function() {

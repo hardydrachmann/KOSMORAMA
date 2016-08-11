@@ -1,39 +1,47 @@
 angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, dataService) {
-    $scope.mails = [];
-    $scope.hasMail = false;
+  $scope.mails = [];
+  $scope.hasMail = false;
 
-    var getMails = function() {
+  var getMails = function() {
 
-      console.log('userId', $scope.userScreenNumber);
-        // Produce mock data.
-        for (var i = 0; i < 10; i++) {
-            $scope.mails.push({
-                title: 'title' + i,
-                message: 'message' + i,
-                timestamp: '2016'
-            });
-        }
-        $scope.hasMail = $scope.mails.length > 0;
-    };
-    getMails();
+    console.log('userId', $scope.userScreenNumber);
 
-    $scope.toggleMailDisplay = function(index) {
-        var mail = $('#mail' + index);
-        if (mail.hasClass('inactive-mail')) {
-            mail.removeClass('inactive-mail');
-            mail.addClass('active-mail');
-        }
-        else {
-            mail.removeClass('active-mail');
-            mail.addClass('inactive-mail');
-        }
-    };
+    dataService.getUser($scope.userScreenNumber, function(result) {
+      console.log('user1: ', $scope.userScreenNumber);
+      console.log('user2: ', result);
+      $scope.mails = result.UserMessages;
+      console.log('mails: ', result.UserMessages);
+      $scope.hasMail = $scope.newMail($scope.mails) > 0;
+    });
+  };
+  getMails();
 
-    $scope.logMail = function(index) {
-        console.log($scope.mails[index]);
-    };
+  $scope.toggleMailDisplay = function(index) {
+    var mail = $('#mail' + index);
+    if (mail.hasClass('inactive-mail')) {
+      mail.removeClass('inactive-mail');
+      mail.addClass('active-mail');
+    } else {
+      mail.removeClass('active-mail');
+      mail.addClass('inactive-mail');
+    }
+  };
 
-    $scope.newMail = function(){
-      return '1';
-    };
+  $scope.logMail = function(index) {
+    console.log($scope.mails[index]);
+  };
+
+  $scope.newMail = function(mails) {
+    var count = 0;
+    console.log('mails: ', mails);
+    console.log('mailsene: ', mails.length);
+    for (var i = 0; i < mails.length; i++) {
+      if (mails[i].IsRead === false) {
+        count++;
+      }
+    }
+    console.log('newMail: ', count);
+    $scope.newMailCount = count;
+    return count;
+  };
 });
