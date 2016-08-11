@@ -1,4 +1,3 @@
-
 angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, $ionicHistory, dataService, loadingService) {
 
   $scope.mails = [];
