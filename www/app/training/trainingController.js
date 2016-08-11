@@ -101,6 +101,12 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     mytimeout = $timeout($scope.onTimeout, 1000);
   };
 
+  var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
+  var urn = '/picture/picture.png';
+  $scope.getPicture = function(exerciseId) {
+    return url + exerciseId + urn;
+  };
+
   $scope.startExcerciseTimer = function() {
     console.log('click');
     // player.loadPlaylist(getVideo());
@@ -118,5 +124,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     pause = false;
     mytimeout = $timeout($scope.onTimeout);
   };
+
 
 });

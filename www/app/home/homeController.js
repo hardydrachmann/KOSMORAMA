@@ -5,15 +5,15 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
   $scope.hasMail = false;
 
   var getMails = function() {
-    loadingService.loaderShow();
-    dataService.getUser($scope.userScreenNumber, function(result) {
-      console.log('user1: ', $scope.userScreenNumber);
-      console.log('user2: ', result);
-      $scope.mails = result.UserMessages;
-      console.log('mails: ', result.UserMessages);
-      $scope.hasMail = $scope.newMail($scope.mails) > 0;
-      loadingService.loaderHide();
-    });
+    // loadingService.loaderShow();
+    // dataService.getUser($scope.userScreenNumber, function(result) {
+    //   console.log('user1: ', $scope.userScreenNumber);
+    //   console.log('user2: ', result);
+    //   $scope.mails = result.UserMessages;
+    //   console.log('mails: ', result.UserMessages);
+    //   $scope.hasMail = $scope.newMail($scope.mails) > 0;
+    //   loadingService.loaderHide();
+    // });
   };
   // getMails();
 
