@@ -3,7 +3,12 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
 
   $scope.TrainingItems = [];
 
+$(document).ready(function() {
+    getTraining(79);
+  });
+  
   var getTraining = function(userId) {
+    loadingService.loaderShow();
     dataService.getTraining(userId, function(data) {
       if (data.length > 0) {
         $scope.TrainingItems = data[0].TrainingItems;
@@ -13,7 +18,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
       $scope.timer();
     });
   };
-  getTraining(79);
+  
 
   $scope.getTrainingName = function(trainingItem) {
     // Returns the appropriate language name for the selected item.
@@ -56,11 +61,18 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
   var player;
 
   $scope.loadPlayer = function() {
+    if (player) {
+      player.destroy();
+    }
     console.log('loading player...');
     player = new YT.Player('player', {
       videoId: getVideo()
     });
   };
+  
+  $scope.destroyPlayer = function() {
+    player.destroy();
+  }
 
   var mytimeout = null;
   var rep = 1;
@@ -99,12 +111,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     }
     $scope.counter--;
     mytimeout = $timeout($scope.onTimeout, 1000);
-  };
-
-  var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
-  var urn = '/picture/picture.png';
-  $scope.getPicture = function(exerciseId) {
-    return url + exerciseId + urn;
   };
 
   $scope.startExcerciseTimer = function() {

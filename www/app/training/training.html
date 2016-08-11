@@ -1,5 +1,5 @@
 <div class="backgroundColor">
-<!--{{loadPlayer()}}-->
+
     <div class="row">
         <div class="col">
             <h2 id="trainingPlanHeader">{{getText('trainingDemoTitle')}}</h2>
@@ -18,6 +18,8 @@
     <div class="text-center">
         <h2 id="timer"> {{formatTime(counter)}}</h2>
         <button ng-click='startExcerciseTimer()'>Start Øvelse</button>
+        <button ng-click='loadPlayer()'>Load Player</button>
+        <button ng-click='destroyPlayer()'>Destroy Player</button>
     </div>
     
     
