@@ -27,12 +27,18 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     }
   };
 
-  $scope.getVideo = function() {
+  var getVideo = function() {
     var item = $scope.TrainingItems[0];
     if (item != undefined) {
       var url = item.ExeciseUrl;
       if (url) {
-        return $sce.trustAsResourceUrl('https://www.youtube.com/embed/xx2cxo8WQoM?rel=0&showinfo=0');
+        var exerciseUrl;
+        if (url.startsWith("https")) {
+          exerciseUrl = url.substring(26, 37);
+        } else if (url.startsWith("http")) {
+          exerciseUrl = url.substring(25, 36);
+        }
+        return exerciseUrl;
         //return $sce.trustAsResourceUrl(url + '/embed/xx2cxo8WQoM?rel=0&showinfo=0');
       }
     }
@@ -45,8 +51,16 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
   };
 
   // Timer stuff for video playback.
+  var player;
+
+  function loadPlayer() {
+    player = new YT.Player('player', {
+      videoId: getVideo()
+    });
+  }
+
   var mytimeout = null;
-  var rep;
+  var rep = 1;
   var timerep;
   var timepause;
   var pause = false;
@@ -55,16 +69,15 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
   $scope.formatTime = function(time) {
     var min = Math.floor(time / 60);
     var sec = time - min * 60;
-    return min + " minutes " + sec + " seconds"
+    return min + " minutes " + sec + " seconds";
   };
 
   $scope.timer = function() {
     rep = $scope.TrainingItems[0].Repetitions;
     timerep = $scope.TrainingItems[0].TimeSet * 60;
     timepause = $scope.TrainingItems[0].Pause * 60;
-    console.log("Repetitions: " + rep);
-    console.log("Time pr rep: " + timerep);
     $scope.counter = timerep;
+
   };
 
   $scope.onTimeout = function() {
@@ -76,6 +89,8 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
         } else {
           $scope.startPauseTimer();
         }
+      else
+        player.stopVideo();
       return;
     }
     $scope.counter--;
@@ -83,15 +98,21 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
   };
 
   $scope.startExcerciseTimer = function() {
-    $scope.counter = timerep + 1;
+    console.log('click');
+    player.loadPlaylist(getVideo());
+    player.setLoop(true);
+    $scope.counter = timerep;
+    player.playVideo();
     pause = true;
     rep--;
     mytimeout = $timeout($scope.onTimeout);
   };
 
   $scope.startPauseTimer = function() {
-    $scope.counter = timepause + 1;
+    $scope.counter = timepause;
+    player.pauseVideo();
     pause = false;
     mytimeout = $timeout($scope.onTimeout);
   };
+
 });
