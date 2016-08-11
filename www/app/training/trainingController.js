@@ -1,7 +1,14 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $sce, $timeout, dataService, loadingService) {
+app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, dataService, loadingService) {
 
   $scope.TrainingItems = [];
+
+  $(document).ready(function() {
+    console.log('document is ready');
+    getTraining(79);
+    $scope.destroyPlayer();
+    $scope.loadPlayer();
+  });
 
   var getTraining = function(userId) {
     loadingService.loaderShow();
@@ -9,12 +16,14 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
       if (data.length > 0) {
         $scope.TrainingItems = data[0].TrainingItems;
       }
-      $scope.loadPlayer();
       $scope.timer();
       loadingService.loaderHide();
     });
   };
-  getTraining(79);
+
+  $rootScope.$on('continueEvent', function() {
+    console.log('event is called');
+  });
 
   $scope.getTrainingName = function(trainingItem) {
     // Returns the appropriate language name for the selected item.
@@ -62,6 +71,14 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     });
   };
 
+  $scope.destroyPlayer = function() {
+    console.log('preparing to destroy player');
+    if (player) {
+      player.destroy();
+      console.log('player destroyed');
+    }
+  };
+
   var mytimeout = null;
   var rep = 1;
   var timerep;
@@ -100,12 +117,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     mytimeout = $timeout($scope.onTimeout, 1000);
   };
 
-  var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
-  var urn = '/picture/picture.png';
-  $scope.getPicture = function(exerciseId) {
-    return url + exerciseId + urn;
-  };
-
   $scope.startExcerciseTimer = function() {
     console.log('click');
     // player.loadPlaylist(getVideo());
@@ -123,6 +134,4 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     pause = false;
     mytimeout = $timeout($scope.onTimeout);
   };
-
-
 });
