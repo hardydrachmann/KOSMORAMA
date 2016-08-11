@@ -30,10 +30,11 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
           window.localStorage.setItem('kosmoramaKey', key);
           $('#setUserScreenNumber').val('');
           $scope.setTabs();
-          loadingService.hideLoading();
+          delayLoadingHide();
           $state.go('home');
         } else {
-          loadingService.hideLoading();
+          delayLoadingHide();
+          $('#setUserScreenNumber').val('');
           popupService.AlertPopup($scope.getText('loginFail'));
         }
       });
@@ -50,6 +51,12 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
       $state.go('login');
       $scope.setTabs();
     });
+  };
+
+  var delayLoadingHide = function() {
+    $timeout(function() {
+      loadingService.hideLoading();
+    }, 1000);
   };
 
   var minASCII = 33;

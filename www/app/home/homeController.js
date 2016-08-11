@@ -16,16 +16,21 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
   };
   getMails();
 
-  $scope.toggleMailDisplay = function(index) {
-    var mail = $('#mail' + index);
-    if (mail.hasClass('inactive-mail')) {
-      mail.removeClass('inactive-mail');
-      mail.addClass('active-mail');
-    } else {
-      mail.removeClass('active-mail');
-      mail.addClass('inactive-mail');
-    }
-  };
+    $scope.closeMailView = function() {
+        $state.go($ionicHistory.backView().stateName);
+    };
+
+    $scope.toggleMailDisplay = function(index) {
+        var mail = $('#mail' + index);
+        if (mail.hasClass('inactive-mail')) {
+            mail.removeClass('inactive-mail');
+            mail.addClass('active-mail');
+        }
+        else {
+            mail.removeClass('active-mail');
+            mail.addClass('inactive-mail');
+        }
+    };
 
   $scope.logMail = function(index) {
     console.log($scope.mails[index]);
@@ -44,4 +49,5 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
     $scope.newMailCount = count;
     return count;
   };
+
 });
