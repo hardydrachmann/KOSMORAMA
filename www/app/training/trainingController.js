@@ -124,6 +124,4 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, da
     pause = false;
     mytimeout = $timeout($scope.onTimeout);
   };
-
-
 });
