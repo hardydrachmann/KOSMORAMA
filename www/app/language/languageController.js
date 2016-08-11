@@ -6,6 +6,7 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
   $(document).ready(function() {
     var lang = window.localStorage.getItem('kosmoramaLang');
     if (!lang) {
+      $scope.lang = 'da_DK'
       $state.go('language');
     } else {
       $scope.lang = lang;
