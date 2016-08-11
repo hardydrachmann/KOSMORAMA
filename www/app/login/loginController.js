@@ -21,7 +21,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
 
   $scope.login = function() {
     if ($scope.userScreenNumber) {
-      loadingService.showLoading();
+      loadingService.loaderShow();
       dataService.getUser($scope.userScreenNumber, function(result) {
         if (result) {
           var key = $scope.getRandomKey();
@@ -30,10 +30,10 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
           window.localStorage.setItem('kosmoramaKey', key);
           $('#setUserScreenNumber').val('');
           $scope.setTabs();
-          delayLoadingHide();
+          loadingService.loaderHide(1000);
           $state.go('home');
         } else {
-          delayLoadingHide();
+          loadingService.loaderHide(1000);
           $('#setUserScreenNumber').val('');
           popupService.AlertPopup($scope.getText('loginFail'));
         }
@@ -51,12 +51,6 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
       $state.go('login');
       $scope.setTabs();
     });
-  };
-
-  var delayLoadingHide = function() {
-    $timeout(function() {
-      loadingService.hideLoading();
-    }, 1000);
   };
 
   var minASCII = 33;
