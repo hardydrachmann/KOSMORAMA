@@ -1,12 +1,15 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $sce, $timeout, dataService, loadingService) {
+app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, dataService, loadingService) {
 
   $scope.TrainingItems = [];
 
-$(document).ready(function() {
+  $(document).ready(function() {
+    console.log('document is ready');
     getTraining(79);
+    $scope.destroyPlayer();
+    $scope.loadPlayer();
   });
-  
+
   var getTraining = function(userId) {
     loadingService.loaderShow();
     dataService.getTraining(userId, function(data) {
@@ -14,11 +17,17 @@ $(document).ready(function() {
         $scope.TrainingItems = data[0].TrainingItems;
       }
       loadingService.loaderHide();
-      $scope.loadPlayer();
+
       $scope.timer();
     });
   };
-  
+
+  $rootScope.$on('continueEvent', function() {
+    console.log('event is called');
+
+    
+  });
+
 
   $scope.getTrainingName = function(trainingItem) {
     // Returns the appropriate language name for the selected item.
@@ -61,17 +70,18 @@ $(document).ready(function() {
   var player;
 
   $scope.loadPlayer = function() {
-    if (player) {
-      player.destroy();
-    }
     console.log('loading player...');
     player = new YT.Player('player', {
       videoId: getVideo()
     });
   };
-  
+
   $scope.destroyPlayer = function() {
-    player.destroy();
+    console.log('preparing to destroy player');
+    if (player) {
+      player.destroy();
+      console.log('player destroyed');
+    }
   }
 
   var mytimeout = null;
