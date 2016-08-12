@@ -2,32 +2,29 @@ var app = angular.module('kosmoramaApp');
 app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, dataService, loadingService) {
 
   $scope.TrainingItems = [];
+  $scope.rep;
+  $scope.counter = null;
+  var player;
+  var mytimeout = null;
+  var pause = false;
 
   $(document).ready(function() {
-    console.log('document is ready');
-    getTraining(79);
-    $scope.destroyPlayer();
-    $scope.loadPlayer();
+    getTraining(79, function() {
+      getYouTubePlayer();
+      getTrainingSetInfo();
+    });
   });
 
-  var getTraining = function(userId) {
+  var getTraining = function(userId, callback) {
     loadingService.loaderShow();
     dataService.getTraining(userId, function(data) {
       if (data.length > 0) {
         $scope.TrainingItems = data[0].TrainingItems;
       }
       loadingService.loaderHide();
-
-      $scope.timer();
+      callback();
     });
   };
-
-  $rootScope.$on('continueEvent', function() {
-    console.log('event is called');
-
-    
-  });
-
 
   $scope.getTrainingName = function(trainingItem) {
     // Returns the appropriate language name for the selected item.
@@ -43,6 +40,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
   };
 
   var getVideo = function() {
+    // Returns the videoId from the current exerciseUrl.
     var item = $scope.TrainingItems[0];
     if (item) {
       var url = item.ExeciseUrl;
@@ -55,7 +53,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
           exerciseUrl = url.substring(25, 36);
         }
         return exerciseUrl;
-        //return $sce.trustAsResourceUrl(url + '/embed/xx2cxo8WQoM?rel=0&showinfo=0');
       }
     }
   };
@@ -66,55 +63,52 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     return url + exerciseId + urn;
   };
 
-  // Timer stuff for video playback.
-  var player;
-
-  $scope.loadPlayer = function() {
-    console.log('loading player...');
+  var loadPlayer = function() {
+    // Instatiates the YouTube Player.
     player = new YT.Player('player', {
-      videoId: getVideo()
+      videoId: getVideo(),
+      events: {
+        'onReady': onPlayerReady
+      }
     });
   };
-
-  $scope.destroyPlayer = function() {
-    console.log('preparing to destroy player');
-    if (player) {
-      player.destroy();
-      console.log('player destroyed');
-    }
+  
+  var getYouTubePlayer = function() {
+    // Destroy the YouTube Player for the previous view, and loads the new one.
+    loadPlayer();
+    player.destroy();
+    loadPlayer();
   }
 
-  var mytimeout = null;
-  var rep = 1;
-  var timerep;
-  var timepause;
-  var pause = false;
-  $scope.counter = null;
+  var onPlayerReady = function(event) {
+    // Handles logic when the 'onReady' event is triggered.
+    event.target.loadPlaylist(getVideo());
+    event.target.setLoop(true);
+    startExcerciseTimer();
+  }
 
   $scope.formatTime = function(time) {
+    // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
     var min = Math.floor(time / 60);
     var sec = time - min * 60;
-    return min + " minutes " + sec + " seconds"
+    return min + " " + $scope.getText('minutes') + " " + + sec + " " + $scope.getText('seconds');
   };
 
-  $scope.timer = function() {
-    rep = $scope.TrainingItems[0].Repetitions;
-    timerep = $scope.TrainingItems[0].TimeSet * 60;
-    timepause = $scope.TrainingItems[0].Pause * 60;
-    $scope.counter = timerep;
-
+  var getTrainingSetInfo = function() {
+    // Gets the number of repetitions, duration for repetitions and pauses for the current excercise, and sets the initial value for the timer.
+    $scope.rep = $scope.TrainingItems[0].Repetitions;
+    $scope.counter = $scope.TrainingItems[0].TimeSet * 60;
   };
 
   $scope.onTimeout = function() {
+    // Handles what happens next, everytime the timer times out.
     if ($scope.counter === 0) {
       $timeout.cancel(mytimeout);
-      if (rep > 0)
-        if (!pause) {
-          $scope.startExcerciseTimer();
-        }
-        else {
-          $scope.startPauseTimer();
-        }
+      if ($scope.rep > 0)
+        if (!pause) 
+          startExcerciseTimer();
+        else 
+         startPauseTimer();
       else
         player.stopVideo();
       return;
@@ -123,23 +117,20 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     mytimeout = $timeout($scope.onTimeout, 1000);
   };
 
-  $scope.startExcerciseTimer = function() {
-    console.log('click');
-    // player.loadPlaylist(getVideo());
-    // player.setLoop(true);
-    $scope.counter = timerep;
+  var startExcerciseTimer = function() {
+    // Starts the timer and handles relevant logic.
+    $scope.counter = $scope.TrainingItems[0].TimeSet * 60;
     player.playVideo();
     pause = true;
-    rep--;
+    $scope.rep--;
     mytimeout = $timeout($scope.onTimeout);
   };
 
-  $scope.startPauseTimer = function() {
-    $scope.counter = timepause;
+  var startPauseTimer = function() {
+    // Pauses the timer and handles relevant logic.
+    $scope.counter = $scope.TrainingItems[0].Pause * 60;
     player.pauseVideo();
     pause = false;
     mytimeout = $timeout($scope.onTimeout);
   };
-
-
 });

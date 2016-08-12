@@ -93,5 +93,15 @@
   "headerTitle": {
     "da_DK": "Virtuel træning",
     "en_US": "Virtual training"
+  },
+  
+  "minutes": {
+    "da_DK": "minutter",
+    "en_US": "minutes"
+  },
+  
+  "seconds": {
+    "da_DK": "sekunder",
+    "en_US": "seconds"
   }
 }
