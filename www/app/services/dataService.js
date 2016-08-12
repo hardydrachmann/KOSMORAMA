@@ -91,7 +91,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }).success(function(trainingData) {
-      console.log('callbackData', trainingData);
       callback(trainingData);
     }).error(function(trainingData, status, headers, config) {
       console.log('testfail', trainingData, status, headers, config);
@@ -119,7 +118,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }).success(function(result) {
-      console.log('callbackData', result);
       callback(result);
     }).error(function(result, status, headers, config) {
       console.log('testfail', result, status, headers, config);

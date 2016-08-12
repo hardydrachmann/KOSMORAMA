@@ -11,12 +11,12 @@
   font-size: 5em;
 }
 #numberOfMails {
-  left: 0;
   position: absolute;
+  top: 22px;
+  left: 0;
   text-align: center;
   font-weight: bold;
   font-size: 45px;
-  top: 22px;
   width: 100%;
   color: Blue;
 }

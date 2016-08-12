@@ -4,6 +4,11 @@
     "en_US": "Welcome"
   },
 
+  "mailError": {
+    "da_DK": "Det er på nuværende tidspunkt ikke tilgå mail-systemet. Prøv igen senere.",
+    "en_US": "It is currently not possible to access the mail-system. Try again later."
+  },
+
   "trainingPlan": {
     "da_DK": "Dagens træning",
     "en_US": "Today's training"
@@ -107,5 +112,15 @@
   "notesHelp": {
     "da_DK": "Du kan skrive til din terapeut, ved at indtaste en besked i det hvide tekstfelt, og herefter trykke på 'Fortsæt' knappen.",
     "en_US": "You can contact your therapist by entering a message in the white textarea, followed by a press on the 'Continue' button."
+  },
+
+  "minutes": {
+    "da_DK": "minutter",
+    "en_US": "minutes"
+  },
+
+  "seconds": {
+    "da_DK": "sekunder",
+    "en_US": "seconds"
   }
 }
