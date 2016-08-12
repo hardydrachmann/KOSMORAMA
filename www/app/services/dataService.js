@@ -98,4 +98,32 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
       callback('error');
     });
   };
+
+  //This function saves the note as read
+  // returns true if success and false when an error has occured.
+  this.postNoteData = function(noteId, callback) {
+    var content = {
+      id: '3',
+      method: 'PostNoteAsRead',
+      params: noteId
+    };
+
+    var dataString = JSON.stringify(content); //Converting javascript to Json
+
+    // Doing the http post request and returns an array of trainig objects.
+    $http({
+      method: 'POST',
+      url: url,
+      data: dataString,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).success(function(result) {
+      console.log('callbackData', result);
+      callback(result);
+    }).error(function(result, status, headers, config) {
+      console.log('testfail', result, status, headers, config);
+      callback(result);
+    });
+  };
 });

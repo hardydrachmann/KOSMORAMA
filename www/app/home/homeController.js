@@ -3,6 +3,9 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
   $scope.mails = [];
   $scope.hasMail = false;
 
+  $scope.dateLatestMsg = new Date();
+  $scope.dateNow = new Date();
+
   var getMails = function() {
     loadingService.loaderShow();
     dataService.getUser($scope.userScreenNumber, function(result) {
@@ -12,9 +15,11 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
       console.log('mails: ', result.UserMessages);
       $scope.hasMail = $scope.newMail($scope.mails) > 0;
       loadingService.loaderHide();
+      $scope.dateLatestMsg = new Date(result.UserMessages[result.UserMessages.length -1].Time);
+      compareMsgDate();
     });
   };
-   getMails();
+  getMails();
 
   $scope.closeMailView = function() {
     $state.go($ionicHistory.backView().stateName);
@@ -22,10 +27,10 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 
   $scope.toggleMailDisplay = function(index) {
     var mail = $('#mail' + index);
-    if (mail.hasClass('inactive-mail')) {
+      if (mail.hasClass('inactive-mail')) {
       mail.removeClass('inactive-mail');
       mail.addClass('active-mail');
-    } else {
+      } else {
       mail.removeClass('active-mail');
       mail.addClass('inactive-mail');
     }
@@ -48,5 +53,22 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
     $scope.newMailCount = count;
     return count;
   };
+
+
+// still needs fixing this function checks dates
+  var compareMsgDate = function(){
+    // var d = new Date();
+    //d.setDate(d.getDate()-5);
+    var checkDate = $scope.dateNow;
+    checkDate.setDate(checkDate.getDate()-7);
+    if($scope.dateLatestMsg <  checkDate){
+      console.log('true', checkDate);
+      return true;
+    }else{
+    console.log('false', checkDate);
+    return false;
+  }
+  };
+
 
 });
