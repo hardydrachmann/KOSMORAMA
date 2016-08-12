@@ -14,7 +14,6 @@
     "en_US": "How to perform the exercise:"
   },
 
-
   "trainingDemoDescription": {
     "da_DK": "Beskrivelse for øvelse",
     "en_US": "Description for exercise"
@@ -29,7 +28,7 @@
     "da_DK": "Tid pr gentagelse: ",
     "en_US": "Time pr repetition: "
   },
-  
+
   "back": {
     "da_DK": "Tilbage",
     "en_US": "Back"
@@ -74,7 +73,7 @@
     "da_DK": "Læst",
     "en_US": "Done"
   },
-  
+
   "homeHelp": {
     "da_DK": "Tryk på logoet på skærmen for at fortsætte til oversigt over dagens træning. Du kan ikke vende tilbage fra træningen, når den er påbegyndt.",
     "en_US": "Tap the logo on the screen to continue to your daily training overview. You will not be able to return to this point when the training has started."
@@ -93,5 +92,20 @@
   "headerTitle": {
     "da_DK": "Virtuel træning",
     "en_US": "Virtual training"
+  },
+
+  "notesTitle": {
+    "da_DK": "Skriv din besked her...\n\nTryk på 'Fortsæt' knappen når du er færdig.",
+    "en_US": "Write your message here...\n\nPress the 'Continue' button when done."
+  },
+
+  "remainingChars": {
+    "da_DK": "Resterende tegn: ",
+    "en_US": "Remaining characters: "
+  },
+
+  "notesHelp": {
+    "da_DK": "Du kan skrive til din terapeut, ved at indtaste en besked i det hvide tekstfelt, og herefter trykke på 'Fortsæt' knappen.",
+    "en_US": "You can contact your therapist by entering a message in the white textarea, followed by a press on the 'Continue' button."
   }
 }

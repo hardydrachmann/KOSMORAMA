@@ -77,15 +77,19 @@ angular.module('kosmoramaApp', ['ionic'])
   })
 
   .state('feedback', {
-    url: '/feedback',
-    templateUrl: 'app/feedback/feedback.html',
-    controller: 'FeedbackController'
-  })
-  .state('painLevel', {
-    url: '/painLevel',
-    templateUrl: 'app/feedback/painLevel.html',
-    controller: 'painLevelController'
-  });
-
+      url: '/feedback',
+      templateUrl: 'app/feedback/feedback.html',
+      controller: 'FeedbackController'
+    })
+    .state('painLevel', {
+      url: '/painLevel',
+      templateUrl: 'app/feedback/painLevel.html',
+      controller: 'painLevelController'
+    })
+    .state('notes', {
+      url: '/notes',
+      templateUrl: 'app/feedback/notes.html',
+      controller: 'notesController'
+    });
   $urlRouterProvider.otherwise('/login');
 });
