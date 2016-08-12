@@ -9,20 +9,18 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
   var pause = false;
 
   $(document).ready(function() {
-    getTraining(79, function() {
-      getYouTubePlayer();
-      getTrainingSetInfo();
-    });
+    getTraining(79);
   });
 
-  var getTraining = function(userId, callback) {
+  var getTraining = function(userId) {
     loadingService.loaderShow();
     dataService.getTraining(userId, function(data) {
       if (data.length > 0) {
         $scope.TrainingItems = data[0].TrainingItems;
       }
+      getYouTubePlayer();
+      getTrainingSetInfo();
       loadingService.loaderHide();
-      callback();
     });
   };
 
@@ -72,13 +70,22 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
       }
     });
   };
-  
+
+  var destroyPlayer = function() {
+    try {
+      player.destroy();
+    }
+    catch (error) {
+      console.log(error);
+    }
+  };
+
   var getYouTubePlayer = function() {
     // Destroy the YouTube Player for the previous view, and loads the new one.
     loadPlayer();
-    player.destroy();
+    destroyPlayer();
     loadPlayer();
-  }
+  };
 
   var onPlayerReady = function(event) {
     // Handles logic when the 'onReady' event is triggered.
@@ -91,7 +98,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
     var min = Math.floor(time / 60);
     var sec = time - min * 60;
-    return min + " " + $scope.getText('minutes') + " " + + sec + " " + $scope.getText('seconds');
+    return min + " " + $scope.getText('minutes') + " " + +sec + " " + $scope.getText('seconds');
   };
 
   var getTrainingSetInfo = function() {
@@ -105,10 +112,10 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     if ($scope.counter === 0) {
       $timeout.cancel(mytimeout);
       if ($scope.rep > 0)
-        if (!pause) 
+        if (!pause)
           startExcerciseTimer();
-        else 
-         startPauseTimer();
+        else
+          startPauseTimer();
       else
         player.stopVideo();
       return;
