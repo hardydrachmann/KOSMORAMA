@@ -80,6 +80,11 @@ angular.module('kosmoramaApp', ['ionic'])
     url: '/feedback',
     templateUrl: 'app/feedback/feedback.html',
     controller: 'FeedbackController'
+  })
+  .state('painLevel', {
+    url: '/painLevel',
+    templateUrl: 'app/feedback/painLevel.html',
+    controller: 'painLevelController'
   });
 
   $urlRouterProvider.otherwise('/login');
