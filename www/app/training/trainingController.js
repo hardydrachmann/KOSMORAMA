@@ -16,18 +16,14 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
       if (data.length > 0) {
         $scope.TrainingItems = data[0].TrainingItems;
       }
-      loadingService.loaderHide();
-
       $scope.timer();
+      loadingService.loaderHide();
     });
   };
 
   $rootScope.$on('continueEvent', function() {
     console.log('event is called');
-
-    
   });
-
 
   $scope.getTrainingName = function(trainingItem) {
     // Returns the appropriate language name for the selected item.
@@ -50,8 +46,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         var exerciseUrl;
         if (url.startsWith("https")) {
           exerciseUrl = url.substring(26, 37);
-        }
-        else if (url.startsWith("http")) {
+        } else if (url.startsWith("http")) {
           exerciseUrl = url.substring(25, 36);
         }
         return exerciseUrl;
@@ -82,7 +77,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
       player.destroy();
       console.log('player destroyed');
     }
-  }
+  };
 
   var mytimeout = null;
   var rep = 1;
@@ -94,7 +89,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
   $scope.formatTime = function(time) {
     var min = Math.floor(time / 60);
     var sec = time - min * 60;
-    return min + " minutes " + sec + " seconds"
+    return min + " minutes " + sec + " seconds";
   };
 
   $scope.timer = function() {
@@ -111,8 +106,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
       if (rep > 0)
         if (!pause) {
           $scope.startExcerciseTimer();
-        }
-        else {
+        } else {
           $scope.startPauseTimer();
         }
       else
