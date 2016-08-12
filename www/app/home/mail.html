@@ -1,32 +1,33 @@
 <style>
-    .mail-title {
-        float: left;
-    }
+  .mail-title {
+    float: left;
+  }
 
-    .mail-timestamp {
-        float: right;
-    }
+  .mail-timestamp {
+    float: right;
+  }
 
-    .mail-done {
-        position: relative;
-        margin: 1em;
-        float: right;
-    }
+  .mail-done {
+    position: relative;
+    margin: 1em;
+    float: right;
+  }
 
-    .mail-back-button {
-        margin: 2em;
-    }
+  .mail-back-button {
+    margin: 2em;
+  }
+
 </style>
 
 <div>
-    <button class="mail-back-button" ng-click="closeMailView()">{{getText('back')}}</button>
+  <button class="mail-back-button" ng-click="closeMailView()">{{getText('back')}}</button>
 </div>
 
 <ion-scroll style="height:69%">
-    <div class="list">
-        <div class="item" ng-repeat="mail in mails | orderBy:Time:true" ng-click="toggleMailDisplay($index)">
-            <div>
-                <h2 ng-switch on="mail.IsRead" class="mail-title">
+  <div class="list">
+    <div class="item" ng-repeat="mail in mails | orderBy:Time:true" ng-click="toggleMailDisplay($index)">
+      <div>
+        <h2 ng-switch on="mail.IsRead" class="mail-title">
                     <strong ng-switch-when="false">
                         {{mail.Title}}
                     </strong>
@@ -34,16 +35,16 @@
                         {{mail.Title}}
                     </span>
                 </h2>
-            </div>
-            <h3 class="mail-timestamp">
+      </div>
+      <h3 class="mail-timestamp">
                 {{mail.Time | date}}
             </h3>
-            <br>
-            <div id="{{'mail' + $index}}" class="inactive-mail">
-                <hr> {{mail.Content}}
-                <br>
-                <button class="mail-done" ng-click="logMail($index)">{{getText('mailDone')}}</button>
-            </div>
-        </div>
+      <br>
+      <div id="{{'mail' + $index}}" class="inactive-mail">
+        <hr> {{mail.Content}}
+        <br>
+        <button class="mail-done" ng-show="mail.IsRead == false" ng-click="logMail($index)">{{getText('mailDone')}}</button>
+      </div>
     </div>
+  </div>
 </ion-scroll>
