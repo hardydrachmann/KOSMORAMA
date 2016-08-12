@@ -4,6 +4,11 @@
     "en_US": "Welcome"
   },
 
+  "mailError": {
+    "da_DK": "Det er på nuværende tidspunkt ikke tilgå mail-systemet. Prøv igen senere.",
+    "en_US": "It is currently not possible to access the mail-system. Try again later."
+  },
+
   "trainingPlan": {
     "da_DK": "Dagens træning",
     "en_US": "Today's training"
@@ -29,7 +34,7 @@
     "da_DK": "Tid pr gentagelse: ",
     "en_US": "Time pr repetition: "
   },
-  
+
   "back": {
     "da_DK": "Tilbage",
     "en_US": "Back"
@@ -74,7 +79,7 @@
     "da_DK": "Læst",
     "en_US": "Done"
   },
-  
+
   "homeHelp": {
     "da_DK": "Tryk på logoet på skærmen for at fortsætte til oversigt over dagens træning. Du kan ikke vende tilbage fra træningen, når den er påbegyndt.",
     "en_US": "Tap the logo on the screen to continue to your daily training overview. You will not be able to return to this point when the training has started."

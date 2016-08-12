@@ -21,6 +21,7 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
         $scope.showContTab = false;
         $scope.showLoginTab = false;
         $scope.showLogoutTab = false;
+        // Timeout to let state change before assessing tabs.
         $timeout(function() {
             var state = $ionicHistory.currentView().stateName;
             switch (state) {

@@ -26,7 +26,7 @@ angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $ti
     });
   };
 
-  this.AlertPopup = function(message) {
+  this.alertPopup = function(message) {
     var alert = $ionicPopup.alert({
       template: message,
       buttons: [{
