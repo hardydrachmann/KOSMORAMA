@@ -3,6 +3,10 @@
   background: linear-gradient(to left, #445573, #556b91);
 }
 
+p{
+  margin:0;
+}
+
 #mail-link {
   position: absolute;
   border-radius: 100%;
@@ -236,4 +240,50 @@
 .img {
   min-height: 75px;
   max-height: 75px;
+}
+
+#painLevelMin{
+  width:45%;
+  float:left;
+  font-size: 3vh;
+  margin-top: 2%;
+  color:white;
+  margin-left: 5%;
+}
+
+#painLevelMax{
+  width:45%;
+  float:left;
+  margin-top: 2%;
+  text-align: right;
+  font-size: 3vh;
+  color:white;
+  margin-right: 5%;
+}
+
+#selectedPainLevel{
+  margin-left: 40%;
+  margin-right: 40%;
+  margin-top: 5%;
+  font-size: 5vh;
+  padding: 5%;
+  text-align: center;
+  background-color: rgba(29, 36, 48, 0.2);
+  color: white;
+}
+
+#painTable{
+  margin-left:5%;
+  margin-right:5%;
+  width:90%;
+  color:white;
+  font-size: 3vh;
+  background-color: rgba(29, 36, 48, 0.2);
+  margin-top: 5%;
+  padding: 5%;
+}
+
+#painTable .row .col-20{
+  
+  text-align: right;
 }
