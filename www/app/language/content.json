@@ -19,7 +19,6 @@
     "en_US": "How to perform the exercise:"
   },
 
-
   "trainingDemoDescription": {
     "da_DK": "Beskrivelse for øvelse",
     "en_US": "Description for exercise"
@@ -104,14 +103,60 @@
     "da_DK": "Virtuel træning",
     "en_US": "Virtual training"
   },
-  
+
+  "notesTitle": {
+    "da_DK": "Skriv din besked her...\n\nTryk på 'Fortsæt' knappen når du er færdig.",
+    "en_US": "Write your message here...\n\nPress the 'Continue' button when done."
+  },
+
+  "remainingChars": {
+    "da_DK": "Resterende tegn: ",
+    "en_US": "Remaining characters: "
+  },
+
+  "notesHelp": {
+    "da_DK": "Du kan skrive til din terapeut, ved at indtaste en besked i det hvide tekstfelt, og herefter trykke på 'Fortsæt' knappen.",
+    "en_US": "You can contact your therapist by entering a message in the white textarea, followed by a press on the 'Continue' button."
+  },
+
   "minutes": {
     "da_DK": "minutter",
     "en_US": "minutes"
   },
-  
+
   "seconds": {
     "da_DK": "sekunder",
     "en_US": "seconds"
+  },
+  
+   "painLevel": {
+    "da_DK": "Smerteniveau",
+    "en_US": "Painlevel"
+  },
+  
+   "painLevelHelp": {
+    "da_DK": "Benyt slideren til at angive dagens smerte niveau. Efter valget af smerte niveau, klik på knappen for at gå videre og for at sende dataen til terapeuten.",
+    "en_US": "Use the slider to indicate todays pain level. After indicating the pain level, click the button to continue and to send your data to the therapist."
+  },
+  
+  "painDescription1":{
+    "da_DK": "Ingen smerter.",
+    "en_US": "No pain."
+  },
+  "painDescription2":{
+    "da_DK": "Lette smerter.",
+    "en_US": "Mild, annoying pain. "
+  },
+  "painDescription3":{
+    "da_DK": "Moderate smerter",
+    "en_US": "Nagging, uncomfortable, troublesome pain."
+  },
+  "painDescription4":{
+    "da_DK": "svære smerter.",
+    "en_US": "Intense, dreadful, horrible pain."
+  },
+  "painDescription5":{
+    "da_DK": "Værst tænkelige smerter.",
+    "en_US": "Worst possible, unbearable, excrutiating pain."
   }
 }
