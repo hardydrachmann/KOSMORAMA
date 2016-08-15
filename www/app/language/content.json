@@ -34,6 +34,11 @@
     "da_DK": "Tid pr gentagelse: ",
     "en_US": "Time pr repetition: "
   },
+  
+  "passText" : {
+    "da_DK": "Pas ",
+    "en_US": "Set "
+  },
 
   "back": {
     "da_DK": "Tilbage",
