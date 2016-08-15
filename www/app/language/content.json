@@ -149,14 +149,14 @@
   },
   "painDescription3":{
     "da_DK": "Moderate smerter",
-    "en_US": "Nagging, uncomfortable, troublesome pain."
+    "en_US": "Uncomfortable, troublesome pain."
   },
   "painDescription4":{
     "da_DK": "svære smerter.",
-    "en_US": "Intense, dreadful, horrible pain."
+    "en_US": "Dreadful, horrible pain."
   },
   "painDescription5":{
     "da_DK": "Værst tænkelige smerter.",
-    "en_US": "Worst possible, unbearable, excrutiating pain."
+    "en_US": "Worst possible, excrutiating pain."
   }
 }
