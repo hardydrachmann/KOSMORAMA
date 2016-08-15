@@ -33,8 +33,8 @@
     "da_DK": "Tid pr gentagelse: ",
     "en_US": "Time pr repetition: "
   },
-  
-  "passText" : {
+
+  "passText": {
     "da_DK": "Pas ",
     "en_US": "Set "
   },
@@ -128,34 +128,34 @@
     "da_DK": "sekunder",
     "en_US": "seconds"
   },
-  
-   "painLevel": {
+
+  "painLevel": {
     "da_DK": "Smerteniveau",
     "en_US": "Painlevel"
   },
-  
-   "painLevelHelp": {
+
+  "painLevelHelp": {
     "da_DK": "Benyt slideren til at angive dagens smerte niveau. Efter valget af smerte niveau, klik på knappen for at gå videre og for at sende dataen til terapeuten.",
     "en_US": "Use the slider to indicate todays pain level. After indicating the pain level, click the button to continue and to send your data to the therapist."
   },
-  
-  "painDescription1":{
+
+  "painDescription1": {
     "da_DK": "Ingen smerter.",
     "en_US": "No pain."
   },
-  "painDescription2":{
+  "painDescription2": {
     "da_DK": "Lette smerter.",
     "en_US": "Mild, annoying pain. "
   },
-  "painDescription3":{
+  "painDescription3": {
     "da_DK": "Moderate smerter",
-    "en_US": "Uncomfortable, troublesome pain."
+    "en_US": "Uncomfortable pain."
   },
-  "painDescription4":{
+  "painDescription4": {
     "da_DK": "svære smerter.",
-    "en_US": "Dreadful, horrible pain."
+    "en_US": "Dreadful pain."
   },
-  "painDescription5":{
+  "painDescription5": {
     "da_DK": "Værst tænkelige smerter.",
     "en_US": "Worst possible, excrutiating pain."
   }

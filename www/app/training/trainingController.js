@@ -38,6 +38,16 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         });
     };
 
+    $scope.getNextTrainingItem = function() {
+        console.log('all items: ', $scope.TrainingItems);
+        if ($scope.TrainingItems.length > 0) {
+            if (!$scope.TrainingItems[0].hasOwnProperty('ExerciseId')) {
+                return $scope.TrainingItems[1];
+            }
+        }
+        return $scope.TrainingItems[0];
+    };
+
     $scope.getTrainingName = function(trainingItem) {
         // Returns the appropriate language name for the selected item.
         return trainingItem.LangName[$scope.lang];
@@ -45,7 +55,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
 
     $scope.trainingDescription = function() {
         // Returns the appropriate language description for the next exercise.
-        var item = $scope.TrainingItems[0];
+        var item = $scope.getNextTrainingItem();
         if (item != undefined) {
             return item.LangDesc[$scope.lang];
         }
@@ -53,7 +63,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
 
     var getVideo = function() {
         // Returns the videoId from the current exerciseUrl.
-        var item = $scope.TrainingItems[0];
+        var item = $scope.getNextTrainingItem();
         if (item) {
             var url = item.ExeciseUrl;
             if (url) {
@@ -76,7 +86,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     };
 
     var loadPlayer = function() {
-        // Instatiates the YouTube Player.
+        // Instantiates the YouTube Player.
         player = new YT.Player('player', {
             videoId: getVideo(),
             events: {
