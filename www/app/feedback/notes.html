@@ -1,0 +1,10 @@
+<div class="backgroundColor">
+
+	<i class="ion-compose"></i>
+	<div id="notesArea">
+		<textarea id="notesInput" maxlength="{{maxChars}}" ng-focus="clearContent($event)" ng-blur="revertContent($event)" ng-model="messageText" ng-change="remainingChars()" rows="14" placeholder="{{getText('notesTitle')}}">
+		</textarea>
+
+		<p id="showCharsCount">{{getText('remainingChars')}}{{maxChars}}</p>
+	</div>
+</div>

@@ -1,14 +1,26 @@
 angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, $ionicHistory, popupService, dataService, loadingService) {
 
     $scope.mails = [];
+    $scope.newMailCount = 0;
 
     var getMails = function() {
         loadingService.loaderShow();
         dataService.getUser($scope.userScreenNumber, function(result) {
             $scope.mails = result.UserMessages;
+            getNewMails($scope.mails);
             loadingService.loaderHide();
         });
     };
+
+    var getNewMails = function(mails) {
+        $scope.newMailCount = 0;
+        for (var i = 0; i < mails.length; i++) {
+            if (mails[i].IsRead === false) {
+                $scope.newMailCount++;
+            }
+        }
+    };
+
     getMails();
 
     $scope.closeMailView = function() {
@@ -35,17 +47,6 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
             }
             getMails();
         });
-    };
-
-    $scope.newMail = function(mails) {
-        var count = 0;
-        for (var i = 0; i < mails.length; i++) {
-            if (mails[i].IsRead === false) {
-                count++;
-            }
-        }
-        $scope.newMailCount = count;
-        return count;
     };
 
 });
