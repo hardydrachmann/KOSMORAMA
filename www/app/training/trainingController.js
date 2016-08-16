@@ -2,7 +2,7 @@ var app = angular.module('kosmoramaApp');
 app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, dataService, loadingService) {
 
     $scope.TrainingItems = [];
-    $scope.rep;
+    $scope.rep = 0;
     $scope.counter = null;
     var player;
     var mytimeout = null;
@@ -116,13 +116,13 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         event.target.loadPlaylist(getVideo());
         event.target.setLoop(true);
         startExcerciseTimer();
-    }
+    };
 
     $scope.formatTime = function(time) {
         // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
         var min = Math.floor(time / 60);
         var sec = time - min * 60;
-        return min + " " + $scope.getText('minutes') + " " + +sec + " " + $scope.getText('seconds');
+        return min + " " + $scope.getText('minutes') + " " + sec + " " + $scope.getText('seconds');
     };
 
     var getTrainingSetInfo = function() {
