@@ -7,7 +7,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     var player;
     var mytimeout = null;
     var pause = false;
-    var trainingLength;
+    var trainingLength = 0;
 
     $(document).ready(function() {
         getTraining(79);
@@ -20,8 +20,8 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
                 var trainingData = data[0].TrainingItems;
                 var prevPlanId = 0,
                     prevSetId = 0,
-                    trainingLength = trainingData.length,
                     setCount = 1;
+                    trainingLength = trainingData.length;
                 for (var i = 0; i < trainingData.length; i++) {
                     var exercise = trainingData[i];
                     if (exercise.PlanExerciseId - prevPlanId != 1 || exercise.SetId != prevSetId) {
@@ -37,10 +37,11 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
             getYouTubePlayer();
             getTrainingSetInfo();
             loadingService.loaderHide();
-        });
-        if ($ionicHistory.currentView().stateName === 'trainingPlan') {
-            timeOut(45);
+            if ($ionicHistory.currentView().stateName === 'trainingPlan') {
+            timeOut(40);
         }
+        });
+        
     };
 
     $scope.getNextTrainingItem = function() {
@@ -123,7 +124,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         event.target.setLoop(true);
         startExcerciseTimer();
         if ($ionicHistory.currentView().stateName === 'trainingDemo') {
-            timeOut(trainingLength * 3);
+            timeOut(trainingLength*4);
         }
     }
 
