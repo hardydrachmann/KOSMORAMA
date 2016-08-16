@@ -39,7 +39,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     };
 
     $scope.getNextTrainingItem = function() {
-        console.log('all items: ', $scope.TrainingItems);
         if ($scope.TrainingItems.length > 0) {
             if (!$scope.TrainingItems[0].hasOwnProperty('ExerciseId')) {
                 return $scope.TrainingItems[1];
@@ -54,6 +53,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     };
 
     $scope.trainingDescription = function() {
+        console.log('all items: ', $scope.TrainingItems);
         // Returns the appropriate language description for the next exercise.
         var item = $scope.getNextTrainingItem();
         if (item != undefined) {
