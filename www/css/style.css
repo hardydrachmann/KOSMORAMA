@@ -185,7 +185,8 @@ p {
   padding-top: 2vh;
   margin-bottom: 2vh;
   height: 100%;
-  text-align: left;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .languageMenu h2 {
