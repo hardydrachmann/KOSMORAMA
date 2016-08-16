@@ -180,11 +180,13 @@ p {
 }
 
 .darkTransparent {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0);
   border-color: #303c50;
   padding-top: 2vh;
   margin-bottom: 2vh;
   height: 100%;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .languageMenu h2 {
