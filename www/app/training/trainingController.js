@@ -30,13 +30,13 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
                     prevSetId = exercise.SetId;
                 }
             }
+            $rootScope.remainingTraining = $scope.TrainingItems.length;
             loadingService.loaderHide();
             createPlayer(getVideo());
             if ($ionicHistory.currentView().stateName !== 'training') {
                 // $scope.trainingViewTimer(30);
             }
         });
-
     };
 
     $scope.trainingViewTimer = function(time) {
@@ -90,6 +90,4 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     $scope.getPicture = function(exerciseId) {
         return url + exerciseId + urn;
     };
-
-
 });
