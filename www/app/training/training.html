@@ -1,0 +1,21 @@
+<div class="backgroundColor">
+    <div ng-controller="TimerController">
+        <div class="row">
+            <div class="col">
+                <h2 id="trainingPlanHeader">{{getText('trainingDemoTitle')}}</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="video-container">
+                    <div id="yt-player"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <h2 id="timer"> {{formatTime(counter)}}</h2>
+        </div>
+    </div>
+</div>
