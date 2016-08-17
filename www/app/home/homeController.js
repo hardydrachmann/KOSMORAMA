@@ -41,8 +41,8 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 
     $scope.logMail = function(mailId) {
         dataService.postNoteData(mailId, function(result) {
-            // If for some reason the server is unavailable.
             if (!result.result) {
+                // If for some reason the server is unavailable.
                 popupService.alertPopup($scope.getText('mailError'));
             }
             getMails();
