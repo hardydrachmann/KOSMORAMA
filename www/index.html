@@ -10,12 +10,11 @@
   <link rel="shortcut icon" href="img/ionic.png">
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
   <title>Virtuel Træning</title>
+
   <!-- ionic/angularjs js -->
   <script src="lib/ionic/js/ionic.bundle.js"></script>
-
-  <!-- cordova script (this will be a 404 during development) -->
-  <script src="cordova.js"></script>
 
   <!-- application js -->
   <script src="app/app.js"></script>
@@ -35,9 +34,12 @@
   <script src="app/services/dataService.js"></script>
   <script src="app/services/popupService.js"></script>
   <script src="app/services/loadingService.js"></script>
+  <script src="app/services/audioService.js"></script>
 
     <!-- libraries -->
     <script src="lib/components/jquery/dist/jquery.js"></script>
+    <script src="lib/components/ngCordova/dist/ng-cordova.js"></script>
+    <script src="cordova.js"></script>
     <script src="lib/components/sjcl/sjcl.js"></script>
     <script src="lib/components/angular-youtube-embed/dist/angular-youtube-embed.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>

@@ -5,6 +5,6 @@
 		<textarea id="notesInput" maxlength="{{maxChars}}" ng-focus="clearContent($event)" ng-blur="revertContent($event)" ng-model="messageText" ng-change="remainingChars()" rows="14" placeholder="{{getText('notesTitle')}}">
 		</textarea>
 
-		<p id="showCharsCount">{{getText('remainingChars')}}{{maxChars}}</p>
+		<p id="showCharsCount">{{getText('remainingChars')}}<span style="color:white">{{maxChars}}</span></p>
 	</div>
 </div>
