@@ -9,7 +9,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
       destroyPlayer();
     });
   });
-});
 
 var getTraining = function(userId) {
   loadingService.loaderShow();
