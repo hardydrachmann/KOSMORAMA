@@ -5,9 +5,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
 
     $(document).ready(function() {
         getTraining(79);
-        $timeout(function() {
-            // createPlayer();
-        }, 250);
         $rootScope.$on('continueEvent', function() {
             destroyPlayer();
         });
@@ -34,7 +31,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
                 }
             }
             loadingService.loaderHide();
-            createPlayer();
+            createPlayer(getVideo());
             if ($ionicHistory.currentView().stateName !== 'training') {
                 // $scope.trainingViewTimer(30);
             }
