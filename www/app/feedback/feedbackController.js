@@ -5,7 +5,6 @@ angular.module('kosmoramaApp').controller('FeedbackController', function($scope,
     var getUser = function() {
         dataService.getUser($scope.userScreenNumber, function(result) {
             $scope.userId = result.Id;
-            console.log('user', result);
         });
     };
     getUser();

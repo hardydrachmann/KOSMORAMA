@@ -1,5 +1,5 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, $ionicHistory, dataService, loadingService) {
+app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService) {
 
     $scope.TrainingItems = [];
 
@@ -45,6 +45,12 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         }, time * 1000);
     };
 
+    $scope.trainingViewTimer = function(time) {
+        $timeout(function() {
+            $scope.continue();
+        }, time * 1000);
+    };
+
     $scope.getNextTrainingItem = function() {
         if ($scope.TrainingItems.length > 0) {
             if (!$scope.TrainingItems[0].hasOwnProperty('ExerciseId')) {
@@ -67,6 +73,11 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         }
     };
 
+    var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
+    var urn = '/picture/picture.png';
+    $scope.getPicture = function(exerciseId) {
+        return url + exerciseId + urn;
+    };
     var getVideo = function() {
         // Returns the videoId from the current exerciseUrl.
         var item = $scope.getNextTrainingItem();
@@ -83,11 +94,5 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
                 return exerciseUrl;
             }
         }
-    };
-
-    var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
-    var urn = '/picture/picture.png';
-    $scope.getPicture = function(exerciseId) {
-        return url + exerciseId + urn;
     };
 });
