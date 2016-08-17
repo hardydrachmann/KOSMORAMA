@@ -94,5 +94,4 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
   $scope.getPicture = function(exerciseId) {
     return url + exerciseId + urn;
   };
-
 });
