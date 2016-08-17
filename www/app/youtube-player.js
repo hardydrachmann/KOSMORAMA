@@ -1,15 +1,17 @@
 var player;
-var id = 'gC7q17VoB6M';
 
-// Pass video id as parameter.
-function createPlayer() {
+function createPlayer(video) {
     if (hasPlayer()) {
         player = new YT.Player('yt-player', {
             height: '390',
             width: '640',
-            videoId: id,
+            videoId: video,
             events: {
-                'onReady': onPlayerReady
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            },
+            playerVars: {
+                controls: 0
             }
         });
     }
@@ -18,6 +20,12 @@ function createPlayer() {
 function onPlayerReady(event) {
     player = event.target;
     player.playVideo();
+}
+
+function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+        onPlayerReady(event);
+    }
 }
 
 function destroyPlayer() {
