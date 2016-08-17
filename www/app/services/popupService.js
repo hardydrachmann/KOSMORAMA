@@ -1,3 +1,5 @@
+// This is a service which can show and hide different popup boxes.
+
 angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $timeout) {
 
   this.popup = function(message, time) {
