@@ -1,17 +1,5 @@
 angular.module('kosmoramaApp').controller('notesController',
-  function($scope, $state, audioService) {
-
-    $scope.playURL = function(source) {
-      audioService.playURL(source);
-    };
-
-    $scope.stop = function() {
-      audioService.stop();
-    };
-
-    $scope.playLocal = function(audioFile) {
-      audioService.playLocal(audioFile);
-    };
+  function($scope, $state) {
 
     $scope.clearContent = function(event) {
       var element = $(event.target);
