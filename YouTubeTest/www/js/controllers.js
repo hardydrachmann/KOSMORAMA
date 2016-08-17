@@ -1,10 +1,14 @@
-angular.module('starter.controllers', [])
+var app = angular.module('starter.controllers', []);
 
-.controller('YouTubeController', function($scope) {
+app.controller('YouTubeController', function($scope) {
     $scope.player = '';
-    
     $scope.dp = function() {
         console.log('Destroy');
-        destroyPlayer();
     }
+});
+
+app.directive('youtubePlayer', function() {
+    return {
+        templateUrl: 'youtube-player.html'
+    };
 });

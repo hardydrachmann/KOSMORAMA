@@ -61,19 +61,22 @@ angular.module('kosmoramaApp', ['ionic'])
   .state('trainingPlan', {
     url: '/trainingPlan',
     templateUrl: 'app/training/trainingPlan.html',
-    controller: 'TrainingController'
+    controller: 'TrainingController',
+    cache: false
   })
 
   .state('trainingDemo', {
     url: '/trainingDemo',
     templateUrl: 'app/training/trainingDemo.html',
-    controller: 'TrainingController'
+    controller: 'TrainingController',
+    cache: false
   })
 
   .state('training', {
     url: '/training',
     templateUrl: 'app/training/training.html',
-    controller: 'TrainingController'
+    controller: 'TrainingController',
+    cache: false
   })
 
   .state('feedback', {
