@@ -1,13 +1,12 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, dataService, loadingService, $ionicHistory) {
+app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, dataService, loadingService) {
 
     $scope.TrainingItems = [];
-    $scope.rep = 0;
+    $scope.rep;
     $scope.counter = null;
     var player;
     var mytimeout = null;
     var pause = false;
-    var trainingLength = 0;
 
     $(document).ready(function() {
         getTraining(79);
@@ -21,7 +20,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
                 var prevPlanId = 0,
                     prevSetId = 0,
                     setCount = 1;
-                    trainingLength = trainingData.length;
                 for (var i = 0; i < trainingData.length; i++) {
                     var exercise = trainingData[i];
                     if (exercise.PlanExerciseId - prevPlanId != 1 || exercise.SetId != prevSetId) {
@@ -37,11 +35,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
             getYouTubePlayer();
             getTrainingSetInfo();
             loadingService.loaderHide();
-            if ($ionicHistory.currentView().stateName === 'trainingPlan') {
-            timeOut(40);
-        }
         });
-
     };
 
     $scope.getNextTrainingItem = function() {
@@ -120,27 +114,15 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     var onPlayerReady = function(event) {
         // Handles logic when the 'onReady' event is triggered.
         event.target.loadPlaylist(getVideo());
-
         event.target.setLoop(true);
         startExcerciseTimer();
-        if ($ionicHistory.currentView().stateName === 'trainingDemo') {
-            timeOut(trainingLength*4);
-        }
-    };
-
-    var timeOut = function(time) {
-        $timeout(function() {
-            $scope.continue();
-
-        }, time * 1000);
-    };
-
+    }
 
     $scope.formatTime = function(time) {
         // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
         var min = Math.floor(time / 60);
         var sec = time - min * 60;
-        return min + " " + $scope.getText('minutes') + " " + sec + " " + $scope.getText('seconds');
+        return min + " " + $scope.getText('minutes') + " " + +sec + " " + $scope.getText('seconds');
     };
 
     var getTrainingSetInfo = function() {
@@ -158,12 +140,8 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
                     startExcerciseTimer();
                 else
                     startPauseTimer();
-            else {
+            else
                 player.stopVideo();
-                if ($ionicHistory.currentView().stateName === 'training') {
-                    timeOut(5);
-                }
-            }
             return;
         }
         $scope.counter--;
@@ -177,7 +155,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         pause = true;
         $scope.rep--;
         mytimeout = $timeout($scope.onTimeout);
-
     };
 
     var startPauseTimer = function() {
