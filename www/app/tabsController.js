@@ -83,12 +83,20 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
                 $state.go('feedback');
                 break;
             case 'feedback':
-                $state.go('trainingPlan');
+                if ($rootScope.remainingTraining > 2) {
+                    $state.go('trainingPlan');
+                }
+                else {
+                    $state.go('painLevel');
+                }
+                break;
+            case 'painLevel':
+                $state.go('notes');
                 break;
             case 'notes': // send note and go home
                 $state.go('home');
                 break;
         }
-        $scope.setTabs()
+        $scope.setTabs();
     };
 });

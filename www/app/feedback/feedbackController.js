@@ -9,6 +9,7 @@ angular.module('kosmoramaApp').controller('FeedbackController', function($scope,
   };
   getUser();
 
+
   var calculateTime = function(trainingItem) {
     var setTime = (trainingItem.TimeSet * 60) * trainingItem.Sets;
     var totalPauseTime = (60 * trainingItem.Pause * (trainingItem.Sets - 1));
@@ -36,4 +37,5 @@ angular.module('kosmoramaApp').controller('FeedbackController', function($scope,
       });
     });
   };
+
 });
