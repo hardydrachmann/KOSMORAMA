@@ -13,7 +13,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     });
   });
 
-
   /**
    * Getting training items from service
    */
@@ -25,8 +24,10 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
       var currentState = $ionicHistory.currentView().stateName;
       if (currentState !== 'trainingPlan') {
         var source = currentState === 'trainingDemo' ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
-        createPlayer(getVideo());
-        audioService.playAudio(source, function() {});
+        audioService.playAudio(source, function() {
+          $('#video-show-hide').css('display', 'block');
+          createPlayer(getVideo());
+        });
       }
       if (currentState !== 'training') {
         // $scope.trainingViewTimer(30);
@@ -85,7 +86,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     }
   };
 
-
   var getVideo = function() {
     // Returns the videoId from the current exerciseUrl.
     var item = $scope.getNextTrainingItem();
@@ -104,14 +104,12 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     }
   };
 
-
   $scope.formatTime = function(time) {
     // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
     var min = Math.floor(time / 60);
     var sec = time - min * 60;
-    return min + " " + $scope.getText('minutes') + " " + +sec + " " + $scope.getText('seconds');
+    return min + " " + $scope.getText('minutes') + " " + sec + " " + $scope.getText('seconds');
   };
-
 
   var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
   var urn = '/picture/picture.png';
