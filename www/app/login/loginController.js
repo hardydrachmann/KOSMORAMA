@@ -20,6 +20,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
   };
 
   $scope.login = function() {
+    console.log('bef', $scope.userScreenNumber );
     if ($scope.userScreenNumber) {
       loadingService.loaderShow();
       dataService.getUser($scope.userScreenNumber, function(result) {

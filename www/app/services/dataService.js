@@ -5,11 +5,11 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
   var url = 'http://176.62.203.178/Comm/DataService';
   //var url = 'http://localhost:8080/Comm/DataService';
 
-  var hardcodedScreenNumber = 'AA10';
+  //var hardcodedScreenNumber = 'AA02';
 
   // This function gets a user by the Screen number entered on login.
   this.getUser = function(userScreenNumber, callback) {
-
+    console.log(userScreenNumber);
     // Preparing the content for the header required to get user in Api-service
     var content = {
       id: '0',
@@ -55,7 +55,17 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }).success(function(trainingData) {
-      callback(trainingData.result);
+      var train = [];
+      var date = new Date();
+
+      // Checking for current days training Items and adding them to array.
+      for (var i = 0; i < trainingData.result.length; i++) {
+      var newdate = new Date(trainingData.result[i].Date);
+        if (newdate.getDate() === date.getDate() && newdate.getMonth() === date.getMonth()) {
+           train.push(trainingData.result[i]);
+          }
+      }
+      callback(train[0]);
     }).error(function(trainingData, status, headers, config) {
       console.log('testfail', trainingData, status, headers, config);
       callback('error');

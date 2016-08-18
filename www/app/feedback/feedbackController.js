@@ -5,7 +5,6 @@ angular.module('kosmoramaApp').controller('FeedbackController', function($scope,
   var getUser = function() {
     dataService.getUser($scope.userScreenNumber, function(result) {
       $scope.userId = result.Id;
-      console.log('user', result);
     });
   };
   getUser();
@@ -23,17 +22,15 @@ angular.module('kosmoramaApp').controller('FeedbackController', function($scope,
     dataService.getTraining($scope.userId, function(data) {
       console.log('trainingData', data);
       var traningReport = [{
-        "PlanExerciseId": data[0].TrainingItems[0].PlanExerciseId,
-        "Id": data[0].TrainingItems[0].TrainingId,
-        "Exercise": data[0].TrainingItems[0].ExerciseId,
+        "PlanExerciseId": data.TrainingItems[0].PlanExerciseId,
+        "Id": data.TrainingItems[0].TrainingId,
+        "Exercise": data.TrainingItems[0].ExerciseId,
         "Score": stats,
-        "Time": calculateTime(data[0].TrainingItems[0]),
+        "Time": calculateTime(data.TrainingItems[0]),
         "Repetitions": [],
         "Questions": null
       }, ];
-      console.log('first', traningReport);
-        dataService.postData(traningReport, function(result) {
-        console.log('Result: ', result);
+      dataService.postData(traningReport, function(result) {
         loadingService.loaderHide();
         $state.go('trainingPlan');
       });
