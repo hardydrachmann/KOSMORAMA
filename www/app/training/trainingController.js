@@ -2,6 +2,7 @@ var app = angular.module('kosmoramaApp');
 app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService) {
 
   $scope.TrainingItems = [];
+  $scope.test = "test";
 
   $(document).ready(function() {
     getTraining(79);
@@ -110,7 +111,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
     var min = Math.floor(time / 60);
     var sec = time - min * 60;
-    return min + " " + $scope.getText('minutes') + " " + +sec + " " + $scope.getText('seconds');
+    return min + " " + $scope.getText('min') + " " + +sec + " " + $scope.getText('sec');
   };
 
 

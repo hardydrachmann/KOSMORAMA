@@ -31,7 +31,6 @@ function onPlayerReady(event) {
     playerReadyEvent = function() {};
 }
 
-
 var playerReadyEvent = function() {};
 
 function setPlayerReadyHandler(handler) {
