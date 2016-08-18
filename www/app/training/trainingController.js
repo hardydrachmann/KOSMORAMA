@@ -1,5 +1,5 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService) {
+app.controller('TrainingController', function($scope, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService) {
 
     $scope.TrainingItems = [];
 
@@ -32,7 +32,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
             loadingService.loaderHide();
             callback();
         });
-    };
+    }
 
     /**
      * Sorting and adding a pass Item for each set of training.
@@ -57,6 +57,9 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         }
     }
 
+    /**
+     * Plays video, and sound if it's wanted.
+     */
     function play(isTrainingDemo, playSound) {
         var source = isTrainingDemo ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
         if (playSound) {
@@ -70,37 +73,45 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     }
 
     var trainingPromise;
-
+    /**
+     * Cancel the view timer.
+     */
     function cancelViewTimer() {
         if (trainingPromise) {
             $timeout.cancel(trainingPromise);
         }
-    };
+    }
 
+    /**
+     * Start the training view timer to automatically move on to the next view by calling continue().
+     */
     function trainingViewTimer(time) {
         $scope.cancelViewTimer();
         trainingPromise = $timeout(function() {
             $scope.continue();
         }, time * 1000);
-    };
+    }
 
+    /**
+     * Return the video id for the video of the next training item on the list.
+     */
     function getVideo() {
         // Returns the videoId from the current exerciseUrl.
         var item = $scope.getNextTrainingItem();
         if (item) {
             var url = item.ExeciseUrl;
             if (url) {
-                var exerciseUrl;
+                var videoId;
                 if (url.startsWith("https")) {
-                    exerciseUrl = url.substring(26, 37);
+                    videoId = url.substring(26, 37);
                 }
                 else if (url.startsWith("http")) {
-                    exerciseUrl = url.substring(25, 36);
+                    videoId = url.substring(25, 36);
                 }
-                return exerciseUrl;
+                return videoId;
             }
         }
-    };
+    }
 
     $scope.getNextTrainingItem = function() {
         if ($scope.TrainingItems.length > 0) {
@@ -141,7 +152,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
         var min = Math.floor(time / 60);
         var sec = time - min * 60;
-        return min + " " + $scope.getText('minutes') + " " + +sec + " " + $scope.getText('seconds');
+        return min + " " + $scope.getText('minutes') + " " + sec + " " + $scope.getText('seconds');
     };
 
     var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
