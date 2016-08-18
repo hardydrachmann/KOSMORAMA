@@ -19,7 +19,7 @@ function createPlayer(video) {
 
 function onPlayerReady(event) {
     player = event.target;
-    player.playVideo();
+    playVideo();
 }
 
 function onPlayerStateChange(event) {
@@ -36,4 +36,16 @@ function destroyPlayer() {
 
 function hasPlayer() {
     return $('#yt-player').length > 0;
+}
+
+function pauseVideo() {
+    if (hasPlayer() && player.a) {
+        player.pauseVideo();
+    }
+}
+
+function playVideo() {
+    if (hasPlayer() && player.a) {
+        player.playVideo();
+    }
 }

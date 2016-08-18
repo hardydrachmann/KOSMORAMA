@@ -95,4 +95,11 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
       }
     }
   };
+  
+  $scope.formatTime = function(time) {
+    // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
+    var min = Math.floor(time / 60);
+    var sec = time - min * 60;
+    return min + " " + $scope.getText('minutes') + " " + +sec + " " + $scope.getText('seconds');
+  };
 });

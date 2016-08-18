@@ -322,18 +322,18 @@ p {
   padding: 0.5em;
 }
 
-/*.progress-wrapper{*/
-/*    position: relative;*/
-/*    text-align: center;*/
-/*}*/
+.progress-wrapper{
+    position: relative;
+    text-align: center;
+}
 
-/*.progress-wrapper .progress-text{*/
-/*    position: absolute;*/
-/*    top: 50%;*/
-/*    left: 0;*/
-/*    transform: translateY(-50%);*/
-/*    -webkit-transform: translateY(-50%);*/
-/*    text-align: center;*/
-/*    width: 100%;*/
-/*    z-index: 1;*/
-/*}*/
+.progress-wrapper .progress-text{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+}
