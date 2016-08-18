@@ -26,7 +26,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
       if (currentState !== 'trainingPlan') {
         var source = currentState === 'trainingDemo' ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
         createPlayer(getVideo());
-        // audioService.playAudio(source, function() {});
+        audioService.playAudio(source, function() {});
       }
       if (currentState !== 'training') {
         // $scope.trainingViewTimer(30);
@@ -95,8 +95,7 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         var exerciseUrl;
         if (url.startsWith("https")) {
           exerciseUrl = url.substring(26, 37);
-        }
-        else if (url.startsWith("http")) {
+        } else if (url.startsWith("http")) {
           exerciseUrl = url.substring(25, 36);
         }
         return exerciseUrl;
