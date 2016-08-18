@@ -133,9 +133,9 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
     var x = scheduleResultId;
     var feedbackReport = {
       "PlanExerciseId": 250561,
-      "ScheduleId": 212021,
+      "ScheduleId": 212021, // schedule result id.
       "Message": 'tilfældigt',
-      "PainLevel": 100,
+      "PainLevel": 100
     };
 
     var content = {
