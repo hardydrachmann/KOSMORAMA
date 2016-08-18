@@ -10,7 +10,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
                 play(currentState === 'trainingDemo', false);
             }
             if (currentState !== 'training') {
-                trainingViewTimer(15);
+                trainingViewTimer(10);
             }
         });
         setPlayerReadyHandler(function() {
@@ -86,7 +86,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
      * Start the training view timer to automatically move on to the next view by calling continue().
      */
     function trainingViewTimer(time) {
-        $scope.cancelViewTimer();
+        cancelViewTimer();
         trainingPromise = $timeout(function() {
             $scope.continue();
         }, time * 1000);

@@ -9,7 +9,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
 
   // This function gets a user by the Screen number entered on login.
   this.getUser = function(userScreenNumber, callback) {
-    console.log(userScreenNumber);
     // Preparing the content for the header required to get user in Api-service
     var content = {
       id: '0',

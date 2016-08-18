@@ -10,7 +10,6 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
   var getMails = function() {
     loadingService.loaderShow();
     dataService.getUser($scope.userScreenNumber, function(result) {
-      console.log('id', result);
       $scope.mails = result.UserMessages;
       getNewMails($scope.mails);
       loadingService.loaderHide();
