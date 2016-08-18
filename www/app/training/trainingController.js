@@ -4,35 +4,33 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     $scope.TrainingItems = [];
 
     $(document).ready(function() {
-        getTraining(79);
+        getTraining(79, function() {
+            var currentState = $ionicHistory.currentView().stateName;
+            if (currentState !== 'trainingPlan') {
+                play(currentState === 'trainingDemo', false);
+            }
+            if (currentState !== 'training') {
+                trainingViewTimer(15);
+            }
+        });
         setPlayerReadyHandler(function() {
             // This runs the first time the player is ready.
         });
         $rootScope.$on('continueEvent', function() {
             destroyPlayer();
-            $scope.cancelViewTimer();
+            cancelViewTimer();
         });
     });
-
 
     /**
      * Getting training items from service
      */
-    var getTraining = function(userId) {
+    function getTraining(userId, callback) {
         loadingService.loaderShow();
         dataService.getTraining(userId, function(data) {
             sortTraining(data);
             loadingService.loaderHide();
-            var currentState = $ionicHistory.currentView().stateName;
-            if (currentState !== 'trainingPlan') {
-                var source = currentState === 'trainingDemo' ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
-                // audioService.playAudio(source, function() {
-                createPlayer(getVideo());
-                // });
-            }
-            if (currentState !== 'training') {
-                $scope.trainingViewTimer(30);
-            }
+            callback();
         });
     };
 
@@ -59,18 +57,49 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         }
     }
 
+    function play(isTrainingDemo, playSound) {
+        var source = isTrainingDemo ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
+        if (playSound) {
+            audioService.playAudio(source, function() {
+                createPlayer(getVideo());
+            });
+        }
+        else {
+            createPlayer(getVideo());
+        }
+    }
+
     var trainingPromise;
-    $scope.cancelViewTimer = function() {
+
+    function cancelViewTimer() {
         if (trainingPromise) {
             $timeout.cancel(trainingPromise);
         }
     };
 
-    $scope.trainingViewTimer = function(time) {
+    function trainingViewTimer(time) {
         $scope.cancelViewTimer();
         trainingPromise = $timeout(function() {
             $scope.continue();
         }, time * 1000);
+    };
+
+    function getVideo() {
+        // Returns the videoId from the current exerciseUrl.
+        var item = $scope.getNextTrainingItem();
+        if (item) {
+            var url = item.ExeciseUrl;
+            if (url) {
+                var exerciseUrl;
+                if (url.startsWith("https")) {
+                    exerciseUrl = url.substring(26, 37);
+                }
+                else if (url.startsWith("http")) {
+                    exerciseUrl = url.substring(25, 36);
+                }
+                return exerciseUrl;
+            }
+        }
     };
 
     $scope.getNextTrainingItem = function() {
@@ -78,8 +107,8 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
             if (!$scope.TrainingItems[0].hasOwnProperty('ExerciseId')) {
                 return $scope.TrainingItems[1];
             }
+            return $scope.TrainingItems[0];
         }
-        return $scope.TrainingItems[0];
     };
 
     $scope.getTrainingName = function(trainingItem) {
@@ -95,26 +124,18 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         }
     };
 
-
-    var getVideo = function() {
-        // Returns the videoId from the current exerciseUrl.
-        var item = $scope.getNextTrainingItem();
-        if (item) {
-            var url = item.ExeciseUrl;
-            if (url) {
-                var exerciseUrl;
-                if (url.startsWith("https")) {
-                    exerciseUrl = url.substring(26, 37);
-                }
-                else if (url.startsWith("http")) {
-                    exerciseUrl = url.substring(25, 36);
-                }
-                return exerciseUrl;
-            }
-
-        }
+    $scope.getTrainingName = function(trainingItem) {
+        // Returns the appropriate language name for the selected item.
+        return trainingItem.LangName[$scope.lang];
     };
 
+    $scope.trainingDescription = function() {
+        // Returns the appropriate language description for the next exercise.
+        var item = $scope.getNextTrainingItem();
+        if (item) {
+            return item.LangDesc[$scope.lang];
+        }
+    };
 
     $scope.formatTime = function(time) {
         // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
@@ -122,7 +143,6 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         var sec = time - min * 60;
         return min + " " + $scope.getText('minutes') + " " + +sec + " " + $scope.getText('seconds');
     };
-
 
     var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
     var urn = '/picture/picture.png';
