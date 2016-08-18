@@ -1,20 +1,20 @@
 var player;
 
 function createPlayer(video) {
-    if (hasPlayer()) {
-        player = new YT.Player('yt-player', {
-            height: '390',
-            width: '640',
-            videoId: video,
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            },
-            playerVars: {
-                controls: 0
-            }
-        });
-    }
+  if (hasPlayer()) {
+    player = new YT.Player('yt-player', {
+      height: '390',
+      width: '640',
+      videoId: video,
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      },
+      playerVars: {
+        controls: 0
+      }
+    });
+  }
 }
 
 function onPlayerReady(event) {
@@ -23,15 +23,15 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
-    if (event.data === YT.PlayerState.ENDED) {
-        onPlayerReady(event);
-    }
+  if (event.data === YT.PlayerState.ENDED) {
+    onPlayerReady(event);
+  }
 }
 
 function destroyPlayer() {
-    if (hasPlayer() && player.a) {
-        player.destroy();
-    }
+  if (hasPlayer() && player.a) {
+    player.destroy();
+  }
 }
 
 function hasPlayer() {
@@ -49,3 +49,5 @@ function playVideo() {
         player.playVideo();
     }
 }
+
+

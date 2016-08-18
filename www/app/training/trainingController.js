@@ -5,45 +5,57 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
 
   $(document).ready(function() {
     getTraining(79);
+    $timeout(function() {
+      // createPlayer();
+    }, 250);
     $rootScope.$on('continueEvent', function() {
       destroyPlayer();
     });
   });
 
+  /**
+   * Getting training items from service
+   */
   var getTraining = function(userId) {
     loadingService.loaderShow();
     dataService.getTraining(userId, function(data) {
-      if (data.length > 0) {
-        var trainingData = data[0].TrainingItems;
-        var prevPlanId = 0,
-          prevSetId = 0,
-          setCount = 1;
-        for (var i = 0; i < trainingData.length; i++) {
-          var exercise = trainingData[i];
-          if (exercise.PlanExerciseId - prevPlanId != 1 || exercise.SetId != prevSetId) {
-            $scope.TrainingItems.push({
-              passTitle: $scope.getText('passText') + setCount++
-            });
-          }
-          $scope.TrainingItems.push(exercise);
-          prevPlanId = exercise.PlanExerciseId;
-          prevSetId = exercise.SetId;
-        }
-      }
-      $rootScope.remainingTraining = $scope.TrainingItems.length;
+      sortTraining(data);
       loadingService.loaderHide();
-      createPlayer(getVideo());
-      if ($ionicHistory.currentView().stateName !== 'training') {
+      var currentState = $ionicHistory.currentView().stateName;
+      if (currentState !== 'trainingPlan') {
+        var source = currentState === 'trainingDemo' ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
+        audioService.playAudio(source, function() {
+          createPlayer(getVideo());
+        });
+      }
+      if (currentState !== 'training') {
         // $scope.trainingViewTimer(30);
       }
     });
   };
 
-  $scope.trainingViewTimer = function(time) {
-    $timeout(function() {
-      $scope.continue();
-    }, time * 1000);
-  };
+  /**
+   * Sorting and adding a pass Item for each set of training.
+   */
+  function sortTraining(data) {
+    if (data.TrainingItems.length > 0) {
+      var trainingData = data.TrainingItems;
+      var setCount = data.TrainingItems[0].SessionOrderNumber,
+        pass = 1,
+        firstTrainingId = data.TrainingItems[0].TrainingId;
+      for (var i = 0; i < trainingData.length; i++) {
+        var exercise = trainingData[i];
+        if (exercise.SessionOrderNumber === setCount || exercise.TrainingId > firstTrainingId) {
+          $scope.TrainingItems.push({
+            passTitle: $scope.getText('passText') + pass++
+          });
+          setCount++;
+          firstTrainingId = exercise.TrainingId;
+        }
+        $scope.TrainingItems.push(exercise);
+      }
+    }
+  }
 
   $scope.trainingViewTimer = function(time) {
     $timeout(function() {
@@ -68,16 +80,12 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
   $scope.trainingDescription = function() {
     // Returns the appropriate language description for the next exercise.
     var item = $scope.getNextTrainingItem();
-    if (item != undefined) {
+    if (item) {
       return item.LangDesc[$scope.lang];
     }
   };
 
-  var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
-  var urn = '/picture/picture.png';
-  $scope.getPicture = function(exerciseId) {
-    return url + exerciseId + urn;
-  };
+
   var getVideo = function() {
     // Returns the videoId from the current exerciseUrl.
     var item = $scope.getNextTrainingItem();
@@ -95,11 +103,18 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
       }
     }
   };
-  
+
   $scope.formatTime = function(time) {
     // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
     var min = Math.floor(time / 60);
     var sec = time - min * 60;
     return min + " " + $scope.getText('minutes') + " " + +sec + " " + $scope.getText('seconds');
+  };
+
+
+  var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
+  var urn = '/picture/picture.png';
+  $scope.getPicture = function(exerciseId) {
+    return url + exerciseId + urn;
   };
 });
