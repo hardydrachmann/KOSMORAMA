@@ -130,13 +130,13 @@
   },
   
   "pause": {
-    "da_DK": "pause",
-    "en_US": "pause"
+    "da_DK": "Pause",
+    "en_US": "Pause"
   },
   
   "set": {
-    "da_DK": "set",
-    "en_US": "set"
+    "da_DK": "Set",
+    "en_US": "Set"
   },
   
   "of": {

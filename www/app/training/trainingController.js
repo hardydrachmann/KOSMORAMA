@@ -5,13 +5,14 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
 
   $(document).ready(function() {
     getTraining(79);
-    $timeout(function() {
-      // createPlayer();
-    }, 250);
+    setPlayerReadyHandler(function() {
+      // This runs the first time the player is ready.
+    });
     $rootScope.$on('continueEvent', function() {
       destroyPlayer();
     });
   });
+
 
   /**
    * Getting training items from service
@@ -24,9 +25,8 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
       var currentState = $ionicHistory.currentView().stateName;
       if (currentState !== 'trainingPlan') {
         var source = currentState === 'trainingDemo' ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
-        audioService.playAudio(source, function() {
-          createPlayer(getVideo());
-        });
+        createPlayer(getVideo());
+        // audioService.playAudio(source, function() {});
       }
       if (currentState !== 'training') {
         // $scope.trainingViewTimer(30);
@@ -101,8 +101,10 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         }
         return exerciseUrl;
       }
+
     }
   };
+
 
   $scope.formatTime = function(time) {
     // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
@@ -117,4 +119,5 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
   $scope.getPicture = function(exerciseId) {
     return url + exerciseId + urn;
   };
+
 });

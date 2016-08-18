@@ -51,9 +51,9 @@ app.controller('TimerController', function($scope, $timeout) {
   
   $scope.timerText = function() {
     if(!pauseNext) {
-      return getText('pause');
+      return $scope.getText('pause');
     } else {
-      return getText('set') + " " + $scope.setsRemaining + " " + getText('of') + " " + $scope.sets;
+      return $scope.getText('set') + " " + $scope.setsRemaining + " " + $scope.getText('of') + " " + $scope.sets;
     }
   };
 });
