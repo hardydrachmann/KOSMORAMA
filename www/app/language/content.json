@@ -119,14 +119,29 @@
     "en_US": "You can contact your therapist by entering a message in the white textarea, followed by a press on the 'Continue' button."
   },
 
-  "minutes": {
-    "da_DK": "minutter",
-    "en_US": "minutes"
+  "min": {
+    "da_DK": "min",
+    "en_US": "min"
   },
 
-  "seconds": {
-    "da_DK": "sekunder",
-    "en_US": "seconds"
+  "sec": {
+    "da_DK": "sek",
+    "en_US": "sec"
+  },
+  
+  "pause": {
+    "da_DK": "Pause",
+    "en_US": "Pause"
+  },
+  
+  "set": {
+    "da_DK": "Set",
+    "en_US": "Set"
+  },
+  
+  "of": {
+    "da_DK": "af",
+    "en_US": "of"
   },
 
   "painLevel": {
