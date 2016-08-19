@@ -1,5 +1,5 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService) {
+app.controller('TrainingController', function($scope, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService, blobService) {
 
 	$scope.TrainingItems = [];
 
@@ -24,10 +24,10 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 	var stateAction = function() {
 		var currentState = $ionicHistory.currentView().stateName;
 		if (currentState !== 'trainingPlan') {
-			play(currentState === 'trainingDemo', false);
+			play(currentState === 'trainingDemo', true);
 		}
 		if (currentState !== 'training') {
-			trainingViewTimer(9999);
+			$scope.trainingViewTimer(9999);
 		}
 	};
 
@@ -75,11 +75,12 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 		}
 	}
 
+	var startStopAudio = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/';
 	/**
 	 * Plays video, and sound if it's wanted.
 	 */
 	function play(isTrainingDemo, playSound) {
-		var source = isTrainingDemo ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
+		var source = isTrainingDemo ? $scope.getAudio() : startStopAudio + 'start.mp3';
 		if (playSound) {
 			audioService.playAudio(source, function() {
 				$('#video-show-hide').css('display', 'block');
@@ -160,10 +161,12 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 		return min + " " + $scope.getText('min') + " " + sec + " " + $scope.getText('sec');
 	};
 
-	var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
-	var urn = '/picture/picture.png';
+	$scope.getAudio = function() {
+		return blobService.getExerciseAudio($scope.TrainingItems[1].ExerciseId);
+	};
+
 	$scope.getPicture = function(exerciseId) {
-		return url + exerciseId + urn;
+		return blobService.getExercisePicture(exerciseId);
 	};
 
 });
