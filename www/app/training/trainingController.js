@@ -2,9 +2,10 @@ var app = angular.module('kosmoramaApp');
 app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService) {
 
     $scope.TrainingItems = [];
+    $scope.userId = "";
 
     $(document).ready(function() {
-        getTraining(79);
+        getUserTraning();
         setPlayerReadyHandler(function() {
             // This runs the first time the player is ready.
         });
@@ -12,6 +13,16 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
             destroyPlayer();
         });
     });
+
+    /**
+     * Getting the user from service
+     */
+     var getUserTraning = function(){
+        dataService.getUser($scope.userScreenNumber, function(result) {
+            console.log("id", result.Id);
+          getTraining(result.Id);
+        });
+     }
 
     /**
      * Getting training items from service
