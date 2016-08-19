@@ -25,10 +25,10 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 	var stateAction = function() {
 		var currentState = $ionicHistory.currentView().stateName;
 		if (currentState !== 'trainingPlan') {
-			play(currentState === 'trainingDemo', false);
+			play(currentState === 'trainingDemo', true);
 		}
 		if (currentState !== 'training') {
-			$scope.trainingViewTimer(9999);
+			$scope.trainingViewTimer(15);
 		}
 	};
 
