@@ -7,6 +7,11 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
         getUser(function(result) {
             getTraining(result.Id, function() {
                 stateAction();
+                $rootScope.passData = {
+                    planId: $scope.TrainingItems[1].PlanExerciseId,
+                    painLevel: 0,
+                    message: null
+                };
             });
         });
         setPlayerReadyHandler(function() {
@@ -14,7 +19,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
         });
         $rootScope.$on('continueEvent', function() {
             destroyPlayer();
-            cancelViewTimer();
+            $scope.cancelViewTimer();
         });
     });
 
@@ -27,7 +32,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
             play(currentState === 'trainingDemo', false);
         }
         if (currentState !== 'training') {
-            trainingViewTimer(9999);
+            $scope.trainingViewTimer(9999);
         }
     };
 
@@ -92,26 +97,6 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
         }
     }
 
-    var trainingPromise;
-    /**
-     * Cancel the view timer.
-     */
-    function cancelViewTimer() {
-        if (trainingPromise) {
-            $timeout.cancel(trainingPromise);
-        }
-    }
-
-    /**
-     * Start the training view timer to automatically move on to the next view by calling continue().
-     */
-    $scope.trainingViewTimer = function(time) {
-        cancelViewTimer();
-        trainingPromise = $timeout(function() {
-            $scope.continue();
-        }, time * 1000);
-    }
-
     /**
      * Return the video id for the video of the next training item on the list.
      */
@@ -131,6 +116,26 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
                 return videoId;
             }
         }
+    }
+
+    var trainingPromise;
+    /**
+     * Cancel the view timer.
+     */
+    $scope.cancelViewTimer = function() {
+        if (trainingPromise) {
+            $timeout.cancel(trainingPromise);
+        }
+    }
+
+    /**
+     * Start the training view timer to automatically move on to the next view by calling continue().
+     */
+    $scope.trainingViewTimer = function(time) {
+        $scope.cancelViewTimer();
+        trainingPromise = $timeout(function() {
+            $scope.continue();
+        }, time * 1000);
     }
 
     $scope.getNextTrainingItem = function() {

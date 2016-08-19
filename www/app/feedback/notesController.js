@@ -1,6 +1,11 @@
-angular.module('kosmoramaApp').controller('NotesController', function($scope, $state) {
+angular.module('kosmoramaApp').controller('NotesController', function($scope, $state, $rootScope, dataService) {
 
     $scope.painValue = '';
+
+    $(document).ready(function() {
+        console.log($rootScope.passData);
+        $rootScope.$on('continueEvent', function() {});
+    });
 
     $scope.clearContent = function(event) {
         var element = $(event.target);
