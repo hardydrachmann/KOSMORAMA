@@ -31,9 +31,11 @@ function onPlayerReady(event) {
     playerReadyEvent = function() {};
 }
 
-
 var playerReadyEvent = function() {};
 
+/**
+ * Set the PlayerReady handler.
+ */
 function setPlayerReadyHandler(handler) {
     playerReadyEvent = handler;
 }
@@ -63,12 +65,18 @@ function hasPlayer() {
     return $('#yt-player').length > 0;
 }
 
+/**
+ * Pause the player if it exists.
+ */
 function pauseVideo() {
     if (hasPlayer() && player.a) {
         player.pauseVideo();
     }
 }
 
+/**
+ * Play video if the player exists.
+ */
 function playVideo() {
     if (hasPlayer() && player.a) {
         player.playVideo();

@@ -17,8 +17,8 @@ angular.module('kosmoramaApp').service('blobService', function() {
 
 	};
 
-	var correctLanguage = function(language) {
-		if ()
-	};
+	// var correctLanguage = function(language) {
+	// 	if ()
+	// };
 
 });

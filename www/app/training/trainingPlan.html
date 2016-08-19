@@ -14,8 +14,8 @@
                 <div ng-if="item.ExerciseId">
                     <p id="trainingName">{{getTrainingName(item)}}</p>
                     <hr/>
-                    <h3 class="text-white">{{getText('trainingPlanRepetitions')}}{{item.Repetitions}}</h3>
-                    <h3 class="text-white">{{getText('trainingPlanDuration')}}{{item.TimeSet*60}}</h3>
+                    <h3 class="text-white">{{getText('trainingPlanSets')}}{{item.Sets}}</h3>
+                    <h3 class="text-white">{{getText('trainingPlanDuration')}}{{formatTime(item.TimeSet*60)}}</h3>
                 </div>
             </div>
             <div class="col-5"></div>
