@@ -2,10 +2,13 @@ var app = angular.module('kosmoramaApp');
 app.controller('TrainingController', function($scope, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService) {
 
     $scope.TrainingItems = [];
-    $scope.userId = "";
 
     $(document).ready(function() {
-        getUserTraining();
+        getUser(function(result) {
+            getTraining(result.Id, function() {
+                stateAction();
+            });
+        });
         setPlayerReadyHandler(function() {
             // This runs the first time the player is ready.
         });
@@ -16,25 +19,29 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
     });
 
     /**
-     * Getting the user from service
+     * Execute the appropriate action for the current training view variation.
      */
-     var getUserTraining = function(){
-        dataService.getUser($scope.userScreenNumber, function(result) {
-            console.log("id", result.Id);
-          getTraining(result.Id, function() {
-            var currentState = $ionicHistory.currentView().stateName;
-            if (currentState !== 'trainingPlan') {
-                play(currentState === 'trainingDemo', false);
-            }
-            if (currentState !== 'training') {
-                trainingViewTimer(10);
-            }
-        });
-        });
-     }
+    var stateAction = function() {
+        var currentState = $ionicHistory.currentView().stateName;
+        if (currentState !== 'trainingPlan') {
+            play(currentState === 'trainingDemo', false);
+        }
+        if (currentState !== 'training') {
+            trainingViewTimer(9999);
+        }
+    };
 
     /**
-     * Getting training items from service
+     * Getting the user from service.
+     */
+    var getUser = function(callback) {
+        dataService.getUser($scope.userScreenNumber, function(result) {
+            callback(result);
+        });
+    };
+
+    /**
+     * Getting training items from service.
      */
     function getTraining(userId, callback) {
         loadingService.loaderShow();
@@ -75,10 +82,12 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
         var source = isTrainingDemo ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
         if (playSound) {
             audioService.playAudio(source, function() {
+                $('#video-show-hide').css('display', 'block');
                 createPlayer(getVideo());
             });
         }
         else {
+            $('#video-show-hide').css('display', 'block');
             createPlayer(getVideo());
         }
     }
