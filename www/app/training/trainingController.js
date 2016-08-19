@@ -105,7 +105,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
     /**
      * Start the training view timer to automatically move on to the next view by calling continue().
      */
-    function trainingViewTimer(time) {
+    $scope.trainingViewTimer = function(time) {
         cancelViewTimer();
         trainingPromise = $timeout(function() {
             $scope.continue();
@@ -159,7 +159,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
         // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
         var min = Math.floor(time / 60);
         var sec = time - min * 60;
-        return min + " " + $scope.getText('minutes') + " " + sec + " " + $scope.getText('seconds');
+        return min + " " + $scope.getText('min') + " " + sec + " " + $scope.getText('sec');
     };
 
     var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';

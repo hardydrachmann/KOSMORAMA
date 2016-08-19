@@ -24,14 +24,14 @@
     "en_US": "Description for exercise"
   },
 
-  "trainingPlanRepetitions": {
-    "da_DK": "Gentagelser: ",
-    "en_US": "Repetitions: "
+  "trainingPlanSets": {
+    "da_DK": "Sets: ",
+    "en_US": "Sets: "
   },
 
   "trainingPlanDuration": {
-    "da_DK": "Tid pr gentagelse: ",
-    "en_US": "Time pr repetition: "
+    "da_DK": "Tid pr set: ",
+    "en_US": "Time pr set: "
   },
 
   "passText": {
