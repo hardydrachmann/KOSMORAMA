@@ -2,17 +2,10 @@ var app = angular.module('kosmoramaApp');
 app.controller('TrainingController', function($scope, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService) {
 
     $scope.TrainingItems = [];
+    $scope.userId = "";
 
     $(document).ready(function() {
-        getTraining(79, function() {
-            var currentState = $ionicHistory.currentView().stateName;
-            if (currentState !== 'trainingPlan') {
-                play(currentState === 'trainingDemo', false);
-            }
-            if (currentState !== 'training') {
-                $scope.trainingViewTimer(10);
-            }
-        });
+        getUserTraining();
         setPlayerReadyHandler(function() {
             // This runs the first time the player is ready.
         });
@@ -21,6 +14,24 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
             cancelViewTimer();
         });
     });
+
+    /**
+     * Getting the user from service
+     */
+     var getUserTraining = function(){
+        dataService.getUser($scope.userScreenNumber, function(result) {
+            console.log("id", result.Id);
+          getTraining(result.Id, function() {
+            var currentState = $ionicHistory.currentView().stateName;
+            if (currentState !== 'trainingPlan') {
+                play(currentState === 'trainingDemo', false);
+            }
+            if (currentState !== 'training') {
+                $scope.trainingViewTimer(10);
+            }
+        });
+        });
+     }
 
     /**
      * Getting training items from service
