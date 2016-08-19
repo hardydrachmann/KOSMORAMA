@@ -1,54 +1,54 @@
 angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, $ionicHistory, popupService, dataService, loadingService) {
 
-    $scope.mails = [];
-    $scope.newMailCount = 0;
+  $scope.mails = [];
+  $scope.newMailCount = 0;
 
-    var getMails = function() {
-        loadingService.loaderShow();
-        dataService.getUser($scope.userScreenNumber, function(result) {
-          console.log('id', result);
-            $scope.mails = result.UserMessages;
-            getNewMails($scope.mails);
-            loadingService.loaderHide();
-        });
-    };
-
-    var getNewMails = function(mails) {
-      
-        $scope.newMailCount = 0;
-        for (var i = 0; i < mails.length; i++) {
-            if (mails[i].IsRead === false) {
-                $scope.newMailCount++;
-            }
-        }
-    };
-
+  $(document).ready(function() {
     getMails();
+  });
 
-    $scope.closeMailView = function() {
-        $state.go($ionicHistory.backView().stateName);
-    };
+  var getMails = function() {
+    loadingService.loaderShow();
+    dataService.getUser($scope.userScreenNumber, function(result) {
+      $scope.mails = result.UserMessages;
+      getNewMails($scope.mails);
+      loadingService.loaderHide();
+    });
+  };
 
-    $scope.toggleMailDisplay = function(index) {
-        var mail = $('#mail' + index);
-        if (mail.hasClass('inactive-mail')) {
-            mail.removeClass('inactive-mail');
-            mail.addClass('active-mail');
-        }
-        else {
-            mail.removeClass('active-mail');
-            mail.addClass('inactive-mail');
-        }
-    };
+  var getNewMails = function(mails) {
 
-    $scope.logMail = function(mailId) {
-        dataService.postNoteData(mailId, function(result) {
-            if (!result.result) {
-                // If for some reason the server is unavailable.
-                popupService.alertPopup($scope.getText('mailError'));
-            }
-            getMails();
-        });
-    };
+    $scope.newMailCount = 0;
+    for (var i = 0; i < mails.length; i++) {
+      if (mails[i].IsRead === false) {
+        $scope.newMailCount++;
+      }
+    }
+  };
+
+  $scope.closeMailView = function() {
+    $state.go($ionicHistory.backView().stateName);
+  };
+
+  $scope.toggleMailDisplay = function(index) {
+    var mail = $('#mail' + index);
+    if (mail.hasClass('inactive-mail')) {
+      mail.removeClass('inactive-mail');
+      mail.addClass('active-mail');
+    } else {
+      mail.removeClass('active-mail');
+      mail.addClass('inactive-mail');
+    }
+  };
+
+  $scope.logMail = function(mailId) {
+    dataService.postNoteData(mailId, function(result) {
+      if (!result.result) {
+        // If for some reason the server is unavailable.
+        popupService.alertPopup($scope.getText('mailError'));
+      }
+      getMails();
+    });
+  };
 
 });

@@ -1,48 +1,49 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $sce, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService) {
+app.controller('TrainingController', function($scope, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService) {
 
     $scope.TrainingItems = [];
     $scope.userId = "";
 
     $(document).ready(function() {
-        getUserTraning();
+        getUserTraining();
         setPlayerReadyHandler(function() {
             // This runs the first time the player is ready.
         });
         $rootScope.$on('continueEvent', function() {
             destroyPlayer();
+            cancelViewTimer();
         });
     });
 
     /**
      * Getting the user from service
      */
-     var getUserTraning = function(){
+     var getUserTraining = function(){
         dataService.getUser($scope.userScreenNumber, function(result) {
             console.log("id", result.Id);
-          getTraining(result.Id);
+          getTraining(result.Id, function() {
+            var currentState = $ionicHistory.currentView().stateName;
+            if (currentState !== 'trainingPlan') {
+                play(currentState === 'trainingDemo', false);
+            }
+            if (currentState !== 'training') {
+                trainingViewTimer(10);
+            }
+        });
         });
      }
 
     /**
      * Getting training items from service
      */
-    var getTraining = function(userId) {
+    function getTraining(userId, callback) {
         loadingService.loaderShow();
         dataService.getTraining(userId, function(data) {
             sortTraining(data);
             loadingService.loaderHide();
-            var currentState = $ionicHistory.currentView().stateName;
-            if (currentState !== 'trainingPlan') {
-                var source = currentState === 'trainingDemo' ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
-                createPlayer(getVideo());
-                // audioService.playAudio(source, function() {});
-            }
-            if (currentState !== 'training') {
-                // $scope.trainingViewTimer(30);
-            }
+            callback();
         });
-    };
+    }
 
     /**
      * Sorting and adding a pass Item for each set of training.
@@ -67,19 +68,69 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         }
     }
 
-    $scope.trainingViewTimer = function(time) {
-        $timeout(function() {
+    /**
+     * Plays video, and sound if it's wanted.
+     */
+    function play(isTrainingDemo, playSound) {
+        var source = isTrainingDemo ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
+        if (playSound) {
+            audioService.playAudio(source, function() {
+                createPlayer(getVideo());
+            });
+        }
+        else {
+            createPlayer(getVideo());
+        }
+    }
+
+    var trainingPromise;
+    /**
+     * Cancel the view timer.
+     */
+    function cancelViewTimer() {
+        if (trainingPromise) {
+            $timeout.cancel(trainingPromise);
+        }
+    }
+
+    /**
+     * Start the training view timer to automatically move on to the next view by calling continue().
+     */
+    function trainingViewTimer(time) {
+        cancelViewTimer();
+        trainingPromise = $timeout(function() {
             $scope.continue();
         }, time * 1000);
-    };
+    }
+
+    /**
+     * Return the video id for the video of the next training item on the list.
+     */
+    function getVideo() {
+        // Returns the videoId from the current exerciseUrl.
+        var item = $scope.getNextTrainingItem();
+        if (item) {
+            var url = item.ExeciseUrl;
+            if (url) {
+                var videoId;
+                if (url.startsWith("https")) {
+                    videoId = url.substring(26, 37);
+                }
+                else if (url.startsWith("http")) {
+                    videoId = url.substring(25, 36);
+                }
+                return videoId;
+            }
+        }
+    }
 
     $scope.getNextTrainingItem = function() {
         if ($scope.TrainingItems.length > 0) {
             if (!$scope.TrainingItems[0].hasOwnProperty('ExerciseId')) {
                 return $scope.TrainingItems[1];
             }
+            return $scope.TrainingItems[0];
         }
-        return $scope.TrainingItems[0];
     };
 
     $scope.getTrainingName = function(trainingItem) {
@@ -95,22 +146,11 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
         }
     };
 
-    var getVideo = function() {
-        // Returns the videoId from the current exerciseUrl.
-        var item = $scope.getNextTrainingItem();
-        if (item) {
-            var url = item.ExeciseUrl;
-            if (url) {
-                var exerciseUrl;
-                if (url.startsWith("https")) {
-                    exerciseUrl = url.substring(26, 37);
-                }
-                else if (url.startsWith("http")) {
-                    exerciseUrl = url.substring(25, 36);
-                }
-                return exerciseUrl;
-            }
-        }
+    $scope.formatTime = function(time) {
+        // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
+        var min = Math.floor(time / 60);
+        var sec = time - min * 60;
+        return min + " " + $scope.getText('minutes') + " " + sec + " " + $scope.getText('seconds');
     };
 
     var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
@@ -118,4 +158,5 @@ app.controller('TrainingController', function($scope, $state, $sce, $timeout, $r
     $scope.getPicture = function(exerciseId) {
         return url + exerciseId + urn;
     };
+
 });

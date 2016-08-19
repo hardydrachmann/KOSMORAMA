@@ -14,8 +14,14 @@
             </div>
         </div>
 
-        <div class="text-center">
-            <h2 id="timer"> {{formatTime(counter)}}</h2>
+        <div class="progress-wrapper">
+            <round-progress id="progress" max="timeProgress" current="progress" color="#303c50" bgcolor="#8092b3" radius="100" stroke="20" semi="false" rounded="false" clockwise="true" responsive="false" duration="1000" animation="linearEase" animation-delay="0"
+                offset="0">bla</round-progress>
+            <div class="progress-text">
+                <h3 id=timer>{{timerText()}}</h3>
+                <h4 id="timer">{{formatTime(counter)}}</h4>
+            </div>
         </div>
+
     </div>
 </div>

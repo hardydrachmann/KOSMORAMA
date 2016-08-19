@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('kosmoramaApp', ['ionic', 'ngCordova'])
+angular.module('kosmoramaApp', ['ionic', 'ngCordova', 'angular-svg-round-progressbar'])
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -88,13 +88,13 @@ angular.module('kosmoramaApp', ['ionic', 'ngCordova'])
     .state('painLevel', {
         url: '/painLevel',
         templateUrl: 'app/feedback/painLevel.html',
-        controller: 'painLevelController'
+        controller: 'NotesController'
     })
 
     .state('notes', {
         url: '/notes',
         templateUrl: 'app/feedback/notes.html',
-        controller: 'notesController'
+        controller: 'NotesController'
     });
 
     $urlRouterProvider.otherwise('/login');

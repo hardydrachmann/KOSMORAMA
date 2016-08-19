@@ -1,105 +1,83 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TimerController', function($scope) {
+app.controller('TimerController', function($scope, $timeout) {
 
-    $scope.rep;
-    $scope.counter = null;
-    var player;
-    var mytimeout = null;
-    var pause = false;
+    $scope.sets, $scope.setsRemaining, $scope.progress, $scope.timeProgress, $scope.counter;
+    var mytimeout, timeSet, timePause, pauseProgressDecay;
+    var pauseNext = false;
+    var timerStarted = false;
 
-    // var loadPlayer = function() {
-    //     // Instantiates the YouTube Player.
-    //     player = new YT.Player('player', {
-    //         videoId: getVideo(),
-    //         events: {
-    //             'onReady': onPlayerReady
-    //         }
-    //     });
-    // };
+    $(document).ready(function() {
+        setPlayerReadyHandler(function() {
+            getInfoForTimer();
+            startExerciseTimer();
+        });
+    });
 
-    // var destroyPlayer = function() {
-    //     try {
-    //         player.destroy();
-    //     }
-    //     catch (error) {
-    //         console.log('Player destruction error: ' + error);
-    //     }
-    // };
+    var getInfoForTimer = function() {
+        // $scope.sets = $scope.TrainingItems[1].Sets;
+        $scope.sets = 4;
+        $scope.setsRemaining = $scope.sets;
+        // timeSet = $scope.TrainingItems[1].TimeSet * 60;
+        // timePause = $scope.TrainingItems[1].Pause * 60;
+        timeSet = 15;
+        timePause = 10;
+        $scope.counter = timeSet;
+        pauseProgressDecay = timeSet / timePause;
+    };
 
-    // var getYouTubePlayer = function() {
-    //     // Destroy the YouTube Player for the previous view, and loads the new one.
-    //     loadPlayer();
-    //     destroyPlayer();
-    //     loadPlayer();
-    // };
+    $scope.onTimeout = function() {
+        if ($scope.counter === 0) {
+            $timeout.cancel(mytimeout);
+            if ($scope.setsRemaining > 0) {
+                if (!pauseNext) {
+                    startExerciseTimer();
+                }
+                else {
+                    startPauseTimer();
+                }
+            }
+            else {
+                $scope.trainingViewTimer(5);
+            }
+        }
+        $scope.counter--;
+        if (pauseNext) {
+            $scope.progress++;
+        }
+        else {
+            console.log('decayrate: ' + pauseProgressDecay + " progress: " + $scope.progress);
+            $scope.progress -= pauseProgressDecay;
+        }
+        mytimeout = $timeout($scope.onTimeout, 1000);
+    };
 
-    // var onPlayerReady = function(event) {
-    //     // Handles logic when the 'onReady' event is triggered.
-    //     event.target.loadPlaylist(getVideo());
+    var startExerciseTimer = function() {
+        $scope.timeProgress = timeSet;
+        $scope.counter = timeSet;
+        $scope.progress = 1;
+        playVideo();
+        pauseNext = true;
+        $scope.setsRemaining--;
+        if (!timerStarted) {
+            mytimeout = $timeout($scope.onTimeout);
+            timerStarted = true;
+        }
+    };
 
-    //     event.target.setLoop(true);
-    //     startExcerciseTimer();
-    //     if ($ionicHistory.currentView().stateName === 'trainingDemo') {
-    //         timeOut(trainingLength * 4);
-    //     }
-    // }
+    var startPauseTimer = function() {
+        $scope.counter = timePause;
+        // $scope.progress -= pauseProgressDecay;
+        $scope.progress -= 1;
+        pauseVideo();
+        pauseNext = false;
+    };
 
-    // var timeOut = function(time) {
-    //     $timeout(function() {
-    //         $scope.continue();
-
-    //     }, time * 1000);
-    // }
-
-    // $scope.formatTime = function(time) {
-    //     // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
-    //     var min = Math.floor(time / 60);
-    //     var sec = time - min * 60;
-    //     return min + " " + $scope.getText('minutes') + " " + +sec + " " + $scope.getText('seconds');
-    // };
-
-    // var getTrainingSetInfo = function() {
-    //     // Gets the number of repetitions, duration for repetitions and pauses for the current excercise, and sets the initial value for the timer.
-    //     $scope.rep = $scope.TrainingItems[0].Repetitions;
-    //     $scope.counter = $scope.TrainingItems[0].TimeSet * 60;
-    // };
-
-    // $scope.onTimeout = function() {
-    //     // Handles what happens next, everytime the timer times out.
-    //     if ($scope.counter === 0) {
-    //         $timeout.cancel(mytimeout);
-    //         if ($scope.rep > 0)
-    //             if (!pause)
-    //                 startExcerciseTimer();
-    //             else
-    //                 startPauseTimer();
-    //         else {
-    //             player.stopVideo();
-    //             if ($ionicHistory.currentView().stateName === 'training') {
-    //                 timeOut(5);
-    //             }
-    //         }
-    //         return;
-    //     }
-    //     $scope.counter--;
-    //     mytimeout = $timeout($scope.onTimeout, 1000);
-    // };
-
-    // var startExcerciseTimer = function() {
-    //     // Starts the timer and handles relevant logic.
-    //     $scope.counter = $scope.TrainingItems[0].TimeSet * 60;
-    //     player.playVideo();
-    //     pause = true;
-    //     $scope.rep--;
-    //     mytimeout = $timeout($scope.onTimeout);
-
-    // };
-
-    // var startPauseTimer = function() {
-    //     // Pauses the timer and handles relevant logic.
-    //     $scope.counter = $scope.TrainingItems[0].Pause * 60;
-    //     player.pauseVideo();
-    //     pause = false;
-    //     mytimeout = $timeout($scope.onTimeout);
-    // };
+    $scope.timerText = function() {
+        if (!pauseNext) {
+            return $scope.getText('pause');
+        }
+        else {
+            return $scope.getText('set') + " " + $scope.setsRemaining + " " + $scope.getText('of') + " " + $scope.sets;
+        }
+    };
 });
