@@ -1,7 +1,7 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TimerController', function($scope, $timeout) {
+app.controller('TimerController', function($scope, $timeout, $window) {
 
-    $scope.sets, $scope.setsRemaining, $scope.progress, $scope.timeProgress, $scope.counter;
+    $scope.sets, $scope.setsRemaining, $scope.progress, $scope.timeProgress, $scope.counter, $scope.radius, $scope.stroke;
     $scope.currentSet = 0;
     var mytimeout, timeSet, timePause, pauseProgressDecay;
     var pauseNext = false;
@@ -10,9 +10,23 @@ app.controller('TimerController', function($scope, $timeout) {
     $(document).ready(function() {
         setPlayerReadyHandler(function() {
             getInfoForTimer();
+            setProgressSize();
             startExerciseTimer();
         });
     });
+
+    var setProgressSize = function() {
+        if($window.innerHeight > 900) {
+            $scope.radius = 150;
+            $scope.stroke = 30;
+        } else if($window.innerHeight < 900 && $window.innerHeight >= 640) {
+            $scope.radius = 100;
+            $scope.stroke = 20;
+        } else if($window.innerHeight < 640) {
+            $scope.radius = 75;
+            $scope.stroke = 15;
+        }
+    }
 
     var getInfoForTimer = function() {
         $scope.sets = $scope.TrainingItems[1].Sets;
@@ -45,6 +59,7 @@ app.controller('TimerController', function($scope, $timeout) {
         }
         else {
             $scope.progress -= pauseProgressDecay;
+               
         }
         mytimeout = $timeout($scope.onTimeout, 1000);
     };
