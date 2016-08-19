@@ -1,6 +1,6 @@
 // This is a service which can play and stop playback of audio files (DOES NOT WORK IN BROWSER, TEST ON DEVICE ONLY!).
 
-angular.module('kosmoramaApp').service('audioService', function($cordovaMedia, $cordovaNativeAudio, loadingService) {
+angular.module('kosmoramaApp').service('audioService', function($cordovaMedia, loadingService) {
 
   var audioPlaying = null;
 
