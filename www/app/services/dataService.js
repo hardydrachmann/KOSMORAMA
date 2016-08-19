@@ -1,4 +1,4 @@
-// This is a data Service factory which get and post data in Api-service.
+// This is a data service which gets and posts data in the API-service.
 
 angular.module('kosmoramaApp').service('dataService', function($http) {
 
@@ -56,7 +56,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
         }).success(function(trainingData) {
             var train = [];
             var date = new Date();
-
             // Checking for current days training Items and adding them to array.
             for (var i = 0; i < trainingData.result.length; i++) {
                 var newdate = new Date(trainingData.result[i].Date);

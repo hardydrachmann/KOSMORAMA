@@ -7,11 +7,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
         getUser(function(result) {
             getTraining(result.Id, function() {
                 stateAction();
-                $rootScope.passData = {
-                    planId: $scope.TrainingItems[1].PlanExerciseId,
-                    painLevel: 0,
-                    message: null
-                };
+                storeData();
             });
         });
         setPlayerReadyHandler(function() {
@@ -34,6 +30,18 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
         if (currentState !== 'training') {
             $scope.trainingViewTimer(9999);
         }
+    };
+
+    /**
+     * Store data necessary for later views in the root scope.
+     */
+    var storeData = function() {
+        $rootScope.passData = {
+            planId: $scope.TrainingItems[1].PlanExerciseId,
+            sessionNumber: $scope.TrainingItems[1].SessionOrderNumber,
+            painLevel: 0,
+            message: null
+        };
     };
 
     /**
