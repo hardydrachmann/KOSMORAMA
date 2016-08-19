@@ -82,14 +82,6 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
         }
     }
 
-<<<<<<< HEAD
-  $scope.formatTime = function(time) {
-    // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
-    var min = Math.floor(time / 60);
-    var sec = time - min * 60;
-    return min + " " + $scope.getText('min') + " " + +sec + " " + $scope.getText('sec');
-  };
-=======
     /**
      * Start the training view timer to automatically move on to the next view by calling continue().
      */
@@ -99,7 +91,6 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
             $scope.continue();
         }, time * 1000);
     }
->>>>>>> 418acc171b5ef24cb733aae27087ba604c0840f9
 
     /**
      * Return the video id for the video of the next training item on the list.
@@ -128,19 +119,6 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
                 return $scope.TrainingItems[1];
             }
             return $scope.TrainingItems[0];
-        }
-    };
-
-    $scope.getTrainingName = function(trainingItem) {
-        // Returns the appropriate language name for the selected item.
-        return trainingItem.LangName[$scope.lang];
-    };
-
-    $scope.trainingDescription = function() {
-        // Returns the appropriate language description for the next exercise.
-        var item = $scope.getNextTrainingItem();
-        if (item) {
-            return item.LangDesc[$scope.lang];
         }
     };
 
