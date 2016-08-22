@@ -27,7 +27,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 			play(currentState === 'trainingDemo', false);
 		}
 		if (currentState !== 'training') {
-			trainingViewTimer(9999);
+			$scope.trainingViewTimer(9999);
 		}
 	};
 

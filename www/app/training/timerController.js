@@ -66,12 +66,12 @@ app.controller('TimerController', function($scope, $timeout, $window) {
 
     var startExerciseTimer = function() {
         $scope.currentSet++;
+        $scope.setsRemaining--;
         $scope.timeProgress = timeSet;
         $scope.counter = timeSet;
         $scope.progress = 1;
         playVideo();
         pauseNext = true;
-        $scope.setsRemaining--;
         if (!timerStarted) {
             mytimeout = $timeout($scope.onTimeout);
             timerStarted = true;
