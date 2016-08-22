@@ -3,22 +3,23 @@
 angular.module('kosmoramaApp').service('blobService', function() {
 
 	var baseURL = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
-	var language = window.localStorage.getItem('kosmoramaLang');
 
-	this.getExerciseAudio = function(exerciseId, language) {
-
-
-		console.log('base URL: ' + baseURL);
-		console.log('selected language:' + language);
-		// return baseURL + ØVELSE + '/speak/' + SPROG + 'speak.mp3'
+	this.getExerciseAudio = function(exerciseId) {
+		var language = getLanguageString();
+		return baseURL + exerciseId + '/speak/' + language + '/speak.mp3';
 	};
 
-	this.getExercisePicture = function() {
-
+	this.getExercisePicture = function(exerciseId) {
+		var language = getLanguageString();
+		return baseURL + exerciseId + '/picture/' + 'picture.png';
 	};
 
-	// var correctLanguage = function(language) {
-	// 	if ()
-	// };
+	var getLanguageString = function() {
+		var storageLanguage = window.localStorage.getItem('kosmoramaLang');
+		if (storageLanguage === 'en_US') {
+			storageLanguage = 'en_GB';
+		}
+		return storageLanguage.replace('_', '-');
+	};
 
 });

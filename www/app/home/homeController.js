@@ -1,17 +1,15 @@
-angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, $ionicHistory, popupService, dataService, loadingService, blobService) {
+angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, $ionicHistory, popupService, dataService, loadingService) {
 
 	$scope.mails = [];
 	$scope.newMailCount = 0;
 
 	$(document).ready(function() {
 		getMails();
-		blobService.getExerciseAudio();
 	});
 
 	var getMails = function() {
 		loadingService.loaderShow();
 		dataService.getUser($scope.userScreenNumber, function(result) {
-			console.log('id', result);
 			$scope.mails = result.UserMessages;
 			getNewMails($scope.mails);
 			loadingService.loaderHide();
@@ -19,7 +17,6 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	};
 
 	var getNewMails = function(mails) {
-
 		$scope.newMailCount = 0;
 		for (var i = 0; i < mails.length; i++) {
 			if (mails[i].IsRead === false) {

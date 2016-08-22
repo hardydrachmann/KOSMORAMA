@@ -1,21 +1,21 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService) {
+app.controller('TrainingController', function($scope, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService, blobService) {
 
     $scope.TrainingItems = [];
 
     $(document).ready(function() {
-        if (!$rootScope.currentTraining) {
+        var currentState = $ionicHistory.currentView().stateName;
+        if (currentState === 'trainingPlan') {
             getUser(function(result) {
                 getTraining(result.Id, function() {
-                    stateAction();
                     storeData();
+                    stateAction(currentState);
                 });
             });
         }
         else {
-            stateAction();
+            stateAction(currentState);
         }
-
         setPlayerReadyHandler(function() {
             // This runs the first time the player is ready.
         });
@@ -26,24 +26,10 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
     });
 
     /**
-     * Execute the appropriate action for the current training view variation.
-     */
-    var stateAction = function() {
-        var currentState = $ionicHistory.currentView().stateName;
-        if (currentState !== 'trainingPlan') {
-            $timeout(function() {
-                play(currentState === 'trainingDemo', false);
-            }, 2000);
-        }
-        if (currentState !== 'training') {
-            $scope.trainingViewTimer(9999);
-        }
-    };
-
-    /**
-     * Store data necessary for later views in the root scope.
+     * Store data which is necessary for later views in the root scope.
      */
     var storeData = function() {
+        $rootScope.currentTraining = $scope.TrainingItems[1];
         $rootScope.passData = {
             planId: $scope.TrainingItems[1].PlanExerciseId,
             sessionNumber: $scope.TrainingItems[1].SessionOrderNumber,
@@ -67,7 +53,6 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
     function getTraining(userId, callback) {
         loadingService.loaderShow();
         dataService.getTraining(userId, function(data) {
-            $rootScope.currentTraining = data.TrainingItems[0];
             sortTraining(data);
             loadingService.loaderHide();
             callback();
@@ -98,10 +83,23 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
     }
 
     /**
+     * Execute the appropriate action for the current training view variation.
+     */
+    var stateAction = function(currentState) {
+        if (currentState !== 'trainingPlan') {
+            play(currentState === 'trainingDemo', false);
+        }
+        if (currentState !== 'training') {
+            $scope.trainingViewTimer(15);
+        }
+    };
+
+    var startStopAudioUrl = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/';
+    /**
      * Plays video, and sound if it's wanted.
      */
     function play(isTrainingDemo, playSound) {
-        var source = isTrainingDemo ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
+        var source = isTrainingDemo ? $scope.getAudio() : startStopAudioUrl + 'start.mp3';
         if (playSound) {
             audioService.playAudio(source, function() {
                 $('#video-show-hide').css('display', 'block');
@@ -109,8 +107,11 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
             });
         }
         else {
-            $('#video-show-hide').css('display', 'block');
-            createPlayer(getVideo());
+            $timeout(function() {
+                $('#video-show-hide').css('display', 'block');
+                createPlayer(getVideo());
+
+            }, 1000);
         }
     }
 
@@ -119,7 +120,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
      */
     function getVideo() {
         // Returns the videoId from the current exerciseUrl.
-        var item = $scope.getNextTrainingItem();
+        var item = $rootScope.currentTraining;
         if (item) {
             var url = item.ExeciseUrl;
             if (url) {
@@ -143,7 +144,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
         if (trainingPromise) {
             $timeout.cancel(trainingPromise);
         }
-    }
+    };
 
     /**
      * Start the training view timer to automatically move on to the next view by calling continue().
@@ -153,15 +154,6 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
         trainingPromise = $timeout(function() {
             $scope.continue();
         }, time * 1000);
-    }
-
-    $scope.getNextTrainingItem = function() {
-        if ($scope.TrainingItems.length > 0) {
-            if (!$scope.TrainingItems[0].hasOwnProperty('ExerciseId')) {
-                return $scope.TrainingItems[1];
-            }
-            return $scope.TrainingItems[0];
-        }
     };
 
     $scope.getTrainingName = function(trainingItem) {
@@ -171,7 +163,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 
     $scope.trainingDescription = function() {
         // Returns the appropriate language description for the next exercise.
-        var item = $scope.getNextTrainingItem();
+        var item = $rootScope.currentTraining;
         if (item) {
             return item.LangDesc[$scope.lang];
         }
@@ -184,10 +176,11 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
         return min + " " + $scope.getText('min') + " " + sec + " " + $scope.getText('sec');
     };
 
-    var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
-    var urn = '/picture/picture.png';
-    $scope.getPicture = function(exerciseId) {
-        return url + exerciseId + urn;
+    $scope.getAudio = function() {
+        return blobService.getExerciseAudio($rootScope.currentTraining.ExerciseId);
     };
 
+    $scope.getPicture = function(exerciseId) {
+        return blobService.getExercisePicture(exerciseId);
+    };
 });
