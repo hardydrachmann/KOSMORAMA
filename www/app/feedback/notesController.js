@@ -1,6 +1,18 @@
-angular.module('kosmoramaApp').controller('NotesController', function($scope, $state) {
+angular.module('kosmoramaApp').controller('NotesController', function($scope, $state, $rootScope, dataService) {
 
     $scope.painValue = '';
+    $scope.messageText = '';
+
+    $(document).ready(function() {
+        $rootScope.$on('continueEvent', function() {
+            if ($scope.painValue) {
+                $rootScope.passData.painLevel = $scope.painValue;
+            }
+            else if ($scope.messageText) {
+                $rootScope.passData.message = $scope.messageText;
+            }
+        });
+    });
 
     $scope.clearContent = function(event) {
         var element = $(event.target);
