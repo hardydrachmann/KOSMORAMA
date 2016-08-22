@@ -15,7 +15,9 @@ function createPlayer(video) {
                 'onStateChange': onPlayerStateChange
             },
             playerVars: {
-                controls: 0
+                controls: 0,
+                showinfo: 0,
+                rel: 0
             }
         });
     }

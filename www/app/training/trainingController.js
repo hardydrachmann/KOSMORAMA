@@ -1,184 +1,186 @@
 var app = angular.module('kosmoramaApp');
 app.controller('TrainingController', function($scope, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService, blobService) {
 
-	$scope.TrainingItems = [];
+    $scope.TrainingItems = [];
 
-	$(document).ready(function() {
-		getUser(function(result) {
-			getTraining(result.Id, function() {
-				stateAction();
-				storeData();
-			});
-		});
-		setPlayerReadyHandler(function() {
-			// This runs the first time the player is ready.
-		});
-		$rootScope.$on('continueEvent', function() {
-			destroyPlayer();
-			$scope.cancelViewTimer();
-		});
-	});
+    $(document).ready(function() {
+        var currentState = $ionicHistory.currentView().stateName;
+        if (currentState === 'trainingPlan') {
+            getUser(function(result) {
+                getTraining(result.Id, function() {
+                    storeData();
+                    stateAction(currentState);
+                });
+            });
+        }
+        else {
+            stateAction(currentState);
+        }
+        setPlayerReadyHandler(function() {
+            // This runs the first time the player is ready.
+        });
+        $rootScope.$on('continueEvent', function() {
+            destroyPlayer();
+            $scope.cancelViewTimer();
+        });
+    });
 
-	/**
-	 * Execute the appropriate action for the current training view variation.
-	 */
-	var stateAction = function() {
-		var currentState = $ionicHistory.currentView().stateName;
-		if (currentState !== 'trainingPlan') {
-			play(currentState === 'trainingDemo', true);
-		}
-		if (currentState !== 'training') {
-			$scope.trainingViewTimer(15);
-		}
-	};
+    /**
+     * Store data which is necessary for later views in the root scope.
+     */
+    var storeData = function() {
+        $rootScope.currentTraining = $scope.TrainingItems[1];
+        $rootScope.passData = {
+            planId: $scope.TrainingItems[1].PlanExerciseId,
+            sessionNumber: $scope.TrainingItems[1].SessionOrderNumber,
+            painLevel: 0,
+            message: null
+        };
+    };
 
-	/**
-	 * Store data necessary for later views in the root scope.
-	 */
-	var storeData = function() {
-		$rootScope.passData = {
-			planId: $scope.TrainingItems[1].PlanExerciseId,
-			sessionNumber: $scope.TrainingItems[1].SessionOrderNumber,
-			painLevel: 0,
-			message: null
-		};
-	};
+    /**
+     * Getting the user from service.
+     */
+    var getUser = function(callback) {
+        dataService.getUser($scope.userScreenNumber, function(result) {
+            callback(result);
+        });
+    };
 
-	/**
-	 * Getting the user from service.
-	 */
-	var getUser = function(callback) {
-		dataService.getUser($scope.userScreenNumber, function(result) {
-			callback(result);
-		});
-	};
+    /**
+     * Getting training items from service.
+     */
+    function getTraining(userId, callback) {
+        loadingService.loaderShow();
+        dataService.getTraining(userId, function(data) {
+            sortTraining(data);
+            loadingService.loaderHide();
+            callback();
+        });
+    }
 
-	/**
-	 * Getting training items from service.
-	 */
-	function getTraining(userId, callback) {
-		loadingService.loaderShow();
-		dataService.getTraining(userId, function(data) {
-			sortTraining(data);
-			loadingService.loaderHide();
-			callback();
-		});
-	}
+    /**
+     * Sorting and adding a pass Item for each set of training.
+     */
+    function sortTraining(data) {
+        if (data.TrainingItems.length > 0) {
+            var trainingData = data.TrainingItems;
+            var setCount = data.TrainingItems[0].SessionOrderNumber,
+                pass = 1,
+                firstTrainingId = data.TrainingItems[0].TrainingId;
+            for (var i = 0; i < trainingData.length; i++) {
+                var exercise = trainingData[i];
+                if (exercise.SessionOrderNumber === setCount || exercise.TrainingId > firstTrainingId) {
+                    $scope.TrainingItems.push({
+                        passTitle: $scope.getText('passText') + pass++
+                    });
+                    setCount++;
+                    firstTrainingId = exercise.TrainingId;
+                }
+                $scope.TrainingItems.push(exercise);
+            }
+        }
+    }
 
-	/**
-	 * Sorting and adding a pass Item for each set of training.
-	 */
-	function sortTraining(data) {
-		if (data.TrainingItems.length > 0) {
-			var trainingData = data.TrainingItems;
-			var setCount = data.TrainingItems[0].SessionOrderNumber,
-				pass = 1,
-				firstTrainingId = data.TrainingItems[0].TrainingId;
-			for (var i = 0; i < trainingData.length; i++) {
-				var exercise = trainingData[i];
-				if (exercise.SessionOrderNumber === setCount || exercise.TrainingId > firstTrainingId) {
-					$scope.TrainingItems.push({
-						passTitle: $scope.getText('passText') + pass++
-					});
-					setCount++;
-					firstTrainingId = exercise.TrainingId;
-				}
-				$scope.TrainingItems.push(exercise);
-			}
-		}
-	}
+    /**
+     * Execute the appropriate action for the current training view variation.
+     */
+    var stateAction = function(currentState) {
+        if (currentState !== 'trainingPlan') {
+            play(currentState === 'trainingDemo', false);
+        }
+        if (currentState !== 'training') {
+            $scope.trainingViewTimer(15);
+        }
+    };
 
-	var startStopAudio = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/';
-	/**
-	 * Plays video, and sound if it's wanted.
-	 */
-	function play(isTrainingDemo, playSound) {
-		var source = isTrainingDemo ? $scope.getAudio() : startStopAudio + 'start.mp3';
-		if (playSound) {
-			audioService.playAudio(source, function() {
-				$('#video-show-hide').css('display', 'block');
-				createPlayer(getVideo());
-			});
-		} else {
-			$('#video-show-hide').css('display', 'block');
-			createPlayer(getVideo());
-		}
-	}
+    var startStopAudioUrl = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/';
+    /**
+     * Plays video, and sound if it's wanted.
+     */
+    function play(isTrainingDemo, playSound) {
+        var source = isTrainingDemo ? $scope.getAudio() : startStopAudioUrl + 'start.mp3';
+        if (playSound) {
+            audioService.playAudio(source, function() {
+                $('#video-show-hide').css('display', 'block');
+                createPlayer(getVideo());
+            });
+        }
+        else {
+            $timeout(function() {
+                $('#video-show-hide').css('display', 'block');
+                createPlayer(getVideo());
 
-	/**
-	 * Return the video id for the video of the next training item on the list.
-	 */
-	function getVideo() {
-		// Returns the videoId from the current exerciseUrl.
-		var item = $scope.getNextTrainingItem();
-		if (item) {
-			var url = item.ExeciseUrl;
-			if (url) {
-				var videoId;
-				if (url.startsWith("https")) {
-					videoId = url.substring(26, 37);
-				} else if (url.startsWith("http")) {
-					videoId = url.substring(25, 36);
-				}
-				return videoId;
-			}
-		}
-	}
+            }, 1000);
+        }
+    }
 
-	var trainingPromise;
-	/**
-	 * Cancel the view timer.
-	 */
-	$scope.cancelViewTimer = function() {
-		if (trainingPromise) {
-			$timeout.cancel(trainingPromise);
-		}
-	};
+    /**
+     * Return the video id for the video of the next training item on the list.
+     */
+    function getVideo() {
+        // Returns the videoId from the current exerciseUrl.
+        var item = $rootScope.currentTraining;
+        if (item) {
+            var url = item.ExeciseUrl;
+            if (url) {
+                var videoId;
+                if (url.startsWith("https")) {
+                    videoId = url.substring(26, 37);
+                }
+                else if (url.startsWith("http")) {
+                    videoId = url.substring(25, 36);
+                }
+                return videoId;
+            }
+        }
+    }
 
-	/**
-	 * Start the training view timer to automatically move on to the next view by calling continue().
-	 */
-	$scope.trainingViewTimer = function(time) {
-		$scope.cancelViewTimer();
-		trainingPromise = $timeout(function() {
-			$scope.continue();
-		}, time * 1000);
-	};
+    var trainingPromise;
+    /**
+     * Cancel the view timer.
+     */
+    $scope.cancelViewTimer = function() {
+        if (trainingPromise) {
+            $timeout.cancel(trainingPromise);
+        }
+    };
 
-	$scope.getNextTrainingItem = function() {
-		if ($scope.TrainingItems.length > 0) {
-			if (!$scope.TrainingItems[0].hasOwnProperty('ExerciseId')) {
-				return $scope.TrainingItems[1];
-			}
-			return $scope.TrainingItems[0];
-		}
-	};
+    /**
+     * Start the training view timer to automatically move on to the next view by calling continue().
+     */
+    $scope.trainingViewTimer = function(time) {
+        $scope.cancelViewTimer();
+        trainingPromise = $timeout(function() {
+            $scope.continue();
+        }, time * 1000);
+    };
 
-	$scope.getTrainingName = function(trainingItem) {
-		// Returns the appropriate language name for the selected item.
-		return trainingItem.LangName[$scope.lang];
-	};
+    $scope.getTrainingName = function(trainingItem) {
+        // Returns the appropriate language name for the selected item.
+        return trainingItem.LangName[$scope.lang];
+    };
 
-	$scope.trainingDescription = function() {
-		// Returns the appropriate language description for the next exercise.
-		var item = $scope.getNextTrainingItem();
-		if (item) {
-			return item.LangDesc[$scope.lang];
-		}
-	};
+    $scope.trainingDescription = function() {
+        // Returns the appropriate language description for the next exercise.
+        var item = $rootScope.currentTraining;
+        if (item) {
+            return item.LangDesc[$scope.lang];
+        }
+    };
 
-	$scope.formatTime = function(time) {
-		// Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
-		var min = Math.floor(time / 60);
-		var sec = time - min * 60;
-		return min + " " + $scope.getText('min') + " " + sec + " " + $scope.getText('sec');
-	};
+    $scope.formatTime = function(time) {
+        // Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
+        var min = Math.floor(time / 60);
+        var sec = time - min * 60;
+        return min + " " + $scope.getText('min') + " " + sec + " " + $scope.getText('sec');
+    };
 
-	$scope.getAudio = function() {
-		return blobService.getExerciseAudio($scope.TrainingItems[1].ExerciseId);
-	};
+    $scope.getAudio = function() {
+        return blobService.getExerciseAudio($rootScope.currentTraining.ExerciseId);
+    };
 
-	$scope.getPicture = function(exerciseId) {
-		return blobService.getExercisePicture(exerciseId);
-	};
+    $scope.getPicture = function(exerciseId) {
+        return blobService.getExercisePicture(exerciseId);
+    };
 });
