@@ -4,12 +4,18 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
     $scope.TrainingItems = [];
 
     $(document).ready(function() {
-        getUser(function(result) {
-            getTraining(result.Id, function() {
-                stateAction();
-                storeData();
+        if (!$rootScope.currentTraining) {
+            getUser(function(result) {
+                getTraining(result.Id, function() {
+                    stateAction();
+                    storeData();
+                });
             });
-        });
+        }
+        else {
+            stateAction();
+        }
+
         setPlayerReadyHandler(function() {
             // This runs the first time the player is ready.
         });
@@ -25,7 +31,9 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
     var stateAction = function() {
         var currentState = $ionicHistory.currentView().stateName;
         if (currentState !== 'trainingPlan') {
-            play(currentState === 'trainingDemo', false);
+            $timeout(function() {
+                play(currentState === 'trainingDemo', false);
+            }, 2000);
         }
         if (currentState !== 'training') {
             $scope.trainingViewTimer(9999);
@@ -59,6 +67,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
     function getTraining(userId, callback) {
         loadingService.loaderShow();
         dataService.getTraining(userId, function(data) {
+            $rootScope.currentTraining = data.TrainingItems[0];
             sortTraining(data);
             loadingService.loaderHide();
             callback();
