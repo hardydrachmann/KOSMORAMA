@@ -88,13 +88,15 @@ angular.module('kosmoramaApp', ['ionic', 'ngCordova', 'angular-svg-round-progres
     .state('painLevel', {
         url: '/painLevel',
         templateUrl: 'app/feedback/painLevel.html',
-        controller: 'NotesController'
+        controller: 'NotesController',
+        cache: false
     })
 
     .state('notes', {
         url: '/notes',
         templateUrl: 'app/feedback/notes.html',
-        controller: 'NotesController'
+        controller: 'NotesController',
+        cache: false
     });
 
     $urlRouterProvider.otherwise('/login');

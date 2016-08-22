@@ -1,5 +1,5 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService) {
+app.controller('TrainingController', function($scope, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService, blobService) {
 
 	$scope.TrainingItems = [];
 
@@ -7,6 +7,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 		getUser(function(result) {
 			getTraining(result.Id, function() {
 				stateAction();
+				storeData();
 			});
 		});
 		setPlayerReadyHandler(function() {
@@ -14,7 +15,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 		});
 		$rootScope.$on('continueEvent', function() {
 			destroyPlayer();
-			cancelViewTimer();
+			$scope.cancelViewTimer();
 		});
 	});
 
@@ -24,11 +25,23 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 	var stateAction = function() {
 		var currentState = $ionicHistory.currentView().stateName;
 		if (currentState !== 'trainingPlan') {
-			play(currentState === 'trainingDemo', false);
+			play(currentState === 'trainingDemo', true);
 		}
 		if (currentState !== 'training') {
-			$scope.trainingViewTimer(9999);
+			$scope.trainingViewTimer(15);
 		}
+	};
+
+	/**
+	 * Store data necessary for later views in the root scope.
+	 */
+	var storeData = function() {
+		$rootScope.passData = {
+			planId: $scope.TrainingItems[1].PlanExerciseId,
+			sessionNumber: $scope.TrainingItems[1].SessionOrderNumber,
+			painLevel: 0,
+			message: null
+		};
 	};
 
 	/**
@@ -75,11 +88,12 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 		}
 	}
 
+	var startStopAudio = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/';
 	/**
 	 * Plays video, and sound if it's wanted.
 	 */
 	function play(isTrainingDemo, playSound) {
-		var source = isTrainingDemo ? 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3' : 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/start.mp3';
+		var source = isTrainingDemo ? $scope.getAudio() : startStopAudio + 'start.mp3';
 		if (playSound) {
 			audioService.playAudio(source, function() {
 				$('#video-show-hide').css('display', 'block');
@@ -90,26 +104,6 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 			createPlayer(getVideo());
 		}
 	}
-
-	var trainingPromise;
-	/**
-	 * Cancel the view timer.
-	 */
-	function cancelViewTimer() {
-		if (trainingPromise) {
-			$timeout.cancel(trainingPromise);
-		}
-	}
-
-	/**
-	 * Start the training view timer to automatically move on to the next view by calling continue().
-	 */
-	$scope.trainingViewTimer = function(time) {
-		cancelViewTimer();
-		trainingPromise = $timeout(function() {
-			$scope.continue();
-		}, time * 1000);
-	};
 
 	/**
 	 * Return the video id for the video of the next training item on the list.
@@ -130,6 +124,26 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 			}
 		}
 	}
+
+	var trainingPromise;
+	/**
+	 * Cancel the view timer.
+	 */
+	$scope.cancelViewTimer = function() {
+		if (trainingPromise) {
+			$timeout.cancel(trainingPromise);
+		}
+	};
+
+	/**
+	 * Start the training view timer to automatically move on to the next view by calling continue().
+	 */
+	$scope.trainingViewTimer = function(time) {
+		$scope.cancelViewTimer();
+		trainingPromise = $timeout(function() {
+			$scope.continue();
+		}, time * 1000);
+	};
 
 	$scope.getNextTrainingItem = function() {
 		if ($scope.TrainingItems.length > 0) {
@@ -160,10 +174,11 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 		return min + " " + $scope.getText('min') + " " + sec + " " + $scope.getText('sec');
 	};
 
-	var url = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
-	var urn = '/picture/picture.png';
-	$scope.getPicture = function(exerciseId) {
-		return url + exerciseId + urn;
+	$scope.getAudio = function() {
+		return blobService.getExerciseAudio($scope.TrainingItems[1].ExerciseId);
 	};
 
+	$scope.getPicture = function(exerciseId) {
+		return blobService.getExercisePicture(exerciseId);
+	};
 });

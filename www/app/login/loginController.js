@@ -20,7 +20,6 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
   };
 
   $scope.login = function() {
-    console.log('bef', $scope.userScreenNumber );
     if ($scope.userScreenNumber) {
       loadingService.loaderShow();
       dataService.getUser($scope.userScreenNumber, function(result) {
@@ -33,13 +32,15 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
           $scope.setTabs();
           loadingService.loaderHide(1000);
           $state.go('home');
-        } else {
+        }
+        else {
           loadingService.loaderHide(1000);
           $('#setUserScreenNumber').val('');
           popupService.AlertPopup($scope.getText('loginFail'));
         }
       });
-    } else {
+    }
+    else {
       popupService.AlertPopup($scope.getText('loginHelp'));
     }
   };
