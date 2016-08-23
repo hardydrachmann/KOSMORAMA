@@ -33,6 +33,11 @@
     "da_DK": "Tid pr set: ",
     "en_US": "Time pr set: "
   },
+  
+  "noTrainingText": {
+    "da_DK": "Dagens træning er fuldført. Tjek ind igen i morgen.",
+    "en_US": "Todays training is complete. Check in again tomorrow."
+  },
 
   "passText": {
     "da_DK": "Pas ",
