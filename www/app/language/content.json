@@ -5,13 +5,13 @@
   },
 
   "mailError": {
-    "da_DK": "Det er på nuværende tidspunkt ikke tilgå mail-systemet. Prøv igen senere.",
-    "en_US": "It is currently not possible to access the mail-system. Try again later."
+    "da_DK": "Det er på nuværende tidspunkt ikke muligt at tilgå mail-systemet. Prøv igen senere.",
+    "en_US": "It is not possible to access the mail service, at this time. Try again later."
   },
 
   "trainingPlan": {
     "da_DK": "Dagens træning",
-    "en_US": "Today's training"
+    "en_US": "Todays training"
   },
 
   "trainingDemoTitle": {
@@ -20,8 +20,8 @@
   },
 
   "trainingDemoDescription": {
-    "da_DK": "Beskrivelse for øvelse",
-    "en_US": "Description for exercise"
+    "da_DK": "Øvelsesbeskrivelse",
+    "en_US": "Exercise description"
   },
 
   "trainingPlanSets": {
@@ -31,9 +31,9 @@
 
   "trainingPlanDuration": {
     "da_DK": "Tid pr set: ",
-    "en_US": "Time pr set: "
+    "en_US": "Time per set: "
   },
-  
+
   "noTrainingText": {
     "da_DK": "Dagens træning er fuldført. Tjek ind igen i morgen.",
     "en_US": "Todays training is complete. Check in again tomorrow."
@@ -51,12 +51,12 @@
 
   "loginHelp": {
     "da_DK": "Skriv din kode ind feltet 'Login ID' for at logge dig ind i træningssystemet og starte din træning. Hvis du er i tvivl om hvad din kode er, kan du kontakte din terapeut.",
-    "en_US": "Enter your access code in the 'Login ID' field to log in to the virtual training system and start working out. If you are in doubt what your code is, you can contact your therapist"
+    "en_US": "Enter your access code in the 'Login ID' field to log in to the virtual training system and start working out. If you have lost your password or are in doubt, you can contact your therapist"
   },
 
   "loginFail": {
     "da_DK": "Den indtastede login kode eksisterer ikke, prøv venligst igen.",
-    "en_US": "The access code you've entered does not exist, please try again."
+    "en_US": "The access code you have entered does not exist, please try again."
   },
 
   "loginText": {
@@ -86,7 +86,27 @@
 
   "mailDone": {
     "da_DK": "Læst",
-    "en_US": "Done"
+    "en_US": "Read"
+  },
+
+  "mailHelp": {
+    "da_DK": "Klik på din mail for at læse den og erklære den læst, eller tryk på home ikonet i toppen til venstre, for at vende tilbage til home.",
+    "en_US": "Click on your mail to read it and declare it read, or tap the home icon in the top left, to return to the home menu."
+  },
+
+  "feedbackHelp": {
+    "da_DK": "Klik på en smiley, for at bedømme din trænings indsats.",
+    "en_US": "Click on a smiley, to evaluate your training."
+  },
+
+  "trainingHelp": {
+    "da_DK": "Påbegynd træningen imens videoen kører og husk at holde en pause, så snart timeren viser det.",
+    "en_US": "Begin training, while the video is running and remember to take a break, as soon as the timer shows it."
+  },
+
+  "trainingTitle": {
+    "da_DK": "Videon herunder, viser den nuværende træning.",
+    "en_US": "The video, shows the current training."
   },
 
   "homeHelp": {
@@ -100,8 +120,8 @@
   },
 
   "trainingDemoHelp": {
-    "da_DK": "Her ser du et eksempel på, hvordan din træning skal udføres. Ønskes det, kan videoen  genafspilles.",
-    "en_US": "Here you can see an example of how to perform your exercise. If you want, you can replay the video."
+    "da_DK": "Her ser du et eksempel på, hvordan din træning skal udføres. Hvis det ønskes kan videon afspilles igen",
+    "en_US": "This is an example of how to perform your exercise. If you want to, you can replay the video."
   },
 
   "headerTitle": {
@@ -133,17 +153,17 @@
     "da_DK": "sek",
     "en_US": "sec"
   },
-  
+
   "pause": {
     "da_DK": "Pause",
     "en_US": "Pause"
   },
-  
+
   "set": {
     "da_DK": "Set",
     "en_US": "Set"
   },
-  
+
   "of": {
     "da_DK": "af",
     "en_US": "of"
