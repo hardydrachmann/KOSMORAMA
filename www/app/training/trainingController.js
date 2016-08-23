@@ -53,7 +53,7 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
 	function getTraining(userId, callback) {
 		loadingService.loaderShow();
 		dataService.getTraining(userId, function(data) {
-			if (data.TrainingItems.length <= 0) {
+				if (!data) {
 				popupService.alertPopup($scope.getText('noTrainingText'));
 				$state.go('home');
 				loadingService.loaderHide();
