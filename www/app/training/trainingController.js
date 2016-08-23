@@ -1,5 +1,5 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $timeout, $rootScope, $ionicHistory, dataService, loadingService, audioService, blobService) {
+app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, audioService, blobService) {
 
     $scope.TrainingItems = [];
 
@@ -58,9 +58,16 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
     function getTraining(userId, callback) {
         loadingService.loaderShow();
         dataService.getTraining(userId, function(data) {
-            sortTraining(data);
-            loadingService.loaderHide();
-            callback();
+            if (data) {
+                sortTraining(data);
+                loadingService.loaderHide();
+                callback();
+            }
+            else {
+                popupService.alertPopup($scope.getText('noTrainingText'));
+                loadingService.loaderHide();
+                $state.go('home');
+            }
         });
     }
 
