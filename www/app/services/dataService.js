@@ -45,7 +45,7 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
 
         var dataString = JSON.stringify(content); //Converting javascript to Json
 
-        // Doing the http post request and returns an array of trainig objects.
+        // Doing the http post request and returns an array of training objects.
         $http({
             method: 'POST',
             url: url,
@@ -127,13 +127,12 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
 
     // This function saves feedbackReport to therpist, it handles both message and PainLevel
     // returns true if success and false when an error has occured.
-    this.postFeedback = function(message, painLevel, planExerciseId, scheduleId, callback) {
-        var x = scheduleId;
+    this.postFeedback = function(feedbackObject, callback) {
         var feedbackReport = {
-            "PlanExerciseId": 250561, // Overall training plan id.
-            "ScheduleId": 212021, // schedule result id.
-            "Message": 'tilfældigt',
-            "PainLevel": 100
+            "ScheduleId": feedbackObject.trainingId,
+            "SessionOrderNumber": feedbackObject.sessionOrderNumber,
+            "Message": feedbackObject.message,
+            "PainLevel": feedbackObject.painLevel,
         };
 
         var content = {

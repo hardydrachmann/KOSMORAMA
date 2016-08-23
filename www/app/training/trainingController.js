@@ -36,8 +36,8 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 
         $rootScope.currentTraining = $scope.TrainingItems[1];
         $rootScope.passData = {
-            planId: $scope.TrainingItems[1].PlanExerciseId,
-            sessionNumber: $scope.TrainingItems[1].SessionOrderNumber,
+            trainingId: $scope.TrainingItems[1].TrainingId,
+            sessionOrderNumber: $scope.TrainingItems[1].SessionOrderNumber,
             painLevel: 0,
             message: null
         };
@@ -156,7 +156,6 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
      */
     $scope.cancelViewTimer = function() {
         if (trainingPromise) {
-            console.log('Timer cancelled!');
             $timeout.cancel(trainingPromise);
             trainingPromise = undefined;
         }
