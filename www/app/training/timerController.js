@@ -7,26 +7,36 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
     var pauseNext = false;
     var timerStarted = false;
 
+    var trainingPromise;
+
     $(document).ready(function() {
         setPlayerReadyHandler(function() {
             getInfoForTimer();
             setProgressSize();
             startExerciseTimer();
         });
+
+        $rootScope.$on('continueEvent', function() {
+            console.log('Timer timer cancelled');
+            $timeout.cancel(mytimeout);
+            $timeout.cancel(trainingPromise);
+        });
     });
 
     var setProgressSize = function() {
-        if($window.innerHeight > 900) {
+        if ($window.innerHeight > 900) {
             $scope.radius = 150;
             $scope.stroke = 30;
-        } else if($window.innerHeight < 900 && $window.innerHeight >= 640) {
+        }
+        else if ($window.innerHeight < 900 && $window.innerHeight >= 640) {
             $scope.radius = 100;
             $scope.stroke = 20;
-        } else if($window.innerHeight < 640) {
+        }
+        else if ($window.innerHeight < 640) {
             $scope.radius = 75;
             $scope.stroke = 15;
         }
-    }
+    };
 
     var getInfoForTimer = function() {
         $scope.sets = $rootScope.currentTraining.Sets;
@@ -49,7 +59,8 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
                 }
             }
             else {
-                $scope.trainingViewTimer(5);
+                console.log('Timer timer started!');
+                trainingPromise = $scope.trainingViewTimer(5);
                 return;
             }
         }

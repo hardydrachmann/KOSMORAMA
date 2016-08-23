@@ -4,7 +4,7 @@
   "scripts": {
     "postinstall": "node_modules/bower/bin/bower install"
   },
-  "description": "An Ionic project",
+  "description": "Virtual Training application built with Ionic for Welfare Denmark",
   "dependencies": {
     "bower": "^1.7.9",
     "gulp": "^3.5.6",

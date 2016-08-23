@@ -82,7 +82,8 @@ angular.module('kosmoramaApp', ['ionic', 'ngCordova', 'angular-svg-round-progres
     .state('feedback', {
         url: '/feedback',
         templateUrl: 'app/feedback/feedback.html',
-        controller: 'FeedbackController'
+        controller: 'FeedbackController',
+        cache: false
     })
 
     .state('painLevel', {

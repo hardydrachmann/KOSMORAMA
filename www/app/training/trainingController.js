@@ -29,6 +29,11 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
      * Store data which is necessary for later views in the root scope.
      */
     var storeData = function() {
+        $rootScope.lastPassTraining = $scope.TrainingItems[2] == undefined;
+        if (!$rootScope.lastPassTraining) {
+            $rootScope.lastPassTraining = !$scope.TrainingItems[2].hasOwnProperty('ExerciseId');
+        }
+
         $rootScope.currentTraining = $scope.TrainingItems[1];
         $rootScope.passData = {
             planId: $scope.TrainingItems[1].PlanExerciseId,
@@ -86,11 +91,13 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
      * Execute the appropriate action for the current training view variation.
      */
     var stateAction = function(currentState) {
-        if (currentState !== 'trainingPlan') {
-            play(currentState === 'trainingDemo', false);
-        }
-        if (currentState !== 'training') {
-            $scope.trainingViewTimer(15);
+        if (currentState.startsWith('training')) {
+            if (currentState !== 'trainingPlan') {
+                play(currentState === 'trainingDemo', false);
+            }
+            if (currentState !== 'training') {
+                $scope.trainingViewTimer(5);
+            }
         }
     };
 
@@ -142,7 +149,9 @@ app.controller('TrainingController', function($scope, $timeout, $rootScope, $ion
      */
     $scope.cancelViewTimer = function() {
         if (trainingPromise) {
+            console.log('Timer cancelled!');
             $timeout.cancel(trainingPromise);
+            trainingPromise = undefined;
         }
     };
 
