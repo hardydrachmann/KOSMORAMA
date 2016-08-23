@@ -5,3 +5,6 @@ node_modules/
 platforms/
 plugins/
 lib/
+ionic.config.json
+
+!platforms/android/AndroidManifest.xml

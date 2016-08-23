@@ -2,30 +2,33 @@
     .mail-title {
         float: left;
     }
-    
+
     .mail-timestamp {
         float: right;
     }
-    
+
     .mail-text {
         white-space: pre-line !important;
     }
-    
+
     .mail-done {
         position: relative;
         margin: 1em;
         float: right;
     }
-    
+
     .mail-back-button {
         margin: 2em;
     }
 </style>
+<div style="margin-top: 5%; margin-bottom: 15%;">
 
-<div>
-    <button class="mail-back-button" ng-click="closeMailView()">{{getText('back')}}</button>
+
+    <a class="mail-back-button" ng-click="closeMailView()">
+        <i id="mail-link" class="accent-color ion-home" ng-click="closeMailView()"> </i>
+        </a>
 </div>
-
+<h1 style="text-align:center">Mail</h1>
 <ion-scroll style="height:69%">
     <div class="list">
         <div class="item" ng-repeat="mail in mails | orderBy:Time:true" ng-click="toggleMailDisplay($index)">

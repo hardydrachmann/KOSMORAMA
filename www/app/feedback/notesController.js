@@ -4,13 +4,17 @@ angular.module('kosmoramaApp').controller('NotesController', function($scope, $s
     $scope.messageText = '';
 
     $(document).ready(function() {
-        $rootScope.$on('continueEvent', function() {
+        var handler = $rootScope.$on('continueEvent', function() {
             if ($scope.painValue) {
                 $rootScope.passData.painLevel = $scope.painValue;
             }
             else if ($scope.messageText) {
                 $rootScope.passData.message = $scope.messageText;
             }
+            console.log('Cycle done!', $rootScope.passData);
+            $rootScope.lastPassTraining = false;
+            $rootScope.currentTraining = {};
+            handler();
         });
     });
 

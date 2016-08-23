@@ -24,34 +24,15 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
         $timeout(function() {
             var state = $ionicHistory.currentView().stateName;
             switch (state) {
-                case 'home':
-                    $scope.showHelpTab = true;
-                    $scope.showLangTab = true;
-                    $scope.showLogoutTab = true;
-                    break;
                 case 'login':
                     $scope.showHelpTab = true;
                     $scope.showLangTab = true;
                     $scope.showLoginTab = true;
                     break;
-                case 'trainingPlan':
+                case 'home':
+                case 'mail':
                     $scope.showHelpTab = true;
-                    $scope.showContTab = true;
-                    $scope.showLogoutTab = true;
-                    break;
-                case 'trainingDemo':
-                    $scope.showHelpTab = true;
-                    $scope.showContTab = true;
-                    $scope.showLogoutTab = true;
-                    break;
-                case 'training':
-                    $scope.showHelpTab = true;
-                    $scope.showContTab = true;
-                    $scope.showLogoutTab = true;
-                    break;
-                case 'feedback':
-                    $scope.showHelpTab = true;
-                    $scope.showContTab = true;
+                    $scope.showLangTab = true;
                     $scope.showLogoutTab = true;
                     break;
                 case 'help':
@@ -60,7 +41,12 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
                 case 'language':
                     $scope.showLangTab = true;
                     break;
+                case 'trainingPlan':
+                case 'trainingDemo':
+                case 'training':
+                case 'feedback':
                 case 'notes':
+                case 'painLevel':
                     $scope.showHelpTab = true;
                     $scope.showContTab = true;
                     $scope.showLogoutTab = true;
@@ -83,17 +69,17 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
                 $state.go('feedback');
                 break;
             case 'feedback':
-                if ($rootScope.remainingTraining > 2) {
-                    $state.go('trainingPlan');
+                if ($rootScope.lastPassTraining) {
+                    $state.go('painLevel');
                 }
                 else {
-                    $state.go('painLevel');
+                    $state.go('trainingPlan');
                 }
                 break;
             case 'painLevel':
                 $state.go('notes');
                 break;
-            case 'notes': // send note and go home
+            case 'notes':
                 $state.go('home');
                 break;
         }
