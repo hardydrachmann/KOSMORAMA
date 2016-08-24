@@ -35,21 +35,26 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
                     $scope.showLangTab = true;
                     $scope.showLogoutTab = true;
                     break;
-                case 'help':
-                    $scope.showHelpTab = true;
-                    break;
-                case 'language':
-                    $scope.showLangTab = true;
-                    break;
                 case 'trainingPlan':
-                case 'trainingDemo':
-                case 'training':
-                case 'feedback':
                 case 'notes':
                 case 'painLevel':
                     $scope.showHelpTab = true;
                     $scope.showContTab = true;
                     $scope.showLogoutTab = true;
+                case 'trainingDemo':
+                    $scope.showHelpTab = true;
+                    $scope.showContTab = true;
+                case 'training':
+                    $scope.showHelpTab = true;
+                    $scope.showContTab = true; // Debug
+                case 'feedback':
+                    $scope.showHelpTab = true;
+                    break;
+                case 'help':
+                    $scope.showHelpTab = true;
+                    break;
+                case 'language':
+                    $scope.showLangTab = true;
                     break;
             }
         }, 100);
@@ -77,7 +82,7 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
                 }
                 break;
             case 'painLevel':
-                if ($rootScope.passData.allowMessage) {
+                if ($rootScope.allowMessage) {
                     $state.go('notes');
                 }
                 else {

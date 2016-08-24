@@ -33,14 +33,13 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
         if (!$rootScope.lastPassTraining) {
             $rootScope.lastPassTraining = !$scope.TrainingItems[2].hasOwnProperty('ExerciseId');
         }
-
+        $rootScope.allowMessage = true;
         $rootScope.currentTraining = $scope.TrainingItems[1];
         $rootScope.passData = {
             trainingId: $scope.TrainingItems[1].TrainingId,
             sessionOrderNumber: $scope.TrainingItems[1].SessionOrderNumber,
             painLevel: 0,
-            message: null,
-            allowMessage: true
+            message: null
         };
     };
 
@@ -104,7 +103,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
                 play(currentState === 'trainingDemo', false);
             }
             if (currentState !== 'training') {
-                $scope.trainingViewTimer(200);
+                $scope.trainingViewTimer(10);
             }
         }
     };

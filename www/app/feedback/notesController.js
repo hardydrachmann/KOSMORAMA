@@ -11,14 +11,12 @@ angular.module('kosmoramaApp').controller('NotesController', function($scope, $s
             else if ($scope.messageText) {
                 $rootScope.passData.message = $scope.messageText;
             }
-            console.log('Cycle done!', $rootScope.passData);
             $rootScope.lastPassTraining = false;
             $rootScope.currentTraining = {};
             if ($rootScope.passData && $ionicHistory.currentView().stateName === 'notes') {
                 dataService.postFeedback($rootScope.passData);
                 $rootScope.passData = null;
             }
-            console.log('Should be null: ', $rootScope.passData);
             handler();
         });
     });
