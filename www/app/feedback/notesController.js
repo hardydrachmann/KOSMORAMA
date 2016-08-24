@@ -1,6 +1,6 @@
-angular.module('kosmoramaApp').controller('NotesController', function($scope, $state, $rootScope, dataService) {
+angular.module('kosmoramaApp').controller('NotesController', function($scope, $state, $rootScope, $ionicHistory, dataService) {
 
-    $scope.painValue = '';
+    $scope.painValue = 5;
     $scope.messageText = '';
 
     $(document).ready(function() {
@@ -14,6 +14,11 @@ angular.module('kosmoramaApp').controller('NotesController', function($scope, $s
             console.log('Cycle done!', $rootScope.passData);
             $rootScope.lastPassTraining = false;
             $rootScope.currentTraining = {};
+            if ($rootScope.passData && $ionicHistory.currentView().stateName === 'notes') {
+                dataService.postFeedback($rootScope.passData);
+                $rootScope.passData = null;
+            }
+            console.log('Should be null: ', $rootScope.passData);
             handler();
         });
     });

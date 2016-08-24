@@ -6,5 +6,6 @@ platforms/
 plugins/
 lib/
 ionic.config.json
+.io-config.json
 
 !platforms/android/AndroidManifest.xml

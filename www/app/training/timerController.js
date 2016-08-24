@@ -17,7 +17,6 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
         });
 
         $rootScope.$on('continueEvent', function() {
-            console.log('Timer timer cancelled');
             $timeout.cancel(mytimeout);
             $timeout.cancel(trainingPromise);
         });
@@ -59,7 +58,6 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
                 }
             }
             else {
-                console.log('Timer timer started!');
                 trainingPromise = $scope.trainingViewTimer(5);
                 return;
             }
