@@ -39,7 +39,8 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
             trainingId: $scope.TrainingItems[1].TrainingId,
             sessionOrderNumber: $scope.TrainingItems[1].SessionOrderNumber,
             painLevel: 0,
-            message: null
+            message: null,
+            allowMessage: true
         };
     };
 
@@ -103,7 +104,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
                 play(currentState === 'trainingDemo', false);
             }
             if (currentState !== 'training') {
-                $scope.trainingViewTimer(5);
+                $scope.trainingViewTimer(10);
             }
         }
     };
