@@ -99,9 +99,9 @@ p {
 
 #help-text {
     line-height: 1.5em;
-    font-size: 2em;
-    margin: 1em;
-    margin-top: 3em;
+    font-size: 5vh;
+    margin: 2vh;
+    margin-top: 6vh;
     text-align: center;
 }
 
@@ -364,7 +364,7 @@ p {
 .progress-wrapper .progress-text p {
     color: #ffffff;
     font-size: 3vh;
-    margin-bottom: 2%;
+    line-height: 3.5vh;
 }
 
 .progress-wrapper .progress-text .progress-text-head {
