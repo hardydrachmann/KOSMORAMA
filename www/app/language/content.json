@@ -104,11 +104,6 @@
     "en_US": "Begin training, while the video is running and remember to take a break, as soon as the timer shows it."
   },
 
-  "trainingTitle": {
-    "da_DK": "Udfør øvelsen.",
-    "en_US": "Do the exercise."
-  },
-
   "homeHelp": {
     "da_DK": "Tryk på logoet på skærmen for at fortsætte til oversigt over dagens træning. Du kan ikke vende tilbage fra træningen, når den er påbegyndt.",
     "en_US": "Tap the logo on the screen to continue to your daily training overview. You will not be able to return to this point when the training has started."
