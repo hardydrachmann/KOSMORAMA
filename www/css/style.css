@@ -47,6 +47,11 @@ p {
     color: #303C50;
 }
 
+#feedbackScroller{
+    height:68.5vh;
+    padding-bottom:5%;
+}
+
 #notesArea {
     display: block;
     margin-left: auto;
