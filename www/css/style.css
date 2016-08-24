@@ -332,6 +332,7 @@ p {
 
 #painTable .row {
     padding: 0.5em;
+    line-height: 3.5vh;
 }
 
 .progress-wrapper {
