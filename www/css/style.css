@@ -148,11 +148,13 @@ p {
     height: 200px;
 }
 
-#trainingPlanHeader {
+#header {
     color: white;
     text-align: center;
     margin-top: 3vh;
-    margin-bottom: 6vh;
+    margin-bottom: 3vh;
+    font-size: 4vh;
+
 }
 
 #trainingName {
@@ -334,9 +336,18 @@ p {
     padding: 0.5em;
 }
 
+.progress-margin {
+    /*width: 50%;*/
+}
+
 .progress-wrapper {
     position: relative;
     text-align: center;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 2%;
+    margin-bottom: 10%;
+
 }
 
 .progress-wrapper .progress-text {
@@ -358,4 +369,8 @@ p {
 
 .progress-wrapper .progress-text .progress-text-head {
     font-weight: bolder;
+}
+
+.tab-nav {
+    background-color: #303C50;
 }

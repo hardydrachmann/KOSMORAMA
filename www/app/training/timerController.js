@@ -23,7 +23,7 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
     });
 
     var setProgressSize = function() {
-        if ($window.innerHeight > 900) {
+        if ($window.innerHeight >= 900) {
             $scope.radius = 150;
             $scope.stroke = 30;
         }
