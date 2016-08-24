@@ -2,7 +2,7 @@
     <div ng-controller="TimerController">
         <div class="row">
             <div class="col">
-                <h2 id="trainingPlanHeader">{{getText('trainingTitle')}}</h2>
+                <h2 id="header">{{getText('trainingTitle')}}</h2>
             </div>
         </div>
 
@@ -14,14 +14,16 @@
             </div>
         </div>
 
+
         <div class="progress-wrapper">
-            <round-progress id="progress" max="timeProgress" current="progress" color="#303c50" bgcolor="#8092b3" radius="{{radius}}" stroke="{{stroke}}" semi="false" rounded="false" clockwise="true" responsive="false" duration="1000" animation="linearEase" animation-delay="0"
+            <round-progress id="progress" max="timeProgress" current="progress" color="#303c50" bgcolor="#8092b3" radius="{{radius}}" stroke="{{stroke}}" semi="false" rounded="false" clockwise="true" responsive="true" duration="1000" animation="linearEase" animation-delay="0"
                 offset="0">bla</round-progress>
             <div class="progress-text">
                 <p class="progress-text-head">{{timerText()}}</p>
                 <p>{{formatTime(counter)}}</p>
             </div>
         </div>
+
 
     </div>
 </div>

@@ -77,7 +77,12 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
                 }
                 break;
             case 'painLevel':
-                $state.go('notes');
+                if ($rootScope.passData.allowMessage) {
+                    $state.go('notes');
+                }
+                else {
+                    $state.go('home');
+                }
                 break;
             case 'notes':
                 $state.go('home');
