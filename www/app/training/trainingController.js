@@ -103,7 +103,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
                 play(currentState === 'trainingDemo', false);
             }
             if (currentState !== 'training') {
-                $scope.trainingViewTimer(10);
+                $scope.trainingViewTimer(1000);
             }
         }
     };
