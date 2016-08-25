@@ -382,3 +382,8 @@ p {
 .tab-nav {
     background-color: #303C50;
 }
+
+#traningDemoDescription{
+    font-size: 4vw;
+    line-height: 4.5vw;
+}

@@ -1,14 +1,15 @@
 angular.module('kosmoramaApp').controller('NotesController', function($scope, $state, $rootScope, $ionicHistory, dataService) {
 
-    $scope.painValue = 5;
+    $scope.painValue = '';
     $scope.messageText = '';
 
     $(document).ready(function() {
+        console.log($rootScope.passData);
         var handler = $rootScope.$on('continueEvent', function() {
-            if ($scope.painValue) {
+            if ($scope.painValue && $rootScope.passData.painLevel === null) {
                 $rootScope.passData.painLevel = $scope.painValue;
             }
-            else if ($scope.messageText) {
+            else if ($scope.messageText && $rootScope.passData.message === null) {
                 $rootScope.passData.message = $scope.messageText;
             }
             $rootScope.lastPassTraining = false;
@@ -36,7 +37,7 @@ angular.module('kosmoramaApp').controller('NotesController', function($scope, $s
     $scope.remainingChars = function() {
         var textLength = $scope.messageText.length;
         var remainingChars = $scope.maxChars - textLength;
-        $('#showCharsCount').html($scope.getText('remainingChars').concat(remainingChars));
+        $('#showCharsCount').html(remainingChars);
     };
 
 });

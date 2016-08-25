@@ -38,7 +38,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
         $rootScope.passData = {
             trainingId: $scope.TrainingItems[1].TrainingId,
             sessionOrderNumber: $scope.TrainingItems[1].SessionOrderNumber,
-            painLevel: 0,
+            painLevel: null,
             message: null
         };
     };
