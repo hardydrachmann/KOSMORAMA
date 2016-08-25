@@ -219,10 +219,9 @@ p {
 
 #login_watermark {
     position: relative;
-    top: 25%;
     left: 50%;
     transform: translateX(-50%);
-    width: 55%;
+    width:48%;
 }
 
 #login-form {
