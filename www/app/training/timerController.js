@@ -12,7 +12,6 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
     $(document).ready(function() {
         setPlayerReadyHandler(function() {
             getInfoForTimer();
-            setProgressSize();
             startExerciseTimer();
         });
 
