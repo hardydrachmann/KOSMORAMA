@@ -9,7 +9,7 @@
             <div class="col-5">
             </div>
             <div class="item item-thumbnail-left col-90 tpDivBackground" ng-repeat="item in TrainingItems">
-                <h1 style="color: white; margin-top: 1em;" ng-if="item.passTitle">{{item.passTitle}}</h1>
+                <h1 style="color: white;" ng-if="item.passTitle">{{item.passTitle}}</h1>
                 <img ng-if="item.ExerciseId" src="{{getPicture(item.ExerciseId)}}">
                 <div ng-if="item.ExerciseId">
                     <p id="trainingName">{{getTrainingName(item)}}</p>

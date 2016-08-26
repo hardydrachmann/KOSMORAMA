@@ -47,9 +47,9 @@ p {
     color: #303C50;
 }
 
-#feedbackScroller{
-    height:68.5vh;
-    padding-bottom:10%;
+#feedbackScroller {
+    height: 68.5vh;
+    padding-bottom: 10%;
 }
 
 #notesArea {
@@ -57,12 +57,12 @@ p {
     margin-left: auto;
     margin-right: auto;
     width: 85%;
-    height:90%
+    height: 90%
 }
 
 #notesInput {
     width: 100%;
-    height:60%;
+    height: 60%;
     resize: none;
     font-size: 1.5em;
     line-height: 1.2;
@@ -161,7 +161,6 @@ p {
     margin-top: 3vh;
     margin-bottom: 3vh;
     font-size: 4vh;
-
 }
 
 #trainingName {
@@ -223,7 +222,6 @@ p {
     transform: translateX(-50%);
     width: 48%;
 }
-
 
 #login-form {
     margin: auto;
@@ -355,7 +353,6 @@ p {
     margin-right: 25%;
     margin-top: 2%;
     margin-bottom: 10%;
-
 }
 
 .progress-wrapper .progress-text {
@@ -383,7 +380,27 @@ p {
     background-color: #303C50;
 }
 
-#traningDemoDescription{
+#traningDemoDescription {
     font-size: 4vw;
     line-height: 4.5vw;
+}
+
+.item-thumbnail-left> img:first-child,
+.item-thumbnail-left .item-image,
+.item-thumbnail-left .item-content> img:first-child,
+.item-thumbnail-left .item-content .item-image {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    max-width: 80px;
+    max-height: 80px;
+    width: 100%;
+    height: 100%;
+}
+
+.item-thumbnail-left, .item-thumbnail-left .item-content {
+    padding-top: 4px;
+    padding-left: 106px;
+    min-height: 100px;
+    padding-bottom: 2px;
 }

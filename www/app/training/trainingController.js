@@ -75,11 +75,11 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
      * Sorting and adding a pass Item for each set of training.
      */
     function sortTraining(data) {
-        if (data.TrainingItems.length > 0) {
-            var trainingData = data.TrainingItems;
-            var setCount = data.TrainingItems[0].SessionOrderNumber,
+        if (data.length > 0) {
+            var trainingData = data;
+            var setCount = data[0].SessionOrderNumber,
                 pass = 1,
-                firstTrainingId = data.TrainingItems[0].TrainingId;
+                firstTrainingId = data[0].TrainingId;
             for (var i = 0; i < trainingData.length; i++) {
                 var exercise = trainingData[i];
                 if (exercise.SessionOrderNumber === setCount || exercise.TrainingId > firstTrainingId) {
