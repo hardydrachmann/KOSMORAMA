@@ -86,22 +86,27 @@ p {
 }
 
 #headerLogo {
-    position: relative;
-    max-width: 80%;
-    max-height: 80%;
-    width: auto;
-    height: auto;
-    top: 0.2em;
-    left: 1em;
+position:relative;
+left:1vw;
 }
 
-#headerTitle {
-    position: relative;
-    bottom: 0.7em;
-    left: 1.3em;
+#headerLogo img {
+    height:34px;
+    display:inline;
+}
+
+#headerLogo h3{
+    display:inline;
     color: white;
     font-family: Sans-Serif;
+    font-weight:bold;
     font-size: 110%;
+    position:relative;
+    bottom:10px;
+}
+
+#setUserScreenNumber {
+    line-height:2;
 }
 
 #help-text {
