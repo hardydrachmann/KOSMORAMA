@@ -63,14 +63,11 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
                     // console.log(trainingData.result[i].TrainingItems[0].Type);
                     for (var item in trainingData.result[i].TrainingItems) {
                         if(trainingData.result[i].TrainingItems[item].Type == 40) {
-                            console.log(item);
                             train.push(trainingData.result[i].TrainingItems[item]);
                         }
                     }
-                    
                 }
             }
-            console.log(train);
             callback(train);
         }).error(function(trainingData, status, headers, config) {
             console.log('testfail', trainingData, status, headers, config);
