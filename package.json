@@ -23,7 +23,5 @@
     "cordova-plugin-console",
     "cordova-plugin-whitelist"
   ],
-  "cordovaPlatforms": [
-    "android"
-  ]
+  "cordovaPlatforms": []
 }
