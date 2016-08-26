@@ -79,4 +79,5 @@
     <plugin name="cordova-plugin-splashscreen" spec="~3.2.2" />
     <plugin name="cordova-plugin-nativeaudio" spec="~3.0.7" />
     <plugin name="cordova-plugin-media" spec="~2.3.0" />
+    <plugin name="cordova-plugin-whitelist" spec="https://github.com/apache/cordova-plugin-whitelist.git" />
 </widget>

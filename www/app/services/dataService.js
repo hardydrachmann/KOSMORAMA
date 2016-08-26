@@ -60,10 +60,15 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
             for (var i = 0; i < trainingData.result.length; i++) {
                 var newdate = new Date(trainingData.result[i].Date);
                 if (newdate.getDate() === date.getDate() && newdate.getMonth() === date.getMonth()) {
-                    train.push(trainingData.result[i]);
+                    // console.log(trainingData.result[i].TrainingItems[0].Type);
+                    for (var item in trainingData.result[i].TrainingItems) {
+                        if(trainingData.result[i].TrainingItems[item].Type == 40) {
+                            train.push(trainingData.result[i].TrainingItems[item]);
+                        }
+                    }
                 }
             }
-            callback(train[0]);
+            callback(train);
         }).error(function(trainingData, status, headers, config) {
             console.log('testfail', trainingData, status, headers, config);
             callback('error');
