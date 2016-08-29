@@ -45,6 +45,7 @@
     <script src="cordova.js"></script>
     <script src="lib/components/sjcl/sjcl.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="lib/components/angular-youtube-embed/dist/angular-youtube-embed.js"></script>
     <script src="lib/components/angular-svg-round-progressbar/build/roundProgress.min.js"></script>
 
 </head>
@@ -57,8 +58,10 @@
                     <div ng-controller="HelpController">
 
                         <ion-header-bar class="accent-color">
-                            <img id="headerLogo" src="img/header_logo.png">
-                            <h3 id="headerTitle">{{getText('headerTitle') | uppercase }}</h3>
+                            <div id="headerLogo">
+                            <img src="img/header_logo.png">
+                            <h3>{{getText('headerTitle') | uppercase }}</h3>
+                        </div>
                         </ion-header-bar>
 
                         <div style="margin-top:3em">
