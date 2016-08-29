@@ -3,6 +3,11 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 
     $scope.TrainingItems = [];
 
+    /**
+     * Checks the current state
+     * if TrainingPlan: Gets training for user
+     * else initiates timer or calls play
+     */
     $(document).ready(function() {
         var currentState = $ionicHistory.currentView().stateName;
         if (currentState === 'trainingPlan') {

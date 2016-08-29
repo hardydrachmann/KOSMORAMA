@@ -2,12 +2,18 @@
 
 angular.module('kosmoramaApp').service('loadingService', function($ionicLoading, $timeout) {
 
+  /**
+   * Shows Ionic loader.
+   */
   this.loaderShow = function() {
     $ionicLoading.show({
       template: '<ion-spinner icon="dots" class="spinner-positive"></ion-spinner>'
     });
   };
 
+  /**
+   * Hides Ionic Loader.
+   */
   this.loaderHide = function(time) {
     $timeout(function() {
       $ionicLoading.hide();

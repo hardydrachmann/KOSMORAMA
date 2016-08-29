@@ -27,6 +27,9 @@ angular.module('kosmoramaApp', ['ionic', 'ngCordova', 'angular-svg-round-progres
     }, 101);
 })
 
+/**
+ * Binds our views to our controllers, allowing for the use of SPA(Single Page Application)
+ */
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     $ionicConfigProvider.tabs.position('bottom');
     $ionicConfigProvider.tabs.style('standard');

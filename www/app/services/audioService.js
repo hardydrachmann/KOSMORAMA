@@ -4,11 +4,17 @@ angular.module('kosmoramaApp').service('audioService', function($cordovaMedia, l
 
 	var audioPlaying = null;
 
+	/**
+	 * Stops the current audio and releases the audioplayer.
+	 */
 	this.stopAudio = function() {
 		audioPlaying.stop();
 		audioPlaying.release();
 	};
 
+	/**
+	 * Plays selected audio.
+	 */
 	this.playAudio = function(source, callback) {
 		if (audioPlaying !== null) {
 			this.stopAudio();
@@ -23,10 +29,14 @@ angular.module('kosmoramaApp').service('audioService', function($cordovaMedia, l
 		audio.play();
 	};
 
+	/**
+	 * Shows loader depending on the status.
+	 */
 	var mediaStatusCallback = function(status) {
 		if (status == 1) {
 			loadingService.loaderShow();
-		} else {
+		}
+		else {
 			loadingService.loaderHide();
 		}
 	};

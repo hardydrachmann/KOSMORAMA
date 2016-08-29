@@ -15,6 +15,9 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
         }, 250);
     });
 
+    /**
+     * Sets the correct tabs for each view.
+     */
     $scope.setTabs = function() {
         $scope.showHelpTab = false;
         $scope.showLangTab = false;
@@ -60,6 +63,10 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
         }, 100);
     };
 
+
+    /**
+     * Continue method on rootscope, checks current state and switches to the next state.
+     */
     $scope.continue = function() {
         $rootScope.$broadcast('continueEvent');
         var state = $ionicHistory.currentView().stateName;

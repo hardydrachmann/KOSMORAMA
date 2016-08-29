@@ -11,6 +11,9 @@ angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $ti
     }, time || 2000);
   };
 
+  /**
+   * Initiates a Popup when called.
+   */
   this.confirmPopup = function(title, toConfirm, callback) {
     var confirm = $ionicPopup.confirm({
       title: title,
@@ -28,6 +31,9 @@ angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $ti
     });
   };
 
+  /**
+   * Alerts Popup when called.
+   */
   this.alertPopup = function(message) {
     var alert = $ionicPopup.alert({
       template: message,
