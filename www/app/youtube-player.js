@@ -28,10 +28,7 @@ function createPlayer(video) {
  */
 function onPlayerReady(event) {
 	player = event.target;
-	console.log(navigator.userAgent);
-	if (navigator.userAgent.indexOf('MAC OS X') !== -1) {
-		playVideo();
-	}
+	playVideo();
 	playerReadyEvent();
 	playerReadyEvent = function() {};
 }
