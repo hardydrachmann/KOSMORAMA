@@ -97,10 +97,10 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	var stateAction = function(currentState) {
 		if (currentState.startsWith('training')) {
 			if (currentState !== 'trainingPlan') {
-				play(currentState === 'trainingDemo', false);
+				play(currentState === 'trainingDemo', true);
 			}
 			if (currentState !== 'training') {
-				$scope.trainingViewTimer(60);
+				$scope.trainingViewTimer(45);
 			}
 		}
 	};
@@ -114,11 +114,11 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 		if (playSound) {
 			audioService.playAudio(source, function() {
 			});
-		} else {
-			$timeout(function() {
-				$('#timer-show-hide').css('display', 'block');
-			}, 1000);
 		}
+		//  else {
+		// 	$timeout(function() {
+		// 	}, 1000);
+		// }
 	}
 
 	/**
