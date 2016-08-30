@@ -248,37 +248,10 @@ left:1vw;
     color: transparent;
 }
 
-.video-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    height: 0;
-    overflow: hidden;
-}
-
-.video-container iframe,
-.video-container object,
-.video-container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.video-container iframe,
-.video-container object,
-.video-container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
 .spinner svg {
     width: 6em;
     height: 6em;
+    fill:#465877;
 }
 
 #feedbackImg {
@@ -373,4 +346,15 @@ left:1vw;
 #traningDemoDescription {
     font-size: 4vw;
     line-height: 4.5vw;
+}
+
+.video-positioning {
+    position:relative;
+    width:95%;
+    left:50%;
+    transform:translateX(-50%);
+    border-color: #303C50;
+    border-radius: 2.5%;
+    border-width: 0.3em;
+    border-style: solid;
 }

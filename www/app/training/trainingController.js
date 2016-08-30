@@ -19,7 +19,6 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 			// This runs the first time the player is ready.
 		});
 		$rootScope.$on('continueEvent', function() {
-			destroyPlayer();
 			$scope.cancelViewTimer();
 		});
 	});
@@ -98,10 +97,10 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	var stateAction = function(currentState) {
 		if (currentState.startsWith('training')) {
 			if (currentState !== 'trainingPlan') {
-				play(currentState === 'trainingDemo', true);
+				play(currentState === 'trainingDemo', false);
 			}
 			if (currentState !== 'training') {
-				$scope.trainingViewTimer(30);
+				$scope.trainingViewTimer(60);
 			}
 		}
 	};
@@ -114,14 +113,10 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 		var source = isTrainingDemo ? $scope.getAudio() : startStopAudioUrl + 'start.mp3';
 		if (playSound) {
 			audioService.playAudio(source, function() {
-				$('#video-show-hide').css('display', 'block');
-				createPlayer(getVideo());
 			});
 		} else {
 			$timeout(function() {
-				$('#video-show-hide').css('display', 'block');
-				createPlayer(getVideo());
-
+				$('#timer-show-hide').css('display', 'block');
 			}, 1000);
 		}
 	}

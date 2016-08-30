@@ -1,24 +1,11 @@
-angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, $ionicHistory, popupService, dataService, loadingService, storageService) {
+angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, $ionicHistory, popupService, dataService, loadingService) {
 
 	$scope.mails = [];
 	$scope.newMailCount = 0;
 
-
 	$(document).ready(function() {
 		getMails();
-		sync();
 	});
-
-	var sync = function(){
-
-		var date = new Date();
-		var currentDate = ""+date.getDate()+date.getMonth()+date.getFullYear();
-			if(currentDate > storageService.getKey('syncDate')){
-			storageService.setKey('syncDate', currentDate);
-			}
-		console.log(currentDate);
-
-	}
 
 	/**
 	 * When called, loads messages for user by using the screen number.
