@@ -8,5 +8,6 @@ lib/
 ionic.config.json
 .io-config.json
 **/.DS_Store
+ionic.project
 
 !platforms/android/AndroidManifest.xml
