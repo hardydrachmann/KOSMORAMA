@@ -2,7 +2,7 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
 
 	$scope.userScreenNumber = '';
 
-	$(document).ready();
+	$(document).ready(main);
 
 	/**
 	 * On launch, check if a user exist in local storage. If so, unencrypt user, then place this user on the scope and login.
