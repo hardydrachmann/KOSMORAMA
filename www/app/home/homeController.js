@@ -1,4 +1,3 @@
-
 angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, $ionicHistory, $cordovaNetwork, storageService, $rootScope, popupService, dataService, loadingService) {
 
 	$scope.mails = [];
@@ -7,7 +6,8 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 
 	$(document).ready(function() {
 		getMails();
-		if($cordovaNetwork.isOnline){
+		console.log(storageService.persistentUserData);
+		if ($cordovaNetwork.isOnline) {
 			// checkSync();
 		}
 	});
@@ -24,13 +24,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	 * Checks whether the saved data is less than todays date or not.
 	 */
 	var checkSync = function() {
-		var date = new Date();
-		currentDate = date.getDate();
-		if (!storageService.getKey('syncDate')) {
-			storageService.setKey('syncDate', currentDate);
-			checkForWifi();
-		}
-		if (currentDate != storageService.getKey('syncDate')) {
+		if (!storageService.getLastSyncDate() || new Date().getDate() != storageService.getLastSyncDate()) {
 			checkForWifi();
 		}
 	};
@@ -39,24 +33,20 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	 * This function is called if the device is connected to the internet, to check whether the device is connected to wifi or not.
 	 */
 	var checkForWifi = function() {
-		popupService.alertPopup('checking for wifi');
 		if ($cordovaNetwork.getNetwork() != 'wifi') {
-			popupService.confirmPopup('NO WIFI','Do you want to download your training plan, without Wifi', syncData());
-		}
-		else {
+			popupService.confirmPopup('NO WIFI', 'Do you want to download your training plan, without Wifi', syncData());
+		} else {
 			syncData();
 		}
 	};
 
-
 	/**
 	 * Updates current training plan and sets the key date equal to today.
 	 */
-	var syncData = function(){
-
-		console.log(currentDate);
-		storageService.setKey('syncDate', currentDate);
+	var syncData = function() {
+		storageService.setLastSyncDate();
 	};
+
 	/**
 	 * When called, loads messages for user by using the screen number.
 	 */
@@ -95,8 +85,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 		if (mail.hasClass('inactive-mail')) {
 			mail.removeClass('inactive-mail');
 			mail.addClass('active-mail');
-		}
-		else {
+		} else {
 			mail.removeClass('active-mail');
 			mail.addClass('inactive-mail');
 		}

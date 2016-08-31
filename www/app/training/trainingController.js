@@ -3,7 +3,12 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 
 	$scope.TrainingItems = [];
 
-	$(document).ready(function() {
+	$(document).ready(main);
+
+	/**
+	 * Gets the users training and sets the relevant data.
+	 */
+	function main() {
 		var currentState = $ionicHistory.currentView().stateName;
 		if (currentState === 'trainingPlan') {
 			getUser(function(result) {
@@ -21,7 +26,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 		$rootScope.$on('continueEvent', function() {
 			$scope.cancelViewTimer();
 		});
-	});
+	}
 
 	/**
 	 * Store data which is necessary for later views in the root scope.
@@ -97,7 +102,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	var stateAction = function(currentState) {
 		if (currentState.startsWith('training')) {
 			if (currentState !== 'trainingPlan') {
-				play(currentState === 'trainingDemo', true);
+				play(currentState === 'trainingDemo', false);
 			}
 			if (currentState !== 'training') {
 				$scope.trainingViewTimer(45);
@@ -112,13 +117,8 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	function play(isTrainingDemo, playSound) {
 		var source = isTrainingDemo ? $scope.getAudio() : startStopAudioUrl + 'start.mp3';
 		if (playSound) {
-			audioService.playAudio(source, function() {
-			});
+			audioService.playAudio(source, function() {});
 		}
-		//  else {
-		// 	$timeout(function() {
-		// 	}, 1000);
-		// }
 	}
 
 	/**

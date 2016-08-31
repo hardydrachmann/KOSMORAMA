@@ -1,20 +1,21 @@
 <div class="backgroundColor">
 
-    <div class="row">
-        <div class="col">
-            <h2 id="header">{{getText('trainingDemoTitle')}}</h2>
-        </div>
+  <div class="row">
+    <div class="col">
+      <h2 id="header">{{getText('trainingDemoTitle')}}</h2>
     </div>
+  </div>
 
-    <video class="video-positioning" autoplay loop>
-        <source src="vid/f25h264.mp4" type="video/mp4">
-    </video>
+  <video class="video-positioning" src="media/video/video.mp4" type="video/mp4" controls autoplay loop></video>
 
-    <div class="row">
-        <div class="col ">
-            <div class="darkTransparent">
-                <p id="traningDemoDescription" class="text-white">{{trainingDescription()}}<p>
-            </div>
-        </div>
+  <audio src="media/audio/audio.mp3" autoplay="autoplay"></audio>
+
+  <div class="row">
+    <div class="col ">
+      <div class="darkTransparent">
+        <p id="traningDemoDescription" class="text-white">{{trainingDescription()}}
+          <p>
+      </div>
     </div>
+  </div>
 </div>
