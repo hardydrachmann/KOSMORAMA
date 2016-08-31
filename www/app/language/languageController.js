@@ -3,22 +3,23 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
 	$scope.lang = '';
 	$scope.langs = [];
 
+	$(document).ready(main);
+
 	/**
 	 * Checks if there is a saved language.
 	 * if there is a saved language: set scope.lang equal to language.
 	 * else set scope.lang to da_DK and save the variable in local storage and navigate to language menu.
 	 */
-	$(document).ready(function() {
+	var main = function() {
 		var lang = window.localStorage.getItem('kosmoramaLang');
 		if (!lang) {
 			$scope.lang = 'da_DK';
 			window.localStorage.setItem('kosmoramaLang', $scope.lang);
 			$state.go('language');
-		}
-		else {
+		} else {
 			$scope.lang = lang;
 		}
-	});
+	};
 
 	/**
 	 * Sets language equal to picked language from language menu.
@@ -29,8 +30,7 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
 		var backView = $ionicHistory.backView();
 		if (backView) {
 			$state.go(backView.stateName);
-		}
-		else {
+		} else {
 			$state.go('login');
 		}
 	};
@@ -41,8 +41,7 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
 	$scope.langToggle = function() {
 		if ($ionicHistory.currentView().stateName != 'language') {
 			$state.go('language');
-		}
-		else {
+		} else {
 			$state.go($ionicHistory.backView().stateName);
 		}
 	};

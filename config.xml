@@ -9,6 +9,10 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+<<<<<<< HEAD
+    <allow-navigation href="https://*youtube.com/*" />
+=======
+>>>>>>> e334e9c60928f45f3e5c997d0c422473aa8b6622
     <allow-navigation href="http://*/*" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
@@ -81,6 +85,11 @@
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
     <icon src="resources/ios/icon/icon-small@3x.png" />
     <plugin name="cordova-plugin-media" spec="~2.3.0" />
+<<<<<<< HEAD
+    <plugin name="cordova-plugin-whitelist" spec="https://github.com/apache/cordova-plugin-whitelist.git" />
+    <plugin name="cordova-plugin-network-information" spec="~1.2.1" />
+=======
     <plugin name="cordova-plugin-whitelist" spec="~1.2.2" />
     <plugin name="cordova-plugin-console" spec="~1.0.3" />
+>>>>>>> e334e9c60928f45f3e5c997d0c422473aa8b6622
 </widget>
