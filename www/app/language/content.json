@@ -187,11 +187,15 @@
     "en_US": "Uncomfortable pain"
   },
   "painDescription4": {
-    "da_DK": "svære smerter",
+    "da_DK": "Svære smerter",
     "en_US": "Dreadful pain"
   },
   "painDescription5": {
     "da_DK": "Værst tænkelige smerter",
     "en_US": "Worst possible, excrutiating pain"
+  },
+  "playVideoButton": {
+    "da_DK": "vis demonstration",
+    "en_US": "show demonstration"
   }
 }
