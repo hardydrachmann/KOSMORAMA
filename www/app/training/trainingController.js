@@ -8,7 +8,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	/**
 	 * Gets the users training and sets the relevant data.
 	 */
-	var main = function() {
+	function main() {
 		var currentState = $ionicHistory.currentView().stateName;
 		if (currentState === 'trainingPlan') {
 			getUser(function(result) {
@@ -26,7 +26,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 		$rootScope.$on('continueEvent', function() {
 			$scope.cancelViewTimer();
 		});
-	};
+	}
 
 	/**
 	 * Store data which is necessary for later views in the root scope.
@@ -102,7 +102,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	var stateAction = function(currentState) {
 		if (currentState.startsWith('training')) {
 			if (currentState !== 'trainingPlan') {
-				play(currentState === 'trainingDemo', true);
+				play(currentState === 'trainingDemo', false);
 			}
 			if (currentState !== 'training') {
 				$scope.trainingViewTimer(45);

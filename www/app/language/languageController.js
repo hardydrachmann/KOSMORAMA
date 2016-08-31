@@ -10,7 +10,7 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
 	 * if there is a saved language: set scope.lang equal to language.
 	 * else set scope.lang to da_DK and save the variable in local storage and navigate to language menu.
 	 */
-	var main = function() {
+	function main() {
 		var lang = window.localStorage.getItem('kosmoramaLang');
 		if (!lang) {
 			$scope.lang = 'da_DK';
@@ -19,7 +19,7 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
 		} else {
 			$scope.lang = lang;
 		}
-	};
+	}
 
 	/**
 	 * Sets language equal to picked language from language menu.

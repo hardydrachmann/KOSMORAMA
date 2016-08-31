@@ -6,9 +6,9 @@ angular.module('kosmoramaApp').controller('NotesController', function($scope, $s
 	$(document).ready(main);
 
 	/**
-	 * Gets the data from the current view and puts the data into the rootscope. 
+	 * Gets the data from the current view and puts the data into the rootscope.
 	 */
-	var main = function() {
+	function main() {
 		console.log($rootScope.passData);
 		var handler = $rootScope.$on('continueEvent', function() {
 			if ($scope.painValue && $rootScope.passData.painLevel === null) {
@@ -24,7 +24,7 @@ angular.module('kosmoramaApp').controller('NotesController', function($scope, $s
 			}
 			handler();
 		});
-	};
+	}
 
 	/**
 	 * When the text area is entered, clear the placeholder text.

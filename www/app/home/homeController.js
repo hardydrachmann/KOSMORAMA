@@ -6,7 +6,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 
 	$(document).ready(function() {
 		getMails();
-		console.log(storageService.persistentUserData)
+		console.log(storageService.persistentUserData);
 		if ($cordovaNetwork.isOnline) {
 			// checkSync();
 		}
@@ -35,8 +35,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	var checkForWifi = function() {
 		if ($cordovaNetwork.getNetwork() != 'wifi') {
 			popupService.confirmPopup('NO WIFI', 'Do you want to download your training plan, without Wifi', syncData());
-		}
-		else {
+		} else {
 			syncData();
 		}
 	};
@@ -86,8 +85,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 		if (mail.hasClass('inactive-mail')) {
 			mail.removeClass('inactive-mail');
 			mail.addClass('active-mail');
-		}
-		else {
+		} else {
 			mail.removeClass('active-mail');
 			mail.addClass('inactive-mail');
 		}

@@ -1,19 +1,22 @@
 <div class="backgroundColor">
-    <div ng-controller="TimerController">
+  <div ng-controller="TimerController">
 
-        <video class="video-positioning" style="margin-top:2em" controls autoplay loop>
-            <source src="vid/f25h264.mp4" type="video/mp4">
-        </video>
+    <video class="video-positioning" style="margin-top:2em" controls autoplay loop>
+        <source src="media/video/video.mp4" type="video/mp4">
+    </video>
 
-        <div class="progress-wrapper">
-            <round-progress id="progress" max="timeProgress" current="progress" color="#303c50" bgcolor="#8092b3" radius="100" stroke="20" semi="false" rounded="false" clockwise="true" responsive="true" duration="1000" animation="linearEase" animation-delay="0"
-                offset="0">bla</round-progress>
-            <div class="progress-text">
-                <p class="progress-text-head">{{timerText()}}</p>
-                <p>{{formatTime(counter)}}</p>
-            </div>
-        </div>
+    <audio autoplay="autoplay">
+          <source src="media/audio/audio.mp3" />
+    </audio>
 
-
+    <div class="progress-wrapper">
+      <round-progress id="progress" max="timeProgress" current="progress" color="#303c50" bgcolor="#8092b3" radius="100" stroke="20" semi="false" rounded="false" clockwise="true" responsive="true" duration="1000" animation="linearEase" animation-delay="0" offset="0">bla</round-progress>
+      <div class="progress-text">
+        <p class="progress-text-head">{{timerText()}}</p>
+        <p>{{formatTime(counter)}}</p>
+      </div>
     </div>
+
+
+  </div>
 </div>
