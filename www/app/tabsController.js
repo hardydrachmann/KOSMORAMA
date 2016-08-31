@@ -44,12 +44,15 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
                     $scope.showHelpTab = true;
                     $scope.showContTab = true;
                     $scope.showLogoutTab = true;
+                    break;
                 case 'trainingDemo':
                     $scope.showHelpTab = true;
                     $scope.showContTab = true;
+                    break;
                 case 'training':
                     $scope.showHelpTab = true;
                     $scope.showContTab = true; // Debug
+                    break;
                 case 'feedback':
                     $scope.showHelpTab = true;
                     break;

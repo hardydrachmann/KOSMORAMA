@@ -1,9 +1,9 @@
+
 angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, $ionicHistory, $cordovaNetwork, storageService, $rootScope, popupService, dataService, loadingService) {
 
 	$scope.mails = [];
 	$scope.newMailCount = 0;
 	var currentDate = "";
-
 
 	$(document).ready(function() {
 		getMails();
@@ -47,6 +47,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 			syncData();
 		}
 	};
+
 
 	/**
 	 * Updates current training plan and sets the key date equal to today.

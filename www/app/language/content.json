@@ -15,8 +15,8 @@
   },
 
   "trainingDemoTitle": {
-    "da_DK": "Sådan laves øvelsen:",
-    "en_US": "How to perform the exercise:"
+    "da_DK": "Sådan laves øvelsen",
+    "en_US": "How to perform the exercise"
   },
 
   "trainingDemoDescription": {
@@ -175,23 +175,23 @@
   },
 
   "painDescription1": {
-    "da_DK": "Ingen smerter.",
-    "en_US": "No pain."
+    "da_DK": "Ingen smerter",
+    "en_US": "No pain"
   },
   "painDescription2": {
-    "da_DK": "Lette smerter.",
-    "en_US": "Mild, annoying pain. "
+    "da_DK": "Lette smerter",
+    "en_US": "Mild, annoying pain"
   },
   "painDescription3": {
     "da_DK": "Moderate smerter",
-    "en_US": "Uncomfortable pain."
+    "en_US": "Uncomfortable pain"
   },
   "painDescription4": {
-    "da_DK": "svære smerter.",
-    "en_US": "Dreadful pain."
+    "da_DK": "svære smerter",
+    "en_US": "Dreadful pain"
   },
   "painDescription5": {
-    "da_DK": "Værst tænkelige smerter.",
-    "en_US": "Worst possible, excrutiating pain."
+    "da_DK": "Værst tænkelige smerter",
+    "en_US": "Worst possible, excrutiating pain"
   }
 }
