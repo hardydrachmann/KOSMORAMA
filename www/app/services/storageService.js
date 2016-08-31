@@ -2,15 +2,38 @@ angular.module('kosmoramaApp').service('storageService', function($http) {
 
     this.persistentUserData = {
         userScreenNumber: '',
+        language: '',
         syncDate: '',
         training: []
     };
 
+    this.getSelectedLanguage = function() {
+        if (this.persistentUserData.language) {
+            return this.persistentUserData.language;
+        }
+        var language = window.localStorage.getItem('kosmoramaLang');
+        if (language) {
+            this.persistentUserData.language = language;
+            return language;
+        }
+        return null;
+    };
+
+    this.setSelectedLanguage = function(language) {
+        this.persistentUserData.language = language;
+        window.localStorage.setItem(language, 'kosmoramaLang');
+    };
+
     this.getUserScreenNumber = function() {
+        if (this.persistentUserData.userScreenNumber) {
+            return this.persistentUserData.userScreenNumber;
+        }
         var key = window.localStorage.getItem('kosmoramaKey');
         var encryptedId = window.localStorage.getItem('kosmoramaId');
         if (key && encryptedId) {
-            return sjcl.decrypt(key, encryptedId);
+            var decryptedId = sjcl.decrypt(key, encryptedId);
+            this.persistentUserData.userScreenNumber = decryptedId;
+            return decryptedId;
         }
         return '';
     };
@@ -23,17 +46,22 @@ angular.module('kosmoramaApp').service('storageService', function($http) {
         this.persistentUserData.userScreenNumber = number;
     };
 
-    this.setLastSyncDate = function(date) {
-        window.localStorage.setItem('syncDate', new Date().getDate());
+    this.getLastSyncDate = function() {
+        if (this.persistentUserData.language) {
+            return this.persistentUserData.language;
+        }
+        return window.localStorage.getItem('kosmoramaSyncDate');
     };
 
-    this.getLastSyncDate = function() {
-        return window.localStorage.getItem('syncDate');
+    this.setLastSyncDate = function(date) {
+        window.localStorage.setItem('kosmoramaSyncDate', new Date().getDate());
     };
 
     this.resetPersistentData = function() {
         window.localStorage.removeItem('kosmoramaId');
         window.localStorage.removeItem('kosmoramaKey');
+        window.localStorage.removeItem('kosmoramaLang');
+        window.localStorage.removeItem('kosmoramaSyncDate');
     };
 
     var minASCII = 33;

@@ -1,5 +1,5 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, audioService, blobService) {
+app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, audioService, blobService, storageService) {
 
 	$scope.TrainingItems = [];
 
@@ -9,20 +9,15 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	 * Gets the users training and sets the relevant data.
 	 */
 	function main() {
+		$scope.TrainingItems = storageService.persistentUserData.training;
+		console.log($scope.TrainingItems);
 		var currentState = $ionicHistory.currentView().stateName;
 		if (currentState === 'trainingPlan') {
-			getUser(function(result) {
-				getTraining(result.Id, function() {
-					storeData();
-					stateAction(currentState);
-				});
-			});
-		} else {
 			stateAction(currentState);
 		}
-		setPlayerReadyHandler(function() {
-			// This runs the first time the player is ready.
-		});
+		else {
+			stateAction(currentState);
+		}
 		$rootScope.$on('continueEvent', function() {
 			$scope.cancelViewTimer();
 		});
@@ -46,55 +41,56 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 		};
 	};
 
-	/**
-	 * Getting the user from service.
-	 */
-	var getUser = function(callback) {
-		dataService.getUser($scope.userScreenNumber, function(result) {
-			callback(result);
-		});
-	};
+	// /**
+	//  * Getting the user from service.
+	//  */
+	// var getUser = function(callback) {
+	// 	dataService.getUser($scope.userScreenNumber, function(result) {
+	// 		callback(result);
+	// 	});
+	// };
 
-	/**
-	 * Getting training items from service.
-	 */
-	function getTraining(userId, callback) {
-		loadingService.loaderShow();
-		dataService.getTraining(userId, function(data) {
-			if (data) {
-				sortTraining(data);
-				loadingService.loaderHide();
-				callback();
-			} else {
-				popupService.alertPopup($scope.getText('noTrainingText'));
-				loadingService.loaderHide();
-				$state.go('home');
-			}
-		});
-	}
+	// /**
+	//  * Getting training items from service.
+	//  */
+	// function getTraining(userId, callback) {
+	// 	loadingService.loaderShow();
+	// 	dataService.getTraining(userId, function(data) {
+	// 		if (data) {
+	// 			sortTraining(data);
+	// 			loadingService.loaderHide();
+	// 			callback();
+	// 		}
+	// 		else {
+	// 			popupService.alertPopup($scope.getText('noTrainingText'));
+	// 			loadingService.loaderHide();
+	// 			$state.go('home');
+	// 		}
+	// 	});
+	// }
 
-	/**
-	 * Sorting and adding a pass Item for each set of training.
-	 */
-	function sortTraining(data) {
-		if (data.length > 0) {
-			var trainingData = data;
-			var setCount = data[0].SessionOrderNumber,
-				pass = 1,
-				firstTrainingId = data[0].TrainingId;
-			for (var i = 0; i < trainingData.length; i++) {
-				var exercise = trainingData[i];
-				if (exercise.SessionOrderNumber === setCount || exercise.TrainingId > firstTrainingId) {
-					$scope.TrainingItems.push({
-						passTitle: $scope.getText('passText') + pass++
-					});
-					setCount++;
-					firstTrainingId = exercise.TrainingId;
-				}
-				$scope.TrainingItems.push(exercise);
-			}
-		}
-	}
+	// /**
+	//  * Sorting and adding a pass Item for each set of training.
+	//  */
+	// function sortTraining(data) {
+	// 	if (data.length > 0) {
+	// 		var trainingData = data;
+	// 		var setCount = data[0].SessionOrderNumber,
+	// 			pass = 1,
+	// 			firstTrainingId = data[0].TrainingId;
+	// 		for (var i = 0; i < trainingData.length; i++) {
+	// 			var exercise = trainingData[i];
+	// 			if (exercise.SessionOrderNumber === setCount || exercise.TrainingId > firstTrainingId) {
+	// 				$scope.TrainingItems.push({
+	// 					passTitle: $scope.getText('passText') + pass++
+	// 				});
+	// 				setCount++;
+	// 				firstTrainingId = exercise.TrainingId;
+	// 			}
+	// 			$scope.TrainingItems.push(exercise);
+	// 		}
+	// 	}
+	// }
 
 	/**
 	 * Execute the appropriate action for the current training view variation.
@@ -133,7 +129,8 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 				var videoId;
 				if (url.startsWith("https")) {
 					videoId = url.substring(26, 37);
-				} else if (url.startsWith("http")) {
+				}
+				else if (url.startsWith("http")) {
 					videoId = url.substring(25, 36);
 				}
 				return videoId;

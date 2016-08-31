@@ -1,6 +1,6 @@
 // This is a BLOB service that holds functions that creates the appropiate URL-string to get pictures & audio files from the BLOB.
 
-angular.module('kosmoramaApp').service('blobService', function() {
+angular.module('kosmoramaApp').service('blobService', function(storageService) {
 
 	var baseURL = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
 
@@ -24,7 +24,7 @@ angular.module('kosmoramaApp').service('blobService', function() {
 	 * Checks the current selected language and if it is en_US, change it to en_GB.
 	 */
 	var getLanguageString = function() {
-		var storageLanguage = window.localStorage.getItem('kosmoramaLang');
+		var storageLanguage = storageService.getSelectedLanguage();
 		if (storageLanguage === 'en_US') {
 			storageLanguage = 'en_GB';
 		}
