@@ -56,13 +56,15 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
         }).success(function(trainingData) {
             var train = [];
             var date = new Date();
+            var maxDate = new Date();
+            maxDate.setDate(date.getDate() + 7);
             // Checking for current days training Items and adding them to array.
             for (var i = 0; i < trainingData.result.length; i++) {
-                var newdate = new Date(trainingData.result[i].Date);
-                if (newdate.getDate() === date.getDate() && newdate.getMonth() === date.getMonth()) {
+                var trainingDate = new Date(trainingData.result[i].Date);
+                if (trainingDate <= maxDate) {
                     // console.log(trainingData.result[i].TrainingItems[0].Type);
                     for (var item in trainingData.result[i].TrainingItems) {
-                        if(trainingData.result[i].TrainingItems[item].Type == 40) {
+                        if (trainingData.result[i].TrainingItems[item].Type == 40) {
                             train.push(trainingData.result[i].TrainingItems[item]);
                         }
                     }
