@@ -115,10 +115,6 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 			audioService.playAudio(source, function() {
 			});
 		}
-		//  else {
-		// 	$timeout(function() {
-		// 	}, 1000);
-		// }
 	}
 
 	/**

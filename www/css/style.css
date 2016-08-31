@@ -348,6 +348,21 @@ left:1vw;
     line-height: 4.5vw;
 }
 
+#playVideo {
+    font-style: italic;
+    position:relative;
+    width:40%;
+    height:7%;
+    color:white;
+    background-color: #465877;
+    border-radius: 20em;
+    border-width: 0.2em;
+    border-style: solid;
+    border-color: #303C50;
+    left:50%;
+    transform:translateX(-50%);
+}
+
 .video-positioning {
     position:relative;
     width:95%;
