@@ -1,14 +1,8 @@
 angular.module('kosmoramaApp').service('storageService', function($http) {
-    this.persistentUserData = {
-        userScreenNumber: 'aa10',
-        training: []
-    };
 
-    this.setUserScreenNumber = function(number) {
-        var key = getRandomKey();
-        var id = sjcl.encrypt(key, number);
-        window.localStorage.setItem('kosmoramaKey', key);
-        window.localStorage.setItem('kosmoramaId', number);
+    this.persistentUserData = {
+        userScreenNumber: '',
+        training: []
     };
 
     this.getUserScreenNumber = function() {
@@ -17,15 +11,27 @@ angular.module('kosmoramaApp').service('storageService', function($http) {
         if (key && encryptedId) {
             return sjcl.decrypt(key, encryptedId);
         }
-        return 0;
+        return '';
     };
 
-    this.destroy = function(key) {
-        return window.localStorage.removeItem(key);
+    this.setUserScreenNumber = function(number) {
+        var key = getRandomKey();
+        var id = sjcl.encrypt(key, number);
+        window.localStorage.setItem('kosmoramaKey', key);
+        window.localStorage.setItem('kosmoramaId', number);
+        this.persistentUserData.userScreenNumber = number;
+    };
+
+    this.resetPersistentData = function() {
+        window.localStorage.removeItem('kosmoramaId');
+        window.localStorage.removeItem('kosmoramaKey');
     };
 
     var minASCII = 33;
     var maxASCII = 126;
+    /**
+     * Return a random key generated from a set of ASCII characters, to use with the above encryption-process.
+     */
     var getRandomKey = function() {
         var key = "";
         for (var i = 0; i < 10; i++) {
