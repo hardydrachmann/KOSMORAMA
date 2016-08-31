@@ -34,7 +34,6 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 		});
 	});
 
-
 	/**
 	 * Gets and sets the information required for the timer and progressbar.
 	 */
@@ -70,7 +69,17 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 		} else {
 			$scope.progress -= pauseProgressDecay;
 		}
-		mytimeout = $timeout($scope.onTimeout, 1000);
+	};
+
+	/**
+	 * start the pause timer, set up the timer and pause the video
+	 */
+	var startPauseTimer = function() {
+		$scope.counter = timePause;
+		$scope.progress -= pauseProgressDecay;
+		// $scope.progress -= 1;
+		pauseVideo();
+		pauseNext = false;
 	};
 
 	/**
@@ -88,17 +97,6 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 			mytimeout = $timeout($scope.onTimeout);
 			timerStarted = true;
 		}
-	};
-
-	/**
-	 * start the pause timer, set up the timer and pause the video
-	 */
-	var startPauseTimer = function() {
-		$scope.counter = timePause;
-		$scope.progress -= pauseProgressDecay;
-		// $scope.progress -= 1;
-		pauseVideo();
-		pauseNext = false;
 	};
 
 	/**
