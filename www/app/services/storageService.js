@@ -2,6 +2,7 @@ angular.module('kosmoramaApp').service('storageService', function($http) {
 
     this.persistentUserData = {
         userScreenNumber: '',
+        syncDate: '',
         training: []
     };
 
@@ -18,8 +19,16 @@ angular.module('kosmoramaApp').service('storageService', function($http) {
         var key = getRandomKey();
         var id = sjcl.encrypt(key, number);
         window.localStorage.setItem('kosmoramaKey', key);
-        window.localStorage.setItem('kosmoramaId', number);
+        window.localStorage.setItem('kosmoramaId', id);
         this.persistentUserData.userScreenNumber = number;
+    };
+
+    this.setLastSyncDate = function(date) {
+        window.localStorage.setItem('syncDate', new Date().getDate());
+    };
+
+    this.getLastSyncDate = function() {
+        return window.localStorage.getItem('syncDate');
     };
 
     this.resetPersistentData = function() {
