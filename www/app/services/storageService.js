@@ -7,6 +7,18 @@ angular.module('kosmoramaApp').service('storageService', function($http) {
         training: []
     };
 
+    this.proceduralUserData = {
+        isLastPassItem: false,
+        allowMessage: true, // needs impl.
+        currentTraining: {},
+        passData: {
+            trainingId: 0,
+            sessionOrderNumber: 0,
+            painLevel: null,
+            message: null
+        }
+    };
+
     this.getSelectedLanguage = function() {
         if (this.persistentUserData.language) {
             return this.persistentUserData.language;

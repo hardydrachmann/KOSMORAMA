@@ -6,18 +6,10 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	$(document).ready(main);
 
 	/**
-	 * Gets the users training and sets the relevant data.
+	 * and register event for the training controller.
 	 */
 	function main() {
-		$scope.TrainingItems = storageService.persistentUserData.training;
-		console.log($scope.TrainingItems);
-		var currentState = $ionicHistory.currentView().stateName;
-		if (currentState === 'trainingPlan') {
-			stateAction(currentState);
-		}
-		else {
-			stateAction(currentState);
-		}
+		stateAction();
 		$rootScope.$on('continueEvent', function() {
 			$scope.cancelViewTimer();
 		});
@@ -27,18 +19,38 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	 * Store data which is necessary for later views in the root scope.
 	 */
 	var storeData = function() {
-		$rootScope.lastPassTraining = $scope.TrainingItems[2] == undefined;
-		if (!$rootScope.lastPassTraining) {
-			$rootScope.lastPassTraining = !$scope.TrainingItems[2].hasOwnProperty('ExerciseId');
+		$scope.TrainingItems = storageService.persistentUserData.training;
+		// Is this the last pass item?
+		var isLastItem = $scope.TrainingItems[2] == undefined;
+		if (!isLastItem) {
+			isLastItem = !$scope.TrainingItems[2].hasOwnProperty('ExerciseId');
 		}
-		$rootScope.allowMessage = true;
-		$rootScope.currentTraining = $scope.TrainingItems[1];
-		$rootScope.passData = {
+		storageService.proceduralUserData.isLastPassItem = isLastItem;
+		// Assess the current training item.
+		storageService.proceduralUserData.currentTraining = $scope.TrainingItems[1];
+		// Prepare the data for the current training pass.
+		storageService.proceduralUserData.passData = {
 			trainingId: $scope.TrainingItems[1].TrainingId,
 			sessionOrderNumber: $scope.TrainingItems[1].SessionOrderNumber,
 			painLevel: null,
 			message: null
 		};
+
+
+
+		// $rootScope.lastPassTraining = $scope.TrainingItems[2] == undefined;
+		// if (!$rootScope.lastPassTraining) {
+		// 	$rootScope.lastPassTraining = !$scope.TrainingItems[2].hasOwnProperty('ExerciseId');
+		// }
+		// $rootScope.allowMessage = true;
+		// $rootScope.currentTraining = $scope.TrainingItems[1];
+
+		// $rootScope.passData = {
+		// 	trainingId: $scope.TrainingItems[1].TrainingId,
+		// 	sessionOrderNumber: $scope.TrainingItems[1].SessionOrderNumber,
+		// 	painLevel: null,
+		// 	message: null
+		// };
 	};
 
 	// /**
@@ -95,27 +107,17 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	/**
 	 * Execute the appropriate action for the current training view variation.
 	 */
-	var stateAction = function(currentState) {
+	var stateAction = function() {
+		var currentState = $ionicHistory.currentView().stateName;
 		if (currentState.startsWith('training')) {
-			if (currentState !== 'trainingPlan') {
-				play(currentState === 'trainingDemo', false);
+			if (currentState === 'trainingPlan') {
+				storeData();
 			}
 			if (currentState !== 'training') {
 				$scope.trainingViewTimer(45);
 			}
 		}
 	};
-
-	var startStopAudioUrl = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/';
-	/**
-	 * Plays video, and sound if it's wanted.
-	 */
-	function play(isTrainingDemo, playSound) {
-		var source = isTrainingDemo ? $scope.getAudio() : startStopAudioUrl + 'start.mp3';
-		if (playSound) {
-			audioService.playAudio(source, function() {});
-		}
-	}
 
 	/**
 	 * Return the video id for the video of the next training item on the list.
@@ -166,7 +168,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 
 	$scope.trainingDescription = function() {
 		// Returns the appropriate language description for the next exercise.
-		var item = $rootScope.currentTraining;
+		var item = storageService.proceduralUserData.currentTraining;
 		if (item) {
 			return item.LangDesc[$scope.lang];
 		}
@@ -180,7 +182,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	};
 
 	$scope.getAudio = function() {
-		return blobService.getExerciseAudio($rootScope.currentTraining.ExerciseId);
+		return blobService.getExerciseAudio(storageService.proceduralUserData.currentTraining.ExerciseId);
 	};
 
 	$scope.getPicture = function(exerciseId) {
