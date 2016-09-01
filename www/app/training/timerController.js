@@ -25,7 +25,7 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 	var mediaPlayer = $('video');
 
 	$(document).ready(function() {
-		mediaPlayer.on('canplay', function() {
+		mediaPlayer.on('loadeddata', function() {
 			getInfoForTimer();
 			startExerciseTimer();
 		});
@@ -52,7 +52,6 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 	 */
 	$scope.onTimeout = function() {
 		if ($scope.counter === 0) {
-			console.log('cancel mytimeout');
 			$timeout.cancel(mytimeout);
 			if ($scope.setsRemaining > 0) {
 				if (!pauseNext) {
@@ -65,7 +64,6 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 				return;
 			}
 		}
-		console.log('tick, ' + $scope.counter);
 		$scope.counter--;
 		if (pauseNext) {
 			$scope.progress++;
