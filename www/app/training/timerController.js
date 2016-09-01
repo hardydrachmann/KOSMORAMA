@@ -52,6 +52,7 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 	 */
 	$scope.onTimeout = function() {
 		if ($scope.counter === 0) {
+			console.log('cancel mytimeout');
 			$timeout.cancel(mytimeout);
 			if ($scope.setsRemaining > 0) {
 				if (!pauseNext) {
@@ -64,12 +65,14 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 				return;
 			}
 		}
+		console.log('tick, ' + $scope.counter);
 		$scope.counter--;
 		if (pauseNext) {
 			$scope.progress++;
 		} else {
 			$scope.progress -= pauseProgressDecay;
 		}
+		mytimeout = $timeout($scope.onTimeout, 1000);
 	};
 
 	/**
@@ -95,6 +98,7 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 		$scope.progress = 1;
 		pauseNext = true;
 		if (!timerStarted) {
+			console.log('starting timer');
 			mytimeout = $timeout($scope.onTimeout);
 			timerStarted = true;
 		}
