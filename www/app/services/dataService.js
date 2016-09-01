@@ -26,6 +26,7 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).success(function(userdata) {
+            console.log(userdata);
             callback(userdata.result[0]);
         }).error(function(data, status, headers, config) {
             console.log('testfail', data, status, headers, config);
@@ -79,12 +80,13 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
 
     // This function post traning data.
     // Still needs work
-    this.postData = function(traningReport, callback) {
+    this.postData = function(trainingReport, callback) {
+            console.log(trainingReport);
 
         var content = {
             id: '2',
             method: 'PostTrainingReport',
-            params: traningReport
+            params: trainingReport
         };
 
         var dataString = JSON.stringify(content); //Converting javascript to Json

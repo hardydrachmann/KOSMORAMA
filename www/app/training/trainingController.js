@@ -1,5 +1,8 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, audioService, blobService, storageService) {
+app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, blobService, storageService) {
+
+	$rootScope.videoFile = 'media/video/video.mp4';
+	$rootScope.audioFile = 'media/audio/audio.mp3';
 
 	$scope.TrainingItems = [];
 
@@ -12,6 +15,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 		stateAction();
 		$rootScope.$on('continueEvent', function() {
 			$scope.cancelViewTimer();
+			$('video').remove();
 		});
 	}
 
@@ -114,7 +118,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 				storeData();
 			}
 			if (currentState !== 'training') {
-				$scope.trainingViewTimer(45);
+				$scope.trainingViewTimer(999);
 			}
 		}
 	};

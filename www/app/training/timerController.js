@@ -1,5 +1,5 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TimerController', function($scope, $timeout, $rootScope, $window) {
+app.controller('TimerController', function($scope, $timeout, $rootScope, $window, storageService) {
 
 	/**
 	 * $scope.sets: the amount of sets for the current exercise.
@@ -22,9 +22,10 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 	var timerStarted = false;
 
 	var trainingPromise;
+	var mediaPlayer = $('video');
 
 	$(document).ready(function() {
-		setPlayerReadyHandler(function() {
+		mediaPlayer.on('loadeddata', function() {
 			getInfoForTimer();
 			startExerciseTimer();
 		});
@@ -38,10 +39,11 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 	 * Gets and sets the information required for the timer and progressbar.
 	 */
 	var getInfoForTimer = function() {
-		$scope.sets = $rootScope.currentTraining.Sets;
+		var training = storageService.proceduralUserData.currentTraining;
+		$scope.sets = training.Sets;
 		$scope.setsRemaining = $scope.sets;
-		timeSet = $rootScope.currentTraining.TimeSet * 60;
-		timePause = $rootScope.currentTraining.Pause * 60;
+		timeSet = training.TimeSet * 60;
+		timePause = training.Pause * 60;
 		$scope.counter = timeSet;
 		pauseProgressDecay = timeSet / timePause;
 	};
@@ -69,16 +71,17 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 		} else {
 			$scope.progress -= pauseProgressDecay;
 		}
+		mytimeout = $timeout($scope.onTimeout, 1000);
 	};
 
 	/**
 	 * start the pause timer, set up the timer and pause the video
 	 */
 	var startPauseTimer = function() {
+		mediaPlayer.get(0).pause();
 		$scope.counter = timePause;
 		$scope.progress -= pauseProgressDecay;
 		// $scope.progress -= 1;
-		pauseVideo();
 		pauseNext = false;
 	};
 
@@ -86,12 +89,12 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 	 * start the timer for the current set, set up the timers and play the video
 	 */
 	var startExerciseTimer = function() {
+		mediaPlayer.get(0).play();
 		$scope.currentSet++;
 		$scope.setsRemaining--;
 		$scope.timeProgress = timeSet;
 		$scope.counter = timeSet;
 		$scope.progress = 1;
-		playVideo();
 		pauseNext = true;
 		if (!timerStarted) {
 			mytimeout = $timeout($scope.onTimeout);
