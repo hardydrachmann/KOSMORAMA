@@ -1,5 +1,8 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, audioService, blobService) {
+app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, blobService) {
+
+	$rootScope.videoFile = 'media/video/video.mp4';
+	$rootScope.audioFile = 'media/audio/audio.mp3';
 
 	$scope.TrainingItems = [];
 
@@ -20,11 +23,9 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 		} else {
 			stateAction(currentState);
 		}
-		setPlayerReadyHandler(function() {
-			// This runs the first time the player is ready.
-		});
 		$rootScope.$on('continueEvent', function() {
 			$scope.cancelViewTimer();
+			$('video').remove();
 		});
 	}
 
@@ -102,24 +103,13 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	var stateAction = function(currentState) {
 		if (currentState.startsWith('training')) {
 			if (currentState !== 'trainingPlan') {
-				play(currentState === 'trainingDemo', false);
+				// play(currentState === 'trainingDemo', false);
 			}
 			if (currentState !== 'training') {
-				$scope.trainingViewTimer(45);
+				$scope.trainingViewTimer(999);
 			}
 		}
 	};
-
-	var startStopAudioUrl = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/start_stop/';
-	/**
-	 * Plays video, and sound if it's wanted.
-	 */
-	function play(isTrainingDemo, playSound) {
-		var source = isTrainingDemo ? $scope.getAudio() : startStopAudioUrl + 'start.mp3';
-		if (playSound) {
-			audioService.playAudio(source, function() {});
-		}
-	}
 
 	/**
 	 * Return the video id for the video of the next training item on the list.

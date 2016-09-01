@@ -22,9 +22,10 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 	var timerStarted = false;
 
 	var trainingPromise;
+	var mediaPlayer = $('video');
 
 	$(document).ready(function() {
-		setPlayerReadyHandler(function() {
+		mediaPlayer.on('canplay', function() {
 			getInfoForTimer();
 			startExerciseTimer();
 		});
@@ -75,10 +76,10 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 	 * start the pause timer, set up the timer and pause the video
 	 */
 	var startPauseTimer = function() {
+		mediaPlayer.get(0).pause();
 		$scope.counter = timePause;
 		$scope.progress -= pauseProgressDecay;
 		// $scope.progress -= 1;
-		pauseVideo();
 		pauseNext = false;
 	};
 
@@ -86,12 +87,12 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 	 * start the timer for the current set, set up the timers and play the video
 	 */
 	var startExerciseTimer = function() {
+		mediaPlayer.get(0).play();
 		$scope.currentSet++;
 		$scope.setsRemaining--;
 		$scope.timeProgress = timeSet;
 		$scope.counter = timeSet;
 		$scope.progress = 1;
-		playVideo();
 		pauseNext = true;
 		if (!timerStarted) {
 			mytimeout = $timeout($scope.onTimeout);
