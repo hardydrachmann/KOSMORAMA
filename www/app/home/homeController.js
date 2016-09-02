@@ -2,18 +2,21 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 
 	$scope.mails = [];
 	$scope.newMailCount = 0;
-	var currentDate = "";
 
 	$(document).ready(function() {
-		loadingService.loaderShow();
-		getMails();
-		getUser(function(result) {
-			getTraining(result.Id, function() {
-				loadingService.loaderHide();
+		if (!$scope.mails.length) {
+			getMails();
+		}
+		if ($ionicHistory.currentView().stateName !== 'mail') {
+			loadingService.loaderShow();
+			getUser(function(result) {
+				getTraining(result.Id, function() {
+					loadingService.loaderHide();
+				});
 			});
-		});
-		if ($cordovaNetwork.isOnline) {
-			// checkSync();
+			if ($cordovaNetwork.isOnline) {
+				// checkSync();
+			}
 		}
 	});
 
@@ -57,20 +60,18 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	 */
 	function sortTraining(data) {
 		if (data.length > 0) {
-			var trainingData = data;
 			var setCount = data[0].SessionOrderNumber,
 				pass = 1,
 				firstTrainingId = data[0].TrainingId;
-			for (var i = 0; i < trainingData.length; i++) {
-				var exercise = trainingData[i];
-				if (exercise.SessionOrderNumber === setCount || exercise.TrainingId > firstTrainingId) {
+			for (var i = 0; i < data.length; i++) {
+				if (data[i].SessionOrderNumber === setCount || data[i].TrainingId > firstTrainingId) {
 					storageService.persistentUserData.training.push({
 						passTitle: $scope.getText('passText') + pass++
 					});
 					setCount++;
-					firstTrainingId = exercise.TrainingId;
+					firstTrainingId = data[i].TrainingId;
 				}
-				storageService.persistentUserData.training.push(exercise);
+				storageService.persistentUserData.training.push(data[i]);
 			}
 		}
 	}
