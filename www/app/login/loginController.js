@@ -5,11 +5,10 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
 	$(document).ready(main);
 
 	/**
-	 * On launch, check if a user exist in local storage. If so, unencrypt user, then place this user on the scope and login.
+	 * On launch, check if a user exist in local storage. If so, decrypt user, then place this user on the scope and login.
 	 */
 	function main() {
 		$scope.userScreenNumber = storageService.getUserScreenNumber();
-		console.log($scope.userScreenNumber);
 		if ($scope.userScreenNumber) {
 			$state.go('home');
 		}
@@ -35,12 +34,12 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
 			dataService.getUser($scope.userScreenNumber, function(result) {
 				if (result) {
 					storageService.setUserScreenNumber($scope.userScreenNumber);
+					loadingService.loaderHide();
 					$('#setUserScreenNumber').val('');
-					$scope.setTabs();
-					loadingService.loaderHide(1000);
 					$state.go('home');
+					$scope.setTabs();
 				} else {
-					loadingService.loaderHide(1000);
+					loadingService.loaderHide();
 					$('#setUserScreenNumber').val('');
 					popupService.AlertPopup($scope.getText('loginFail'));
 				}

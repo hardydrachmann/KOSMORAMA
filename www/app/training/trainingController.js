@@ -1,28 +1,20 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, blobService) {
 
-	$rootScope.videoFile = 'media/video/video.mp4';
-	$rootScope.audioFile = 'media/audio/audio.mp3';
+app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, blobService, storageService, downloadService) {
+
+	$rootScope.videoFile = 'media/video/test_training/video.mp4';
+	$rootScope.audioFile = 'media/audio/test_training/audio.mp3';
+	$rootScope.startAudio = 'media/audio/start-stop/start.mp3';
 
 	$scope.TrainingItems = [];
 
 	$(document).ready(main);
 
 	/**
-	 * Gets the users training and sets the relevant data.
+	 * and register event for the training controller.
 	 */
 	function main() {
-		var currentState = $ionicHistory.currentView().stateName;
-		if (currentState === 'trainingPlan') {
-			getUser(function(result) {
-				getTraining(result.Id, function() {
-					storeData();
-					stateAction(currentState);
-				});
-			});
-		} else {
-			stateAction(currentState);
-		}
+		stateAction();
 		$rootScope.$on('continueEvent', function() {
 			$scope.cancelViewTimer();
 			$('video').remove();
@@ -33,77 +25,99 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	 * Store data which is necessary for later views in the root scope.
 	 */
 	var storeData = function() {
-		$rootScope.lastPassTraining = $scope.TrainingItems[2] == undefined;
-		if (!$rootScope.lastPassTraining) {
-			$rootScope.lastPassTraining = !$scope.TrainingItems[2].hasOwnProperty('ExerciseId');
+		$scope.TrainingItems = storageService.persistentUserData.training;
+		// Is this the last pass item?
+		var isLastItem = $scope.TrainingItems[2] == undefined;
+		if (!isLastItem) {
+			isLastItem = !$scope.TrainingItems[2].hasOwnProperty('ExerciseId');
 		}
-		$rootScope.allowMessage = true;
-		$rootScope.currentTraining = $scope.TrainingItems[1];
-		$rootScope.passData = {
+		storageService.proceduralUserData.isLastPassItem = isLastItem;
+		// Assess the current training item.
+		storageService.proceduralUserData.currentTraining = $scope.TrainingItems[1];
+		// Prepare the data for the current training pass.
+		storageService.proceduralUserData.passData = {
 			trainingId: $scope.TrainingItems[1].TrainingId,
 			sessionOrderNumber: $scope.TrainingItems[1].SessionOrderNumber,
 			painLevel: null,
 			message: null
 		};
+
+
+
+		// $rootScope.lastPassTraining = $scope.TrainingItems[2] == undefined;
+		// if (!$rootScope.lastPassTraining) {
+		// 	$rootScope.lastPassTraining = !$scope.TrainingItems[2].hasOwnProperty('ExerciseId');
+		// }
+		// $rootScope.allowMessage = true;
+		// $rootScope.currentTraining = $scope.TrainingItems[1];
+
+		// $rootScope.passData = {
+		// 	trainingId: $scope.TrainingItems[1].TrainingId,
+		// 	sessionOrderNumber: $scope.TrainingItems[1].SessionOrderNumber,
+		// 	painLevel: null,
+		// 	message: null
+		// };
 	};
 
-	/**
-	 * Getting the user from service.
-	 */
-	var getUser = function(callback) {
-		dataService.getUser($scope.userScreenNumber, function(result) {
-			callback(result);
-		});
-	};
+	// /**
+	//  * Getting the user from service.
+	//  */
+	// var getUser = function(callback) {
+	// 	dataService.getUser($scope.userScreenNumber, function(result) {
+	// 		callback(result);
+	// 	});
+	// };
 
-	/**
-	 * Getting training items from service.
-	 */
-	function getTraining(userId, callback) {
-		loadingService.loaderShow();
-		dataService.getTraining(userId, function(data) {
-			if (data) {
-				sortTraining(data);
-				loadingService.loaderHide();
-				callback();
-			} else {
-				popupService.alertPopup($scope.getText('noTrainingText'));
-				loadingService.loaderHide();
-				$state.go('home');
-			}
-		});
-	}
+	// /**
+	//  * Getting training items from service.
+	//  */
+	// function getTraining(userId, callback) {
+	// 	loadingService.loaderShow();
+	// 	dataService.getTraining(userId, function(data) {
+	// 		if (data) {
+	// 			sortTraining(data);
+	// 			loadingService.loaderHide();
+	// 			callback();
+	// 		}
+	// 		else {
+	// 			popupService.alertPopup($scope.getText('noTrainingText'));
+	// 			loadingService.loaderHide();
+	// 			$state.go('home');
+	// 		}
+	// 	});
+	// }
 
-	/**
-	 * Sorting and adding a pass Item for each set of training.
-	 */
-	function sortTraining(data) {
-		if (data.length > 0) {
-			var trainingData = data;
-			var setCount = data[0].SessionOrderNumber,
-				pass = 1,
-				firstTrainingId = data[0].TrainingId;
-			for (var i = 0; i < trainingData.length; i++) {
-				var exercise = trainingData[i];
-				if (exercise.SessionOrderNumber === setCount || exercise.TrainingId > firstTrainingId) {
-					$scope.TrainingItems.push({
-						passTitle: $scope.getText('passText') + pass++
-					});
-					setCount++;
-					firstTrainingId = exercise.TrainingId;
-				}
-				$scope.TrainingItems.push(exercise);
-			}
-		}
-	}
+	// /**
+	//  * Sorting and adding a pass Item for each set of training.
+	//  */
+	// function sortTraining(data) {
+	// 	if (data.length > 0) {
+	// 		var trainingData = data;
+	// 		var setCount = data[0].SessionOrderNumber,
+	// 			pass = 1,
+	// 			firstTrainingId = data[0].TrainingId;
+	// 		for (var i = 0; i < trainingData.length; i++) {
+	// 			var exercise = trainingData[i];
+	// 			if (exercise.SessionOrderNumber === setCount || exercise.TrainingId > firstTrainingId) {
+	// 				$scope.TrainingItems.push({
+	// 					passTitle: $scope.getText('passText') + pass++
+	// 				});
+	// 				setCount++;
+	// 				firstTrainingId = exercise.TrainingId;
+	// 			}
+	// 			$scope.TrainingItems.push(exercise);
+	// 		}
+	// 	}
+	// }
 
 	/**
 	 * Execute the appropriate action for the current training view variation.
 	 */
-	var stateAction = function(currentState) {
+	var stateAction = function() {
+		var currentState = $ionicHistory.currentView().stateName;
 		if (currentState.startsWith('training')) {
-			if (currentState !== 'trainingPlan') {
-				// play(currentState === 'trainingDemo', false);
+			if (currentState === 'trainingPlan') {
+				storeData();
 			}
 			if (currentState !== 'training') {
 				$scope.trainingViewTimer(999);
@@ -159,7 +173,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 
 	$scope.trainingDescription = function() {
 		// Returns the appropriate language description for the next exercise.
-		var item = $rootScope.currentTraining;
+		var item = storageService.proceduralUserData.currentTraining;
 		if (item) {
 			return item.LangDesc[$scope.lang];
 		}
@@ -173,7 +187,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	};
 
 	$scope.getAudio = function() {
-		return blobService.getExerciseAudio($rootScope.currentTraining.ExerciseId);
+		return blobService.getExerciseAudio(storageService.proceduralUserData.currentTraining.ExerciseId);
 	};
 
 	$scope.getPicture = function(exerciseId) {
