@@ -1,8 +1,10 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, blobService, storageService) {
 
-	$rootScope.videoFile = 'media/video/video.mp4';
-	$rootScope.audioFile = 'media/audio/audio.mp3';
+app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, blobService, storageService, downloadService) {
+
+	$rootScope.videoFile = 'media/video/test_training/video.mp4';
+	$rootScope.audioFile = 'media/audio/test_training/audio.mp3';
+	$rootScope.startAudio = 'media/audio/start-stop/start.mp3';
 
 	$scope.TrainingItems = [];
 
@@ -46,8 +48,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 				var videoId;
 				if (url.startsWith("https")) {
 					videoId = url.substring(26, 37);
-				}
-				else if (url.startsWith("http")) {
+				} else if (url.startsWith("http")) {
 					videoId = url.substring(25, 36);
 				}
 				return videoId;

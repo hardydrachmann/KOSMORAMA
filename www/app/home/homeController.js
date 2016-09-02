@@ -47,8 +47,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 				if (callback) {
 					callback();
 				}
-			}
-			else {
+			} else {
 				popupService.alertPopup($scope.getText('noTrainingText'));
 				$state.go('home');
 			}
@@ -92,8 +91,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	var checkForWifi = function() {
 		if ($cordovaNetwork.getNetwork() != 'wifi') {
 			popupService.confirmPopup('NO WIFI', 'Do you want to download your training plan, without Wifi', syncData());
-		}
-		else {
+		} else {
 			syncData();
 		}
 	};
@@ -142,8 +140,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 		if (mail.hasClass('inactive-mail')) {
 			mail.removeClass('inactive-mail');
 			mail.addClass('active-mail');
-		}
-		else {
+		} else {
 			mail.removeClass('active-mail');
 			mail.addClass('inactive-mail');
 		}
