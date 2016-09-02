@@ -5,7 +5,13 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	var currentDate = "";
 
 	$(document).ready(function() {
+		loadingService.loaderShow();
 		getMails();
+		getUser(function(result) {
+			getTraining(result.Id, function() {
+				loadingService.loaderHide();
+			});
+		});
 		if ($cordovaNetwork.isOnline) {
 			// checkSync();
 		}
@@ -18,6 +24,56 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 		checkSync();
 		popupService.alertPopup('network event');
 	});
+
+	/**
+	 * Getting the user from service.
+	 */
+	var getUser = function(callback) {
+		dataService.getUser($scope.userScreenNumber, function(result) {
+			callback(result);
+		});
+	};
+
+	/**
+	 * Getting training items from service.
+	 */
+	function getTraining(userId, callback) {
+		dataService.getTraining(userId, function(data) {
+			if (data) {
+				sortTraining(data);
+				if (callback) {
+					callback();
+				}
+			} else {
+				popupService.alertPopup($scope.getText('noTrainingText'));
+				$state.go('home');
+			}
+		});
+	}
+
+	/**
+	 * Sorting and adding a pass Item for each set of training.
+	 */
+	function sortTraining(data) {
+		if (data.length > 0) {
+			var trainingData = data;
+			var setCount = data[0].SessionOrderNumber,
+				pass = 1,
+				firstTrainingId = data[0].TrainingId;
+			for (var i = 0; i < trainingData.length; i++) {
+				var exercise = trainingData[i];
+				if (exercise.SessionOrderNumber === setCount || exercise.TrainingId > firstTrainingId) {
+					storageService.persistentUserData.training.push({
+						passTitle: $scope.getText('passText') + pass++
+					});
+					setCount++;
+					firstTrainingId = exercise.TrainingId;
+				}
+				storageService.persistentUserData.training.push(exercise);
+			}
+		}
+	}
+
 
 	/*
 	 * Checks whether the saved data is less than todays date or not.
@@ -54,7 +110,6 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 		dataService.getUser($scope.userScreenNumber, function(result) {
 			$scope.mails = result.UserMessages;
 			getNewMails($scope.mails);
-			loadingService.loaderHide();
 		});
 	};
 	/**
