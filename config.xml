@@ -84,4 +84,6 @@
     <plugin name="cordova-plugin-whitelist" spec="https://github.com/apache/cordova-plugin-whitelist.git" />
     <plugin name="cordova-plugin-network-information" spec="~1.2.1" />
     <plugin name="cordova-plugin-console" spec="~1.0.3" />
+    <plugin name="cordova-plugin-file-transfer" spec="~1.5.1" />
+    <plugin name="cordova-plugin-file" spec="~4.2.0" />
 </widget>

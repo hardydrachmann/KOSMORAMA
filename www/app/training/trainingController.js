@@ -1,8 +1,9 @@
 var app = angular.module('kosmoramaApp');
-app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, blobService) {
+app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, blobService, downloadService) {
 
-	$rootScope.videoFile = 'media/video/video.mp4';
-	$rootScope.audioFile = 'media/audio/audio.mp3';
+	$rootScope.videoFile = 'media/video/test_training/video.mp4';
+	$rootScope.audioFile = 'media/audio/test_training/audio.mp3';
+	$rootScope.startAudio = 'media/audio/start-stop/start.mp3';
 
 	$scope.TrainingItems = [];
 

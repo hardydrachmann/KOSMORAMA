@@ -9,7 +9,6 @@ angular.module('kosmoramaApp').controller('LoginController', function($scope, $s
 	 */
 	function main() {
 		$scope.userScreenNumber = storageService.getUserScreenNumber();
-		console.log($scope.userScreenNumber);
 		if ($scope.userScreenNumber) {
 			$state.go('home');
 		}

@@ -6,7 +6,6 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 
 	$(document).ready(function() {
 		getMails();
-		console.log(storageService.persistentUserData);
 		if ($cordovaNetwork.isOnline) {
 			// checkSync();
 		}
