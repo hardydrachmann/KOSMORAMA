@@ -45,6 +45,13 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	 */
 	var syncData = function() {
 		storageService.setLastSyncDate();
+
+	//  Send training feedback to server. - Rasmus
+
+	//  Check for new Trainings - Kennie/Dennis
+	//  Download the new and overwrite the old, then check which videos are needed.  - Rasmus
+	//  If new videos are needed, download new videos. - Hardy
+	//  Delete un-used videos. - Hardy
 	};
 
 	/**
