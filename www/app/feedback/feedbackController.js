@@ -1,6 +1,7 @@
-angular.module('kosmoramaApp').controller('FeedbackController', function($scope, $state, $rootScope, dataService, loadingService, storageService) {
+angular.module('kosmoramaApp').controller('FeedbackController', function($state, $rootScope, dataService, loadingService, storageService) {
+    var self = this;
 
-    $scope.userId = storageService.persistentUserData.userScreenNumber;
+    self.userId = storageService.persistentUserData.userScreenNumber;
 
     /**
      * Used to calculate the total time of an exercise.
@@ -14,7 +15,7 @@ angular.module('kosmoramaApp').controller('FeedbackController', function($scope,
     /**
      * Sets the selected smiley value and saves the training as done in the database.
      */
-    $scope.setSmileyValue = function(value) {
+    self.setSmileyValue = function(value) {
         var stats = value * 20;
         var training = storageService.proceduralUserData.currentTraining;
         var trainingReport = [{
@@ -27,7 +28,7 @@ angular.module('kosmoramaApp').controller('FeedbackController', function($scope,
             "Questions": null
         }];
         storageService.complete(trainingReport);
-        $scope.continue();
+        $rootScope.continue();
     };
 
 });

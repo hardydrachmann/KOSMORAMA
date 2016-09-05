@@ -37,7 +37,8 @@ angular.module('kosmoramaApp', ['ionic', 'ngCordova', 'angular-svg-round-progres
 	$stateProvider.state('home', {
 		url: '/home',
 		templateUrl: 'app/home/home.html',
-		controller: 'HomeController'
+		controller: 'HomeController',
+		controllerAs: 'home'
 	})
 
 	.state('login', {
@@ -58,13 +59,15 @@ angular.module('kosmoramaApp', ['ionic', 'ngCordova', 'angular-svg-round-progres
 	.state('mail', {
 		url: '/mail',
 		templateUrl: 'app/home/mail.html',
-		controller: 'HomeController'
+		controller: 'HomeController',
+		controllerAs: 'home'
 	})
 
 	.state('trainingPlan', {
 		url: '/trainingPlan',
 		templateUrl: 'app/training/trainingPlan.html',
 		controller: 'TrainingController',
+		controllerAs: 'training',
 		cache: false
 	})
 
@@ -72,6 +75,7 @@ angular.module('kosmoramaApp', ['ionic', 'ngCordova', 'angular-svg-round-progres
 		url: '/trainingDemo',
 		templateUrl: 'app/training/trainingDemo.html',
 		controller: 'TrainingController',
+		controllerAs: 'training',
 		cache: false
 	})
 
@@ -79,6 +83,7 @@ angular.module('kosmoramaApp', ['ionic', 'ngCordova', 'angular-svg-round-progres
 		url: '/training',
 		templateUrl: 'app/training/training.html',
 		controller: 'TrainingController',
+		controllerAs: 'training',
 		cache: false
 	})
 
@@ -86,6 +91,7 @@ angular.module('kosmoramaApp', ['ionic', 'ngCordova', 'angular-svg-round-progres
 		url: '/feedback',
 		templateUrl: 'app/feedback/feedback.html',
 		controller: 'FeedbackController',
+		controllerAs: 'feedback',
 		cache: false
 	})
 
@@ -93,6 +99,7 @@ angular.module('kosmoramaApp', ['ionic', 'ngCordova', 'angular-svg-round-progres
 		url: '/painLevel',
 		templateUrl: 'app/feedback/painLevel.html',
 		controller: 'NotesController',
+		controllerAs: 'notes',
 		cache: false
 	})
 
@@ -100,6 +107,7 @@ angular.module('kosmoramaApp', ['ionic', 'ngCordova', 'angular-svg-round-progres
 		url: '/notes',
 		templateUrl: 'app/feedback/notes.html',
 		controller: 'NotesController',
+		controllerAs: 'notes',
 		cache: false
 	});
 

@@ -1,64 +1,66 @@
-angular.module('kosmoramaApp').controller('LoginController', function($scope, $state, $timeout, popupService, dataService, loadingService, storageService) {
+angular.module('kosmoramaApp').controller('LoginController', function($state, $timeout, $rootScope, popupService, dataService, loadingService, storageService) {
 
-	$scope.userScreenNumber = '';
+    var self = this;
+    var screenNumber = storageService.getUserScreenNumber();
 
-	$(document).ready(main);
+    $(document).ready(main);
 
-	/**
-	 * On launch, check if a user exist in local storage. If so, decrypt user, then place this user on the scope and login.
-	 */
-	function main() {
-		$scope.userScreenNumber = storageService.getUserScreenNumber();
-		if ($scope.userScreenNumber) {
-			$state.go('home');
-		}
-	}
+    /**
+     * On launch, check if a user exist in local storage. If so, decrypt user, then place this user on the scope and login.
+     */
+    function main() {
+        if (screenNumber) {
+            $state.go('home');
+        }
+    }
 
-	/**
-	 * Get the input from the input field (on changed) an update the scope with this value.
-	 */
-	$scope.setUserScreenNumber = function() {
-		var inputValue = $('#setUserScreenNumber').val();
-		if (inputValue) {
-			$scope.userScreenNumber = inputValue;
-		}
-	};
+    /**
+     * Get the input from the input field (on changed) an update the scope with this value.
+     */
+    self.setUserScreenNumber = function() {
+        var inputValue = $('#setUserScreenNumber').val();
+        if (inputValue) {
+            screenNumber = inputValue;
+            storageService.setUserScreenNumber(inputValue);
+        }
+    };
 
-	/**
-	 * If user does not exist, check the DB for a user with the entered login id.
-	 * If this user exist, encrypt the login id in local storage using a random key.
-	 */
-	$scope.login = function() {
-		if ($scope.userScreenNumber) {
-			loadingService.loaderShow();
-			dataService.getUser($scope.userScreenNumber, function(result) {
-				if (result) {
-					storageService.setUserScreenNumber($scope.userScreenNumber);
-					loadingService.loaderHide();
-					$('#setUserScreenNumber').val('');
-					$state.go('home');
-					$scope.setTabs();
-				} else {
-					loadingService.loaderHide();
-					$('#setUserScreenNumber').val('');
-					popupService.AlertPopup($scope.getText('loginFail'));
-				}
-			});
-		} else {
-			popupService.AlertPopup($scope.getText('loginHelp'));
-		}
-	};
+    /**
+     * If user does not exist, check the DB for a user with the entered login id.
+     * If this user exist, encrypt the login id in local storage using a random key.
+     */
+    self.login = function() {
+        if (screenNumber) {
+            loadingService.loaderShow();
+            dataService.getUser(screenNumber, function(result) {
+                if (result) {
+                    loadingService.loaderHide();
+                    $('#setUserScreenNumber').val('');
+                    $state.go('home');
+                    $rootScope.setTabs();
+                }
+                else {
+                    loadingService.loaderHide();
+                    $('#setUserScreenNumber').val('');
+                    popupService.AlertPopup($rootScope.getText('loginFail'));
+                }
+            });
+        }
+        else {
+            popupService.AlertPopup($rootScope.getText('loginHelp'));
+        }
+    };
 
-	/**
-	 * At logout, remove the locally stored users data, then set the scope to 'empty' and logout.
-	 */
-	$scope.logout = function() {
-		popupService.confirmPopup($scope.getText('logoutText') + '?', '', function() {
-			storageService.resetPersistentData();
-			$scope.userScreenNumber = '';
-			$state.go('login');
-			$scope.setTabs();
-		});
-	};
+    /**
+     * At logout, remove the locally stored users data, then set the scope to 'empty' and logout.
+     */
+    self.logout = function() {
+        popupService.confirmPopup($rootScope.getText('logoutText') + '?', '', function() {
+            storageService.resetPersistentData();
+            screenNumber = '';
+            $state.go('login');
+            $rootScope.setTabs();
+        });
+    };
 
 });

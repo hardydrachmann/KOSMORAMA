@@ -1,64 +1,67 @@
-angular.module('kosmoramaApp').controller('TabsController', function($scope, $rootScope, $state, $timeout, $ionicHistory, storageService) {
+angular.module('kosmoramaApp').controller('TabsController', function($rootScope, $state, $timeout, $ionicHistory, storageService) {
+    var self = this;
 
-	$scope.showHelpTab = true;
-	$scope.showLangTab = true;
-	$scope.showContTab = false;
-	$scope.showLoginTab = true;
-	$scope.showLogoutTab = false;
+	self.showHelpTab = true;
+	self.showLangTab = true;
+	self.showContTab = false;
+	self.showLoginTab = true;
+	self.showLogoutTab = false;
 
 	$(document).ready(function() {
 		$timeout(function() {
 			if ($state.current.name !== 'login') {
-				$scope.showLogoutTab = true;
-				$scope.showLoginTab = false;
+				self.showLogoutTab = true;
+				self.showLoginTab = false;
 			}
 		}, 250);
+		$rootScope.setTabs = self.setTabs;
+		$rootScope.continue = self.continue;
 	});
 
 	/**
 	 * Sets the correct tabs for each view.
 	 */
-	$scope.setTabs = function() {
-		$scope.showHelpTab = false;
-		$scope.showLangTab = false;
-		$scope.showContTab = false;
-		$scope.showLoginTab = false;
-		$scope.showLogoutTab = false;
+	self.setTabs = function() {
+		self.showHelpTab = false;
+		self.showLangTab = false;
+		self.showContTab = false;
+		self.showLoginTab = false;
+		self.showLogoutTab = false;
 		$timeout(function() {
 			var state = $ionicHistory.currentView().stateName;
 			switch (state) {
 				case 'login':
-					$scope.showHelpTab = true;
-					$scope.showLangTab = true;
-					$scope.showLoginTab = true;
+					self.showHelpTab = true;
+					self.showLangTab = true;
+					self.showLoginTab = true;
 					break;
 				case 'home':
 				case 'mail':
-					$scope.showHelpTab = true;
-					$scope.showLangTab = true;
-					$scope.showLogoutTab = true;
+					self.showHelpTab = true;
+					self.showLangTab = true;
+					self.showLogoutTab = true;
 					break;
 				case 'trainingPlan':
 				case 'notes':
 				case 'painLevel':
-					$scope.showHelpTab = true;
-					$scope.showContTab = true;
-					$scope.showLogoutTab = true;
+					self.showHelpTab = true;
+					self.showContTab = true;
+					self.showLogoutTab = true;
 					break;
 				case 'trainingDemo':
-					$scope.showHelpTab = true;
-					$scope.showContTab = true;
+					self.showHelpTab = true;
+					self.showContTab = true;
 					break;
 				case 'training':
-					$scope.showHelpTab = true;
-					$scope.showContTab = true; // Debug
+					self.showHelpTab = true;
+					self.showContTab = true; // Debug
 					break;
 				case 'feedback':
 				case 'help':
-					$scope.showHelpTab = true;
+					self.showHelpTab = true;
 					break;
 				case 'language':
-					$scope.showLangTab = true;
+					self.showLangTab = true;
 					break;
 			}
 		}, 100);
@@ -68,7 +71,7 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
 	/**
 	 * Continue event on rootscope, checks current state and switches to the next state.
 	 */
-	$scope.continue = function() {
+	self.continue = function() {
 		$rootScope.$broadcast('continueEvent');
 		var state = $ionicHistory.currentView().stateName;
 		switch (state) {
@@ -99,6 +102,6 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
 				$state.go('home');
 				break;
 		}
-		$scope.setTabs();
+		self.setTabs();
 	};
 });

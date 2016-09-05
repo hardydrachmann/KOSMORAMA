@@ -2,9 +2,9 @@
 
 	<i class="ion-compose"></i>
 	<div id="notesArea">
-		<textarea id="notesInput" maxlength="{{maxChars}}" ng-focus="clearContent($event)" ng-blur="revertContent($event)" ng-model="messageText" ng-change="remainingChars()" rows="14" placeholder="{{getText('notesTitle')}}">
+		<textarea id="notesInput" maxlength="{{notes.maxChars}}" ng-focus="notes.clearContent($event)" ng-blur="notes.revertContent($event)" ng-model="notes.messageText" ng-change="notes.remainingChars()" rows="14" placeholder="{{getText('notesTitle')}}">
 		</textarea>
 
-		<p>{{getText('remainingChars')}}<span id="showCharsCount" style="color:white">{{maxChars}}</span></p>
+		<p>{{getText('remainingChars')}}<span id="showCharsCount" style="color:white">{{notes.maxChars}}</span></p>
 	</div>
 </div>

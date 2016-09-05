@@ -57,10 +57,12 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 			if ($scope.setsRemaining > 0) {
 				if (!pauseNext) {
 					startExerciseTimer();
-				} else {
+				}
+				else {
 					startPauseTimer();
 				}
-			} else {
+			}
+			else {
 				trainingPromise = $scope.trainingViewTimer(5);
 				return;
 			}
@@ -68,7 +70,8 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 		$scope.counter--;
 		if (pauseNext) {
 			$scope.progress++;
-		} else {
+		}
+		else {
 			$scope.progress -= pauseProgressDecay;
 		}
 		mytimeout = $timeout($scope.onTimeout, 1000);
@@ -108,7 +111,8 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 	$scope.timerText = function() {
 		if (!pauseNext) {
 			return $scope.getText('pause');
-		} else {
+		}
+		else {
 			return $scope.getText('set') + " " + $scope.currentSet + " " + $scope.getText('of') + " " + $scope.sets;
 		}
 	};

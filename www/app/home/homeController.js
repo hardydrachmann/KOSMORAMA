@@ -1,10 +1,11 @@
-angular.module('kosmoramaApp').controller('HomeController', function($scope, $state, $ionicHistory, $cordovaNetwork, storageService, $rootScope, popupService, dataService, loadingService) {
+angular.module('kosmoramaApp').controller('HomeController', function($state, $ionicHistory, $cordovaNetwork, storageService, $rootScope, popupService, dataService, loadingService) {
+	var self = this;
 
-	$scope.mails = [];
-	$scope.newMailCount = 0;
+	self.mails = [];
+	self.newMailCount = 0;
 
 	$(document).ready(function() {
-		if (!$scope.mails.length) {
+		if (!self.mails.length) {
 			getMails();
 		}
 		if ($ionicHistory.currentView().stateName !== 'mail') {
@@ -32,7 +33,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	 * Getting the user from service.
 	 */
 	var getUser = function(callback) {
-		dataService.getUser($scope.userScreenNumber, function(result) {
+		dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
 			callback(result);
 		});
 	};
@@ -48,7 +49,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 					callback();
 				}
 			} else {
-				popupService.alertPopup($scope.getText('noTrainingText'));
+				popupService.alertPopup($rootScope.getText('noTrainingText'));
 				$state.go('home');
 			}
 		});
@@ -65,7 +66,7 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 			for (var i = 0; i < data.length; i++) {
 				if (data[i].SessionOrderNumber === setCount || data[i].TrainingId > firstTrainingId) {
 					storageService.persistentUserData.training.push({
-						passTitle: $scope.getText('passText') + pass++
+						passTitle: $rootScope.getText('passText') + pass++
 					});
 					setCount++;
 					firstTrainingId = data[i].TrainingId;
@@ -108,19 +109,19 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	 */
 	var getMails = function() {
 		loadingService.loaderShow();
-		dataService.getUser($scope.userScreenNumber, function(result) {
-			$scope.mails = result.UserMessages;
-			getNewMails($scope.mails);
+		dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
+			self.mails = result.UserMessages;
+			getNewMails(self.mails);
 		});
 	};
 	/**
 	 * Gets messages that has not been read.
 	 */
 	var getNewMails = function(mails) {
-		$scope.newMailCount = 0;
+		self.newMailCount = 0;
 		for (var i = 0; i < mails.length; i++) {
 			if (mails[i].IsRead === false) {
-				$scope.newMailCount++;
+				self.newMailCount++;
 			}
 		}
 	};
@@ -128,14 +129,14 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	/**
 	 * Used to navigate back to home menu, when closing the mail view.
 	 */
-	$scope.closeMailView = function() {
+	self.closeMailView = function() {
 		$state.go('home');
 	};
 
 	/**
 	 * Enables the unfolding of mails, so that they can be read.
 	 */
-	$scope.toggleMailDisplay = function(index) {
+	self.toggleMailDisplay = function(index) {
 		var mail = $('#mail' + index);
 		if (mail.hasClass('inactive-mail')) {
 			mail.removeClass('inactive-mail');
@@ -149,11 +150,11 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	/**
 	 * Saves the message as read.
 	 */
-	$scope.logMail = function(mailId) {
+	self.logMail = function(mailId) {
 		dataService.postNoteData(mailId, function(result) {
 			if (!result.result) {
 				// If for some reason the server is unavailable.
-				popupService.alertPopup($scope.getText('mailError'));
+				popupService.alertPopup($rootScope.getText('mailError'));
 			}
 			getMails();
 		});

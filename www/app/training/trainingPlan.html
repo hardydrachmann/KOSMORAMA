@@ -1,21 +1,21 @@
 <div class="backgroundColor">
 
     <div>
-        <h2 id="header">{{getText('trainingPlan')}}</h2>
+        <h2 id="header">{{lang.getText('trainingPlan')}}</h2>
     </div>
-    
+
     <ion-scroll style="height: 65vh">
         <div class="list">
             <div class="col-5">
             </div>
-            <div class="item item-thumbnail-left col-90 tpDivBackground" ng-repeat="item in TrainingItems">
+            <div class="item item-thumbnail-left col-90 tpDivBackground" ng-repeat="item in training.TrainingItems">
                 <h1 style="color: white; margin-top: 1em;" ng-if="item.passTitle">{{item.passTitle}}</h1>
-                <img ng-if="item.ExerciseId" src="{{getPicture(item.ExerciseId)}}">
+                <img ng-if="item.ExerciseId" src="{{training.getPicture(item.ExerciseId)}}">
                 <div ng-if="item.ExerciseId">
-                    <p id="trainingName">{{getTrainingName(item)}}</p>
+                    <p id="trainingName">{{training.getTrainingName(item)}}</p>
                     <hr/>
-                    <h3 class="text-white">{{getText('trainingPlanSets')}}{{item.Sets}}</h3>
-                    <h3 class="text-white">{{getText('trainingPlanDuration')}}{{formatTime(item.TimeSet*60)}}</h3>
+                    <h3 class="text-white">{{lang.getText('trainingPlanSets')}}{{item.Sets}}</h3>
+                    <h3 class="text-white">{{lang.getText('trainingPlanDuration')}}{{training.formatTime(item.TimeSet*60)}}</h3>
                 </div>
             </div>
             <div class="col-5"></div>

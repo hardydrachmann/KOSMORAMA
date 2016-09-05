@@ -3,7 +3,7 @@
         <h2 id="header">{{getText('painLevel')}}</h2>
     </div>
     <div>
-        <input style="background-color: transparent" type="range" name="painLevel" min="0" max="10" step="1" ng-model="painValue">
+        <input style="background-color: transparent" type="range" name="painLevel" min="0" max="10" step="1" ng-model="notes.painValue">
     </div>
     <div>
         <div id="painLevelMin">
@@ -14,7 +14,7 @@
         </div>
     </div>
     <div id="selectedPainLevel">
-        <p>{{painValue || 5}}</p>
+        <p>{{notes.painValue || 5}}</p>
     </div>
     <div id="painTable" class="row">
         <div class="col-10">

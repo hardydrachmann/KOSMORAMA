@@ -144,7 +144,10 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
         $window.localStorage.removeItem('kosmoramaId');
         $window.localStorage.removeItem('kosmoramaKey');
         $window.localStorage.removeItem('kosmoramaLang');
-        $window.localStorage.removeItem('kosmoramaSyncDate');
+    };
+
+    this.clearCache = function() {
+        $window.localStorage.removeItem('kosmoramaData');
     };
 
     var minASCII = 33;

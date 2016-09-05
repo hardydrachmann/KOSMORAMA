@@ -1,7 +1,9 @@
-angular.module('kosmoramaApp').controller('LanguageController', function($scope, $state, $ionicHistory, dataService, storageService) {
-    $scope.text = {};
-    $scope.lang = '';
-    $scope.langs = [];
+angular.module('kosmoramaApp').controller('LanguageController', function($rootScope, $state, $ionicHistory, dataService, storageService) {
+    var self = this;
+
+    self.text = {};
+    self.lang = '';
+    self.langs = [];
 
     $(document).ready(main);
 
@@ -14,21 +16,23 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
         loadData();
         var lang = storageService.getSelectedLanguage();
         if (!lang) {
-            $scope.lang = 'da_DK';
-            storageService.setSelectedLanguage($scope.lang);
+            self.lang = 'da_DK';
+            storageService.setSelectedLanguage(self.lang);
             $state.go('language');
         }
         else {
-            $scope.lang = lang;
+            self.lang = lang;
         }
+        $rootScope.getText = self.getText;
+        $rootScope.lang = self.lang;
     }
 
     /**
      * Sets language equal to picked language from language menu.
      */
-    $scope.setLanguage = function(language) {
-        $scope.lang = language.tag;
-        storageService.setSelectedLanguage($scope.lang);
+    self.setLanguage = function(language) {
+        $rootScope.lang = self.lang = language.tag;
+        storageService.setSelectedLanguage(self.lang);
         var backView = $ionicHistory.backView();
         if (backView) {
             $state.go(backView.stateName);
@@ -41,7 +45,7 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
     /**
      * Enables toggling to and from language menu, by clicking on the language tab.
      */
-    $scope.langToggle = function() {
+    self.langToggle = function() {
         if ($ionicHistory.currentView().stateName != 'language') {
             $state.go('language');
         }
@@ -55,23 +59,23 @@ angular.module('kosmoramaApp').controller('LanguageController', function($scope,
      */
     var loadData = function() {
         $.getJSON('app/language/content.json', function(data) {
-            $scope.text = data;
+            self.text = data;
         });
         $.getJSON('app/language/langs.json', function(data) {
-            $scope.langs = data;
+            self.langs = data;
         });
     };
 
     /**
      * Used in other classes to get appropriate text for titles and other strings, depending on selected language.
      */
-    $scope.getText = function(name) {
-        if (!$scope.text) {
-            $scope.loadText();
+    self.getText = function(name) {
+        if (!self.text) {
+            self.loadText();
             return '';
         }
-        if ($scope.text[name] !== undefined) {
-            return $scope.text[name][$scope.lang];
+        if (self.text[name] !== undefined) {
+            return self.text[name][self.lang];
         }
         return ' ';
     };

@@ -1,12 +1,13 @@
 var app = angular.module('kosmoramaApp');
 
-app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, blobService, storageService, downloadService) {
+app.controller('TrainingController', function($state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, blobService, storageService, downloadService) {
+	var self = this;
 
 	$rootScope.videoFile = 'media/video/test_training/video.mp4';
 	$rootScope.audioFile = 'media/audio/test_training/audio.mp3';
 	$rootScope.startAudio = 'media/audio/start-stop/start.mp3';
 
-	$scope.TrainingItems = [];
+	self.TrainingItems = [];
 
 	$(document).ready(main);
 
@@ -16,7 +17,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	function main() {
 		stateAction();
 		$rootScope.$on('continueEvent', function() {
-			$scope.cancelViewTimer();
+			self.cancelViewTimer();
 			$('video').remove();
 		});
 	}
@@ -28,10 +29,10 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 		var currentState = $ionicHistory.currentView().stateName;
 		if (currentState.startsWith('training')) {
 			if (currentState === 'trainingPlan') {
-				$scope.TrainingItems = storageService.nextTraining();
+				self.TrainingItems = storageService.nextTraining();
 			}
 			if (currentState !== 'training') {
-				$scope.trainingViewTimer(20);
+				self.trainingViewTimer(20);
 			}
 		}
 	};
@@ -39,6 +40,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	/**
 	 * Return the video id for the video of the next training item on the list.
 	 */
+	 // Consider removing this?
 	function getVideo() {
 		// Returns the videoId from the current exerciseUrl.
 		var item = storageService.proceduralUserData.currentTraining;
@@ -60,7 +62,7 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	/**
 	 * Cancel the view timer.
 	 */
-	$scope.cancelViewTimer = function() {
+	self.cancelViewTimer = function() {
 		if (trainingPromise) {
 			$timeout.cancel(trainingPromise);
 			trainingPromise = undefined;
@@ -70,38 +72,39 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 	/**
 	 * Start the training view timer to automatically move on to the next view by calling continue().
 	 */
-	$scope.trainingViewTimer = function(time) {
-		$scope.cancelViewTimer();
+	self.trainingViewTimer = function(time) {
+		self.cancelViewTimer();
 		trainingPromise = $timeout(function() {
-			$scope.continue();
+			$rootScope.continue();
 		}, time * 1000);
 	};
 
-	$scope.getTrainingName = function(trainingItem) {
+	self.getTrainingName = function(trainingItem) {
 		// Returns the appropriate language name for the selected item.
-		return trainingItem.LangName[$scope.lang];
+		return trainingItem.LangName[$rootScope.lang];
 	};
 
-	$scope.trainingDescription = function() {
+	self.trainingDescription = function() {
 		// Returns the appropriate language description for the next exercise.
 		var item = storageService.proceduralUserData.currentTraining;
 		if (item) {
-			return item.LangDesc[$scope.lang];
+			return item.LangDesc[$rootScope.lang];
 		}
 	};
 
-	$scope.formatTime = function(time) {
-		// Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
-		var min = Math.floor(time / 60);
-		var sec = time - min * 60;
-		return min + " " + $scope.getText('min') + " " + sec + " " + $scope.getText('sec');
-	};
-
-	$scope.getAudio = function() {
+	self.getAudio = function() {
 		return blobService.getExerciseAudio(storageService.proceduralUserData.currentTraining.ExerciseId);
 	};
 
-	$scope.getPicture = function(exerciseId) {
+	self.getPicture = function(exerciseId) {
 		return blobService.getExercisePicture(exerciseId);
+	};
+
+	// Move to timer controller
+	self.formatTime = function(time) {
+		// Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
+		var min = Math.floor(time / 60);
+		var sec = time - min * 60;
+		return min + " " + $rootScope.getText('min') + " " + sec + " " + $rootScope.getText('sec');
 	};
 });
