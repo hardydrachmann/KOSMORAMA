@@ -102,7 +102,6 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	 * Updates current training plan and sets the key date equal to today.
 	 */
 	var syncData = function() {
-		if(storageService.getLastSyncDate() != Date.now())
 		try {
 			var data = storageService.getStored();
 
@@ -123,9 +122,11 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 
 			storageService.setLastSyncDate();
 		}
+
 		catch (e) {
 
 		}
+
 
 
 
