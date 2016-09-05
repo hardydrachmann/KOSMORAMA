@@ -20,18 +20,34 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 	var mytimeout, timeSet, timePause, pauseProgressDecay;
 	var pauseNext = false;
 	var timerStarted = false;
-
 	var trainingPromise;
 	var mediaPlayer = $('video');
+	var timerData = {
+		currentSet: 0,
+		setsRemaining: 0,
+		isPauseNext: true,
+		counter: 0,
+		progress: 0
+	};
 
 	$(document).ready(function() {
 		mediaPlayer.on('loadeddata', function() {
 			getInfoForTimer();
-			startExerciseTimer();
+			if (storageService.getTemporaryTimerData()) {
+				resumeTimeout();
+			}
+			else {
+				startExerciseTimer();
+			}
 		});
 		$rootScope.$on('continueEvent', function() {
 			$timeout.cancel(mytimeout);
 			$timeout.cancel(trainingPromise);
+		});
+		$rootScope.$on('helpEvent', function() {
+			$timeout.cancel(mytimeout);
+			$timeout.cancel(trainingPromise);
+			pauseTimeout();
 		});
 	});
 
@@ -46,6 +62,7 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 		timePause = training.Pause * 60;
 		$scope.counter = timeSet;
 		pauseProgressDecay = timeSet / timePause;
+		$scope.timeProgress = timeSet;
 	};
 
 	/**
@@ -73,6 +90,56 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 		}
 		mytimeout = $timeout($scope.onTimeout, 1000);
 	};
+	
+	/**
+	 * Pauses the timeout and saves the current state of the timer in localstorage
+	 */
+	var pauseTimeout = function() {
+		console.log('pause!');
+		timerData.currentSet = $scope.currentSet;
+		timerData.setsRemaining = $scope.setsRemaining;
+		timerData.isPauseNext = pauseNext;
+		timerData.counter = $scope.counter;
+		timerData.progress = $scope.progress
+		
+		if (pauseNext) {
+			timerData.isPauseNext = false;
+			timerData.setsRemaining += 1;
+		}
+		else {
+			timerData.isPauseNext = true;
+		}
+		
+		storageService.setTemporaryTimerData(timerData);
+	}
+
+	/**
+	 * Starts a new timeout, with the data stored in localstorage
+	 */
+	var resumeTimeout = function() {
+		console.log('resume!');
+		timerData = storageService.getTemporaryTimerData();
+
+		$scope.currentSet = timerData.currentSet;
+		$scope.setsRemaining = timerData.setsRemaining;
+		$scope.counter = timerData.counter;
+		$scope.progress = timerData.progress;
+		pauseNext = timerData.isPauseNext;
+
+		if (pauseNext) {
+			pauseNext = false;
+		}
+		else {
+			pauseNext = true;
+			$scope.setsRemaining -= 1;
+		}
+		if (!timerStarted) {
+			mytimeout = $timeout($scope.onTimeout);
+			timerStarted = true;
+		}
+		
+		storageService.removeTemporaryTimerData();
+	}
 
 	/**
 	 * start the pause timer, set up the timer and pause the video
@@ -92,7 +159,6 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 		mediaPlayer.get(0).play();
 		$scope.currentSet++;
 		$scope.setsRemaining--;
-		$scope.timeProgress = timeSet;
 		$scope.counter = timeSet;
 		$scope.progress = 1;
 		pauseNext = true;
@@ -101,7 +167,7 @@ app.controller('TimerController', function($scope, $timeout, $rootScope, $window
 			timerStarted = true;
 		}
 	};
-
+	
 	/**
 	 * returns the string for the timer, for the current state (pause or set of set)
 	 */

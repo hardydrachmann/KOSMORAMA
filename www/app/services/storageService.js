@@ -18,6 +18,14 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
             message: null
         }
     };
+    
+    this.temporaryTimerData = {
+		currentSet: 0,
+		setsRemaining: 0,
+		isPauseNext: true,
+		counter: 0,
+		progress: 0
+	};
 
     var passCount = 0;
     this.completed = [{
@@ -160,5 +168,19 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
         }
         return key;
     };
+    
+    this.setTemporaryTimerData = function(timerData) {
+        this.temporaryTimerData = timerData;
+        window.localStorage.setItem('timer', JSON.stringify(this.temporaryTimerData))
+    }
+    
+    this.getTemporaryTimerData = function() {
+        var data = window.localStorage.getItem('timer');
+        return JSON.parse(data);
+    }
+    
+    this.removeTemporaryTimerData = function() {
+        window.localStorage.removeItem('timer');
+    }
 
 });
