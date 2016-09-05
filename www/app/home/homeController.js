@@ -47,7 +47,8 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 				if (callback) {
 					callback();
 				}
-			} else {
+			}
+			else {
 				popupService.alertPopup($scope.getText('noTrainingText'));
 				$state.go('home');
 			}
@@ -91,7 +92,8 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	var checkForWifi = function() {
 		if ($cordovaNetwork.getNetwork() != 'wifi') {
 			popupService.confirmPopup('NO WIFI', 'Do you want to download your training plan, without Wifi', syncData());
-		} else {
+		}
+		else {
 			syncData();
 		}
 	};
@@ -100,15 +102,43 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 	 * Updates current training plan and sets the key date equal to today.
 	 */
 	var syncData = function() {
-		storageService.setLastSyncDate();
+		if(storageService.getLastSyncDate() != Date.now())
+		try {
+			var data = storageService.getStored();
 
-	//  Send training feedback to server. - Rasmus
+			for (var i = 0; data.completed.length < i; i++) {
+				for (var j = 0; data.completed.reports.length < j; j++) {
+					dataService.postData(data.completed.reports[j]);
+				}
+				dataService.postFeedback(data.completed[i]);
+			}
+			storageService.resetCompletedData();
 
-	//  Check for new Trainings - Kennie/Dennis
-	//  Download the new and overwrite the old, then check which videos are needed.  - Rasmus
-	//  If new videos are needed, download new videos. - Hardy
-	//  Delete un-used videos. - Hardy
+			getUser(function(result) {
+				getTraining(result.Id, function() {
+					loadingService.loaderHide();
+				});
+			});
+
+
+			storageService.setLastSyncDate();
+		}
+		catch (e) {
+
+		}
+
+
+
+		//  Send training feedback to server. - Rasmus
+
+		//  Check for new Trainings - Kennie/Dennis
+		//  Download the new and overwrite the old, then check which videos are needed.  - Rasmus
+
+		//  If new videos are needed, download new videos. - Hardy
+		//  Delete un-used videos. - Hardy
 	};
+
+
 
 	/**
 	 * When called, loads messages for user by using the screen number.
@@ -147,7 +177,8 @@ angular.module('kosmoramaApp').controller('HomeController', function($scope, $st
 		if (mail.hasClass('inactive-mail')) {
 			mail.removeClass('inactive-mail');
 			mail.addClass('active-mail');
-		} else {
+		}
+		else {
 			mail.removeClass('active-mail');
 			mail.addClass('inactive-mail');
 		}

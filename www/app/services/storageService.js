@@ -42,6 +42,20 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
         };
     };
 
+    this.getStored = function() {
+        if (!this.completed) {
+            this.completed = $window.localStorage['kosmoramaCompletedData'];
+        }
+        return this.completed;
+    };
+
+    this.setStored = function(completedTraining){
+        if(this.completed){
+          $window.localStorage['kosmoramaCompletedData'] = this.completed.push(completedTraining);
+        }
+        $window.localStorage['kosmoramaCompletedData'] = completedTraining;
+    };
+
     this.complete = function(trainingReport) {
         if (!this.completed[passCount]) {
             this.completed[passCount] = getTemplate();
@@ -136,7 +150,7 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
         return $window.localStorage['kosmoramaSyncDate'];
     };
 
-    this.setLastSyncDate = function(date) {
+    this.setLastSyncDate = function() {
         $window.localStorage['kosmoramaSyncDate'] = new Date().getDate();
     };
 
@@ -144,7 +158,10 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
         $window.localStorage.removeItem('kosmoramaId');
         $window.localStorage.removeItem('kosmoramaKey');
         $window.localStorage.removeItem('kosmoramaLang');
-        $window.localStorage.removeItem('kosmoramaSyncDate');
+    };
+
+    this.resetCompletedData = function() {
+        $window.localStorage.removeItem('kosmoramaCompletedData');
     };
 
     var minASCII = 33;
