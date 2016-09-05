@@ -1,4 +1,4 @@
-angular.module('kosmoramaApp').controller('HelpController', function($state, $ionicHistory) {
+angular.module('kosmoramaApp').controller('HelpController', function($rootScope, $state, $ionicHistory) {
 	var self = this;
 
 	/**
@@ -17,7 +17,8 @@ angular.module('kosmoramaApp').controller('HelpController', function($state, $io
 		if ($ionicHistory.currentView().stateName != 'help') {
 			$state.go('help');
 			$rootScope.$broadcast('helpEvent');
-		} else {
+		}
+		else {
 			var toState = $ionicHistory.backView().stateName;
 			$state.go(toState);
 		}
