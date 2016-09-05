@@ -19,6 +19,14 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
         }
     };
 
+    this.temporaryTimerData = {
+		currentSet: 0,
+		setsRemaining: 0,
+		isPauseNext: true,
+		counter: 0,
+		progress: 0
+	};
+
     var passCount = 0;
     this.completed = [{
         reports: [],
@@ -40,6 +48,20 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
                 message: null
             }
         };
+    };
+
+    this.getStored = function() {
+        if (!this.completed) {
+            this.completed = $window.localStorage['kosmoramaCompletedData'];
+        }
+        return this.completed;
+    };
+
+    this.setStored = function(completedTraining){
+        if(this.completed){
+          $window.localStorage['kosmoramaCompletedData'] = this.completed.push(completedTraining);
+        }
+        $window.localStorage['kosmoramaCompletedData'] = completedTraining;
     };
 
     this.complete = function(trainingReport) {
@@ -136,7 +158,7 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
         return $window.localStorage['kosmoramaSyncDate'];
     };
 
-    this.setLastSyncDate = function(date) {
+    this.setLastSyncDate = function() {
         $window.localStorage['kosmoramaSyncDate'] = new Date().getDate();
     };
 
@@ -146,8 +168,8 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
         $window.localStorage.removeItem('kosmoramaLang');
     };
 
-    this.clearCache = function() {
-        $window.localStorage.removeItem('kosmoramaData');
+    this.resetCompletedData = function() {
+        $window.localStorage.removeItem('kosmoramaCompletedData');
     };
 
     var minASCII = 33;
@@ -163,5 +185,19 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
         }
         return key;
     };
+
+    this.setTemporaryTimerData = function(timerData) {
+        this.temporaryTimerData = timerData;
+        window.localStorage.setItem('timer', JSON.stringify(this.temporaryTimerData))
+    }
+
+    this.getTemporaryTimerData = function() {
+        var data = window.localStorage.getItem('timer');
+        return JSON.parse(data);
+    }
+
+    this.removeTemporaryTimerData = function() {
+        window.localStorage.removeItem('timer');
+    }
 
 });
