@@ -1,4 +1,4 @@
-angular.module('kosmoramaApp').controller('TabsController', function($scope, $rootScope, $state, $timeout, $ionicHistory) {
+angular.module('kosmoramaApp').controller('TabsController', function($scope, $rootScope, $state, $timeout, $ionicHistory, storageService) {
 
 	$scope.showHelpTab = true;
 	$scope.showLangTab = true;
@@ -54,8 +54,6 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
 					$scope.showContTab = true; // Debug
 					break;
 				case 'feedback':
-					$scope.showHelpTab = true;
-					break;
 				case 'help':
 					$scope.showHelpTab = true;
 					break;
@@ -68,7 +66,7 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
 
 
 	/**
-	 * Continue method on rootscope, checks current state and switches to the next state.
+	 * Continue event on rootscope, checks current state and switches to the next state.
 	 */
 	$scope.continue = function() {
 		$rootScope.$broadcast('continueEvent');
@@ -84,14 +82,14 @@ angular.module('kosmoramaApp').controller('TabsController', function($scope, $ro
 				$state.go('feedback');
 				break;
 			case 'feedback':
-				if ($rootScope.lastPassTraining) {
+				if (storageService.proceduralUserData.isLastPassItem) {
 					$state.go('painLevel');
 				} else {
 					$state.go('trainingPlan');
 				}
 				break;
 			case 'painLevel':
-				if ($rootScope.allowMessage) {
+				if (storageService.proceduralUserData.allowMessage) {
 					$state.go('notes');
 				} else {
 					$state.go('home');

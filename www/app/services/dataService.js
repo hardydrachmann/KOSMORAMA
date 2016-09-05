@@ -26,7 +26,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).success(function(userdata) {
-            console.log(userdata);
             callback(userdata.result[0]);
         }).error(function(data, status, headers, config) {
             console.log('testfail', data, status, headers, config);
@@ -63,7 +62,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
             for (var i = 0; i < trainingData.result.length; i++) {
                 var trainingDate = new Date(trainingData.result[i].Date);
                 if (trainingDate <= maxDate) {
-                    // console.log(trainingData.result[i].TrainingItems[0].Type);
                     for (var item in trainingData.result[i].TrainingItems) {
                         if (trainingData.result[i].TrainingItems[item].Type == 40) {
                             train.push(trainingData.result[i].TrainingItems[item]);
@@ -81,8 +79,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
     // This function post traning data.
     // Still needs work
     this.postData = function(trainingReport, callback) {
-            console.log(trainingReport);
-
         var content = {
             id: '2',
             method: 'PostTrainingReport',

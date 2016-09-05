@@ -15,7 +15,6 @@ angular.module('kosmoramaApp').controller('FeedbackController', function($scope,
      * Sets the selected smiley value and saves the training as done in the database.
      */
     $scope.setSmileyValue = function(value) {
-        loadingService.loaderShow();
         var stats = value * 20;
         var training = storageService.proceduralUserData.currentTraining;
         var trainingReport = [{
@@ -27,10 +26,8 @@ angular.module('kosmoramaApp').controller('FeedbackController', function($scope,
             "Repetitions": [],
             "Questions": null
         }];
-        dataService.postData(trainingReport, function(result) {
-            loadingService.loaderHide();
-            $scope.continue();
-        });
+        storageService.complete(trainingReport);
+        $scope.continue();
     };
 
 });
