@@ -2,10 +2,10 @@
 <widget id="dk.welfaredenmark.virtualtraining" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Virtuel Træning</name>
     <description>
-        Virtuel Træning
+        Virtual Training - One Of The Worlds Most Advanced eHealth Solutions!
     </description>
     <author email="web@welfaredenmark.com" href="http://idisplay.dk">
-      Virtuel Træning
+      Welfare Denmark
     </author>
     <content src="index.html" />
     <access origin="*" />
