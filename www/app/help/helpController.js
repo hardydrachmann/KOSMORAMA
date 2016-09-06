@@ -1,26 +1,30 @@
-angular.module('kosmoramaApp').controller('HelpController', function($rootScope, $state, $ionicHistory) {
-	var self = this;
+angular
+	.module('kosmoramaApp')
+	.controller('HelpController',
+		function($rootScope, $state, $ionicHistory) {
 
-	/**
-	 * Enables the help button to return to the previews view.
-	 */
-	self.getState = function() {
-		var prevView = $ionicHistory.backView();
-		if (prevView)
-			return prevView.stateName;
-	};
+			var self = this;
 
-	/**
-	 * Enables toggling to and from help menu.
-	 */
-	self.helpToggle = function() {
-		if ($ionicHistory.currentView().stateName != 'help') {
-			$state.go('help');
-			$rootScope.$broadcast('helpEvent');
-		}
-		else {
-			var toState = $ionicHistory.backView().stateName;
-			$state.go(toState);
-		}
-	};
-});
+			/**
+			 * Enables the help button to return to the previews view.
+			 */
+			self.getState = function() {
+				var prevView = $ionicHistory.backView();
+				if (prevView)
+					return prevView.stateName;
+			};
+
+			/**
+			 * Enables toggling to and from help menu.
+			 */
+			self.helpToggle = function() {
+				if ($ionicHistory.currentView().stateName != 'help') {
+					$state.go('help');
+					$rootScope.$broadcast('helpEvent');
+				}
+				else {
+					var toState = $ionicHistory.backView().stateName;
+					$state.go(toState);
+				}
+			};
+		});

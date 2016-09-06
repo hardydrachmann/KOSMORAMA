@@ -1,201 +1,183 @@
-angular.module('kosmoramaApp').controller('HomeController', function($state, $ionicHistory, $cordovaNetwork, storageService, $rootScope, popupService, dataService, loadingService) {
-	var self = this;
+angular
+	.module('kosmoramaApp')
+	.controller('HomeController',
+		function($rootScope, $state, $ionicHistory, $cordovaNetwork, storageService, popupService, dataService, loadingService) {
 
-	self.mails = [];
-	self.newMailCount = 0;
+			var self = this;
 
-	$(document).ready(function() {
-		if (!self.mails.length) {
-			getMails();
-		}
-		if ($ionicHistory.currentView().stateName !== 'mail') {
-			loadingService.loaderShow();
-			getUser(function(result) {
-				getTraining(result.Id, function() {
-					loadingService.loaderHide();
-				});
-			});
-			if ($cordovaNetwork.isOnline) {
-				// checkSync();
-			}
-		}
-	});
+			self.mails = [];
+			self.newMailCount = 0;
 
-	/**
-	 * Calls the checkSync method, if the phone is connected to the internet somehow.
-	 */
-	$rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
-		checkSync();
-		popupService.alertPopup('network event');
-	});
-
-	/**
-	 * Getting the user from service.
-	 */
-	var getUser = function(callback) {
-		dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
-			callback(result);
-		});
-	};
-
-	/**
-	 * Getting training items from service.
-	 */
-	function getTraining(userId, callback) {
-		dataService.getTraining(userId, function(data) {
-			if (data) {
-				sortTraining(data);
-				if (callback) {
-					callback();
+			/**
+			 * Acquire mails and user data upon connection to the internet.
+			 */
+			(function init() {
+				if (!self.mails.length) {
+					getMails();
 				}
-			} else {
-				popupService.alertPopup($rootScope.getText('noTrainingText'));
-				$state.go('home');
-			}
-		});
-	}
-
-	/**
-	 * Sorting and adding a pass Item for each set of training.
-	 */
-	function sortTraining(data) {
-		if (data.length > 0) {
-			var setCount = data[0].SessionOrderNumber,
-				pass = 1,
-				firstTrainingId = data[0].TrainingId;
-			for (var i = 0; i < data.length; i++) {
-				if (data[i].SessionOrderNumber === setCount || data[i].TrainingId > firstTrainingId) {
-					storageService.persistentUserData.training.push({
-						passTitle: $rootScope.getText('passText') + pass++
+				if ($ionicHistory.currentView().stateName !== 'mail') {
+					loadingService.loaderShow();
+					dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
+						getTraining(result.Id, function() {
+							loadingService.loaderHide();
+						});
 					});
-					setCount++;
-					firstTrainingId = data[i].TrainingId;
+					if ($cordovaNetwork.isOnline) {
+						// checkSync();
+					}
 				}
-				storageService.persistentUserData.training.push(data[i]);
-			}
-		}
-	}
-
-
-	/*
-	 * Checks whether the saved data is less than todays date or not.
-	 */
-	var checkSync = function() {
-		if (!storageService.getLastSyncDate() || new Date().getDate() != storageService.getLastSyncDate()) {
-			checkForWifi();
-		}
-	};
-
-	/**
-	 * This function is called if the device is connected to the internet, to check whether the device is connected to wifi or not.
-	 */
-	var checkForWifi = function() {
-		if ($cordovaNetwork.getNetwork() != 'wifi') {
-			popupService.confirmPopup('NO WIFI', 'Do you want to download your training plan, without Wifi', syncData());
-		}
-		else {
-			syncData();
-		}
-	};
-
-	/**
-	 * Updates current training plan and sets the key date equal to today.
-	 */
-	var syncData = function() {
-		try {
-			var data = storageService.getStored();
-
-			for (var i = 0; data.completed.length < i; i++) {
-				for (var j = 0; data.completed.reports.length < j; j++) {
-					dataService.postData(data.completed.reports[j]);
-				}
-				dataService.postFeedback(data.completed[i]);
-			}
-			storageService.resetCompletedData();
-
-			getUser(function(result) {
-				getTraining(result.Id, function() {
-					loadingService.loaderHide();
+				$rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
+					checkSync();
+					popupService.alertPopup('network event');
 				});
-			});
+			})();
 
+			/**
+			 * Used to navigate back to home menu, when closing the mail view.
+			 */
+			self.closeMailView = function() {
+				$state.go('home');
+			};
 
-			storageService.setLastSyncDate();
-		}
+			/**
+			 * Enables the unfolding of mails, so that they can be read.
+			 */
+			self.toggleMailDisplay = function(index) {
+				var mail = $('#mail' + index);
+				if (mail.hasClass('inactive-mail')) {
+					mail.removeClass('inactive-mail');
+					mail.addClass('active-mail');
+				}
+				else {
+					mail.removeClass('active-mail');
+					mail.addClass('inactive-mail');
+				}
+			};
 
-		catch (e) {
+			/**
+			 * Saves the message as read.
+			 */
+			self.logMail = function(mailId) {
+				dataService.postNoteData(mailId, function(result) {
+					if (!result.result) {
+						// If for some reason the server is unavailable.
+						popupService.alertPopup($rootScope.getText('mailError'));
+					}
+					getMails();
+				});
+			};
 
-		}
+			/**
+			 * Updates current training plan and sets the key date equal to today.
+			 */
+			function syncData() {
+				var data = storageService.getStored();
+				for (var i = 0; i < data.length; i++) {
+					for (var j = 0; j < data[i].reports.length; j++) {
+						dataService.postData(data[i].reports[j]);
+					}
+					dataService.postFeedback(data[i]);
+				}
+				storageService.resetCompletedData();
 
+				dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
+					getTraining(result.Id, function() {
+						loadingService.loaderHide();
+					});
+				});
+				storageService.setLastSyncDate();
 
+				////	Send training feedback to server. - Rasmus
 
+				////	Check for new Trainings - Kennie/Dennis
 
-		//  Send training feedback to server. - Rasmus
+				////   Download the new and overwrite the old, then check which videos are needed.  - Rasmus
 
-		//  Check for new Trainings - Kennie/Dennis
-		//  Download the new and overwrite the old, then check which videos are needed.  - Rasmus
-
-		//  If new videos are needed, download new videos. - Hardy
-		//  Delete un-used videos. - Hardy
-	};
-
-
-
-	/**
-	 * When called, loads messages for user by using the screen number.
-	 */
-	var getMails = function() {
-		loadingService.loaderShow();
-		dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
-			self.mails = result.UserMessages;
-			getNewMails(self.mails);
-		});
-	};
-	/**
-	 * Gets messages that has not been read.
-	 */
-	var getNewMails = function(mails) {
-		self.newMailCount = 0;
-		for (var i = 0; i < mails.length; i++) {
-			if (mails[i].IsRead === false) {
-				self.newMailCount++;
+				//  If new videos are needed, download new videos. - Hardy
+				//  Delete un-used videos. - Hardy
 			}
-		}
-	};
 
-	/**
-	 * Used to navigate back to home menu, when closing the mail view.
-	 */
-	self.closeMailView = function() {
-		$state.go('home');
-	};
-
-	/**
-	 * Enables the unfolding of mails, so that they can be read.
-	 */
-	self.toggleMailDisplay = function(index) {
-		var mail = $('#mail' + index);
-		if (mail.hasClass('inactive-mail')) {
-			mail.removeClass('inactive-mail');
-			mail.addClass('active-mail');
-		}
-		else {
-			mail.removeClass('active-mail');
-			mail.addClass('inactive-mail');
-		}
-	};
-
-	/**
-	 * Saves the message as read.
-	 */
-	self.logMail = function(mailId) {
-		dataService.postNoteData(mailId, function(result) {
-			if (!result.result) {
-				// If for some reason the server is unavailable.
-				popupService.alertPopup($rootScope.getText('mailError'));
+			/**
+			 * Getting training items from service.
+			 */
+			function getTraining(userId, callback) {
+				dataService.getTraining(userId, function(data) {
+					if (data) {
+						sortTraining(data);
+						if (callback) {
+							callback();
+						}
+					}
+					else {
+						popupService.alertPopup($rootScope.getText('noTrainingText'));
+						$state.go('home');
+					}
+				});
 			}
-			getMails();
-		});
-	};
 
-});
+			/**
+			 * Sorting and adding a pass Item for each set of training.
+			 */
+			function sortTraining(data) {
+				if (data.length > 0) {
+					var setCount = data[0].SessionOrderNumber,
+						pass = 1,
+						firstTrainingId = data[0].TrainingId;
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].SessionOrderNumber === setCount || data[i].TrainingId > firstTrainingId) {
+							storageService.persistentUserData.training.push({
+								passTitle: $rootScope.getText('passText') + pass++
+							});
+							setCount++;
+							firstTrainingId = data[i].TrainingId;
+						}
+						storageService.persistentUserData.training.push(data[i]);
+					}
+				}
+			}
+
+			/*
+			 * Checks whether the saved data is less than todays date or not.
+			 */
+			function checkSync() {
+				if (!storageService.getLastSyncDate() || new Date().getDate() != storageService.getLastSyncDate()) {
+					checkForWifi();
+				}
+			}
+
+			/**
+			 * This function is called if the device is connected to the internet, to check whether the device is connected to wifi or not.
+			 */
+			function checkForWifi() {
+				if ($cordovaNetwork.getNetwork() != 'wifi') {
+					popupService.confirmPopup('NO WIFI', 'Do you want to download your training plan, without Wifi', syncData());
+				}
+				else {
+					syncData();
+				}
+			}
+
+			/**
+			 * Loads messages for user by using the screen number.
+			 */
+			function getMails() {
+				loadingService.loaderShow();
+				dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
+					self.mails = result.UserMessages;
+					countNewMails(self.mails);
+				});
+			}
+
+			/**
+			 * Gets messages that has not been read.
+			 */
+			function countNewMails(mails) {
+				self.newMailCount = 0;
+				for (var i = 0; i < mails.length; i++) {
+					if (mails[i].IsRead === false) {
+						self.newMailCount++;
+					}
+				}
+			}
+
+		});
