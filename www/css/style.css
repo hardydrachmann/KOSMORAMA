@@ -86,27 +86,27 @@ p {
 }
 
 #headerLogo {
-position:relative;
-left:1vw;
+    position: relative;
+    left: 1vw;
 }
 
 #headerLogo img {
-    height:34px;
-    display:inline;
+    height: 34px;
+    display: inline;
 }
 
-#headerLogo h3{
-    display:inline;
+#headerLogo h3 {
+    display: inline;
     color: white;
     font-family: Sans-Serif;
-    font-weight:bold;
+    font-weight: bold;
     font-size: 110%;
-    position:relative;
-    bottom:10px;
+    position: relative;
+    bottom: 10px;
 }
 
 #setUserScreenNumber {
-    line-height:2;
+    line-height: 2;
 }
 
 #help-text {
@@ -251,7 +251,7 @@ left:1vw;
 .spinner svg {
     width: 6em;
     height: 6em;
-    fill:#465877;
+    fill: #465877;
 }
 
 #feedbackImg {
@@ -316,6 +316,8 @@ left:1vw;
     margin-right: 25%;
     margin-top: 2%;
     margin-bottom: 10%;
+    -webkit-backface-visibility: hidden;
+	-webkit-transform: scale(1);
 }
 
 .progress-wrapper .progress-text {
@@ -350,24 +352,24 @@ left:1vw;
 
 #playVideo {
     font-style: italic;
-    position:relative;
-    width:40%;
-    height:7%;
-    color:white;
+    position: relative;
+    width: 40%;
+    height: 7%;
+    color: white;
     background-color: #465877;
     border-radius: 20em;
     border-width: 0.2em;
     border-style: solid;
     border-color: #303C50;
-    left:50%;
-    transform:translateX(-50%);
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .video-positioning {
-    position:relative;
-    width:95%;
-    left:50%;
-    transform:translateX(-50%);
+    position: relative;
+    width: 95%;
+    left: 50%;
+    transform: translateX(-50%);
     border-color: #303C50;
     border-radius: 2.5%;
     border-width: 0.3em;

@@ -1,7 +1,7 @@
 <div class="backgroundColor">
 
-  <form id="login-form" action="#" ng-submit="login(); setTabs();">
-    <input ng-change="{{setUserScreenNumber()}}" id="setUserScreenNumber" ng-model="userScreenNumber" type="text" placeholder="Login ID">
+  <form id="login-form" action="#" ng-submit="user.login(); tabs.setTabs();">
+    <input ng-change="{{user.setUserScreenNumber()}}" id="setUserScreenNumber" ng-model="user.userScreenNumber" type="text" placeholder="Login ID">
   </form>
 
   <div>

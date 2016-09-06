@@ -1,78 +1,46 @@
-angular.module('kosmoramaApp').controller('LanguageController', function($scope, $state, $ionicHistory, dataService, storageService) {
-    $scope.text = {};
-    $scope.lang = '';
-    $scope.langs = [];
+angular
+    .module('kosmoramaApp')
+    .controller('LanguageController',
+        function($state, $ionicHistory, languageService, dataService, storageService) {
 
-    $(document).ready(main);
+            var self = this;
 
-    /**
-     * Checks if there is a saved language.
-     * if there is a saved language: set scope.lang equal to language.
-     * else set scope.lang to da_DK and save the variable in local storage and navigate to language menu.
-     */
-    function main() {
-        loadData();
-        var lang = storageService.getSelectedLanguage();
-        if (!lang) {
-            $scope.lang = 'da_DK';
-            storageService.setSelectedLanguage($scope.lang);
-            $state.go('language');
-        }
-        else {
-            $scope.lang = lang;
-        }
-    }
+            self.service = languageService;
+            self.getText = languageService.getText;
 
-    /**
-     * Sets language equal to picked language from language menu.
-     */
-    $scope.setLanguage = function(language) {
-        $scope.lang = language.tag;
-        storageService.setSelectedLanguage($scope.lang);
-        var backView = $ionicHistory.backView();
-        if (backView) {
-            $state.go(backView.stateName);
-        }
-        else {
-            $state.go('login');
-        }
-    };
+            /**
+             * Check for a preset language. Otherwise let the user choose.
+             * If the user fails to select language, default to Danish.
+             */
+            (function init() {
+                if (!languageService.lang) {
+                    $state.go('language');
+                }
+            })();
 
-    /**
-     * Enables toggling to and from language menu, by clicking on the language tab.
-     */
-    $scope.langToggle = function() {
-        if ($ionicHistory.currentView().stateName != 'language') {
-            $state.go('language');
-        }
-        else {
-            $state.go($ionicHistory.backView().stateName);
-        }
-    };
+            /**
+             * Sets language equal to picked language from language menu.
+             */
+            self.selectLanguage = function(language) {
+                languageService.setLanguage(language);
+                var backView = $ionicHistory.backView();
+                if (backView) {
+                    $state.go(backView.stateName);
+                }
+                else {
+                    $state.go('login');
+                }
+            };
 
-    /**
-     * Loads appropriate data from content.json, depending on which language has been selected.
-     */
-    var loadData = function() {
-        $.getJSON('app/language/content.json', function(data) {
-            $scope.text = data;
+            /**
+             * Enables toggling to and from language menu, by clicking on the language tab.
+             */
+            self.langToggle = function() {
+                if ($ionicHistory.currentView().stateName !== 'language') {
+                    $state.go('language');
+                }
+                else {
+                    $state.go($ionicHistory.backView().stateName);
+                }
+            };
         });
-        $.getJSON('app/language/langs.json', function(data) {
-            $scope.langs = data;
-        });
-    };
-
-    /**
-     * Used in other classes to get appropriate text for titles and other strings, depending on selected language.
-     */
-    $scope.getText = function(name) {
-        if (!$scope.text) {
-            $scope.loadText();
-            return '';
-        }
-        if ($scope.text[name] !== undefined) {
-            return $scope.text[name][$scope.lang];
-        }
-        return ' ';
-    };
-});

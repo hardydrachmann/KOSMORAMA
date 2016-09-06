@@ -22,14 +22,14 @@
     }
 </style>
 <div>
-    <a class="mail-back-button" ng-click="closeMailView()">
-        <i id="mail-link" class="accent-color ion-home" ng-click="closeMailView()"> </i>
+    <a class="mail-back-button" ng-click="home.closeMailView()">
+        <i id="mail-link" class="accent-color ion-home" ng-click="home.closeMailView()"> </i>
     </a>
     <h1 style="text-align:center;">Mail</h1>
 </div>
 <ion-scroll style="height:65%">
     <div class="list">
-        <div class="item" ng-repeat="mail in mails | orderBy:Time:true" ng-click="toggleMailDisplay($index)">
+        <div class="item" ng-repeat="mail in home.mails | orderBy:Time:true" ng-click="home.toggleMailDisplay($index)">
             <div>
                 <h2 ng-switch on="mail.IsRead" class="mail-title">
                     <strong ng-switch-when="false">
@@ -52,7 +52,7 @@
                     </p>
                 </div>
                 <br>
-                <button class="mail-done" ng-show="mail.IsRead === false" ng-click="logMail(mail.id)">{{getText('mailDone')}}</button>
+                <button class="mail-done" ng-show="mail.IsRead === false" ng-click="home.logMail(mail.id)">{{lang.getText('mailDone')}}</button>
             </div>
         </div>
     </div>
