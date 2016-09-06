@@ -45,4 +45,15 @@ angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $ti
 		});
 	};
 
+	this.checkPopup = function(success) {
+		var color = success ? '#52ff00' : '#ff0000';
+		var icon = success ? 'ion-ios-checkmark-outline' : 'ion-ios-close-outline';
+		var popup = $ionicPopup.show({
+			template: '<style>.popup-head {display:none;} .popup-body {padding:0;}</style><i class="icon-center ' + icon + '" style="font-size:8em; color:' + color + '; position: absolute; left: 50%; transform: translateX(-50%);"></i>'
+		});
+		$timeout(function() {
+			popup.close();
+		}, 2000);
+	};
+
 });

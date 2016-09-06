@@ -1,17 +1,60 @@
 var app = angular.module('kosmoramaApp');
 
-app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, blobService, storageService, downloadService) {
+app.controller('TrainingController', function($scope, $state, $timeout, $rootScope, $ionicHistory, popupService, dataService, loadingService, blobService, storageService, downloadService, mediaService) {
 
-	$rootScope.videoFile = 'media/video/test_training/video.mp4';
-	$rootScope.audioFile = 'media/audio/test_training/audio.mp3';
-	$rootScope.startAudio = 'media/audio/start-stop/start.mp3';
+	$rootScope.videoFile = 'fx/testVideo/testVideo.mp4';
+	$rootScope.startAudio = 'fx/start_training.mp3';
+	$rootScope.stopAudio = 'fx/stop_training.mp3';
+	$rootScope.mediaAudio1 = 'fx/media_audio1.mp3';
+	$rootScope.mediaAudio2 = 'fx/media_audio2.mp3';
+
+	$scope.audio = mediaService.getAudio();
 
 	$scope.TrainingItems = [];
 
 	$(document).ready(main);
 
 	/**
-	 * and register event for the training controller.
+	 * Download all media files needed for offline training for a given period.
+	 */
+	$scope.downloadMedia = function(uri, fileName) {
+		downloadService.downloadMedia(uri, fileName);
+		$timeout(function() {
+			$scope.audio = $scope.audio === $rootScope.mediaAudio2 ? $rootScope.mediaAudio1 : $rootScope.mediaAudio2;
+		}, 1000);
+	};
+
+	/**
+	 * Get relevant downloaded picture file.
+	 */
+	$scope.getPicture = function() {
+		return mediaService.getPicture();
+	};
+
+	/**
+	 * Get relevant downloaded audio file.
+	 */
+	$scope.getAudio = function() {
+		return mediaService.getAudio();
+	};
+
+	/**
+	 * Get relevant downloaded video file.
+	 */
+	$scope.getVideo = function() {
+		return mediaService.getVideo();
+	};
+
+	/**
+	 * Remove all downloaded media files.
+	 */
+	$scope.removeMedia = function() {
+		mediaService.removeMedia();
+		$scope.audio = $scope.audio === $rootScope.mediaAudio2 ? $rootScope.mediaAudio1 : $rootScope.mediaAudio2;
+	};
+
+	/**
+	 * Perform appropriate state action and register event for the training controller.
 	 */
 	function main() {
 		stateAction();
@@ -186,11 +229,11 @@ app.controller('TrainingController', function($scope, $state, $timeout, $rootSco
 		return min + " " + $scope.getText('min') + " " + sec + " " + $scope.getText('sec');
 	};
 
-	$scope.getAudio = function() {
-		return blobService.getExerciseAudio(storageService.proceduralUserData.currentTraining.ExerciseId);
-	};
-
-	$scope.getPicture = function(exerciseId) {
-		return blobService.getExercisePicture(exerciseId);
-	};
+	// $scope.getAudio = function() {
+	// 	return blobService.getExerciseAudio(storageService.proceduralUserData.currentTraining.ExerciseId);
+	// };
+	//
+	// $scope.getPicture = function(exerciseId) {
+	// 	return blobService.getExercisePicture(exerciseId);
+	// };
 });

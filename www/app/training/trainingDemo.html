@@ -6,7 +6,12 @@
     </div>
   </div>
 
-  <audio src="{{audioFile}}" autoplay="autoplay"></audio>
+  <button ng-click="downloadMedia('https://welfaredenmark.blob.core.windows.net/exercises/Exercises/05_left/speak/en-GB/speak.mp3', 'test.mp3')" style="font-size:2em; border-radius:50%; font-weight:bold; background-color:#ff00d6; color:#1400ff; position: relative; left:2em; display:inline;">DOWNLOAD</button>
+
+  <button ng-click="removeMedia()" style="font-size:2em; border-radius:50%; font-weight:bold; background-color:#ff5c00; color:#00ff5e; position: relative; right:-2em; display:inline;">REMOVE</button>
+  </br>
+
+  <audio src="{{audio}}" type="audio/mpeg" autoplay></audio>
 
   <video id="playerID" class="video-positioning" src="{{videoFile}}" type="video/mp4" controls autoplay loop></video>
 
