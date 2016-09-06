@@ -20,12 +20,12 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
     };
 
     this.temporaryTimerData = {
-		currentSet: 0,
-		setsRemaining: 0,
-		isPauseNext: true,
-		counter: 0,
-		progress: 0
-	};
+        currentSet: 0,
+        setsRemaining: 0,
+        isPauseNext: true,
+        counter: 0,
+        progress: 0
+    };
 
     var passCount = 0;
     this.completed = [{
@@ -57,9 +57,9 @@ angular.module('kosmoramaApp').service('storageService', function($window) {
         return this.completed;
     };
 
-    this.setStored = function(completedTraining){
-        if(this.completed){
-          $window.localStorage['kosmoramaCompletedData'] = this.completed.push(completedTraining);
+    this.setStored = function(completedTraining) {
+        if (this.completed) {
+            $window.localStorage['kosmoramaCompletedData'] = this.completed.push(completedTraining);
         }
         $window.localStorage['kosmoramaCompletedData'] = completedTraining;
     };

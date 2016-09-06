@@ -1,7 +1,7 @@
 angular
     .module('kosmoramaApp')
     .controller('FeedbackController',
-        function($rootScope, $state, dataService, loadingService, storageService) {
+        function($state, tabsService, dataService, loadingService, storageService) {
 
             var self = this;
 
@@ -21,7 +21,7 @@ angular
                     "Questions": null
                 }];
                 storageService.complete(trainingReport);
-                $rootScope.continue();
+                tabsService.continue();
             };
 
             /**

@@ -1,7 +1,7 @@
 angular
     .module('kosmoramaApp')
     .controller('TabsController',
-        function($rootScope, $state, $timeout, $ionicHistory, storageService) {
+        function($rootScope, $state, $timeout, $ionicHistory, tabsService, storageService) {
 
             var self = this;
 
@@ -12,7 +12,7 @@ angular
             self.showLogoutTab = false;
 
             /**
-             *  Adjust tabs if on login screen and add methods navigation methods to the root scope.
+             * Adjust tabs if on login screen.
              */
             (function init() {
                 $timeout(function() {
@@ -21,8 +21,7 @@ angular
                         self.showLoginTab = false;
                     }
                 }, 250);
-                $rootScope.setTabs = self.setTabs;
-                $rootScope.continue = self.continue;
+
             })();
 
             /**
@@ -113,4 +112,7 @@ angular
                 }
                 self.setTabs();
             };
+
+            tabsService.setTabs = self.setTabs;
+            tabsService.continue = self.continue;
         });

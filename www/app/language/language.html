@@ -3,9 +3,9 @@
     <ion-scroll style="height:84vh">
         <div class="list languageMenu">
 
-            <div class="item item-thumbnail-left" ng-repeat="lang in langs | orderBy:'language'" ng-click="setLanguage(lang); tabs.setTabs();">
-                <img src="{{lang.url}}">
-                <h2 class="text-white">{{lang.language}}</h2>
+            <div class="item item-thumbnail-left" ng-repeat="language in lang.service.langs | orderBy:'language'" ng-click="lang.selectLanguage(language); tabs.setTabs();">
+                <img src="{{language.url}}">
+                <h2 class="text-white">{{language.language}}</h2>
             </div>
         </div>
     </ion-scroll>

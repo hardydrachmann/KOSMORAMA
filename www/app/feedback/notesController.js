@@ -1,7 +1,7 @@
 angular
     .module('kosmoramaApp')
     .controller('NotesController',
-        function($state, $rootScope, $ionicHistory, storageService, dataService) {
+        function( $rootScope, $state, $ionicHistory, languageService, storageService, dataService) {
 
             var self = this;
 
@@ -44,7 +44,7 @@ angular
              */
             self.revertContent = function(event) {
                 var element = $(event.target);
-                element.attr('placeholder', $rootScope.getText('notesTitle'));
+                element.attr('placeholder', languageService.getText('notesTitle'));
             };
 
             self.maxChars = 500;

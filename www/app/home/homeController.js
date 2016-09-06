@@ -1,7 +1,7 @@
 angular
 	.module('kosmoramaApp')
 	.controller('HomeController',
-		function($rootScope, $state, $ionicHistory, $cordovaNetwork, storageService, popupService, dataService, loadingService) {
+		function($rootScope, $state, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService) {
 
 			var self = this;
 
@@ -12,23 +12,24 @@ angular
 			 * Acquire mails and user data upon connection to the internet.
 			 */
 			(function init() {
-				if (!self.mails.length) {
-					getMails();
-				}
 				if ($ionicHistory.currentView().stateName !== 'mail') {
 					loadingService.loaderShow();
-					dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
-						getTraining(result.Id, function() {
-							loadingService.loaderHide();
+					if (!storageService.persistentUserData.training.length) {
+						dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
+							self.mails = result.UserMessages;
+							countNewMails(self.mails);
+							getTraining(result.Id, function() {
+								loadingService.loaderHide();
+							});
 						});
-					});
+					}
 					if ($cordovaNetwork.isOnline) {
 						// checkSync();
 					}
 				}
 				$rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
-					checkSync();
-					popupService.alertPopup('network event');
+					// checkSync();
+					popupService.alertPopup('network event', networkState);
 				});
 			})();
 
@@ -61,7 +62,7 @@ angular
 				dataService.postNoteData(mailId, function(result) {
 					if (!result.result) {
 						// If for some reason the server is unavailable.
-						popupService.alertPopup($rootScope.getText('mailError'));
+						popupService.alertPopup(languageService.getText('mailError'));
 					}
 					getMails();
 				});
@@ -82,7 +83,6 @@ angular
 
 				dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
 					getTraining(result.Id, function() {
-						loadingService.loaderHide();
 					});
 				});
 				storageService.setLastSyncDate();
@@ -109,7 +109,7 @@ angular
 						}
 					}
 					else {
-						popupService.alertPopup($rootScope.getText('noTrainingText'));
+						popupService.alertPopup(languageService.getText('noTrainingText'));
 						$state.go('home');
 					}
 				});
@@ -126,7 +126,7 @@ angular
 					for (var i = 0; i < data.length; i++) {
 						if (data[i].SessionOrderNumber === setCount || data[i].TrainingId > firstTrainingId) {
 							storageService.persistentUserData.training.push({
-								passTitle: $rootScope.getText('passText') + pass++
+								passTitle: languageService.getText('passText') + pass++
 							});
 							setCount++;
 							firstTrainingId = data[i].TrainingId;
@@ -161,7 +161,6 @@ angular
 			 * Loads messages for user by using the screen number.
 			 */
 			function getMails() {
-				loadingService.loaderShow();
 				dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
 					self.mails = result.UserMessages;
 					countNewMails(self.mails);

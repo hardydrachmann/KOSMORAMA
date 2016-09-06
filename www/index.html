@@ -34,10 +34,12 @@
     <!-- services -->
     <script src="app/services/dataService.js"></script>
     <script src="app/services/popupService.js"></script>
+    <script src="app/services/languageService.js"></script>
     <script src="app/services/loadingService.js"></script>
     <script src="app/services/blobService.js"></script>
     <script src="app/services/storageService.js"></script>
     <script src="app/services/downloadService.js"></script>
+    <script src="app/services/tabsService.js"></script>
 
     <!-- libraries -->
     <script src="lib/components/jquery/dist/jquery.js"></script>
@@ -57,7 +59,7 @@
                         <ion-header-bar class="accent-color">
                             <div id="headerLogo">
                             <img src="img/header_logo.png">
-                            <h3>{{getText('headerTitle') | uppercase }}</h3>
+                            <h3>{{lang.getText('headerTitle') | uppercase }}</h3>
                         </div>
                         </ion-header-bar>
 
@@ -66,11 +68,11 @@
                         </div>
 
                         <ion-tabs class="tabs-icon-top">
-                            <ion-tab class="nav-tab" ng-if="tabs.showHelpTab" title="{{getText('helpTab')}}" ng-click="help.helpToggle(); tabs.setTabs();" icon="ion-help"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="tabs.showLangTab" title="{{getText('languageTab')}}" ng-click="langToggle(); tabs.setTabs();" icon="ion-chatbubble-working"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="tabs.showContTab" title="{{getText('continueTab')}}" ng-click="tabs.continue(); tabs.setTabs();" icon="ion-play"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="tabs.showLogoutTab" title="{{getText('logoutText')}}" ng-click="user.logout(); tabs.setTabs()" icon="ion-log-out"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="tabs.showLoginTab" title="{{getText('loginText')}}" ng-click="user.login(); tabs.setTabs()" icon="ion-log-in" id="login-tab"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="tabs.showHelpTab" title="{{lang.getText('helpTab')}}" ng-click="help.helpToggle(); tabs.setTabs();" icon="ion-help"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="tabs.showLangTab" title="{{lang.getText('languageTab')}}" ng-click="lang.langToggle(); tabs.setTabs();" icon="ion-chatbubble-working"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="tabs.showContTab" title="{{lang.getText('continueTab')}}" ng-click="tabs.continue(); tabs.setTabs();" icon="ion-play"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="tabs.showLogoutTab" title="{{lang.getText('logoutText')}}" ng-click="user.logout(); tabs.setTabs()" icon="ion-log-out"></ion-tab>
+                            <ion-tab class="nav-tab" ng-if="tabs.showLoginTab" title="{{lang.getText('loginText')}}" ng-click="user.login(); tabs.setTabs()" icon="ion-log-in" id="login-tab"></ion-tab>
                         </ion-tabs>
                     </div>
                 </div>

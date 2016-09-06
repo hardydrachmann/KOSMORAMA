@@ -1,7 +1,7 @@
 angular
     .module('kosmoramaApp')
     .controller('LoginController',
-        function($rootScope, $state, $timeout, popupService, dataService, loadingService, storageService) {
+        function($state, $timeout, tabsService, languageService, popupService, dataService, storageService) {
 
             var self = this;
 
@@ -34,23 +34,19 @@ angular
              */
             self.login = function() {
                 if (screenNumber) {
-                    loadingService.loaderShow();
                     dataService.getUser(screenNumber, function(result) {
+                        $('#setUserScreenNumber').val('');
                         if (result) {
-                            loadingService.loaderHide();
-                            $('#setUserScreenNumber').val('');
                             $state.go('home');
-                            $rootScope.setTabs();
+                            tabsService.setTabs();
                         }
                         else {
-                            loadingService.loaderHide();
-                            $('#setUserScreenNumber').val('');
-                            popupService.AlertPopup($rootScope.getText('loginFail'));
+                            popupService.AlertPopup(languageService.getText('loginFail'));
                         }
                     });
                 }
                 else {
-                    popupService.AlertPopup($rootScope.getText('loginHelp'));
+                    popupService.AlertPopup(languageService.getText('loginHelp'));
                 }
             };
 
@@ -58,11 +54,11 @@ angular
              * At logout, remove the locally stored users data, then set the scope to 'empty' and logout.
              */
             self.logout = function() {
-                popupService.confirmPopup($rootScope.getText('logoutText') + '?', '', function() {
+                popupService.confirmPopup(languageService.getText('logoutText'), '', function() {
                     storageService.resetPersistentData();
                     screenNumber = '';
                     $state.go('login');
-                    $rootScope.setTabs();
+                    tabsService.setTabs();
                 });
             };
 
