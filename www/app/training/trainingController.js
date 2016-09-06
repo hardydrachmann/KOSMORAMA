@@ -7,13 +7,13 @@ angular
 
 			self.TrainingItems = [];
 
+			// $rootScope.audio = mediaService.getAudio();
+
 			$rootScope.videoFile = 'fx/testVideo/testVideo.mp4';
 			$rootScope.startAudio = 'fx/start_training.mp3';
 			$rootScope.stopAudio = 'fx/stop_training.mp3';
 			$rootScope.mediaAudio1 = 'fx/media_audio1.mp3';
 			$rootScope.mediaAudio2 = 'fx/media_audio2.mp3';
-
-			$scope.audio = mediaService.getAudio();
 
 			/**
 			 * Perform appropriate state action and register event for the training controller.
@@ -29,40 +29,40 @@ angular
 			/**
 			 * Download all media files needed for offline training for a given period.
 			 */
-			$scope.downloadMedia = function(uri, fileName) {
+			$rootScope.downloadMedia = function(uri, fileName) {
 				downloadService.downloadMedia(uri, fileName);
 				$timeout(function() {
-					$scope.audio = $scope.audio === $rootScope.mediaAudio2 ? $rootScope.mediaAudio1 : $rootScope.mediaAudio2;
+					$rootScope.audio = $rootScope.audio === $rootScope.mediaAudio2 ? $rootScope.mediaAudio1 : $rootScope.mediaAudio2;
 				}, 1000);
 			};
 
 			/**
 			 * Get relevant downloaded picture file.
 			 */
-			$scope.getPicture = function() {
+			$rootScope.getPicture = function() {
 				return mediaService.getPicture();
 			};
 
 			/**
 			 * Get relevant downloaded audio file.
 			 */
-			$scope.getAudio = function() {
+			$rootScope.getAudio = function() {
 				return mediaService.getAudio();
 			};
 
 			/**
 			 * Get relevant downloaded video file.
 			 */
-			$scope.getVideo = function() {
+			$rootScope.getVideo = function() {
 				return mediaService.getVideo();
 			};
 
 			/**
 			 * Remove all downloaded media files.
 			 */
-			$scope.removeMedia = function() {
+			$rootScope.removeMedia = function() {
 				mediaService.removeMedia();
-				$scope.audio = $scope.audio === $rootScope.mediaAudio2 ? $rootScope.mediaAudio1 : $rootScope.mediaAudio2;
+				$rootScope.audio = $rootScope.audio === $rootScope.mediaAudio2 ? $rootScope.mediaAudio1 : $rootScope.mediaAudio2;
 			};
 
 			/**
