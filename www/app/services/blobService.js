@@ -16,8 +16,7 @@ angular.module('kosmoramaApp').service('blobService', function(storageService) {
 	 * Gets exercise picture, based on exerciseId.
 	 */
 	this.getExercisePicture = function(exerciseId) {
-		var language = getLanguageString();
-		return baseURL + exerciseId + '/picture/' + 'picture.png';
+		return baseURL + exerciseId + '/picture/picture.png';
 	};
 
 	/**

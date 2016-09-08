@@ -55,7 +55,7 @@ angular
              */
             self.logout = function() {
                 popupService.confirmPopup(languageService.getText('logoutText'), '', function() {
-                    storageService.resetPersistentData();
+                    storageService.clearPersistentData();
                     screenNumber = '';
                     $state.go('login');
                     tabsService.setTabs();

@@ -1,10 +1,11 @@
 <div class="backgroundColor">
-  <a href='#/mail'>
-    <i id="mail-link" class="accent-color ion-email">
+    <a href='#/mail'>
+        <i id="mail-link" class="accent-color ion-email">
             <div id="numberOfMails">{{home.newMailCount}}</div>
         </i>
-  </a>
-  <a href="#/trainingPlan" ng-click="tabs.setTabs()">
-    <img id="center-img" src="img/home_logo.png"></img>
-  </a>
+    </a>
+    <input type="checkbox" ng-model="home.onlineStatus" ng-click="home.onNetworkChange()">
+    <a href="#/trainingPlan" ng-click="tabs.setTabs()">
+        <img id="center-img" src="img/home_logo.png"></img>
+    </a>
 </div>

@@ -1,7 +1,7 @@
 angular
     .module('kosmoramaApp')
     .controller('NotesController',
-        function( $rootScope, $state, $ionicHistory, languageService, storageService, dataService) {
+        function($rootScope, $state, $ionicHistory, languageService, storageService, dataService) {
 
             var self = this;
 
