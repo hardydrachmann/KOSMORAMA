@@ -193,5 +193,9 @@
   "painDescription5": {
     "da_DK": "Værst tænkelige smerter",
     "en_US": "Worst possible, excrutiating pain"
+  },
+  "downloadError": {
+    "da_DK": "Der opstod en fejl, prøv venligst igen senere.",
+    "en_US": "An error occured, please try again later."
   }
 }

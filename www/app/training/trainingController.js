@@ -7,7 +7,7 @@ angular
 
 			self.TrainingItems = [];
 
-			// $rootScope.audio = mediaService.getAudio();
+			$rootScope.audio = mediaService.getAudio();
 
 			$rootScope.videoFile = 'fx/testVideo/testVideo.mp4';
 			$rootScope.startAudio = 'fx/start_training.mp3';
@@ -39,9 +39,9 @@ angular
 			/**
 			 * Get relevant downloaded picture file.
 			 */
-			$rootScope.getPicture = function() {
-				return mediaService.getPicture();
-			};
+			// $rootScope.getPicture = function() {
+			// 	return mediaService.getPicture();
+			// };
 
 			/**
 			 * Get relevant downloaded audio file.
@@ -87,6 +87,11 @@ angular
 			// self.getPicture = function(exerciseId) {
 			// 	return blobService.getExercisePicture(exerciseId);
 			// };
+
+			// GET PICTURE TEST
+			self.getPicture = function(exerciseId) {
+				return mediaService.getPicture(exerciseId);
+			};
 
 			// Move to timer controller
 			self.formatTime = function(time) {

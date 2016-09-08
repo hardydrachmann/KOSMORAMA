@@ -1,8 +1,9 @@
 // This is a service which can download media files related to a users training (audio, video & pictures).
 
-angular.module('kosmoramaApp').service('downloadService', function($cordovaFileTransfer, loadingService, popupService) {
+angular.module('kosmoramaApp').service('downloadService', function($cordovaFileTransfer, loadingService, popupService, storageService, languageService) {
 
-	var fileTransfer;
+	var fileTransfer, trainingId, language;
+	var baseURL = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
 
 	document.addEventListener('deviceready', onDeviceReady, false);
 
@@ -11,35 +12,98 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 	}
 
 	/**
-	 * Download all currently needed and relevant media files.
+	 * Setup all media path variables for device storage, and fire the download functions.
 	 */
-	this.downloadMedia = function(uri, fileName) {
-		var fileExtension = uri.substring(uri.length - 4);
-		var fileType;
-		switch (fileExtension) {
-			case '.mp3':
-				fileType = 'audio';
-				break;
-			case '.mp4':
-				fileType = 'videos';
-				break;
-			case '.png':
-				fileType = 'pictures';
-				break;
-		}
-		devicePath = cordova.file.externalApplicationStorageDirectory + 'media/' + fileType + '/' + fileName;
-		loadingService.loaderShow();
+	this.downloadMedia = function(exerciseId) {
+		trainingId = exerciseId;
+		language = this.getLanguageString();
+		deviceAudioPath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/audio/' + language + '/speak.mp3';
+		this.downloadAudio(deviceAudioPath);
+		deviceVideoPath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/video/speak.mp4';
+		this.downloadVideo(deviceVideoPath);
+		devicePicturePath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/picture/picture.png';
+		this.downloadPicture(devicePicturePath);
+	};
+
+	/**
+	 * Download relevant audio to the device, based on exerciseId and selected language.
+	 */
+	this.downloadAudio = function(deviceAudioPath) {
 		fileTransfer.download(
-			encodeURI(uri),
-			devicePath,
-			function(entry) {
-				loadingService.loaderHide();
-				popupService.checkPopup(true);
-			},
-			function(error) {
-				loadingService.loaderHide();
-				popupService.checkPopup(false);
-			}
+			encodeURI(this.getExerciseAudioURL()),
+			deviceAudioPath,
+			this.downloadSuccess,
+			this.downloadError
 		);
+	};
+
+	/**
+	 * Download relevant video to the device, based on exerciseId.
+	 */
+	this.downloadVideo = function(deviceVideoPath) {
+		fileTransfer.download(
+			encodeURI(this.getExerciseVideoURL()),
+			deviceVideoPath,
+			this.downloadSuccess,
+			this.downloadError
+		);
+	};
+
+	/**
+	 * Download relevant picture to the device, based on exerciseId.
+	 */
+	this.downloadPicture = function(devicePicturePath) {
+		fileTransfer.download(
+			encodeURI(this.getExercisePictureURL()),
+			devicePicturePath,
+			this.downloadSuccess,
+			this.downloadError
+		);
+	};
+
+	/**
+	 * Handle download functions callback when successful.
+	 */
+	this.downloadSuccess = function(entry) {
+		console.log('download successful');
+	};
+
+	/**
+	 * Handle download functions callback when an error occur.
+	 */
+	this.downloadError = function(error) {
+		popupService.alertPopup(languageService.getText('downloadError'));
+	};
+
+	/**
+	 * Checks the current selected language (if it is 'en_US', change it to 'en_GB'), then return it.
+	 */
+	this.getLanguageString = function() {
+		var storageLanguage = storageService.getSelectedLanguage();
+		if (storageLanguage === 'en_US') {
+			storageLanguage = 'en_GB';
+		}
+		return storageLanguage.replace('_', '-');
+	};
+
+	/**
+	 * Gets the exercise audio, based on exerciseId.
+	 */
+	this.getExerciseAudioURL = function() {
+		return baseURL + trainingId + '/speak/' + language + '/speak.mp3';
+	};
+
+	/**
+	 * Gets the exercise video, based on exerciseId.
+	 */
+	this.getExerciseVideoURL = function() {
+		return baseURL + trainingId + '/video/speak.mp4';
+	};
+
+	/**
+	 * Gets the exercise picture, based on exerciseId.
+	 */
+	this.getExercisePictureURL = function() {
+		return baseURL + trainingId + '/picture/picture.png';
 	};
 });
