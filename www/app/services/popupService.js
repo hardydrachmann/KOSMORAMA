@@ -45,6 +45,9 @@ angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $ti
 		});
 	};
 
+	/**
+	 * Initiates a popup with a green checkmark or a red cross when called (controlled by a boolean value).
+	 */
 	this.checkPopup = function(success) {
 		var color = success ? '#52ff00' : '#ff0000';
 		var icon = success ? 'ion-ios-checkmark-outline' : 'ion-ios-close-outline';
@@ -55,5 +58,4 @@ angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $ti
 			popup.close();
 		}, 2000);
 	};
-
 });
