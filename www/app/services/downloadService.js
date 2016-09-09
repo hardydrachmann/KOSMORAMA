@@ -2,7 +2,7 @@
 
 angular.module('kosmoramaApp').service('downloadService', function($cordovaFileTransfer, loadingService, popupService, storageService, languageService) {
 
-	var fileTransfer, trainingId, language;
+	var fileTransfer, trainingId;
 	var baseURL = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
 
 	document.addEventListener('deviceready', onDeviceReady, false);
@@ -16,13 +16,17 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 	 */
 	this.downloadMedia = function(exerciseId) {
 		trainingId = exerciseId;
-		language = this.getLanguageString();
-		deviceAudioPath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/audio/' + language + '/speak.mp3';
-		this.downloadAudio(deviceAudioPath);
-		deviceVideoPath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/video/speak.mp4';
-		this.downloadVideo(deviceVideoPath);
-		devicePicturePath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/picture/picture.png';
-		this.downloadPicture(devicePicturePath);
+		try {
+			var deviceAudioPath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
+			this.downloadAudio(deviceAudioPath);
+			var deviceVideoPath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/video/speak.mp4';
+			this.downloadVideo(deviceVideoPath);
+			var devicePicturePath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/picture/picture.png';
+			this.downloadPicture(devicePicturePath);
+			return true;
+		} catch (error) {
+			return false;
+		}
 	};
 
 	/**
@@ -72,25 +76,14 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 	 * Handle download functions callback when an error occur.
 	 */
 	this.downloadError = function(error) {
-		popupService.alertPopup(languageService.getText('downloadError'));
-	};
-
-	/**
-	 * Checks the current selected language (if it is 'en_US', change it to 'en_GB'), then return it.
-	 */
-	this.getLanguageString = function() {
-		var storageLanguage = storageService.getSelectedLanguage();
-		if (storageLanguage === 'en_US') {
-			storageLanguage = 'en_GB';
-		}
-		return storageLanguage.replace('_', '-');
+		console.log('download error');
 	};
 
 	/**
 	 * Gets the exercise audio, based on exerciseId.
 	 */
 	this.getExerciseAudioURL = function() {
-		return baseURL + trainingId + '/speak/' + language + '/speak.mp3';
+		return baseURL + trainingId + '/speak/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
 	};
 
 	/**

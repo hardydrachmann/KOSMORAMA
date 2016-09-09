@@ -1,69 +1,26 @@
 angular
 	.module('kosmoramaApp')
 	.controller('TrainingController',
-		function($rootScope, $state, $timeout, $ionicHistory, tabsService, languageService, popupService, dataService, loadingService, blobService, storageService, downloadService, mediaService) {
+		function($rootScope, $state, $timeout, $ionicHistory, tabsService, languageService, popupService, dataService, loadingService, storageService, mediaService) {
 
 			var self = this;
-
+			self.getAudio = mediaService.getAudio;
+			self.getVideo = mediaService.getVideo;
+			self.getPicture = mediaService.getPicture;
 			self.TrainingItems = [];
-
-			$rootScope.audio = mediaService.getAudio();
-
-			$rootScope.videoFile = 'fx/testVideo/testVideo.mp4';
-			$rootScope.startAudio = 'fx/start_training.mp3';
-			$rootScope.stopAudio = 'fx/stop_training.mp3';
-			$rootScope.mediaAudio1 = 'fx/media_audio1.mp3';
-			$rootScope.mediaAudio2 = 'fx/media_audio2.mp3';
+			self.currentTrainingId = -1;
 
 			/**
 			 * Perform appropriate state action and register event for the training controller.
 			 */
 			(function init() {
+				self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
 				stateAction();
 				$rootScope.$on('continueEvent', function() {
 					cancelViewTimer();
 					$('video').remove();
 				});
 			})();
-
-			/**
-			 * Download all media files needed for offline training for a given period.
-			 */
-			$rootScope.downloadMedia = function(uri, fileName) {
-				downloadService.downloadMedia(uri, fileName);
-				$timeout(function() {
-					$rootScope.audio = $rootScope.audio === $rootScope.mediaAudio2 ? $rootScope.mediaAudio1 : $rootScope.mediaAudio2;
-				}, 1000);
-			};
-
-			/**
-			 * Get relevant downloaded picture file.
-			 */
-			// $rootScope.getPicture = function() {
-			// 	return mediaService.getPicture();
-			// };
-
-			/**
-			 * Get relevant downloaded audio file.
-			 */
-			$rootScope.getAudio = function() {
-				return mediaService.getAudio();
-			};
-
-			/**
-			 * Get relevant downloaded video file.
-			 */
-			$rootScope.getVideo = function() {
-				return mediaService.getVideo();
-			};
-
-			/**
-			 * Remove all downloaded media files.
-			 */
-			$rootScope.removeMedia = function() {
-				mediaService.removeMedia();
-				$rootScope.audio = $rootScope.audio === $rootScope.mediaAudio2 ? $rootScope.mediaAudio1 : $rootScope.mediaAudio2;
-			};
 
 			/**
 			 * Returns the appropriate language name for the selected item.
@@ -78,19 +35,6 @@ angular
 				if (item) {
 					return item.LangDesc[languageService.lang];
 				}
-			};
-
-			// self.getAudio = function() {
-			// 	return blobService.getExerciseAudio(storageService.proceduralUserData.currentTraining.ExerciseId);
-			// };
-			//
-			// self.getPicture = function(exerciseId) {
-			// 	return blobService.getExercisePicture(exerciseId);
-			// };
-
-			// GET PICTURE TEST
-			self.getPicture = function(exerciseId) {
-				return mediaService.getPicture(exerciseId);
 			};
 
 			// Move to timer controller
