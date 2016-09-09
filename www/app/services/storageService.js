@@ -4,8 +4,8 @@ angular
 
         this.printStorage = function() {
             console.log('DATA FROM LOCAL STORAGE:');
-            console.log('Key/Id:', [$window.localStorage['kosmoramaKey'], $window.localStorage['kosmoramaId']]);
-            console.log('Lang:', $window.localStorage['kosmoramaLang']);
+            // console.log('Key/Id:', [$window.localStorage['kosmoramaKey'], $window.localStorage['kosmoramaId']]);
+            // console.log('Lang:', $window.localStorage['kosmoramaLang']);
             console.log('Completed:', this.getCompleted());
         };
 
@@ -17,7 +17,7 @@ angular
 
         this.proceduralUserData = {
             isLastPassItem: false,
-            allowMessage: true, // needs impl.
+            allowMessage: true,
             currentTraining: {},
             passData: {
                 trainingId: 0,
@@ -96,8 +96,9 @@ angular
             $window.localStorage.removeItem('kosmoramaLang');
         };
 
-        this.clearCompletedData = function() {
+        this.clearTrainingData = function() {
             $window.localStorage.removeItem('kosmoramaCompleted');
+            this.persistentUserData.training = [];
             this.completed = [];
         };
 
@@ -136,13 +137,16 @@ angular
             // Assess the current training item.
             this.proceduralUserData.currentTraining = this.persistentUserData.training[1];
             // Prepare the data for the current training pass.
-            this.proceduralUserData.passData = {
-                trainingId: this.persistentUserData.training[1].TrainingId,
-                sessionOrderNumber: this.persistentUserData.training[1].SessionOrderNumber,
-                painLevel: null,
-                message: null
-            };
-            return this.persistentUserData.training;
+            if (this.persistentUserData.training.length) {
+                this.proceduralUserData.passData = {
+                    trainingId: this.persistentUserData.training[1].TrainingId,
+                    sessionOrderNumber: this.persistentUserData.training[1].SessionOrderNumber,
+                    painLevel: null,
+                    message: null
+                };
+                return this.persistentUserData.training;
+            }
+            return [];
         };
 
         this.setTemporaryTimerData = function(timerData) {

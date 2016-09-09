@@ -1,7 +1,7 @@
 angular
 	.module('kosmoramaApp')
 	.controller('HomeController',
-		function($rootScope, $state, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService) {
+		function($rootScope, $state, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService) {
 
 			var self = this;
 			self.onlineStatus = true;
@@ -56,10 +56,10 @@ angular
 					loadingService.loaderShow();
 					for (var i = 0; i < data.length; i++) {
 						for (var j = 0; j < data[i].reports.length; j++) {
-							console.log('PostData', data[i].reports[j]);
+							console.log('Training report', data[i].reports[j]);
 							// dataService.postData(data[i].reports[j]);
 						}
-						console.log('PostFeedback', data[i].passData);
+						console.log('Training feedback', data[i].passData);
 						// dataService.postFeedback(data[i].passData);
 					}
 					getData();
@@ -67,7 +67,8 @@ angular
 			}
 
 			function getData() {
-				storageService.clearCompletedData();
+				storageService.clearTrainingData();
+				mediaService.removeMedia();
 				dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
 					self.mails = result.UserMessages;
 					countNewMails(self.mails);
@@ -81,17 +82,14 @@ angular
 			function getTraining(userId) {
 				dataService.getTraining(userId, function(data) {
 					if (data) {
+						console.log('TRAININGS:');
 						for (var i = 0; i < data.length; i++) {
-							console.log(data[i].ExerciseId);
+							console.log('Download', data[i].ExerciseId);
 							// downloadService.downloadMedia(data[i].ExerciseId);
 						}
 						sortTraining(data);
 						loadingService.loaderHide();
 						storageService.printStorage();
-					}
-					else {
-						popupService.alertPopup(languageService.getText('noTrainingText'));
-						$state.go('home');
 					}
 				});
 			}

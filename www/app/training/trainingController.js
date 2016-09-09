@@ -1,19 +1,11 @@
 angular
 	.module('kosmoramaApp')
 	.controller('TrainingController',
-		function($rootScope, $state, $timeout, $ionicHistory, tabsService, languageService, popupService, dataService, loadingService, blobService, storageService, downloadService, mediaService) {
+		function($rootScope, $state, $timeout, $ionicHistory, tabsService, languageService, popupService, dataService, loadingService, storageService, downloadService, mediaService) {
 
 			var self = this;
 
 			self.TrainingItems = [];
-
-			$rootScope.audio = mediaService.getAudio();
-
-			$rootScope.videoFile = 'fx/testVideo/testVideo.mp4';
-			$rootScope.startAudio = 'fx/start_training.mp3';
-			$rootScope.stopAudio = 'fx/stop_training.mp3';
-			$rootScope.mediaAudio1 = 'fx/media_audio1.mp3';
-			$rootScope.mediaAudio2 = 'fx/media_audio2.mp3';
 
 			/**
 			 * Perform appropriate state action and register event for the training controller.
@@ -37,35 +29,6 @@ angular
 			};
 
 			/**
-			 * Get relevant downloaded picture file.
-			 */
-			// $rootScope.getPicture = function() {
-			// 	return mediaService.getPicture();
-			// };
-
-			/**
-			 * Get relevant downloaded audio file.
-			 */
-			$rootScope.getAudio = function() {
-				return mediaService.getAudio();
-			};
-
-			/**
-			 * Get relevant downloaded video file.
-			 */
-			$rootScope.getVideo = function() {
-				return mediaService.getVideo();
-			};
-
-			/**
-			 * Remove all downloaded media files.
-			 */
-			$rootScope.removeMedia = function() {
-				mediaService.removeMedia();
-				$rootScope.audio = $rootScope.audio === $rootScope.mediaAudio2 ? $rootScope.mediaAudio1 : $rootScope.mediaAudio2;
-			};
-
-			/**
 			 * Returns the appropriate language name for the selected item.
 			 */
 			self.getTrainingName = function(trainingItem) {
@@ -79,14 +42,6 @@ angular
 					return item.LangDesc[languageService.lang];
 				}
 			};
-
-			// self.getAudio = function() {
-			// 	return blobService.getExerciseAudio(storageService.proceduralUserData.currentTraining.ExerciseId);
-			// };
-			//
-			// self.getPicture = function(exerciseId) {
-			// 	return blobService.getExercisePicture(exerciseId);
-			// };
 
 			// GET PICTURE TEST
 			self.getPicture = function(exerciseId) {
@@ -130,6 +85,10 @@ angular
 				if (currentState.startsWith('training')) {
 					if (currentState === 'trainingPlan') {
 						self.TrainingItems = storageService.nextTraining();
+						if (!self.TrainingItems.length) {
+							$state.go('home');
+							popupService.alertPopup(languageService.getText('noTrainingText'));
+						}
 					}
 					if (currentState !== 'training') {
 						startViewTimer(20);
