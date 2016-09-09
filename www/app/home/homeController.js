@@ -77,21 +77,49 @@ angular
 			}
 
 			/**
-			 * Getting training items from service.
+			 * Get training items from service.
+			 * 1. Remove all media files on device.
+			 * 2. Download all new media files.
+			 * 3. Get all other data relevant to a users training.
 			 */
 			function getTraining(userId) {
 				dataService.getTraining(userId, function(data) {
 					if (data) {
-						console.log('TRAININGS:');
-						for (var i = 0; i < data.length; i++) {
-							console.log('Download', data[i].ExerciseId);
-							// downloadService.downloadMedia(data[i].ExerciseId);
-						}
+						downloadTraining(data);
 						sortTraining(data);
 						loadingService.loaderHide();
 						storageService.printStorage();
 					}
+					else {
+						loadingService.loaderHide();
+						popupService.alertPopup(languageService.getText('noTrainingText'));
+						$state.go('home');
+					}
 				});
+			}
+
+			self.getAudio = mediaService.getAudio;
+			/**
+			 * Remove all media files on device, then download all new media files.
+			 */
+			function downloadTraining(data) {
+				mediaService.removeMedia();
+				var success = false;
+				for (var i = 0; i < data.length; i++) {
+					console.log('Download', data[i].ExerciseId);
+					success = downloadService.downloadMedia(data[i].ExerciseId);
+					if (!success) {
+						break;
+					}
+				}
+				loadingService.loaderHide();
+				if (success) {
+					popupService.checkPopup(true);
+				}
+				else {
+					popupService.alertPopup(languageService.getText('downloadError'));
+				}
+				// self.audio = '';
 			}
 
 			/**

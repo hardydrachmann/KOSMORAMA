@@ -1,31 +1,43 @@
 // This is a service which can get the locally stored media files related to a users training (pictures, audio & video) & delete them 'all-at-once' when not needed anymore.
 
-angular.module('kosmoramaApp').service('mediaService', function(loadingService, popupService, $cordovaFile, debugService) {
+angular.module('kosmoramaApp').service('mediaService', function(loadingService, popupService, $cordovaFile, storageService, debugService) {
 
 	/**
 	 * Get currently stored and relevant training picture.
 	 */
-	this.getPicture = function() {
+	this.getPicture = function(exerciseId) {
 		if (debugService.device) {
-			return cordova.file.externalApplicationStorageDirectory + 'media/pictures/test.png';
+			console.log('pic: ' + exerciseId);
+			return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/picture/picture.png';
 		}
 	};
 
 	/**
 	 * Get currently stored and relevant training audio.
 	 */
-	this.getAudio = function() {
+	this.getAudio = function(exerciseId) {
 		if (debugService.device) {
-			return cordova.file.externalApplicationStorageDirectory + 'media/audio/test.mp3';
+			console.log('aud: ' + exerciseId);
+			switch (exerciseId) {
+				case 'startTraining':
+					return 'fx/start_training.mp3';
+				case 'stopTraining':
+					return 'fx/stop_training.mp3';
+				case 'prompt':
+					return 'fx/media_audio.mp3';
+				default:
+					return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
+			}
 		}
 	};
 
 	/**
 	 * Get currently stored and relevant training video.
 	 */
-	this.getVideo = function() {
+	this.getVideo = function(exerciseId) {
 		if (debugService.device) {
-			return cordova.file.externalApplicationStorageDirectory + 'media/videos/test.mp4';
+			console.log('vid: ' + exerciseId);
+			return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/video/speak.mp4';
 		}
 	};
 

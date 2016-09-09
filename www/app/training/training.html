@@ -1,9 +1,9 @@
 <div class="backgroundColor">
   <div ng-controller="TimerController">
 
-    <audio src="{{startAudio}}" type="audio/mpeg" autoplay="autoplay"></audio>
+    <audio src="{{training.getAudio('startTraining')}}" type="audio/mpeg" autoplay="autoplay"></audio>
 
-    <video id="playerID" class="video-positioning" src="{{videoFile}}" type="video/mp4" style="margin-top:2em" controls autoplay loop></video>
+    <video id="playerID" class="video-positioning" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" style="margin-top:2em" controls autoplay loop></video>
 
     <div class="progress-wrapper">
       <round-progress id="progress" max="timeProgress" current="progress" color="#303c50" bgcolor="#8092b3" radius="100" stroke="20" semi="false" rounded="false" clockwise="true" responsive="true" duration="1000" animation="linearEase" animation-delay="0" offset="0">bla</round-progress>

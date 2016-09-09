@@ -63,6 +63,17 @@ angular
             return '';
         };
 
+        /**
+         * Checks the current selected language (if it is 'en_US', change it to 'en_GB'), then return it.
+         */
+        this.getCorrectedLanguageString = function() {
+            var language = this.getSelectedLanguage();
+            if (language === 'en_US') {
+                language = 'en_GB';
+            }
+            return language.replace('_', '-');
+        };
+
         this.setSelectedLanguage = function(language) {
             this.persistentUserData.language = language;
             $window.localStorage['kosmoramaLang'] = language;

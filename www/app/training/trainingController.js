@@ -1,32 +1,26 @@
 angular
 	.module('kosmoramaApp')
 	.controller('TrainingController',
-		function($rootScope, $state, $timeout, $ionicHistory, tabsService, languageService, popupService, dataService, loadingService, storageService, downloadService, mediaService) {
+		function($rootScope, $state, $timeout, $ionicHistory, tabsService, languageService, popupService, dataService, loadingService, storageService, mediaService) {
 
 			var self = this;
-
+			self.getAudio = mediaService.getAudio;
+			self.getVideo = mediaService.getVideo;
+			self.getPicture = mediaService.getPicture;
 			self.TrainingItems = [];
+			self.currentTrainingId = -1;
 
 			/**
 			 * Perform appropriate state action and register event for the training controller.
 			 */
 			(function init() {
+				self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
 				stateAction();
 				$rootScope.$on('continueEvent', function() {
 					cancelViewTimer();
 					$('video').remove();
 				});
 			})();
-
-			/**
-			 * Download all media files needed for offline training for a given period.
-			 */
-			$rootScope.downloadMedia = function(uri, fileName) {
-				downloadService.downloadMedia(uri, fileName);
-				$timeout(function() {
-					$rootScope.audio = $rootScope.audio === $rootScope.mediaAudio2 ? $rootScope.mediaAudio1 : $rootScope.mediaAudio2;
-				}, 1000);
-			};
 
 			/**
 			 * Returns the appropriate language name for the selected item.
@@ -41,11 +35,6 @@ angular
 				if (item) {
 					return item.LangDesc[languageService.lang];
 				}
-			};
-
-			// GET PICTURE TEST
-			self.getPicture = function(exerciseId) {
-				return mediaService.getPicture(exerciseId);
 			};
 
 			// Move to timer controller
