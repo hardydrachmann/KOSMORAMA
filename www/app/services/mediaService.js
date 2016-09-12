@@ -24,7 +24,7 @@ angular.module('kosmoramaApp').service('mediaService', function(loadingService, 
 				case 'stopTraining':
 					return 'fx/stop_training.mp3';
 				case 'prompt':
-					return 'fx/media_audio.mp3';
+					return 'fx/prompt.mp3';
 				default:
 					return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
 			}

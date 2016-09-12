@@ -1,6 +1,6 @@
 angular
 	.module('kosmoramaApp')
-	.controller('TimerController', function($scope, $timeout, $rootScope, $window, languageService, storageService) {
+	.controller('TimerController', function($scope, $timeout, $rootScope, $window, languageService, storageService, mediaService, $state) {
 
 		/**
 		 * $scope.sets: the amount of sets for the current exercise.
@@ -16,8 +16,10 @@ angular
 		 * pauseNext: variable to handle if next timer is pause or set.
 		 * timerStarted: variable to handle if the timer has started for the first time.
 		 */
+		var self = this;
 		$scope.sets, $scope.setsRemaining, $scope.progress, $scope.timeProgress, $scope.counter;
 		$scope.currentSet = 0;
+		self.stopAudio = '';
 		var mytimeout, timeSet, timePause, pauseProgressDecay;
 		var pauseNext = false;
 		var timerStarted = false;
@@ -36,8 +38,7 @@ angular
 				getInfoForTimer();
 				if (storageService.getTemporaryTimerData()) {
 					resumeTimeout();
-				}
-				else {
+				} else {
 					startExerciseTimer();
 				}
 			});
@@ -75,21 +76,21 @@ angular
 				if ($scope.setsRemaining > 0) {
 					if (!pauseNext) {
 						startExerciseTimer();
-					}
-					else {
+					} else {
 						startPauseTimer();
 					}
-				}
-				else {
-					trainingPromise = $scope.trainingViewTimer(5);
+				} else {
+					self.stopAudio = mediaService.getAudio('stopTraining');
+					$timeout(function() {
+						$state.go('feedback');
+					}, 3500);
 					return;
 				}
 			}
 			$scope.counter--;
 			if (pauseNext) {
 				$scope.progress++;
-			}
-			else {
+			} else {
 				$scope.progress -= pauseProgressDecay;
 			}
 			mytimeout = $timeout($scope.onTimeout, 1000);
@@ -109,8 +110,7 @@ angular
 			if (pauseNext) {
 				timerData.isPauseNext = false;
 				timerData.setsRemaining += 1;
-			}
-			else {
+			} else {
 				timerData.isPauseNext = true;
 			}
 
@@ -132,8 +132,7 @@ angular
 
 			if (pauseNext) {
 				pauseNext = false;
-			}
-			else {
+			} else {
 				pauseNext = true;
 				$scope.setsRemaining -= 1;
 			}
@@ -178,8 +177,7 @@ angular
 		$scope.timerText = function() {
 			if (!pauseNext) {
 				return languageService.getText('pause');
-			}
-			else {
+			} else {
 				return languageService.getText('set') + " " + $scope.currentSet + " " + languageService.getText('of') + " " + $scope.sets;
 			}
 		};

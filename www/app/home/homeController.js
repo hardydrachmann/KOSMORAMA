@@ -1,12 +1,13 @@
 angular
 	.module('kosmoramaApp')
 	.controller('HomeController',
-		function($rootScope, $state, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService) {
+		function($rootScope, $state, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService, $timeout) {
 
 			var self = this;
 			self.onlineStatus = true;
 			self.mails = [];
 			self.newMailCount = 0;
+			self.audio = '';
 
 			/**
 			 * Acquire mails and user data upon connection to the internet.
@@ -28,8 +29,7 @@ angular
 					popupService.confirmPopup('Internet connection', 'Do you want to sync?', function() {
 						assessNetwork();
 					});
-				}
-				else if (self.onlineStatus) {
+				} else if (self.onlineStatus) {
 					getData();
 				}
 			};
@@ -41,8 +41,7 @@ angular
 				// if ($cordovaNetwork.getNetwork() == 'wifi') {
 				if (true) { // debug network is always wifi.
 					syncData();
-				}
-				else {
+				} else {
 					popupService.confirmPopup('NO WIFI', 'Do you want to download your training plan, without Wifi', syncData());
 				}
 			}
@@ -66,9 +65,12 @@ angular
 				}
 			}
 
+			/**
+			 * Clear stored training data and then check for new.
+			 */
 			function getData() {
+				loadingService.loaderShow();
 				storageService.clearTrainingData();
-				mediaService.removeMedia();
 				dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
 					self.mails = result.UserMessages;
 					countNewMails(self.mails);
@@ -83,14 +85,13 @@ angular
 			 * 3. Get all other data relevant to a users training.
 			 */
 			function getTraining(userId) {
-				dataService.getTraining(userId, function(data) {					
+				dataService.getTraining(userId, function(data) {
 					if (data) {
 						downloadTraining(data);
 						sortTraining(data);
 						loadingService.loaderHide();
 						storageService.printStorage();
-					}
-					else {
+					} else {
 						loadingService.loaderHide();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 						$state.go('home');
@@ -98,25 +99,26 @@ angular
 				});
 			}
 
-			self.getAudio = mediaService.getAudio;
 			/**
 			 * Remove all media files on device, then download all new media files.
 			 */
 			function downloadTraining(data) {
+				self.audio = '';
 				mediaService.removeMedia();
 				var success = false;
 				for (var i = 0; i < data.length; i++) {
-					console.log('Download', data[i].ExerciseId);
 					success = downloadService.downloadMedia(data[i].ExerciseId);
 					if (!success) {
 						break;
 					}
 				}
 				loadingService.loaderHide();
+				$timeout(function() {
+					self.audio = mediaService.getAudio('prompt');
+				}, 100);
 				if (success) {
 					popupService.checkPopup(true);
-				}
-				else {
+				} else {
 					popupService.alertPopup(languageService.getText('downloadError'));
 				}
 				self.audio = '';
@@ -158,8 +160,7 @@ angular
 				if (mail.hasClass('inactive-mail')) {
 					mail.removeClass('inactive-mail');
 					mail.addClass('active-mail');
-				}
-				else {
+				} else {
 					mail.removeClass('active-mail');
 					mail.addClass('inactive-mail');
 				}

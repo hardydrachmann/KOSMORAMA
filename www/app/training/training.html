@@ -1,7 +1,9 @@
 <div class="backgroundColor">
-  <div ng-controller="TimerController">
+  <div ng-controller="TimerController as timer">
 
     <audio src="{{training.getAudio('startTraining')}}" type="audio/mpeg" autoplay="autoplay"></audio>
+
+    <audio src="{{timer.stopAudio}}" type="audio/mpeg" autoplay="autoplay"></audio>
 
     <video id="playerID" class="video-positioning" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" style="margin-top:2em" controls autoplay loop></video>
 
