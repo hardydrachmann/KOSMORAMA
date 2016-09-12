@@ -1,7 +1,7 @@
 angular
 	.module('kosmoramaApp')
 	.controller('HomeController',
-		function($rootScope, $state, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, downloadService, mediaService) {
+		function($rootScope, $state, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService) {
 
 			var self = this;
 			self.onlineStatus = true;
@@ -28,7 +28,8 @@ angular
 					popupService.confirmPopup('Internet connection', 'Do you want to sync?', function() {
 						assessNetwork();
 					});
-				} else if (self.onlineStatus) {
+				}
+				else if (self.onlineStatus) {
 					getData();
 				}
 			};
@@ -40,7 +41,8 @@ angular
 				// if ($cordovaNetwork.getNetwork() == 'wifi') {
 				if (true) { // debug network is always wifi.
 					syncData();
-				} else {
+				}
+				else {
 					popupService.confirmPopup('NO WIFI', 'Do you want to download your training plan, without Wifi', syncData());
 				}
 			}
@@ -54,10 +56,10 @@ angular
 					loadingService.loaderShow();
 					for (var i = 0; i < data.length; i++) {
 						for (var j = 0; j < data[i].reports.length; j++) {
-							console.log('PostData', data[i].reports[j]);
+							console.log('Training report', data[i].reports[j]);
 							// dataService.postData(data[i].reports[j]);
 						}
-						console.log('PostFeedback', data[i].passData);
+						console.log('Training feedback', data[i].passData);
 						// dataService.postFeedback(data[i].passData);
 					}
 					getData();
@@ -65,7 +67,8 @@ angular
 			}
 
 			function getData() {
-				storageService.clearCompletedData();
+				storageService.clearTrainingData();
+				mediaService.removeMedia();
 				dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
 					self.mails = result.UserMessages;
 					countNewMails(self.mails);
@@ -86,7 +89,8 @@ angular
 						sortTraining(data);
 						loadingService.loaderHide();
 						storageService.printStorage();
-					} else {
+					}
+					else {
 						loadingService.loaderHide();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 						$state.go('home');
@@ -102,6 +106,7 @@ angular
 				mediaService.removeMedia();
 				var success = false;
 				for (var i = 0; i < data.length; i++) {
+					console.log('Download', data[i].ExerciseId);
 					success = downloadService.downloadMedia(data[i].ExerciseId);
 					if (!success) {
 						break;
@@ -110,7 +115,8 @@ angular
 				loadingService.loaderHide();
 				if (success) {
 					popupService.checkPopup(true);
-				} else {
+				}
+				else {
 					popupService.alertPopup(languageService.getText('downloadError'));
 				}
 				self.audio = '';
@@ -152,7 +158,8 @@ angular
 				if (mail.hasClass('inactive-mail')) {
 					mail.removeClass('inactive-mail');
 					mail.addClass('active-mail');
-				} else {
+				}
+				else {
 					mail.removeClass('active-mail');
 					mail.addClass('inactive-mail');
 				}

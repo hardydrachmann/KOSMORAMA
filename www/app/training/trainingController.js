@@ -74,6 +74,10 @@ angular
 				if (currentState.startsWith('training')) {
 					if (currentState === 'trainingPlan') {
 						self.TrainingItems = storageService.nextTraining();
+						if (!self.TrainingItems.length) {
+							$state.go('home');
+							popupService.alertPopup(languageService.getText('noTrainingText'));
+						}
 					}
 					if (currentState !== 'training') {
 						startViewTimer(20);

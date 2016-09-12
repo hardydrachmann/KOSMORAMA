@@ -1,6 +1,6 @@
 // This is a service which can download media files related to a users training (audio, video & pictures).
 
-angular.module('kosmoramaApp').service('downloadService', function($cordovaFileTransfer, loadingService, popupService, storageService, languageService) {
+angular.module('kosmoramaApp').service('downloadService', function($cordovaFileTransfer, loadingService, popupService, storageService, languageService, debugService) {
 
 	var fileTransfer, trainingId;
 	var baseURL = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
@@ -8,24 +8,27 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 	document.addEventListener('deviceready', onDeviceReady, false);
 
 	function onDeviceReady() {
-		fileTransfer = new FileTransfer();
+		fileTransfer = debugService.device ? new FileTransfer() : 'not on device';
 	}
 
 	/**
 	 * Setup all media path variables for device storage, and fire the download functions.
 	 */
 	this.downloadMedia = function(exerciseId) {
-		trainingId = exerciseId;
-		try {
-			var deviceAudioPath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
-			this.downloadAudio(deviceAudioPath);
-			var deviceVideoPath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/video/speak.mp4';
-			this.downloadVideo(deviceVideoPath);
-			var devicePicturePath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/picture/picture.png';
-			this.downloadPicture(devicePicturePath);
-			return true;
-		} catch (error) {
-			return false;
+		if (debugService.device) {
+			trainingId = exerciseId;
+			try {
+				var deviceAudioPath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
+				this.downloadAudio(deviceAudioPath);
+				var deviceVideoPath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/video/speak.mp4';
+				this.downloadVideo(deviceVideoPath);
+				var devicePicturePath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/picture/picture.png';
+				this.downloadPicture(devicePicturePath);
+				return true;
+			}
+			catch (error) {
+				return false;
+			}
 		}
 	};
 
