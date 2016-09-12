@@ -30,6 +30,9 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 				return false;
 			}
 		}
+		else {
+			return true;
+		}
 	};
 
 	/**

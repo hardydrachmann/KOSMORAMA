@@ -42,10 +42,13 @@ angular
             if (!this.completed.length) {
                 var stored = $window.localStorage['kosmoramaCompleted'];
                 if (stored) {
-                    this.completed = JSON.parse(stored);
-                }
-                else {
-                    return this.completed;
+                    stored = JSON.parse(stored);
+                    for (var i = 0; i < stored.length; i++) {
+                        if (stored[i] == undefined) {
+                            stored.splice(i, 1);
+                        }
+                    }
+                    this.completed = stored;
                 }
             }
             return this.completed;

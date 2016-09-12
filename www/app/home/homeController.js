@@ -1,49 +1,60 @@
 angular
 	.module('kosmoramaApp')
 	.controller('HomeController',
-		function($rootScope, $state, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService) {
+		function($rootScope, $state, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService, debugService) {
 
 			var self = this;
-			self.onlineStatus = true;
 			self.mails = [];
 			self.newMailCount = 0;
 
 			/**
-			 * Acquire mails and user data upon connection to the internet.
+			 * Acquire mails and user data upon connecting to the internet.
 			 */
 			(function init() {
 				if ($ionicHistory.currentView().stateName !== 'mail') {
-					// self.onlineStatus = $cordovaNetwork.isOnline;
-					if (self.onlineStatus) {
+					if (deviceOnline()) {
 						assessNetwork();
 					}
 				}
-				// $rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
-				// 	popupService.alertPopup('network event', networkState);
-				// });
+				else {
+					getMails();
+				}
+				$rootScope.device = debugService.device;
+				$rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
+					assessNetwork();
+				});
 			})();
 
+			/**
+			 * Whenever the network state chances, assess the network state and get new data.
+			 */
 			self.onNetworkChange = function() {
-				if (self.onlineStatus && storageService.getCompleted().length) {
-					popupService.confirmPopup('Internet connection', 'Do you want to sync?', function() {
+				if (deviceOnline() && storageService.getCompleted().length) {
+					popupService.confirmPopup(languageService.getText('syncHeader'), languageService.getText('syncText'), function() {
 						assessNetwork();
 					});
 				}
-				else if (self.onlineStatus) {
+				else if (deviceOnline()) {
 					getData();
 				}
 			};
 
-			/*
+			/**
+			 * Determine whether we are on a device and it's also online.
+			 */
+			function deviceOnline() {
+				return !debugService.device || $cordovaNetwork.isOnline;
+			}
+
+			/**
 			 * Checks the internet status to determine whether it's possible to sync.
 			 */
 			function assessNetwork() {
-				// if ($cordovaNetwork.getNetwork() == 'wifi') {
-				if (true) { // debug network is always wifi.
+				if (!debugService.device || $cordovaNetwork.getNetwork() == 'wifi') {
 					syncData();
 				}
 				else {
-					popupService.confirmPopup('NO WIFI', 'Do you want to download your training plan, without Wifi', syncData());
+					popupService.confirmPopup(languageService.getText('wifiHeader'), languageService.getText('wifiText'), syncData());
 				}
 			}
 
@@ -56,7 +67,7 @@ angular
 					loadingService.loaderShow();
 					for (var i = 0; i < data.length; i++) {
 						for (var j = 0; j < data[i].reports.length; j++) {
-							console.log('Training report', data[i].reports[j]);
+							console.log('Training report', data[i].reports[j][0]);
 							// dataService.postData(data[i].reports[j]);
 						}
 						console.log('Training feedback', data[i].passData);
@@ -66,7 +77,11 @@ angular
 				}
 			}
 
+			/**
+			 * Get all necessary user data, including mails and training plan.
+			 */
 			function getData() {
+				loadingService.loaderShow();
 				storageService.clearTrainingData();
 				mediaService.removeMedia();
 				dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
@@ -80,7 +95,6 @@ angular
 			 * Get training items from service.
 			 * 1. Remove all media files on device.
 			 * 2. Download all new media files.
-			 * 3. Get all other data relevant to a users training.
 			 */
 			function getTraining(userId) {
 				dataService.getTraining(userId, function(data) {

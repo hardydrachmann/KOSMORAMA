@@ -13,7 +13,9 @@ angular
             (function init() {
                 screenNumber = storageService.getUserScreenNumber();
                 if (screenNumber) {
-                    $state.go('home');
+                    $timeout(function() {
+                        $state.go('home');
+                    }, 100);
                 }
             })();
 

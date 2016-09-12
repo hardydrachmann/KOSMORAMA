@@ -1,14 +1,13 @@
 <div class="backgroundColor">
-  <a href='#/mail'>
-    <i id="mail-link" class="accent-color ion-email">
+    <a href='#/mail'>
+        <i id="mail-link" class="accent-color ion-email">
             <div id="numberOfMails">{{home.newMailCount}}</div>
         </i>
-  </a>
-  <input type="checkbox" ng-model="home.onlineStatus" ng-click="home.onNetworkChange()">
+    </a>
 
-  <!-- <audio src="{{home.getAudio('prompt')}}" type="audio/mpeg" autoplay="autoplay"></audio> -->
+    <audio ng-if="device" src="{{home.getAudio('prompt')}}" type="audio/mpeg" autoplay="autoplay"></audio>
 
-  <a href="#/trainingPlan" ng-click="tabs.setTabs()">
-    <img id="center-img" src="img/home_logo.png"></img>
-  </a>
+    <a href="#/trainingPlan" ng-click="tabs.setTabs()">
+        <img id="center-img" src="img/home_logo.png"></img>
+    </a>
 </div>

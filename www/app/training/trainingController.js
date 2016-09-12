@@ -14,8 +14,10 @@ angular
 			 * Perform appropriate state action and register event for the training controller.
 			 */
 			(function init() {
-				self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
 				stateAction();
+				if (self.TrainingItems.length) {
+					self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
+				}
 				$rootScope.$on('continueEvent', function() {
 					cancelViewTimer();
 					$('video').remove();
