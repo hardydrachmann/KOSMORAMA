@@ -80,7 +80,7 @@ angular
 			 * 3. Get all other data relevant to a users training.
 			 */
 			function getTraining(userId) {
-				dataService.getTraining(userId, function(data) {
+				dataService.getTraining(userId, function(data) {					
 					if (data) {
 						downloadTraining(data);
 						sortTraining(data);
@@ -113,7 +113,7 @@ angular
 				} else {
 					popupService.alertPopup(languageService.getText('downloadError'));
 				}
-				// self.audio = '';
+				self.audio = '';
 			}
 
 			/**
