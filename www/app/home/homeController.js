@@ -1,11 +1,12 @@
 angular
 	.module('kosmoramaApp')
 	.controller('HomeController',
-		function($rootScope, $state, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService, debugService) {
+		function($rootScope, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService, debugService) {
 
 			var self = this;
 			self.mails = [];
 			self.newMailCount = 0;
+			self.audio = '';
 
 			/**
 			 * Acquire mails and user data upon connecting to the internet.
@@ -83,7 +84,6 @@ angular
 			function getData() {
 				loadingService.loaderShow();
 				storageService.clearTrainingData();
-				mediaService.removeMedia();
 				dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
 					self.mails = result.UserMessages;
 					countNewMails(self.mails);
@@ -112,28 +112,30 @@ angular
 				});
 			}
 
-			self.getAudio = mediaService.getAudio;
 			/**
 			 * Remove all media files on device, then download all new media files.
 			 */
 			function downloadTraining(data) {
+				self.audio = '';
 				mediaService.removeMedia();
 				var success = false;
 				for (var i = 0; i < data.length; i++) {
-					console.log('Download', data[i].ExerciseId);
 					success = downloadService.downloadMedia(data[i].ExerciseId);
 					if (!success) {
 						break;
 					}
 				}
 				loadingService.loaderHide();
+				$timeout(function() {
+					self.audio = mediaService.getAudio('prompt');
+				}, 100);
 				if (success) {
 					popupService.checkPopup(true);
 				}
 				else {
 					popupService.alertPopup(languageService.getText('downloadError'));
 				}
-				// self.audio = '';
+				self.audio = '';
 			}
 
 			/**
