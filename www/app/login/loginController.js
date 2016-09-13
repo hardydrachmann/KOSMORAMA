@@ -1,7 +1,7 @@
 angular
 	.module('kosmoramaApp')
 	.controller('LoginController',
-		function($state, $timeout, tabsService, languageService, popupService, dataService, storageService) {
+		function($state, $timeout, tabsService, languageService, popupService, dataService, storageService, $cordovaNetwork) {
 
 			var self = this;
 
@@ -34,22 +34,24 @@ angular
 			 * If this user exist, encrypt the login id in local storage using a random key.
 			 */
 			self.login = function() {
-				if (screenNumber) {
-					console.log('screenNumber: ', screenNumber);
-					dataService.getUser(screenNumber, function(result) {
-						if (result) {
-							console.log('result: ', result);
-							storageService.setUserScreenNumber(screenNumber);
-							$state.go('home');
-							tabsService.setTabs();
-						} else {
-							console.log('loginfail');
-							popupService.alertPopup(languageService.getText('loginFail'));
-						}
-					});
-				} else {
-					console.log('loginhelp');
-					popupService.alertPopup(languageService.getText('loginHelp'));
+				if ($cordovaNetwork.getNetwork() === 'wifi') {
+					if (screenNumber) {
+						console.log('screenNumber: ', screenNumber);
+						dataService.getUser(screenNumber, function(result) {
+							if (result) {
+								console.log('result: ', result);
+								storageService.setUserScreenNumber(screenNumber);
+								$state.go('home');
+								tabsService.setTabs();
+							} else {
+								console.log('loginfail');
+								popupService.alertPopup(languageService.getText('loginFail'));
+							}
+						});
+					} else {
+						console.log('loginhelp');
+						popupService.alertPopup(languageService.getText('loginHelp'));
+					}
 				}
 			};
 
