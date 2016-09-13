@@ -8,6 +8,8 @@ angular
 			self.newMailCount = 0;
 			self.audio = '';
 
+			self.online = false;
+
 			/**
 			 * Acquire mails and user data upon connecting to the internet.
 			 */
@@ -23,11 +25,19 @@ angular
 					getMails();
 				}
 				$rootScope.device = debugService.device;
+
 				$rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
-					alert(networkState); // THIS EVENT RUNS TWICE!
+					if (self.online) return;
+					self.online = true;
 					if (networkState === 'wifi') {
 						assessNetwork(networkState);
 					}
+					alert(networkState);
+				});
+
+				$rootScope.$on('$cordovaNetwork:offline', function(event, networkState) {
+					if (!self.online) return;
+					self.online = false;
 				});
 			})();
 
