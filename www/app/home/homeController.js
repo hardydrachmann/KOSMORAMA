@@ -21,8 +21,7 @@ angular
 							assessNetwork();
 						}
 					}
-				}
-				else {
+				} else {
 					getMails();
 				}
 				$rootScope.device = debugService.device;
@@ -64,8 +63,7 @@ angular
 				}
 				if (storageService.getCompleted().length) {
 					syncData();
-				}
-				else {
+				} else {
 					getData();
 				}
 			}
@@ -114,8 +112,7 @@ angular
 						sortTraining(data);
 						loadingService.loaderHide();
 						storageService.printStorage();
-					}
-					else {
+					} else {
 						loadingService.loaderHide();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 						$timeout(function() {
@@ -144,8 +141,7 @@ angular
 				}, 100);
 				if (success) {
 					popupService.checkPopup(true);
-				}
-				else {
+				} else {
 					popupService.checkPopup(false);
 					tabsService.setTabs();
 				}
@@ -188,8 +184,7 @@ angular
 				if (mail.hasClass('inactive-mail')) {
 					mail.removeClass('inactive-mail');
 					mail.addClass('active-mail');
-				}
-				else {
+				} else {
 					mail.removeClass('active-mail');
 					mail.addClass('inactive-mail');
 				}
