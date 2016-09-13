@@ -27,6 +27,7 @@ angular
 				$rootScope.device = debugService.device;
 
 				$rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
+					alert('self.online:' + self.online);
 					if (self.online) return;
 					self.online = true;
 					if (networkState === 'wifi') {
@@ -36,6 +37,7 @@ angular
 				});
 
 				$rootScope.$on('$cordovaNetwork:offline', function(event, networkState) {
+					alert('self.online:' + self.online);
 					if (!self.online) return;
 					self.online = false;
 				});
