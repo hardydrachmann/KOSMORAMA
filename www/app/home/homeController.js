@@ -14,6 +14,7 @@ angular
 			 * Acquire mails and user data upon connecting to the internet.
 			 */
 			(function init() {
+				console.log('Procedural data', storageService.proceduralUserData);
 				tabsService.setTabs();
 				if ($ionicHistory.currentView().stateName !== 'mail') {
 					if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
@@ -43,11 +44,17 @@ angular
 				});
 			})();
 
+			self.spoofOnline = true;
+			self.browserSubmit = function() {
+				if (self.spoofOnline) {
+					assessNetwork('wifi');
+				}
+			};
+
 			/**
 			 * Checks the internet status to determine whether it's possible to sync.
 			 */
 			function assessNetwork(networkState) {
-				// alert('online: ' + self.online);
 				if (debugService.device) {
 					networkState = $cordovaNetwork.getNetwork();
 				}
@@ -64,6 +71,7 @@ angular
 			 */
 			function syncData() {
 				var data = storageService.getCompleted();
+				console.log('stored data', data);
 				if (data) {
 					loadingService.loaderShow();
 					for (var i = 0; i < data.length; i++) {

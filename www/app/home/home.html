@@ -7,7 +7,7 @@
 
     <audio ng-if="device" ng-src="{{home.audio}}" type="audio/mpeg" autoplay="autoplay"></audio>
 
-    <!--<button type="button" ng-click="home.onNetworkChange()" style="height:3em; position:relative; left:6em; top:8em;" ng-model="home.onlineStatus">OFFLINE / ONLINE</button>-->
+    <input ng-if="!device" type="checkbox" ng-click="home.browserSubmit()" ng-model="home.spoofOnline"></input>
 
     <a href="#/trainingPlan" ng-click="tabs.setTabs()">
         <img id="center-img" src="img/home_logo.png"></img>

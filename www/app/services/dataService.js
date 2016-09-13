@@ -146,10 +146,9 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
 		});
 	};
 
-	// This function saves feedbackReport to therapist, it handles both message and PainLevel
+	// This function saves feedbackReport to therpist, it handles both message and PainLevel
 	// returns true if success and false when an error has occured.
 	this.postFeedback = function(feedbackObject, callback) {
-		console.log(feedbackObject);
 		var feedbackReport = {
 			"ScheduleId": feedbackObject.trainingId,
 			"SessionOrderNumber": feedbackObject.sessionOrderNumber,
@@ -165,7 +164,7 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
 
 		var dataString = JSON.stringify(content); // Converting javascript to Json
 
-		// Doing the http post request and returns true if success and false if not.
+		// Doing the http post request and returns true if succes and false if not.
 		$http({
 			method: 'POST',
 			url: url,
