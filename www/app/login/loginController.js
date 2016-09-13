@@ -52,6 +52,8 @@ angular
 						console.log('loginhelp');
 						popupService.alertPopup(languageService.getText('loginHelp'));
 					}
+				} else {
+					popupService.alertPopup(languageService.getText('loginNoWifi'));
 				}
 			};
 

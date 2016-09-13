@@ -77,13 +77,12 @@ angular
 					loadingService.loaderShow();
 					for (var i = 0; i < data.length; i++) {
 						if (data[i]) {
-							console.log(data[i]);
 							for (var j = 0; j < data[i].reports.length; j++) {
 								console.log('Training report', data[i].reports[j][0]);
-								// dataService.postData(data[i].reports[j]);
+								dataService.postData(data[i].reports[j]);
 							}
 							console.log('Training feedback', data[i].passData);
-							// dataService.postFeedback(data[i].passData);
+							dataService.postFeedback(data[i].passData);
 						}
 					}
 					getData();
