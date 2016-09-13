@@ -26,7 +26,6 @@ angular
 				var inputValue = $('#setUserScreenNumber').val();
 				if (inputValue) {
 					screenNumber = inputValue;
-					storageService.setUserScreenNumber(inputValue);
 				}
 			};
 
@@ -36,17 +35,21 @@ angular
 			 */
 			self.login = function() {
 				if (screenNumber) {
+					console.log('screenNumber: ', screenNumber);
 					dataService.getUser(screenNumber, function(result) {
-						$('#setUserScreenNumber').val('');
 						if (result) {
+							console.log('result: ', result);
+							storageService.setUserScreenNumber(screenNumber);
 							$state.go('home');
 							tabsService.setTabs();
 						} else {
-							popupService.AlertPopup(languageService.getText('loginFail'));
+							console.log('loginfail');
+							popupService.alertPopup(languageService.getText('loginFail'));
 						}
 					});
 				} else {
-					popupService.AlertPopup(languageService.getText('loginHelp'));
+					console.log('loginhelp');
+					popupService.alertPopup(languageService.getText('loginHelp'));
 				}
 			};
 
