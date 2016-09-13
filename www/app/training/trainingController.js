@@ -15,7 +15,9 @@ angular
 			 */
 			(function init() {
 				stateAction();
-				self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
+				if (storageService.proceduralUserData.currentTraining) {
+					self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
+				}
 				$rootScope.$on('continueEvent', function() {
 					cancelViewTimer();
 					$('video').remove();
