@@ -15,9 +15,7 @@ angular
 			 */
 			(function init() {
 				stateAction();
-				if (self.TrainingItems.length) {
-					self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
-				}
+				self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
 				$rootScope.$on('continueEvent', function() {
 					cancelViewTimer();
 					$('video').remove();
@@ -79,6 +77,7 @@ angular
 						if (!self.TrainingItems.length) {
 							$state.go('home');
 							popupService.alertPopup(languageService.getText('noTrainingText'));
+							tabsService.setTabs();
 						}
 					}
 					if (currentState !== 'training') {

@@ -50,7 +50,6 @@ angular.module('kosmoramaApp').service('mediaService', function(loadingService, 
 				loadingService.loaderShow();
 				$cordovaFile.removeRecursively(cordova.file.externalApplicationStorageDirectory, 'media');
 				loadingService.loaderHide();
-				popupService.checkPopup(true);
 			}
 		}
 	};

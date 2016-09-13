@@ -1,7 +1,7 @@
 angular
 	.module('kosmoramaApp')
 	.controller('HomeController',
-		function($rootScope, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService, debugService) {
+		function($rootScope, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
 
 			var self = this;
 			self.mails = [];
@@ -12,33 +12,25 @@ angular
 			 * Acquire mails and user data upon connecting to the internet.
 			 */
 			(function init() {
+				tabsService.setTabs();
 				if ($ionicHistory.currentView().stateName !== 'mail') {
 					if (deviceOnline()) {
-						assessNetwork();
+						if ($cordovaNetwork.getNetwork() === 'wifi') {
+							assessNetwork();
+						}
 					}
-				}
-				else {
+				} else {
 					getMails();
 				}
 				$rootScope.device = debugService.device;
 				$rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
-					assessNetwork();
+					alert(networkState); // THIS EVENT RUNS TWICE!
+					if (networkState === 'wifi') {
+						assessNetwork(networkState);
+					}
 				});
 			})();
 
-			/**
-			 * Whenever the network state chances, assess the network state and get new data.
-			 */
-			self.onNetworkChange = function() {
-				if (deviceOnline() && storageService.getCompleted().length) {
-					popupService.confirmPopup(languageService.getText('syncHeader'), languageService.getText('syncText'), function() {
-						assessNetwork();
-					});
-				}
-				else if (deviceOnline()) {
-					getData();
-				}
-			};
 
 			/**
 			 * Determine whether we are on a device and it's also online.
@@ -50,12 +42,12 @@ angular
 			/**
 			 * Checks the internet status to determine whether it's possible to sync.
 			 */
-			function assessNetwork() {
-				if (!debugService.device || $cordovaNetwork.getNetwork() == 'wifi') {
+			function assessNetwork(networkState) {
+				networkState = networkState || $cordovaNetwork.getNetwork();
+				if (storageService.getCompleted().length) {
 					syncData();
-				}
-				else {
-					popupService.confirmPopup(languageService.getText('wifiHeader'), languageService.getText('wifiText'), syncData());
+				} else {
+					getData();
 				}
 			}
 
@@ -103,11 +95,13 @@ angular
 						sortTraining(data);
 						loadingService.loaderHide();
 						storageService.printStorage();
-					}
-					else {
+					} else {
 						loadingService.loaderHide();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 						$state.go('home');
+						$timeout(function() {
+							tabsService.setTabs();
+						}, 1000);
 					}
 				});
 			}
@@ -131,9 +125,9 @@ angular
 				}, 100);
 				if (success) {
 					popupService.checkPopup(true);
-				}
-				else {
-					popupService.alertPopup(languageService.getText('downloadError'));
+				} else {
+					popupService.checkPopup(false);
+					tabsService.setTabs();
 				}
 				self.audio = '';
 			}
@@ -174,8 +168,7 @@ angular
 				if (mail.hasClass('inactive-mail')) {
 					mail.removeClass('inactive-mail');
 					mail.addClass('active-mail');
-				}
-				else {
+				} else {
 					mail.removeClass('active-mail');
 					mail.addClass('inactive-mail');
 				}

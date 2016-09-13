@@ -1,6 +1,6 @@
 // This is a service which can download media files related to a users training (audio, video & pictures).
 
-angular.module('kosmoramaApp').service('downloadService', function($cordovaFileTransfer, loadingService, popupService, storageService, languageService, debugService) {
+angular.module('kosmoramaApp').service('downloadService', function($cordovaFileTransfer, loadingService, storageService, languageService, debugService) {
 
 	var fileTransfer, trainingId;
 	var baseURL = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
@@ -25,12 +25,10 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 				var devicePicturePath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/picture/picture.png';
 				this.downloadPicture(devicePicturePath);
 				return true;
-			}
-			catch (error) {
+			} catch (error) {
 				return false;
 			}
-		}
-		else {
+		} else {
 			return true;
 		}
 	};

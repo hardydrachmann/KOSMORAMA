@@ -194,24 +194,12 @@
     "da_DK": "Værst tænkelige smerter",
     "en_US": "Worst possible, excrutiating pain"
   },
-  "syncHeader": {
-    "da_DK": "Internet forbindelse fundet.",
-    "en_US": "Internet connectivity received."
-  },
-  "syncText": {
-    "da_DK": "Vil du synkronisere data?",
-    "en_US": "Do you want to synchronize data?"
-  },
   "wifiHeader": {
     "da_DK": "WI-FI ikke tilgængelig",
     "en_US": "No WI-FI available"
   },
   "wifiText": {
-    "da_DK": "Vil du downloade træningsplan alligevel? Dette kan koste ekstra dataforbug hos din udbyder.",
+    "da_DK": "Vil du downloade træningsplan alligevel? Dette kan koste ekstra dataforbrug hos din udbyder.",
     "en_US": "Do you want to download your trainingplan anyways? This may incur extra fees of data usage from your provider."
-  },
-  "downloadError": {
-    "da_DK": "Der opstod en fejl, prøv venligst igen senere.",
-    "en_US": "An error occured, please try again later."
   }
 }
