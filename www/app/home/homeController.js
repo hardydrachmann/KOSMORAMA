@@ -17,7 +17,7 @@ angular
 				tabsService.setTabs();
 				if ($ionicHistory.currentView().stateName !== 'mail') {
 					if (deviceOnline()) {
-						if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
+						if ($cordovaNetwork.getNetwork() === 'wifi') {
 							assessNetwork();
 						}
 					}
@@ -27,22 +27,24 @@ angular
 				$rootScope.device = debugService.device;
 
 				$rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
-					alert('self.online:' + self.online);
-					if (self.online) return;
-					self.online = true;
-					if (networkState === 'wifi') {
-						assessNetwork(networkState);
+					if (!self.online) {
+						if (networkState === 'wifi') {
+							self.online = true;
+							assessNetwork(networkState);
+							// alert('online: ' + self.online);
+						}
 					}
-					alert(networkState);
 				});
 
 				$rootScope.$on('$cordovaNetwork:offline', function(event, networkState) {
-					alert('self.online:' + self.online);
-					if (!self.online) return;
-					self.online = false;
+					if (self.online) {
+						if (networkState !== 'wifi') {
+							self.online = false;
+							// alert('online: ' + self.online);
+						}
+					}
 				});
 			})();
-
 
 			/**
 			 * Determine whether we are on a device and it's also online.
@@ -55,6 +57,7 @@ angular
 			 * Checks the internet status to determine whether it's possible to sync.
 			 */
 			function assessNetwork(networkState) {
+				// alert('online: ' + self.online);
 				if (debugService.device) {
 					networkState = $cordovaNetwork.getNetwork();
 				}
@@ -73,12 +76,15 @@ angular
 				if (data) {
 					loadingService.loaderShow();
 					for (var i = 0; i < data.length; i++) {
-						for (var j = 0; j < data[i].reports.length; j++) {
-							console.log('Training report', data[i].reports[j][0]);
-							// dataService.postData(data[i].reports[j]);
+						if (data[i]) {
+							console.log(data[i]);
+							for (var j = 0; j < data[i].reports.length; j++) {
+								console.log('Training report', data[i].reports[j][0]);
+								// dataService.postData(data[i].reports[j]);
+							}
+							console.log('Training feedback', data[i].passData);
+							// dataService.postFeedback(data[i].passData);
 						}
-						console.log('Training feedback', data[i].passData);
-						// dataService.postFeedback(data[i].passData);
 					}
 					getData();
 				}
