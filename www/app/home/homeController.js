@@ -15,11 +15,12 @@ angular
 				tabsService.setTabs();
 				if ($ionicHistory.currentView().stateName !== 'mail') {
 					if (deviceOnline()) {
-						if ($cordovaNetwork.getNetwork() === 'wifi') {
+						if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
 							assessNetwork();
 						}
 					}
-				} else {
+				}
+				else {
 					getMails();
 				}
 				$rootScope.device = debugService.device;
@@ -43,10 +44,13 @@ angular
 			 * Checks the internet status to determine whether it's possible to sync.
 			 */
 			function assessNetwork(networkState) {
-				networkState = networkState || $cordovaNetwork.getNetwork();
+				if (debugService.device) {
+					networkState = $cordovaNetwork.getNetwork();
+				}
 				if (storageService.getCompleted().length) {
 					syncData();
-				} else {
+				}
+				else {
 					getData();
 				}
 			}
@@ -95,7 +99,8 @@ angular
 						sortTraining(data);
 						loadingService.loaderHide();
 						storageService.printStorage();
-					} else {
+					}
+					else {
 						loadingService.loaderHide();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 						$timeout(function() {
@@ -124,7 +129,8 @@ angular
 				}, 100);
 				if (success) {
 					popupService.checkPopup(true);
-				} else {
+				}
+				else {
 					popupService.checkPopup(false);
 					tabsService.setTabs();
 				}
@@ -167,7 +173,8 @@ angular
 				if (mail.hasClass('inactive-mail')) {
 					mail.removeClass('inactive-mail');
 					mail.addClass('active-mail');
-				} else {
+				}
+				else {
 					mail.removeClass('active-mail');
 					mail.addClass('inactive-mail');
 				}
