@@ -41,7 +41,7 @@ angular
 							    console.log(result);
 								storageService.setUserScreenNumber(screenNumber);
 								var canSendNote = result.AllowMsgFeedback;
-								storageService.setCanSendNotes(canSendNote);
+								storageService.setAllowMessage(canSendNote);
 								$state.go('home');
 								tabsService.setTabs();
 							} else {

@@ -6,7 +6,7 @@ angular.module('kosmoramaApp').service('mediaService', function(loadingService, 
 	 * Get currently stored and relevant training picture.
 	 */
 	this.getPicture = function(exerciseId) {
-		if (debugService.device)
+		if (debugService.device) {
 			return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/picture/picture.png';
 		}
 	};
