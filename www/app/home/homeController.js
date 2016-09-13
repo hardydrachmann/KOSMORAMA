@@ -16,12 +16,11 @@ angular
 			(function init() {
 				tabsService.setTabs();
 				if ($ionicHistory.currentView().stateName !== 'mail') {
-					if (deviceOnline()) {
-						if ($cordovaNetwork.getNetwork() === 'wifi') {
-							assessNetwork();
-						}
+					if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
+						assessNetwork();
 					}
-				} else {
+				}
+				else {
 					getMails();
 				}
 				$rootScope.device = debugService.device;
@@ -31,7 +30,6 @@ angular
 						if (networkState === 'wifi') {
 							self.online = true;
 							assessNetwork(networkState);
-							// alert('online: ' + self.online);
 						}
 					}
 				});
@@ -40,18 +38,10 @@ angular
 					if (self.online) {
 						if (networkState !== 'wifi') {
 							self.online = false;
-							// alert('online: ' + self.online);
 						}
 					}
 				});
 			})();
-
-			/**
-			 * Determine whether we are on a device and it's also online.
-			 */
-			function deviceOnline() {
-				return !debugService.device || $cordovaNetwork.isOnline;
-			}
 
 			/**
 			 * Checks the internet status to determine whether it's possible to sync.
@@ -63,7 +53,8 @@ angular
 				}
 				if (storageService.getCompleted().length) {
 					syncData();
-				} else {
+				}
+				else {
 					getData();
 				}
 			}
@@ -115,7 +106,8 @@ angular
 						sortTraining(data);
 						loadingService.loaderHide();
 						storageService.printStorage();
-					} else {
+					}
+					else {
 						loadingService.loaderHide();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 						$timeout(function() {
@@ -144,7 +136,8 @@ angular
 				}, 100);
 				if (success) {
 					popupService.checkPopup(true);
-				} else {
+				}
+				else {
 					popupService.checkPopup(false);
 					tabsService.setTabs();
 				}
@@ -187,7 +180,8 @@ angular
 				if (mail.hasClass('inactive-mail')) {
 					mail.removeClass('inactive-mail');
 					mail.addClass('active-mail');
-				} else {
+				}
+				else {
 					mail.removeClass('active-mail');
 					mail.addClass('inactive-mail');
 				}

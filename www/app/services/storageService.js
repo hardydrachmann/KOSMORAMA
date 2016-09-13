@@ -12,12 +12,12 @@ angular
 		this.persistentUserData = {
 			userScreenNumber: '',
 			language: '',
+			allowMessage: false,
 			training: []
 		};
 
 		this.proceduralUserData = {
 			isLastPassItem: false,
-			allowMessage: true,
 			currentTraining: {},
 			passData: {
 				trainingId: 0,
@@ -99,10 +99,21 @@ angular
 			this.persistentUserData.userScreenNumber = number;
 		};
 
+		this.getAllowMessage = function() {
+			this.persistentUserData.allowMessage = $window.localStorage['kosmoramaNote'];
+			return this.persistentUserData.allowMessage;
+		};
+
+		this.setAllowMessage = function(allow) {
+			this.persistentUserData.allowMessage = allow;
+			$window.localStorage['kosmoramaNote'] = allow;
+		};
+
 		this.clearPersistentData = function() {
 			$window.localStorage.removeItem('kosmoramaId');
 			$window.localStorage.removeItem('kosmoramaKey');
 			$window.localStorage.removeItem('kosmoramaLang');
+			$window.localStorage.removeItem('kosmoramaNote');
 		};
 
 		this.clearTrainingData = function() {

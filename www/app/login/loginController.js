@@ -1,7 +1,7 @@
 angular
 	.module('kosmoramaApp')
 	.controller('LoginController',
-		function($state, $timeout, tabsService, languageService, popupService, dataService, storageService, $cordovaNetwork) {
+		function($state, $timeout, tabsService, debugService, languageService, popupService, dataService, storageService, $cordovaNetwork) {
 
 			var self = this;
 
@@ -34,13 +34,14 @@ angular
 			 * If this user exist, encrypt the login id in local storage using a random key.
 			 */
 			self.login = function() {
-				if ($cordovaNetwork.getNetwork() === 'wifi') {
+				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
 					if (screenNumber) {
-						console.log('screenNumber: ', screenNumber);
 						dataService.getUser(screenNumber, function(result) {
 							if (result) {
-								console.log('result: ', result);
+							    console.log(result);
 								storageService.setUserScreenNumber(screenNumber);
+								var canSendNote = result.AllowMsgFeedback;
+								storageService.setCanSendNotes(canSendNote);
 								$state.go('home');
 								tabsService.setTabs();
 							} else {

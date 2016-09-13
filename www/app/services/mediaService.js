@@ -6,8 +6,7 @@ angular.module('kosmoramaApp').service('mediaService', function(loadingService, 
 	 * Get currently stored and relevant training picture.
 	 */
 	this.getPicture = function(exerciseId) {
-		if (debugService.device) {
-			console.log('pic: ' + exerciseId);
+		if (debugService.device)
 			return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/picture/picture.png';
 		}
 	};
@@ -17,7 +16,6 @@ angular.module('kosmoramaApp').service('mediaService', function(loadingService, 
 	 */
 	this.getAudio = function(exerciseId) {
 		if (debugService.device) {
-			console.log('aud: ' + exerciseId);
 			switch (exerciseId) {
 				case 'startTraining':
 					return 'fx/start_training.mp3';
@@ -36,7 +34,6 @@ angular.module('kosmoramaApp').service('mediaService', function(loadingService, 
 	 */
 	this.getVideo = function(exerciseId) {
 		if (debugService.device) {
-			console.log('vid: ' + exerciseId);
 			return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/video/speak.mp4';
 		}
 	};

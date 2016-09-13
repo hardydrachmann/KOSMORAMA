@@ -26,10 +26,14 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).success(function(userdata) {
-            callback(userdata.result[0]);
+            if (callback) {
+                callback(userdata.result[0]);
+            }
         }).error(function(data, status, headers, config) {
             console.log('testfail', data, status, headers, config);
-            callback(null);
+            if (callback) {
+                callback(null);
+            }
         });
 
     };
@@ -69,10 +73,14 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
                     }
                 }
             }
-            callback(train);
+            if (callback) {
+                callback(train);
+            }
         }).error(function(trainingData, status, headers, config) {
             console.log('testfail', trainingData, status, headers, config);
-            callback('error');
+            if (callback) {
+                callback('error');
+            }
         });
     };
 
@@ -96,10 +104,14 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).success(function(trainingData) {
-            callback(trainingData);
+            if (callback) {
+                callback(trainingData);
+            }
         }).error(function(trainingData, status, headers, config) {
             console.log('testfail', trainingData, status, headers, config);
-            callback('error');
+            if (callback) {
+                callback('error');
+            }
         });
     };
 
@@ -123,10 +135,14 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).success(function(result) {
-            callback(result);
+            if (callback) {
+                callback(result);
+            }
         }).error(function(result, status, headers, config) {
             console.log('testfail', result, status, headers, config);
-            callback(result);
+            if (callback) {
+                callback(result);
+            }
         });
     };
 
@@ -159,10 +175,14 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
             }
         }).success(function(trainingData) {
             console.log('callbackData', trainingData);
-            callback(trainingData);
+            if (callback) {
+                callback(trainingData);
+            }
         }).error(function(trainingData, status, headers, config) {
             console.log('testfail', trainingData, status, headers, config);
-            callback('error');
+            if (callback) {
+                callback('error');
+            }
         });
     };
 });
