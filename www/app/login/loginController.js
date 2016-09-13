@@ -38,10 +38,10 @@ angular
 					if (screenNumber) {
 						dataService.getUser(screenNumber, function(result) {
 							if (result) {
-							    console.log(result);
+								console.log(result);
 								storageService.setUserScreenNumber(screenNumber);
 								var canSendNote = result.AllowMsgFeedback;
-								storageService.setCanSendNotes(canSendNote);
+								storageService.setAllowMessage(canSendNote);
 								$state.go('home');
 								tabsService.setTabs();
 							} else {
