@@ -51,7 +51,7 @@
 
   "loginHelp": {
     "da_DK": "Skriv din kode ind i feltet 'Login ID' for at logge dig ind i træningssystemet og starte din træning. Hvis du er i tvivl om hvad din kode er, kan du kontakte din terapeut.",
-    "en_US": "Enter your access code in the 'Login ID' field to log in to the virtual training system and start working out. If you have lost your password or are in doubt, you can contact your therapist"
+    "en_US": "Enter your access code in the 'Login ID' field to log in to the virtual training system and start working out. If you have lost your password or are in doubt, you can contact your therapist."
   },
 
   "loginFail": {
@@ -62,6 +62,11 @@
   "loginText": {
     "da_DK": "Log ind",
     "en_US": "Log in"
+  },
+
+  "loginNoWifi": {
+      "da_DK": "Fejl ved login, kontroller om enheden er forbundet til et WI-FI netværk.",
+      "en_US": "Error at login, ensure that the device is connected to a WI-FI network."
   },
 
   "logoutText": {
