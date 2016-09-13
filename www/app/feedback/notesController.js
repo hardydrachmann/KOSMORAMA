@@ -19,10 +19,12 @@ angular
                     else if (self.messageText && storageService.proceduralUserData.passData.message === null) {
                         storageService.proceduralUserData.passData.message = self.messageText;
                     }
-
                     storageService.proceduralUserData.isLastPassTraining = false;
                     storageService.proceduralUserData.currentTraining = {};
                     if ($ionicHistory.currentView().stateName === 'notes') {
+                        storageService.retainCurrentPassData();
+                    }
+                    else if (!storageService.persistentUserData.allowMessage) {
                         storageService.retainCurrentPassData();
                     }
 

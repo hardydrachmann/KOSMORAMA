@@ -149,7 +149,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
     // This function saves feedbackReport to therpist, it handles both message and PainLevel
     // returns true if success and false when an error has occured.
     this.postFeedback = function(feedbackObject, callback) {
-        console.log(feedbackObject);
         var feedbackReport = {
             "ScheduleId": feedbackObject.trainingId,
             "SessionOrderNumber": feedbackObject.sessionOrderNumber,
