@@ -28,17 +28,22 @@ angular
 				$rootScope.device = debugService.device;
 
 				$rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
-					if (self.online) return;
-					self.online = true;
-					if (networkState === 'wifi') {
-						assessNetwork(networkState);
+					alert('online: ' + self.online);
+					if (!self.online) {
+						if (networkState === 'wifi') {
+							assessNetwork(networkState);
+							self.online = true;
+						}
 					}
-					alert(networkState);
 				});
 
 				$rootScope.$on('$cordovaNetwork:offline', function(event, networkState) {
-					if (!self.online) return;
-					self.online = false;
+					alert('online: ' + self.online);
+					if (self.online) {
+						if (networkState !== 'wifi') {
+							self.online = false;
+						}
+					}
 				});
 			})();
 
