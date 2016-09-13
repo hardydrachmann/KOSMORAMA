@@ -98,7 +98,6 @@ angular
 					} else {
 						loadingService.loaderHide();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
-						$state.go('home');
 						$timeout(function() {
 							tabsService.setTabs();
 						}, 1000);
