@@ -154,7 +154,7 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
             "ScheduleId": feedbackObject.trainingId,
             "SessionOrderNumber": feedbackObject.sessionOrderNumber,
             "Message": feedbackObject.message,
-            "PainLevel": feedbackObject.painLevel,
+            "PainLevel": feedbackObject.painLevel || 0,
         };
 
         var content = {
