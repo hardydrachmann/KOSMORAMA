@@ -173,7 +173,6 @@ angular.module('kosmoramaApp').service('dataService', function($http) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).success(function(trainingData) {
-            console.log('callbackData', trainingData);
             if (callback) {
                 callback(trainingData);
             }
