@@ -20,11 +20,12 @@ angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $ti
 	this.confirmPopup = function(title, toConfirm, callback) {
 		var confirm = $ionicPopup.confirm({
 			title: title,
+			cssClass: 'popup-box',
 			template: toConfirm,
 			okText: ' ',
-			okType: 'button icon-center ion-ios-checkmark-outline button-balanced',
+			okType: 'button icon-center ion-ios-checkmark-empty ok-button popup-confirm-button',
 			cancelText: ' ',
-			cancelType: 'button icon-center ion-ios-close-outline button-assertive'
+			cancelType: 'button icon-center ion-ios-close-empty cancel-button popup-confirm-button'
 		});
 		confirm.then(function(response) {
 			if (response) {
@@ -38,9 +39,10 @@ angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $ti
 	 */
 	this.alertPopup = function(message) {
 		var alert = $ionicPopup.alert({
-			template: message,
+			title: message,
+			cssClass: 'popup-box',
 			buttons: [{
-				type: 'button icon-center ion-ios-checkmark-outline button-balanced'
+				type: 'button icon-center ion-ios-checkmark-empty ok-button popup-alert-button'
 			}]
 		});
 	};
@@ -49,9 +51,10 @@ angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $ti
 	 * Initiates a popup with a green checkmark or a red cross when called (controlled by a boolean value).
 	 */
 	this.checkPopup = function(success) {
-		var color = success ? '#52ff00' : '#ff0000';
-		var icon = success ? 'ion-ios-checkmark-outline' : 'ion-ios-close-outline';
+		var color = success ? 'rgba(25,219,25,1)' : '#ff0000';
+		var icon = success ? 'ion-ios-checkmark-empty' : 'ion-ios-close-empty';
 		var popup = $ionicPopup.show({
+			cssClass: 'popup-box',
 			template: '<style>.popup-head {display:none;} .popup-body {padding:0;}</style><i class="icon-center ' + icon + '" style="font-size:8em; color:' + color + '; position: absolute; left: 50%; transform: translateX(-50%);"></i>'
 		});
 		$timeout(function() {

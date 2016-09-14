@@ -35,8 +35,8 @@
   },
 
   "noTrainingText": {
-    "da_DK": "Dagens træning er fuldført. Tjek ind igen i morgen.",
-    "en_US": "Todays training is complete. Check in again tomorrow."
+    "da_DK": "Dagens træning er fuldført.",
+    "en_US": "Todays training is complete."
   },
 
   "passText": {
@@ -70,8 +70,8 @@
   },
 
   "logoutText": {
-    "da_DK": "Log ud?",
-    "en_US": "Log out?"
+    "da_DK": "Log ud",
+    "en_US": "Log out"
   },
 
   "languageTab": {

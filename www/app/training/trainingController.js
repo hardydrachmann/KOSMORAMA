@@ -19,7 +19,6 @@ angular
 					self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
 				}
 				$rootScope.$on('continueEvent', function() {
-					cancelViewTimer();
 					$('video').remove();
 				});
 			})();
@@ -47,27 +46,6 @@ angular
 				return min + " " + languageService.getText('min') + " " + sec + " " + languageService.getText('sec');
 			};
 
-			var trainingPromise;
-			/**
-			 * Cancel the view timer.
-			 */
-			function cancelViewTimer() {
-				if (trainingPromise) {
-					$timeout.cancel(trainingPromise);
-					trainingPromise = undefined;
-				}
-			}
-
-			/**
-			 * Start the training view timer to automatically move on to the next view by calling continue().
-			 */
-			function startViewTimer(time) {
-				cancelViewTimer();
-				trainingPromise = $timeout(function() {
-					tabsService.continue();
-				}, time * 1000);
-			}
-
 			/**
 			 * Execute the appropriate action for the current training view variation.
 			 */
@@ -81,9 +59,6 @@ angular
 							popupService.alertPopup(languageService.getText('noTrainingText'));
 							tabsService.setTabs();
 						}
-					}
-					if (currentState !== 'training') {
-						startViewTimer(20);
 					}
 				}
 			}

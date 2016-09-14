@@ -20,8 +20,7 @@ angular
 					if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
 						assessNetwork();
 					}
-				}
-				else {
+				} else {
 					getMails();
 				}
 				$rootScope.device = debugService.device;
@@ -60,8 +59,7 @@ angular
 				}
 				if (storageService.getCompleted().length) {
 					syncData();
-				}
-				else {
+				} else {
 					getData();
 				}
 			}
@@ -109,12 +107,13 @@ angular
 			function getTraining(userId) {
 				dataService.getTraining(userId, function(data) {
 					if (data) {
-						downloadTraining(data);
-						sortTraining(data);
-						loadingService.loaderHide();
-						storageService.printStorage();
-					}
-					else {
+						$timeout(function() {
+							downloadTraining(data);
+							sortTraining(data);
+							loadingService.loaderHide();
+							storageService.printStorage();
+						}, 7000);
+					} else {
 						loadingService.loaderHide();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 						$timeout(function() {
@@ -143,8 +142,7 @@ angular
 				}, 100);
 				if (success) {
 					popupService.checkPopup(true);
-				}
-				else {
+				} else {
 					popupService.checkPopup(false);
 					tabsService.setTabs();
 				}
@@ -187,8 +185,7 @@ angular
 				if (mail.hasClass('inactive-mail')) {
 					mail.removeClass('inactive-mail');
 					mail.addClass('active-mail');
-				}
-				else {
+				} else {
 					mail.removeClass('active-mail');
 					mail.addClass('inactive-mail');
 				}
