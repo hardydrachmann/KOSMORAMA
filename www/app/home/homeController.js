@@ -14,7 +14,6 @@ angular
 			 * Acquire mails and user data upon connecting to the internet.
 			 */
 			(function init() {
-				console.log('Procedural data', storageService.proceduralUserData);
 				tabsService.setTabs();
 				if ($ionicHistory.currentView().stateName !== 'mail') {
 					if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
