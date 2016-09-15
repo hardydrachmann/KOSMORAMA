@@ -1,15 +1,14 @@
 <div class="backgroundColor">
-    <a href='#/mail'>
-        <i id="mail-link" class="accent-color ion-email">
+  <a href='#/mail'>
+    <i id="mail-link" class="accent-color ion-email">
             <div id="numberOfMails">{{home.newMailCount}}</div>
         </i>
-    </a>
+  </a>
 
-    <audio ng-if="device" ng-src="{{home.audio}}" type="audio/mpeg" autoplay="autoplay"></audio>
+  <audio ng-if="device" ng-src="{{home.audio}}" type="audio/mpeg" autoplay="autoplay"></audio>
 
-    <input ng-if="!device" type="checkbox" ng-click="home.browserSubmit()" ng-model="home.spoofOnline"></input>
+  <input ng-if="!device" type="checkbox" ng-click="home.browserSubmit()" ng-model="home.spoofOnline"></input>
 
-    <a href="#/trainingPlan" ng-click="tabs.setTabs()">
-        <img id="center-img" src="img/home_logo.png"></img>
-    </a>
+  <a href="#/trainingPlan" ng-click="tabs.setTabs()">
+  </a>
 </div>
