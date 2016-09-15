@@ -4,6 +4,9 @@
 <link href="lib/ionic/css/ionic.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 <link href="css/slider.css" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+<link href="css/home.css" rel="stylesheet">
+<link href="css/buttons.css" rel="stylesheet">
 <link href="lib/components/angular-material/angular-material.css">
 <link href="lib/components/font-awesome/font-awesome.css">
 
@@ -51,35 +54,34 @@
 </head>
 
 <body ng-app="kosmoramaApp">
-    <ion-pane>
-        <div ng-controller="TabsController as tabs">
-            <div ng-controller="LanguageController as lang">
-                <div ng-controller="LoginController as user">
-                    <div ng-controller="HelpController as help">
+    <div ng-controller="TabsController as tabs">
+        <div ng-controller="LanguageController as lang">
+            <div ng-controller="LoginController as user">
+                <div ng-controller="HelpController as help">
 
-                        <ion-header-bar class="accent-color">
-                            <div id="headerLogo">
-                            <img src="img/header_logo.png">
-                            <h3>{{lang.getText('headerTitle') | uppercase }}</h3>
+                    <header>
+                        <img id="wd-logo" src="img/header_logo.png">
+                        <div id="wd-title">
+                            <p class=content-font>{{lang.getText('headerTitle') | uppercase}}</p>
                         </div>
-                        </ion-header-bar>
-
-                        <div style="margin-top:3em">
-                            <ion-nav-view></ion-nav-view>
+                        <div class="help-button">
+                            <p class="content-font center-vert"> ? </p>
                         </div>
+                    </header>
 
-                        <ion-tabs class="tabs-icon-top">
-                            <ion-tab class="nav-tab" ng-if="tabs.showHelpTab" title="{{lang.getText('helpTab')}}" ng-click="help.helpToggle(); tabs.setTabs();" icon="ion-help"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="tabs.showLangTab" title="{{lang.getText('languageTab')}}" ng-click="lang.langToggle(); tabs.setTabs();" icon="ion-chatbubble-working"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="tabs.showContTab" title="{{lang.getText('continueTab')}}" ng-click="tabs.continue(); tabs.setTabs();" icon="ion-play"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="tabs.showLogoutTab" title="{{lang.getText('logoutText')}}" ng-click="user.logout(); tabs.setTabs()" icon="ion-log-out"></ion-tab>
-                            <ion-tab class="nav-tab" ng-if="tabs.showLoginTab" title="{{lang.getText('loginText')}}" ng-click="user.login(); tabs.setTabs()" icon="ion-log-in" id="login-tab"></ion-tab>
-                        </ion-tabs>
-                    </div>
+                        <ion-nav-view></ion-nav-view>
+
+                    <!--<ion-tabs class="tabs-icon-top">-->
+                    <!--    <ion-tab class="nav-tab" ng-if="tabs.showHelpTab" title="{{lang.getText('helpTab')}}" ng-click="help.helpToggle(); tabs.setTabs();" icon="ion-help"></ion-tab>-->
+                    <!--    <ion-tab class="nav-tab" ng-if="tabs.showLangTab" title="{{lang.getText('languageTab')}}" ng-click="lang.langToggle(); tabs.setTabs();" icon="ion-chatbubble-working"></ion-tab>-->
+                    <!--    <ion-tab class="nav-tab" ng-if="tabs.showContTab" title="{{lang.getText('continueTab')}}" ng-click="tabs.continue(); tabs.setTabs();" icon="ion-play"></ion-tab>-->
+                    <!--    <ion-tab class="nav-tab" ng-if="tabs.showLogoutTab" title="{{lang.getText('logoutText')}}" ng-click="user.logout(); tabs.setTabs()" icon="ion-log-out"></ion-tab>-->
+                    <!--    <ion-tab class="nav-tab" ng-if="tabs.showLoginTab" title="{{lang.getText('loginText')}}" ng-click="user.login(); tabs.setTabs()" icon="ion-log-in" id="login-tab"></ion-tab>-->
+                    <!--</ion-tabs>-->
                 </div>
             </div>
         </div>
-    </ion-pane>
+    </div>
 </body>
 
 </html>

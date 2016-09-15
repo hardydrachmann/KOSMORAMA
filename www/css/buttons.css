@@ -1,0 +1,79 @@
+/*Help Button*/
+
+.help-button {
+    display: inline-block;
+    width: 5vh;
+    height: 5vh;
+    position: absolute;
+    top: 2.5vh;
+    right: 4vh;
+    border-radius: 10px;
+    background-color: rgb(0, 120, 200);
+    transition: background-color 0.1s ease;
+}
+
+.help-button:active {
+    background-color: rgba(0, 220, 255, 0.25);
+}
+
+
+/*Wide Button*/
+
+.wide-button {
+    margin: auto;
+    margin-top: 3vh;
+    width: 80%;
+    height: 6vh;
+    border-radius: 100px;
+    background-color: rgb(0, 220, 255);
+    transition: background-color 0.2s ease;
+}
+
+.wide-button:active {
+    background-color: rgba(0, 220, 255, 0.25);
+}
+
+.wide-button p {
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    transform: translateY(-50%);
+    top: 50%;
+}
+
+
+/*Round Button*/
+
+.round-border {
+    display: inline-block;
+    height: auto;
+    width: auto;
+    position: absolute;
+    transform: translateX(-50%);
+    top: 60%;
+    left: 50%;
+    padding: 0.5vh;
+    margin: 0;
+    background-color: rgba(0, 100, 200, 0.8);
+    border-radius: 100%;
+}
+
+.round-button {
+    width: 20vh;
+    height: 20vh;
+    transition: background-color 0.2s ease;
+    background-color: rgb(25, 219, 25);
+    border-radius: 100%;
+}
+
+.round-button:active {
+    background-color: rgb(200, 255, 180);
+}
+
+.round-button p {
+    position: relative;
+    transform: translateY(-50%);
+    top: 49%;
+    margin: 0;
+    padding: 0;
+}

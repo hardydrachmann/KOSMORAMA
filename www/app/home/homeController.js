@@ -17,7 +17,7 @@ angular
 				tabsService.setTabs();
 				if ($ionicHistory.currentView().stateName !== 'mail') {
 					if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
-						assessNetwork();
+						// assessNetwork();
 					}
 				} else {
 					getMails();

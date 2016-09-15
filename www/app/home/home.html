@@ -1,15 +1,48 @@
-<div class="backgroundColor">
-    <a href='#/mail'>
-        <i id="mail-link" class="accent-color ion-email">
-            <div id="numberOfMails">{{home.newMailCount}}</div>
-        </i>
-    </a>
+<div class="bg-blue-to-green">
 
-    <audio ng-if="device" ng-src="{{home.audio}}" type="audio/mpeg" autoplay="autoplay"></audio>
+    <ul id="home-menu">
+        <li>
+            <!--ng-repeat instead?-->
+            <a ng-href="">
+                <div class="wide-button">
+                    <p class="content-font">Mail</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a ng-href="">
+                <div class="wide-button">
+                    <p class="content-font">Sync</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a ng-href="">
+                <div class="wide-button">
+                    <p class="content-font">Lang</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a ng-href="">
+                <div class="wide-button">
+                    <p class="content-font">Om VT</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a ng-href="">
+                <div class="wide-button">
+                    <p class="content-font">Logout</p>
+                </div>
+            </a>
+        </li>
+    </ul>
 
-    <input ng-if="!device" type="checkbox" ng-click="home.browserSubmit()" ng-model="home.spoofOnline"></input>
+    <div class="round-border">
+        <div class="round-button">
+            <p class="content-font">GO</p>
+        </div>
+    </div>
 
-    <a href="#/trainingPlan" ng-click="tabs.setTabs()">
-        <img id="center-img" src="img/home_logo.png"></img>
-    </a>
 </div>
