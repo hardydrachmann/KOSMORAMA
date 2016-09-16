@@ -104,12 +104,6 @@ p {
   bottom: 10px;
 }
 
-#setUserScreenNumber {
-  line-height: 2;
-  font-family: Tahoma, Verdana, sans-serif;
-  color: rgba(255, 255, 255, 0.5);
-}
-
 #help-text {
   line-height: 1.5em;
   font-size: 5vh;
@@ -342,99 +336,4 @@ p {
   border-radius: 2.5%;
   border-width: 0.3em;
   border-style: solid;
-}
-
-
-/*LOGIN*/
-
-#login-logo {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  opacity: 0.8;
-  bottom: 5vh;
-}
-
-#login-form {
-  margin: auto;
-  height: 40%;
-}
-
-#login-form input {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 20%;
-  width: 90%;
-  text-align: center;
-  height: 50%;
-  font-size: 2.5em;
-  background-color: transparent;
-  border-bottom: 0.05em;
-  border-color: rgba(255, 255, 255, 0.5);
-  border-style: solid;
-}
-
-#login-form input:focus::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.5) !important;
-}
-
-/*SPINNER*/
-
-.spinner svg {
-  width: 12em;
-  height: 12em;
-  fill: rgba(25, 219, 25, 1);
-}
-
-.loading-container {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.loading-container .loading {
-  background-color: rgba(0, 0, 0, 0);
-}
-
-
-/*POPUPS*/
-
-.popup-alert-button {
-  font-size: 5.5em;
-  border-radius: 50% !important;
-  text-align: center;
-  height: 1.5em !important;
-  max-height: 1.5em !important;
-  width: 1.5em !important;
-  max-width: 1.5em !important;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.popup-confirm-button {
-  font-size: 8em;
-  border-radius: 50% !important;
-  text-align: center;
-}
-
-.ok-button {
-  background-color: rgba(25, 219, 25, 1);
-}
-
-.cancel-button {
-  background-color: #ff0000;
-}
-
-.popup-box>.popup {
-  background-color: rgba(0, 0, 0, 0);
-}
-
-.popup-title {
-  color: white;
-  font-size: 1.5em;
-}
-
-.popup-container {
-  background-color: rgba(0, 0, 0, 0.5);
 }

@@ -1,0 +1,56 @@
+.popup-alert-button {
+    font-size: 5.5em;
+    border-radius: 50% !important;
+    text-align: center;
+    height: 1.5em !important;
+    max-height: 1.5em !important;
+    width: 1.5em !important;
+    max-width: 1.5em !important;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.popup-confirm-button {
+    font-size: 8em;
+    border-radius: 50% !important;
+    text-align: center;
+}
+
+.ok-button {
+    background-color: rgba(25, 219, 25, 1);
+}
+
+.cancel-button {
+    background-color: #ff0000;
+}
+
+.popup-box>.popup {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.popup-title {
+    color: white;
+    font-size: 1.5em;
+}
+
+.popup-container {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Loading spinner. */
+
+.spinner svg {
+    width: 12em;
+    height: 12em;
+    fill: rgba(25, 219, 25, 1);
+}
+
+.loading-container {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.loading-container .loading {
+    background-color: rgba(0, 0, 0, 0);
+}

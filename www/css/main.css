@@ -23,6 +23,14 @@
     background-size: cover;
 }
 
+* {
+    font-family: Segan;
+}
+
+a {
+    text-decoration: none;
+}
+
 @font-face {
     font-family: Segan;
     src: url(../fonts/Segan-Light.ttf);

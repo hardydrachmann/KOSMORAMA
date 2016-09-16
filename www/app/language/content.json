@@ -84,6 +84,16 @@
     "en_US": "Help"
   },
 
+  "syncTab": {
+    "da_DK": "Synkroniser",
+    "en_US": "Synchronize"
+  },
+
+  "mailTab": {
+    "da_DK": "Post",
+    "en_US": "Mail"
+  },
+
   "continueTab": {
     "da_DK": "Fortsæt",
     "en_US": "Continue"
@@ -125,8 +135,8 @@
   },
 
   "headerTitle": {
-    "da_DK": "Virtuel træning",
-    "en_US": "Virtual training"
+    "da_DK": "Virtuel Træning",
+    "en_US": "Virtual Training"
   },
 
   "notesTitle": {

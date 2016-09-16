@@ -39,9 +39,9 @@ angular
 						dataService.getUser(screenNumber, function(result) {
 							if (result) {
 								storageService.setUserScreenNumber(screenNumber);
-								var canSendNote = result.AllowMsgFeedback;
-								storageService.setAllowMessage(canSendNote);
+								storageService.setAllowMessage(result.AllowMsgFeedback);
 								$state.go('home');
+								$('#setUserScreenNumber').val('');
 								tabsService.setTabs();
 							} else {
 								popupService.alertPopup(languageService.getText('loginFail'));

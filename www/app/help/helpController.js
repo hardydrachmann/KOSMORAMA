@@ -9,9 +9,11 @@ angular
 			 * Enables the help button to return to the previews view.
 			 */
 			self.getState = function() {
-				var prevView = $ionicHistory.backView();
-				if (prevView)
-					return prevView.stateName;
+				var currentView = $ionicHistory.currentView();
+				if (currentView) {
+					return currentView.stateName;
+				}
+				return '';
 			};
 
 			/**

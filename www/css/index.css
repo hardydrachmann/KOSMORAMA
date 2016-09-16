@@ -16,8 +16,8 @@ header {
     display: inline;
     position: relative;
     top: -1vh;
-    left: 1vh;
-    font-size: 3vh;
+    left: 1.5vh;
+    font-size: 4vh;
     color: white;
 }
 
@@ -28,4 +28,42 @@ header {
     position: absolute;
     top: 1.5vh;
     left: 3vh;
+}
+
+#menu-header h1 {
+    height: auto;
+    text-align: center;
+    position: relative;
+    transform: translateY(-50%);
+    top: 4.5vh;
+    color: #005D91;
+}
+
+#menu-list {
+    margin-top: 10vh;
+}
+
+#menu-list .item:active {
+    background-color: #53C6E6;
+}
+
+#menu-list .item * {
+    display: inline;
+    font-size: 2em;
+    line-height: 1.5;
+    color: #005D91;
+}
+
+#menu-list .item *:nth-child(1) {
+    float: left;
+}
+
+#menu-list .item *:nth-child(2) {
+    float: right;
+}
+
+.help-text {
+    font-size: 1.5em;
+    line-height: 1.5;
+    padding: 1.5em;
 }
