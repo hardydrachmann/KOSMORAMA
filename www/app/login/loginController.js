@@ -11,12 +11,12 @@ angular
 			 * On launch, check if a user exist in local storage. If so, decrypt user, then place this user on the scope and login.
 			 */
 			(function init() {
-				screenNumber = storageService.getUserScreenNumber();
-				if (screenNumber) {
-					$timeout(function() {
-						$state.go('home');
-					}, 100);
-				}
+				// screenNumber = storageService.getUserScreenNumber();
+				// if (screenNumber) {
+				// 	$timeout(function() {
+				// 		$state.go('home');
+				// 	}, 100);
+				// }
 			})();
 
 			/**
@@ -38,19 +38,16 @@ angular
 					if (screenNumber) {
 						dataService.getUser(screenNumber, function(result) {
 							if (result) {
-								console.log(result);
 								storageService.setUserScreenNumber(screenNumber);
 								var canSendNote = result.AllowMsgFeedback;
 								storageService.setAllowMessage(canSendNote);
 								$state.go('home');
 								tabsService.setTabs();
 							} else {
-								console.log('loginfail');
 								popupService.alertPopup(languageService.getText('loginFail'));
 							}
 						});
 					} else {
-						console.log('loginhelp');
 						popupService.alertPopup(languageService.getText('loginHelp'));
 					}
 				} else {

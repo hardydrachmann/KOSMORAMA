@@ -1,3 +1,22 @@
 #home-menu {
     margin-top: 10vh;
 }
+
+#logout-text {
+    position: absolute;
+    transform: translateX(-50%);
+    top: 92%;
+    left: 50%;
+    font-size: 2em;
+    font-family: Segan;
+}
+
+.round-image {
+    display: block;
+    margin: auto;
+    margin-top: 5vh;
+    width: 40vh;
+    height: 40vh;
+    border-radius: 100%;
+    border: solid #19DC19 5px;
+}

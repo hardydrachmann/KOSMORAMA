@@ -1,19 +1,47 @@
+.content-font {
+    text-align: center;
+    font-size: 3.5vh;
+    font-family: Segan;
+    user-select: none;
+    pointer-events: none;
+    color: white;
+}
+
+.center-vert {
+    position: relative;
+    transform: translateY(-50%);
+    top: 50%;
+}
+
+
 /*Help Button*/
 
-.help-button {
+.tiny-button {
     display: inline-block;
     width: 5vh;
     height: 5vh;
     position: absolute;
     top: 2.5vh;
-    right: 4vh;
-    border-radius: 10px;
-    background-color: rgb(0, 120, 200);
+    border-radius: 100%;
+    background-color: #005D91;
     transition: background-color 0.1s ease;
+    border: #53C6E6 solid 2px;
 }
 
-.help-button:active {
-    background-color: rgba(0, 220, 255, 0.25);
+.tiny-button:active {
+    background-color: transparent;
+}
+
+.tiny-button p {
+    font-family: Helvetica;
+}
+
+.tiny-button-right {
+    right: 4vh;
+}
+
+.tiny-button-left {
+    left: 4vh;
 }
 
 
@@ -25,17 +53,15 @@
     width: 80%;
     height: 6vh;
     border-radius: 100px;
-    background-color: rgb(0, 220, 255);
-    transition: background-color 0.2s ease;
+    background-color: #53C6E6;
 }
 
 .wide-button:active {
-    background-color: rgba(0, 220, 255, 0.25);
+    opacity: 0.25;
 }
 
 .wide-button p {
     text-align: center;
-    text-transform: uppercase;
     position: relative;
     transform: translateY(-50%);
     top: 50%;
@@ -50,30 +76,33 @@
     width: auto;
     position: absolute;
     transform: translateX(-50%);
-    top: 60%;
+    top: 65%;
     left: 50%;
-    padding: 0.5vh;
+    padding: 1vh;
     margin: 0;
-    background-color: rgba(0, 100, 200, 0.8);
+    background-color: #005D91;
     border-radius: 100%;
+    overflow: hidden;
 }
 
 .round-button {
     width: 20vh;
     height: 20vh;
-    transition: background-color 0.2s ease;
-    background-color: rgb(25, 219, 25);
+    transition: background-color 0.1s ease;
+    background-color: #19DC19;
     border-radius: 100%;
 }
 
 .round-button:active {
-    background-color: rgb(200, 255, 180);
+    background-color: #7AFF7A;
 }
 
 .round-button p {
     position: relative;
     transform: translateY(-50%);
-    top: 49%;
+    top: 52%;
     margin: 0;
     padding: 0;
+    font-size: 4em;
+    color: white;
 }

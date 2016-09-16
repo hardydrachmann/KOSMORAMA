@@ -1,7 +1,7 @@
 angular
     .module('kosmoramaApp')
     .controller('TabsController',
-        function($rootScope, $state, $timeout, $ionicHistory, tabsService, storageService) {
+        function($rootScope, $state, $timeout, $ionicHistory, $ionicSideMenuDelegate, tabsService, storageService) {
 
             var self = this;
 
@@ -23,6 +23,14 @@ angular
                 }, 250);
 
             })();
+
+            self.expandLeftMenu = function() {
+                $ionicSideMenuDelegate.toggleLeft();
+            };
+
+            self.expandRightMenu = function() {
+                $ionicSideMenuDelegate.toggleRight();
+            };
 
             /**
              * Sets the correct tabs for each view.

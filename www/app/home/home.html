@@ -1,47 +1,25 @@
-<div class="bg-blue-to-green">
+<div class="bg-blue-shoes">
+    <wd-header></wd-header>
+
+    <img class="round-image" ng-src="img/round-placeholder.png">
 
     <ul id="home-menu">
         <li>
             <!--ng-repeat instead?-->
             <a ng-href="">
-                <div class="wide-button">
+                <div class="wide-button blue-button">
                     <p class="content-font">Mail</p>
                 </div>
             </a>
         </li>
         <li>
             <a ng-href="">
-                <div class="wide-button">
+                <div class="wide-button blue-button">
                     <p class="content-font">Sync</p>
-                </div>
-            </a>
-        </li>
-        <li>
-            <a ng-href="">
-                <div class="wide-button">
-                    <p class="content-font">Lang</p>
-                </div>
-            </a>
-        </li>
-        <li>
-            <a ng-href="">
-                <div class="wide-button">
-                    <p class="content-font">Om VT</p>
-                </div>
-            </a>
-        </li>
-        <li>
-            <a ng-href="">
-                <div class="wide-button">
-                    <p class="content-font">Logout</p>
                 </div>
             </a>
         </li>
     </ul>
 
-    <div class="round-border">
-        <div class="round-button">
-            <p class="content-font">GO</p>
-        </div>
-    </div>
+    <a id="logout-text" ng-click="user.logout()">Logout</a>
 </div>

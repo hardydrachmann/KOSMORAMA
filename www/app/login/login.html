@@ -1,10 +1,18 @@
-<div class="backgroundColor">
+<div class="bg-blue-to-green">
 
-  <form id="login-form" action="#" ng-submit="user.login(); tabs.setTabs();">
-    <input ng-change="{{user.setUserScreenNumber()}}" id="setUserScreenNumber" ng-model="user.userScreenNumber" type="password" placeholder="Login" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Login'">
-  </form>
+    <wd-header></wd-header>
 
-  <div>
-    <img src="img/login-logo.png" id="login-logo"></img>
-  </div>
+    <form id="login-form" action="#" ng-submit="user.login(); tabs.setTabs();">
+        <input ng-change="{{user.setUserScreenNumber()}}" id="setUserScreenNumber" ng-model="user.userScreenNumber" type="password" placeholder="Login" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Login'">
+    </form>
+
+    <div>
+        <img src="img/wd-logo.png" id="login-logo"></img>
+    </div>
+
+    <a ng-click="user.login()">
+        <div class="wide-button blue-button">
+            <p class="content-font">Log In</p>
+        </div>
+    </a>
 </div>

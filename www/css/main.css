@@ -1,0 +1,29 @@
+/*
+ * blue: #005D91
+ * dark: #303C50
+ * green: #19DC19
+ * light: #7AFF7A
+ * cyan: #53C6E6
+ */
+
+.bg-blue-to-green {
+    background-image: url('../img/backgrounds/blue-to-green.png');
+    background-size: cover;
+    /*background: linear-gradient(to top, #19DC19, #303C50);*/
+}
+
+.bg-blue-shoes {
+    background-image: url('../img/backgrounds/blue-shoes.png');
+    background-size: cover;
+    /*background: linear-gradient(to top, #53C6E6, #303C50);*/
+}
+
+.bg-blue-to-brown {
+    background-image: url('../img/backgrounds/blue-to-brown.png');
+    background-size: cover;
+}
+
+@font-face {
+    font-family: Segan;
+    src: url(../fonts/Segan-Light.ttf);
+}

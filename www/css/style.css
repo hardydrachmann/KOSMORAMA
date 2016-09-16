@@ -354,7 +354,7 @@ p {
   transform: translateX(-50%);
   width: 60%;
   opacity: 0.8;
-  bottom: 9vh;
+  bottom: 5vh;
 }
 
 #login-form {

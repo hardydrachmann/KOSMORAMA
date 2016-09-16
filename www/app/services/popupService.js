@@ -51,7 +51,7 @@ angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $ti
 	 * Initiates a popup with a green checkmark or a red cross when called (controlled by a boolean value).
 	 */
 	this.checkPopup = function(success) {
-		var color = success ? 'rgba(25,219,25,1)' : '#ff0000';
+		var color = success ? '#19DC19' : '#ff0000';
 		var icon = success ? 'ion-ios-checkmark-empty' : 'ion-ios-close-empty';
 		var popup = $ionicPopup.show({
 			cssClass: 'popup-box',
