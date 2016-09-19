@@ -30,7 +30,7 @@ header {
     left: 3vh;
 }
 
-#menu-header h1 {
+.menu-header h1 {
     height: auto;
     text-align: center;
     position: relative;
@@ -39,26 +39,34 @@ header {
     color: #005D91;
 }
 
-#menu-list {
+.mail-list,
+.menu-list {
     margin-top: 10vh;
 }
 
-#menu-list .item:active {
+.mail-list .item:active,
+.menu-list .item:active {
     background-color: #53C6E6;
 }
 
-#menu-list .item * {
+.menu-list .item * {
     display: inline;
-    font-size: 2em;
+    font-size: 5vh;
     line-height: 1.5;
     color: #005D91;
 }
 
-#menu-list .item *:nth-child(1) {
+@media (min-width: 600px) {
+    .menu-list .item * {
+        font-size: 4.5vw;
+    }
+}
+
+.menu-list .item *:nth-child(1) {
     float: left;
 }
 
-#menu-list .item *:nth-child(2) {
+.menu-list .item *:nth-child(2) {
     float: right;
 }
 
@@ -66,4 +74,49 @@ header {
     font-size: 1.5em;
     line-height: 1.5;
     padding: 1.5em;
+}
+
+
+/* Mails */
+
+.inactive-mail {
+    display: none;
+}
+
+.mail-timestamp,
+.active-mail {
+    display: block;
+}
+
+.mail-title,
+.mail-title h2 {
+    display: inline;
+}
+
+.mail-timestamp {
+    float: right;
+}
+
+.active-mail hr {
+    width: 100%;
+}
+
+.mail-text {
+    white-space: normal !important;
+}
+
+#new-mail-menu {
+    position: absolute;
+    top: -1.55vh;
+    left: -0.25vh;
+    font-size: 65%;
+    color: #19DC19;
+}
+
+#new-mail-tab {
+    position: relative;
+    top: 0.2vh;
+    left: 1.2vh;
+    font-size: 50%;
+    color: #19DC19;
 }

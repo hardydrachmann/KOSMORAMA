@@ -1,0 +1,31 @@
+#plan-list {
+    margin: auto;
+    margin-top: 2vh;
+    width: 90%;
+}
+
+#plan-list .item {
+    margin-bottom: 1vh;
+    background-color: #303C50;
+    border: none;
+}
+
+#pas-title {
+    margin-top: 3vh;
+}
+
+#pas-title h1 {
+    margin: auto;
+    padding-left: 15%;
+}
+
+#list-gradient {
+    position: absolute;
+    top: 50vh;
+    width: 100vw;
+    height: 50vh;
+    z-index: 2;
+    background: linear-gradient(transparent, #303C50);
+    pointer-events: none;
+    user-select: none;
+}

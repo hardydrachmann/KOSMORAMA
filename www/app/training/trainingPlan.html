@@ -1,30 +1,37 @@
-<div class="backgroundColor">
+<div class="bg-blue-to-brown">
+    <wd-header title="lang.getText('trainingPlan')"></wd-header>
 
-    <div>
-        <h2 id="header">{{lang.getText('trainingPlan')}}</h2>
-    </div>
+    <ion-scroll>
+        <div id="plan-list" class="list">
+            <div ng-repeat="item in training.TrainingItems">
 
-    <ion-scroll style="height: 65vh">
-        <div class="list">
-            <div class="col-5">
-            </div>
-            <div class="item item-thumbnail-left col-90 tpDivBackground" ng-repeat="item in training.TrainingItems track by $index">
-                <h1 style="color: white; margin-top: 1em;" ng-if="item.passTitle">{{item.passTitle}}</h1>
-                <img ng-if="item.ExerciseId" src="{{training.getPicture(item.ExerciseId)}}">
-                <div ng-if="item.ExerciseId">
-                    <p id="trainingName">{{training.getTrainingName(item)}}</p>
-                    <hr/>
-                    <h3 class="text-white">{{lang.getText('trainingPlanSets')}}{{item.Sets}}</h3>
-                    <h3 class="text-white">{{lang.getText('trainingPlanDuration')}}{{training.formatTime(item.TimeSet*60)}}</h3>
+                <!-- Pas title item -->
+                <div id="pas-title" class="item" ng-if="item.passTitle">
+                    <h1 class="white-text">{{item.passTitle}}</h1>
                 </div>
+
+                <!-- Training item -->
+                <div class="item item-thumbnail-left" ng-if="!item.passTitle">
+                    <img ng-if="item.ExerciseId" src="{{training.getPicture(item.ExerciseId)}}">
+                    <div ng-if="item.ExerciseId">
+                        <p class="cyan-text">{{training.getTrainingName(item)}}</p>
+                        <hr style="border-color: #005D91" />
+                        <h3 class="white-text">{{lang.getText('trainingPlanSets')}}{{item.Sets}}</h3>
+                        <h3 class="white-text">{{lang.getText('trainingPlanDuration')}}{{training.formatTime(item.TimeSet*60)}}</h3>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-5"></div>
+
+            <!-- Empty gap to allow for reading the bottom training items. -->
+            <div style="height: 50vh;"></div>
         </div>
     </ion-scroll>
+    <div id="list-gradient"></div>
 
     <div class="round-border">
-        <div class="round-button">
-            <p class="content-font">GO</p>
+        <div class="round-button" ng-click="tabs.continue()">
+            <p class="content-font">START</p>
         </div>
     </div>
 

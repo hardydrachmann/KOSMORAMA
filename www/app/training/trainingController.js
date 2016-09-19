@@ -57,7 +57,6 @@ angular
 						if (!self.TrainingItems.length) {
 							$state.go('home');
 							popupService.alertPopup(languageService.getText('noTrainingText'));
-							tabsService.setTabs();
 						}
 					}
 				}

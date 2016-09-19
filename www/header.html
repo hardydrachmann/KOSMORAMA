@@ -1,11 +1,15 @@
 <div>
-    <div class="tiny-button tiny-button-left" ng-click="tabs.expandLeftMenu()">
-        <p class="content-font center-vert"><i class="icon ion-navicon"></i></p>
+    <div class="tiny-button tiny-button-left" ng-click="$parent.tabs.expandLeftMenu()">
+        <p class="content-font center-vert">
+            <i class="icon ion-navicon">
+                <i id="new-mail-menu" ng-if="$parent.mailTab.newMailCount > 0" class="icon icon-tag ion-record"></i>
+            </i>
+        </p>
     </div>
     <div id="wd-title">
-        <p class=content-font>{{lang.getText('headerTitle')}}</p>
+        <p class=content-font>{{title}}</p>
     </div>
-    <div class="tiny-button tiny-button-right" ng-click="tabs.expandRightMenu()">
+    <div class="tiny-button tiny-button-right" ng-click="$parent.tabs.expandRightMenu()">
         <p class="content-font center-vert">?</p>
     </div>
 </div>

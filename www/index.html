@@ -7,6 +7,7 @@
 <link href="css/index.css" rel="stylesheet">
 <link href="css/login.css" rel="stylesheet">
 <link href="css/home.css" rel="stylesheet">
+<link href="css/training.css" rel="stylesheet">
 <link href="css/buttons.css" rel="stylesheet">
 <link href="css/popups.css" rel="stylesheet">
 <link href="lib/components/angular-material/angular-material.css">
@@ -31,6 +32,7 @@
     <script src="app/login/loginController.js"></script>
     <script src="app/help/helpController.js"></script>
     <script src="app/home/homeController.js"></script>
+    <script src="app/home/mailController.js"></script>
     <script src="app/training/trainingController.js"></script>
     <script src="app/feedback/feedbackController.js"></script>
     <script src="app/feedback/notesController.js"></script>
@@ -63,48 +65,103 @@
         <div ng-controller="LanguageController as lang">
             <div ng-controller="LoginController as user">
                 <div ng-controller="HelpController as help">
+                    <div ng-controller="MailController as mailTab">
 
-                    <ion-side-menus>
+                        <ion-side-menus>
 
-                        <ion-side-menu side="left">
-                            <ion-menu>
-                                <ion-header id="menu-header">
-                                    <h1>Menu</h1>
-                                </ion-header>
-                                <ion-content id="menu-list" scroll="false">
-                                    <ion-list>
-                                        <div ng-if="help.getState() !== 'login'" class="item">
-                                            <p>{{lang.getText('mailTab')}}</p>
-                                            <i class="icon ion-email"></i>
-                                        </div>
-                                        <div class="item">
-                                            <p>{{lang.getText('languageTab')}}</p>
-                                            <i class="icon ion-chatbubble-working"></i>
-                                        </div>
-                                        <div ng-if="help.getState() !== 'login'" class="item">
-                                            <p>{{lang.getText('syncTab')}}</p>
-                                            <i class="icon ion-loop"></i>
-                                        </div>
-                                        <div ng-if="help.getState() !== 'login'" class="item" menu-close ng-click="user.logout()">
-                                            <p>{{lang.getText('logoutText')}}</p>
-                                            <i class="icon ion-reply"></i>
-                                        </div>
-                                    </ion-list>
-                                </ion-content>
-                            </ion-menu>
-                        </ion-side-menu>
+                            <ion-side-menu side="left">
+                                <ion-menu ng-if="!lang.langMenu && !mailTab.mailMenu">
+                                    <ion-header class="menu-header">
+                                        <h1>Menu</h1>
+                                    </ion-header>
+                                    <ion-content class="menu-list" scroll="false">
+                                        <ion-list>
+                                            <div class="item" ng-click="lang.langToggle()">
+                                                <p>{{lang.getText('languageTab')}}</p>
+                                                <i class="icon ion-chatbubble-working"></i>
+                                            </div>
+                                            <div ng-if="help.getState() !== 'login'" class="item" ng-click="mailTab.mailToggle()">
+                                                <p>{{lang.getText('mailTab')}}</p>
+                                                <i class="icon ion-email">
+                                                <i id="new-mail-tab" ng-if="mailTab.newMailCount > 0" class="icon icon-tag ion-record"></i>
+                                                </i>
+                                            </div>
+                                            <div ng-if="help.getState() !== 'login'" class="item">
+                                                <p>{{lang.getText('syncTab')}}</p>
+                                                <i class="icon ion-loop"></i>
+                                            </div>
+                                            <div ng-if="help.getState() !== 'login'" class="item" menu-close ng-click="user.logout()">
+                                                <p>{{lang.getText('logoutText')}}</p>
+                                                <i class="icon ion-reply"></i>
+                                            </div>
+                                        </ion-list>
+                                    </ion-content>
+                                </ion-menu>
 
-                        <ion-side-menu-content>
-                            <ion-nav-view></ion-nav-view>
-                        </ion-side-menu-content>
+                                <ion-menu ng-if="lang.langMenu">
+                                    <ion-header class="menu-header">
+                                        <h1>{{lang.getText('languageTab')}}</h1>
+                                    </ion-header>
+                                    <ion-content class="menu-list" scroll="false">
+                                        <ion-list>
+                                            <div class="item" menu-close ng-repeat="language in lang.service.langs | orderBy:'language'" ng-click="lang.selectLanguage(language);">
+                                                <p class="white-text" style="text-align: left">{{language.language}}</p>
+                                                <img src="{{language.url}}">
+                                            </div>
+                                        </ion-list>
+                                    </ion-content>
+                                </ion-menu>
 
-                        <ion-side-menu side="right" class="help-text">
-                            <h1>{{lang.getText('helpTab')}}</h1>
-                            <p>{{lang.getText(help.getState() + 'Help')}}</p>
-                        </ion-side-menu>
+                                <ion-menu ng-if="mailTab.mailMenu">
+                                    <ion-header class="menu-header">
+                                        <h1>{{lang.getText('mailTab')}}</h1>
+                                    </ion-header>
+                                    <ion-content class="mail-list" ng-blur( 'mailTab.test()')>
+                                        <ion-list>
+                                            <div class="item" ng-repeat="mail in mailTab.mails | orderBy:Time:true" ng-click="mailTab.toggleMailDisplay($index)">
+                                                <div class="mail-title">
+                                                    <h2 ng-switch on="mail.IsRead">
+                                                        <strong ng-switch-when="false">
+                                                        {{mail.Title}}
+                                                    </strong>
+                                                        <span ng-switch-default>
+                                                        {{mail.Title}}
+                                                    </span>
+                                                    </h2>
+                                                </div>
+                                                <h3 class="mail-timestamp">
+                                                    {{mail.Time | date}}
+                                                </h3>
+                                                <br>
+                                                <div id="{{'mail' + $index}}" class="inactive-mail">
+                                                    <hr>
+                                                    <div>
+                                                        <p class="mail-text">
+                                                            {{mail.Content}}
+                                                        </p>
+                                                    </div>
+                                                    <br>
+                                                    <button class="mail-done" ng-show="mail.IsRead === false" ng-click="mailTab.logMail(mail.id)">{{lang.getText('mailDone')}}</button>
+                                                </div>
+                                            </div>
+                                        </ion-list>
+                                    </ion-content>
+                                </ion-menu>
 
-                    </ion-side-menus>
+                            </ion-side-menu>
 
+                            <ion-side-menu-content>
+                                <ion-nav-view></ion-nav-view>
+                            </ion-side-menu-content>
+
+                            <ion-side-menu side="right" class="help-text">
+                                <h1>{{lang.getText('helpTab')}}</h1>
+                                <p>{{lang.getText(help.getState() + 'Help')}}</p>
+                            </ion-side-menu>
+
+                        </ion-side-menus>
+
+                    </div>
                 </div>
             </div>
         </div>

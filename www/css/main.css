@@ -31,6 +31,35 @@ a {
     text-decoration: none;
 }
 
+video {
+    margin: auto;
+    margin-top: 5vh;
+    width: 90vw;
+    display: block;
+}
+
+ion-scroll {
+    height: 100vh;
+}
+
+.white-text {
+    color: white;
+}
+
+.cyan-text {
+    color: #53C6E6 !important;
+}
+
+.textbody {
+    width: 90%;
+    height: 25%;
+    margin: auto;
+    padding: 2em;
+    font-size: 2.5vh;
+    line-height: 1.2;
+    color: white;
+}
+
 @font-face {
     font-family: Segan;
     src: url(../fonts/Segan-Light.ttf);

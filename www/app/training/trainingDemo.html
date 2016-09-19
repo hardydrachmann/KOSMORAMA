@@ -1,21 +1,18 @@
-<div class="backgroundColor">
+<div class="bg-blue-to-brown">
+    <wd-header title="lang.getText('trainingDemoTitle')"></wd-header>
 
-  <div class="row">
-    <div class="col">
-      <h2 id="header">{{lang.getText('trainingDemoTitle')}}</h2>
+    <audio src="{{training.getAudio(training.currentTrainingId)}}" type="audio/mpeg" autoplay></audio>
+
+    <video id="playerID" class="video-positioning" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" controls autoplay loop></video>
+
+    <p class="textbody" class="text-white">
+        {{training.trainingDescription()}}
+    </p>
+
+    <div class="round-border">
+        <div class="round-button" ng-click="tabs.continue()">
+            <p class="content-font">START</p>
+        </div>
     </div>
-  </div>
 
-  <audio src="{{training.getAudio(training.currentTrainingId)}}" type="audio/mpeg" autoplay></audio>
-
-  <video id="playerID" class="video-positioning" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" controls autoplay loop></video>
-
-  <div class="row">
-    <div class="col ">
-      <div class="darkTransparent">
-        <p id="traningDemoDescription" class="text-white">{{training.trainingDescription()}}
-          <p>
-      </div>
-    </div>
-  </div>
 </div>

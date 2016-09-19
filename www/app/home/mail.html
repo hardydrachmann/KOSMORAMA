@@ -21,39 +21,39 @@
         margin: 2em;
     }
 </style>
-<div>
-    <a class="mail-back-button" ng-click="home.closeMailView()">
-        <i id="mail-link" class="accent-color ion-home" ng-click="home.closeMailView()"> </i>
-    </a>
-    <h1 style="text-align:center;">Mail</h1>
-</div>
-<ion-scroll style="height:65%">
-    <div class="list">
-        <div class="item" ng-repeat="mail in home.mails | orderBy:Time:true" ng-click="home.toggleMailDisplay($index)">
-            <div>
-                <h2 ng-switch on="mail.IsRead" class="mail-title">
-                    <strong ng-switch-when="false">
-                        {{mail.Title}}
-                    </strong>
-                    <span ng-switch-default>
-                        {{mail.Title}}
-                    </span>
-                </h2>
-            </div>
-            <h3 class="mail-timestamp">
-                {{mail.Time | date}}
-            </h3>
-            <br>
-            <div id="{{'mail' + $index}}" class="inactive-mail">
-                <hr>
-                <div>
-                    <p class="mail-text">
-                        {{mail.Content}}
-                    </p>
-                </div>
-                <br>
-                <button class="mail-done" ng-show="mail.IsRead === false" ng-click="home.logMail(mail.id)">{{lang.getText('mailDone')}}</button>
-            </div>
-        </div>
-    </div>
-</ion-scroll>
+<!--<div>-->
+<!--    <a class="mail-back-button" ng-click="home.closeMailView()">-->
+<!--        <i id="mail-link" class="accent-color ion-home" ng-click="home.closeMailView()"> </i>-->
+<!--    </a>-->
+<!--    <h1 style="text-align:center;">Mail</h1>-->
+<!--</div>-->
+<!--<ion-scroll style="height:65%">-->
+<!--    <div class="list">-->
+<!--        <div class="item" ng-repeat="mail in home.mails | orderBy:Time:true" ng-click="home.toggleMailDisplay($index)">-->
+<!--            <div>-->
+<!--                <h2 ng-switch on="mail.IsRead" class="mail-title">-->
+<!--                    <strong ng-switch-when="false">-->
+<!--                        {{mail.Title}}-->
+<!--                    </strong>-->
+<!--                    <span ng-switch-default>-->
+<!--                        {{mail.Title}}-->
+<!--                    </span>-->
+<!--                </h2>-->
+<!--            </div>-->
+<!--            <h3 class="mail-timestamp">-->
+<!--                {{mail.Time | date}}-->
+<!--            </h3>-->
+<!--            <br>-->
+<!--            <div id="{{'mail' + $index}}" class="inactive-mail">-->
+<!--                <hr>-->
+<!--                <div>-->
+<!--                    <p class="mail-text">-->
+<!--                        {{mail.Content}}-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--                <br>-->
+<!--                <button class="mail-done" ng-show="mail.IsRead === false" ng-click="home.logMail(mail.id)">{{lang.getText('mailDone')}}</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</ion-scroll>-->

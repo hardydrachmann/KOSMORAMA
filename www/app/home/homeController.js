@@ -4,8 +4,6 @@ angular
 		function($rootScope, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
 
 			var self = this;
-			self.mails = [];
-			self.newMailCount = 0;
 			self.audio = '';
 
 			self.online = false;
@@ -14,13 +12,8 @@ angular
 			 * Acquire mails and user data upon connecting to the internet.
 			 */
 			(function init() {
-				tabsService.setTabs();
-				if ($ionicHistory.currentView().stateName !== 'mail') {
-					if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
-						// assessNetwork();
-					}
-				} else {
-					getMails();
+				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
+					// assessNetwork();
 				}
 				$rootScope.device = debugService.device;
 
@@ -58,7 +51,8 @@ angular
 				}
 				if (storageService.getCompleted().length) {
 					syncData();
-				} else {
+				}
+				else {
 					getData();
 				}
 			}
@@ -68,7 +62,7 @@ angular
 			 */
 			function syncData() {
 				var data = storageService.getCompleted();
-				console.log('stored data', data);
+				console.log('Stored data', data);
 				if (data) {
 					loadingService.loaderShow();
 					for (var i = 0; i < data.length; i++) {
@@ -86,14 +80,12 @@ angular
 			}
 
 			/**
-			 * Get all necessary user data, including mails and training plan.
+			 * Get the user's training plan.
 			 */
 			function getData() {
 				loadingService.loaderShow();
 				storageService.clearTrainingData();
 				dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
-					self.mails = result.UserMessages;
-					countNewMails(self.mails);
 					getTraining(result.Id);
 				});
 			}
@@ -112,7 +104,8 @@ angular
 							loadingService.loaderHide();
 							storageService.printStorage();
 						}, 7000);
-					} else {
+					}
+					else {
 						loadingService.loaderHide();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 						$timeout(function() {
@@ -141,7 +134,8 @@ angular
 				}, 100);
 				if (success) {
 					popupService.checkPopup(true);
-				} else {
+				}
+				else {
 					popupService.checkPopup(false);
 					tabsService.setTabs();
 				}
@@ -168,61 +162,4 @@ angular
 					}
 				}
 			}
-
-			/**
-			 * Used to navigate back to home menu, when closing the mail view.
-			 */
-			self.closeMailView = function() {
-				$state.go('home');
-			};
-
-			/**
-			 * Enables the unfolding of mails, so that they can be read.
-			 */
-			self.toggleMailDisplay = function(index) {
-				var mail = $('#mail' + index);
-				if (mail.hasClass('inactive-mail')) {
-					mail.removeClass('inactive-mail');
-					mail.addClass('active-mail');
-				} else {
-					mail.removeClass('active-mail');
-					mail.addClass('inactive-mail');
-				}
-			};
-
-			/**
-			 * Saves the message as read.
-			 */
-			self.logMail = function(mailId) {
-				dataService.postNoteData(mailId, function(result) {
-					if (!result.result) {
-						// If for some reason the server is unavailable.
-						popupService.alertPopup(languageService.getText('mailError'));
-					}
-					getMails();
-				});
-			};
-
-			/**
-			 * Loads messages for user by using the screen number.
-			 */
-			function getMails() {
-				dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
-					self.mails = result.UserMessages;
-					countNewMails(self.mails);
-				});
-			}
-
-			/**
-			 * Gets messages that has not been read.
-			 */
-			function countNewMails(mails) {
-				self.newMailCount = 0;
-				for (var i = 0; i < mails.length; i++) {
-					if (mails[i].IsRead === false) {
-						self.newMailCount++;
-					}
-				}
-			}
-
 		});

@@ -1,7 +1,7 @@
 angular
     .module('kosmoramaApp')
     .controller('TabsController',
-        function($rootScope, $state, $timeout, $ionicHistory, $ionicSideMenuDelegate, tabsService, storageService) {
+        function($rootScope, $state, $timeout, $ionicHistory, $ionicSideMenuDelegate, languageService, tabsService, storageService) {
 
             var self = this;
 
@@ -26,60 +26,62 @@ angular
 
             self.expandLeftMenu = function() {
                 $ionicSideMenuDelegate.toggleLeft();
+                $rootScope.$broadcast('expandLeftEvent');
             };
 
             self.expandRightMenu = function() {
                 $ionicSideMenuDelegate.toggleRight();
+                $rootScope.$broadcast('expandRightEvent');
             };
 
-            /**
-             * Sets the correct tabs for each view.
-             */
-            self.setTabs = function() {
-                self.showHelpTab = false;
-                self.showLangTab = false;
-                self.showContTab = false;
-                self.showLoginTab = false;
-                self.showLogoutTab = false;
-                $timeout(function() {
-                    var state = $ionicHistory.currentView().stateName;
-                    switch (state) {
-                        case 'login':
-                            self.showHelpTab = true;
-                            self.showLangTab = true;
-                            self.showLoginTab = true;
-                            break;
-                        case 'home':
-                        case 'mail':
-                            self.showHelpTab = true;
-                            self.showLangTab = true;
-                            self.showLogoutTab = true;
-                            break;
-                        case 'trainingPlan':
-                        case 'notes':
-                        case 'painLevel':
-                            self.showHelpTab = true;
-                            self.showContTab = true;
-                            self.showLogoutTab = true;
-                            break;
-                        case 'trainingDemo':
-                            self.showHelpTab = true;
-                            self.showContTab = true;
-                            break;
-                        case 'training':
-                            self.showHelpTab = true;
-                            self.showContTab = true; // Debug
-                            break;
-                        case 'feedback':
-                        case 'help':
-                            self.showHelpTab = true;
-                            break;
-                        case 'language':
-                            self.showLangTab = true;
-                            break;
-                    }
-                }, 100);
-            };
+            // /**
+            //  * Sets the correct tabs for each view.
+            //  */
+            // self.setTabs = function() {
+            //     self.showHelpTab = false;
+            //     self.showLangTab = false;
+            //     self.showContTab = false;
+            //     self.showLoginTab = false;
+            //     self.showLogoutTab = false;
+            //     $timeout(function() {
+            //         var state = $ionicHistory.currentView().stateName;
+            //         switch (state) {
+            //             case 'login':
+            //                 self.showHelpTab = true;
+            //                 self.showLangTab = true;
+            //                 self.showLoginTab = true;
+            //                 break;
+            //             case 'home':
+            //             case 'mail':
+            //                 self.showHelpTab = true;
+            //                 self.showLangTab = true;
+            //                 self.showLogoutTab = true;
+            //                 break;
+            //             case 'trainingPlan':
+            //             case 'notes':
+            //             case 'painLevel':
+            //                 self.showHelpTab = true;
+            //                 self.showContTab = true;
+            //                 self.showLogoutTab = true;
+            //                 break;
+            //             case 'trainingDemo':
+            //                 self.showHelpTab = true;
+            //                 self.showContTab = true;
+            //                 break;
+            //             case 'training':
+            //                 self.showHelpTab = true;
+            //                 self.showContTab = true; // Debug
+            //                 break;
+            //             case 'feedback':
+            //             case 'help':
+            //                 self.showHelpTab = true;
+            //                 break;
+            //             case 'language':
+            //                 self.showLangTab = true;
+            //                 break;
+            //         }
+            //     }, 100);
+            // };
 
             /**
              * Checks current state and switches to the next state.

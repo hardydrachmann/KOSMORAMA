@@ -1,6 +1,5 @@
 <div class="bg-blue-to-green">
-
-    <wd-header></wd-header>
+    <wd-header title="lang.getText('headerTitle')"></wd-header>
 
     <form id="login-form" action="#" ng-submit="user.login(); tabs.setTabs();">
         <input ng-change="{{user.setUserScreenNumber()}}" id="setUserScreenNumber" ng-model="user.userScreenNumber" type="text" placeholder="ID" onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID'">
