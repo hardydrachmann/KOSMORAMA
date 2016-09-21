@@ -1,72 +1,22 @@
-<!--WIP-->
-<div class="backgroundColor">
-    <div>
-        <h2 id="header">{{lang.getText('painLevel')}}</h2>
-    </div>
-    <div>
-        <input style="background-color: transparent" type="range" name="painLevel" min="0" max="10" step="1" ng-model="notes.painValue">
-    </div>
-    <div>
-        <div id="painLevelMin">
-            <p>0</p>
+<div class="bg-blue-shoes">
+    <wd-header title="lang.getText('painLevel')"></wd-header>
+
+    <div id="pain-section">
+        <div class="pain-level-text">
+            <p>{{notes.getPainLevelDescription()}}</p>
         </div>
-        <div id="painLevelMax">
-            <p>10</p>
+
+        <div>
+            <input id="pain-slider" type="range" min="0" max="10" step="1" ng-model="notes.painValue">
+        </div>
+
+        <data ng-init="painColor = notes.painValue < 5 ? { 'color': '#DB1A1A' } : { 'color': '#19DC19' }"></data>
+        <div class="pain-level-text" ng-style="notes.getPainLevelColor()">
+            <p>{{lang.getText('yourPain')}}: {{notes.painValue || 5}}</p>
         </div>
     </div>
-    <div id="selectedPainLevel">
-        <p>{{notes.painValue || 5}}</p>
-    </div>
-    <div id="painTable" class="row">
-        <div class="col-10">
-        </div>
-        <div class="col-80">
-            <div class="row">
-                <div class="col-20">
-                    <p> 0</p>
-                </div>
-                <div class="col-10"></div>
-                <div class="col-70">
-                    <p>{{lang.getText('painDescription1')}}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-20">
-                    <p> 1-2 </p>
-                </div>
-                <div class="col-10"></div>
-                <div class="col-70">
-                    <p> {{lang.getText('painDescription2')}}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-20">
-                    <p> 3-5 </p>
-                </div>
-                <div class="col-10"></div>
-                <div class="col-70">
-                    <p> {{lang.getText('painDescription3')}}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-20">
-                    <p> 6-8 </p>
-                </div>
-                <div class="col-10"></div>
-                <div class="col-70">
-                    <p> {{lang.getText('painDescription4')}}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-20">
-                    <p> 9-10</p>
-                </div>
-                <div class="col-10"></div>
-                <div class="col-70">
-                    <p> {{lang.getText('painDescription5')}}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-10"></div>
+
+    <div class="wide-button blue-button notes-button" ng-click="tabs.continue()">
+        <p class="content-font">{{lang.getText('continue')}}</p>
     </div>
 </div>

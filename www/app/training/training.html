@@ -10,7 +10,7 @@
         <video id="playerID" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" autoplay loop></video>
 
         <div class="progress-wrapper" ng-click="timer.continue()">
-            <round-progress animation="linearEase" stroke="6" rounded="true" duration="1000" radius="{{timer.radius}}" color="{{(timer.seconds >= timer.training.time) ? '#19DC19' : 'url(#green-to-cyan-gradient)'}}" current="timer.seconds" max="timer.training.time">
+            <round-progress animation="linearEase" stroke="7" rounded="true" bgcolor="transparent" duration="1000" radius="{{timer.radius}}" color="{{(timer.seconds >= timer.training.time) ? '#19DC19' : 'url(#green-to-cyan-gradient)'}}" current="timer.seconds" max="timer.training.time">
                 <svg>
                     <linearGradient id="green-to-cyan-gradient" x1="0" x2="0" y1="0" y2="1">
                         <stop stop-color="#19DC19"/>

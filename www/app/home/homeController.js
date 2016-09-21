@@ -5,12 +5,11 @@ angular
 
 			var self = this;
 			self.audio = '';
-
 			self.online = false;
 
 			(function init() {
 				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
-					// assessNetwork();
+					assessNetwork();
 				}
 				$rootScope.device = debugService.device;
 
@@ -101,7 +100,9 @@ angular
 				dataService.getTraining(userId, function(data) {
 					if (data) {
 						$timeout(function() {
-							downloadTraining(data);
+							if (debugService.device) {
+								downloadTraining(data);
+							}
 							sortTraining(data);
 							loadingService.loaderHide();
 							storageService.printStorage();
@@ -117,27 +118,31 @@ angular
 			/**
 			 * Remove all media files on device, then download all new media files.
 			 */
-			function downloadTraining(data) {
+			function downloadTraining(trainings) {
 				self.audio = '';
 				mediaService.removeMedia();
-				var success = false;
-				for (var i = 0; i < data.length; i++) {
-					success = downloadService.downloadMedia(data[i].ExerciseId);
-					if (!success) {
-						break;
+				downloadService.createMediaFolders(trainings, function() {
+					var success = false;
+					for (var i = 0; i < trainings.length; i++) {
+						success = downloadService.downloadMedia(trainings[i].ExerciseId);
+						if (!success) {
+							break;
+						}
+						console.log('success at: ', trainings[i]);
 					}
-				}
-				loadingService.loaderHide();
-				$timeout(function() {
-					self.audio = mediaService.getAudio('prompt');
-				}, 100);
-				if (success) {
-					popupService.checkPopup(true);
-				}
-				else {
-					popupService.checkPopup(false);
-				}
-				self.audio = '';
+					loadingService.loaderHide();
+					$timeout(function() {
+						self.audio = mediaService.getAudio('prompt');
+					}, 100);
+					if (success) {
+						popupService.checkPopup(true);
+					}
+					else {
+						popupService.checkPopup(false);
+						tabsService.setTabs();
+					}
+					self.audio = '';
+				});
 			}
 
 			/**

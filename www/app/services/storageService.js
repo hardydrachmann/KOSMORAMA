@@ -72,6 +72,13 @@ angular
 		 */
 		this.getCorrectedLanguageString = function() {
 			var language = this.getSelectedLanguage();
+			return this.getCorrectLanguageStringFromInput(language);
+		};
+
+		/**
+		 *  Checks the current selected language from a string input (if it is 'en_US', change it to 'en_GB'), then return it.
+		 */
+		this.getCorrectLanguageStringFromInput = function(language) {
 			if (language === 'en_US') {
 				language = 'en_GB';
 			}
@@ -233,7 +240,7 @@ angular
 		var minASCII = 33;
 		var maxASCII = 126;
 		/**
-		 * Return a random key generated from a set of ASCII characters, to use with the above encryption-process.
+		 * Return a random key generated from a set of ASCII characters, to use with the sjcl encryption-process.
 		 */
 		var getRandomKey = function() {
 			var key = "";

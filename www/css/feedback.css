@@ -5,6 +5,7 @@
 #smiley-list .item {
     min-height: 15vh;
     max-height: 15vh;
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 #smiley-list img {
@@ -23,7 +24,8 @@
     position: relative;
     transform: translateY(-50%);
     top: 6.5vh;
-    text-align: center;
+    left: 2.5vh;
+    text-align: left;
     font-size: 5vh;
     line-height: 2;
     color: white;

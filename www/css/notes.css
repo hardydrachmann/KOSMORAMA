@@ -1,0 +1,21 @@
+#pain-section {
+    margin-top: 10vh;
+}
+
+.pain-level-text {
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    min-height: 15vh;
+    text-align: center;
+    font-size: 10vw;
+    line-height: 1;
+    color: white;
+    font-weight: bold;
+}
+
+.notes-button {
+    position: absolute;
+    left: 50%;
+    bottom: 10vh;
+    transform: translateX(-50%);
+}

@@ -5,7 +5,7 @@ angular
 
             var self = this;
 
-            self.painValue = '5';
+            self.painValue = '0';
             self.messageText = '';
 
             /**
@@ -32,6 +32,20 @@ angular
                     handler();
                 });
             })();
+
+            self.getPainLevelDescription = function() {
+                var level = Math.ceil(self.painValue / 2);
+                level = level == 0 ? 1 : level;
+                return languageService.getText('painDescription' + level);
+            };
+
+            self.getPainLevelColor = function() {
+                return self.painValue > 5 ? {
+                    'color': '#DB1A1A'
+                } : {
+                    'color': '#19DC19'
+                };
+            };
 
             /**
              * When the text area is entered, clear the placeholder text.
