@@ -1,220 +1,250 @@
 {
-  "welcome": {
-    "da_DK": "Velkommen",
-    "en_US": "Welcome"
-  },
+    "welcome": {
+        "da_DK": "Velkommen",
+        "en_US": "Welcome"
+    },
 
-  "mailError": {
-    "da_DK": "Det er på nuværende tidspunkt ikke muligt at tilgå mail-systemet. Prøv igen senere.",
-    "en_US": "It is not possible to access the mail service, at this time. Try again later."
-  },
+    "mailError": {
+        "da_DK": "Det er på nuværende tidspunkt ikke muligt at tilgå mail-systemet. Prøv igen senere.",
+        "en_US": "It is not possible to access the mail service, at this time. Try again later."
+    },
 
-  "trainingPlan": {
-    "da_DK": "Dagens træning",
-    "en_US": "Today's training"
-  },
+    "trainingPlan": {
+        "da_DK": "Dagens træning",
+        "en_US": "Today's training"
+    },
 
-  "trainingDemoTitle": {
-    "da_DK": "Sådan laves øvelsen",
-    "en_US": "How to perform the exercise"
-  },
+    "trainingDemoTitle": {
+        "da_DK": "Demonstration",
+        "en_US": "Demonstration"
+    },
 
-  "trainingDemoDescription": {
-    "da_DK": "Øvelsesbeskrivelse",
-    "en_US": "Exercise description"
-  },
+    "trainingTitle": {
+        "da_DK": "Træning",
+        "en_US": "Training"
+    },
 
-  "trainingPlanSets": {
-    "da_DK": "Sets: ",
-    "en_US": "Sets: "
-  },
+    "trainingPlanSets": {
+        "da_DK": "Sets: ",
+        "en_US": "Sets: "
+    },
 
-  "trainingPlanDuration": {
-    "da_DK": "Tid pr set: ",
-    "en_US": "Time per set: "
-  },
+    "trainingPlanDuration": {
+        "da_DK": "Tid pr set: ",
+        "en_US": "Time per set: "
+    },
 
-  "noTrainingText": {
-    "da_DK": "Dagens træning er fuldført.",
-    "en_US": "Todays training is complete."
-  },
+    "noTrainingText": {
+        "da_DK": "Dagens træning er fuldført.",
+        "en_US": "Todays training is complete."
+    },
 
-  "passText": {
-    "da_DK": "Pas ",
-    "en_US": "Set "
-  },
+    "passText": {
+        "da_DK": "Pas ",
+        "en_US": "Set "
+    },
 
-  "back": {
-    "da_DK": "Tilbage",
-    "en_US": "Back"
-  },
+    "back": {
+        "da_DK": "Tilbage",
+        "en_US": "Back"
+    },
 
-  "loginHelp": {
-    "da_DK": "Skriv din kode ind i feltet 'Login ID' for at logge dig ind i træningssystemet og starte din træning. Hvis du er i tvivl om hvad din kode er, kan du kontakte din terapeut.",
-    "en_US": "Enter your access code in the 'Login ID' field to log in to the virtual training system and start working out. If you have lost your password or are in doubt, you can contact your therapist."
-  },
+    "loginHelp": {
+        "da_DK": "Skriv din kode ind i feltet 'Login ID' for at logge dig ind i træningssystemet og starte din træning. Hvis du er i tvivl om hvad din kode er, kan du kontakte din terapeut.",
+        "en_US": "Enter your access code in the 'Login ID' field to log in to the virtual training system and start working out. If you have lost your password or are in doubt, you can contact your therapist."
+    },
 
-  "loginFail": {
-    "da_DK": "Den indtastede login kode eksisterer ikke, prøv venligst igen.",
-    "en_US": "The access code you have entered does not exist, please try again."
-  },
+    "loginFail": {
+        "da_DK": "Den indtastede login kode eksisterer ikke, prøv venligst igen.",
+        "en_US": "The access code you have entered does not exist, please try again."
+    },
 
-  "loginText": {
-    "da_DK": "Log ind",
-    "en_US": "Log in"
-  },
+    "loginText": {
+        "da_DK": "Log ind",
+        "en_US": "Log in"
+    },
 
-  "loginNoWifi": {
-      "da_DK": "Fejl ved login, kontroller om enheden er forbundet til et WI-FI netværk.",
-      "en_US": "Error at login, ensure that the device is connected to a WI-FI network."
-  },
+    "loginNoWifi": {
+        "da_DK": "Fejl ved login, kontroller om enheden er forbundet til et WI-FI netværk.",
+        "en_US": "Error at login, ensure that the device is connected to a WI-FI network."
+    },
 
-  "logoutText": {
-    "da_DK": "Log ud",
-    "en_US": "Log out"
-  },
+    "logoutText": {
+        "da_DK": "Log ud",
+        "en_US": "Log out"
+    },
 
-  "languageTab": {
-    "da_DK": "Sprog",
-    "en_US": "Language"
-  },
+    "languageTab": {
+        "da_DK": "Sprog",
+        "en_US": "Language"
+    },
 
-  "helpTab": {
-    "da_DK": "Hjælp",
-    "en_US": "Help"
-  },
+    "helpTab": {
+        "da_DK": "Hjælp",
+        "en_US": "Help"
+    },
 
-  "syncTab": {
-    "da_DK": "Synkroniser",
-    "en_US": "Synchronize"
-  },
+    "syncTab": {
+        "da_DK": "Synkroniser",
+        "en_US": "Synchronize"
+    },
 
-  "mailTab": {
-    "da_DK": "Post",
-    "en_US": "Mail"
-  },
+    "mailTab": {
+        "da_DK": "Post",
+        "en_US": "Mail"
+    },
 
-  "continueTab": {
-    "da_DK": "Fortsæt",
-    "en_US": "Continue"
-  },
+    "continueTab": {
+        "da_DK": "Fortsæt",
+        "en_US": "Continue"
+    },
 
-  "mailDone": {
-    "da_DK": "Læst",
-    "en_US": "Read"
-  },
+    "mailDone": {
+        "da_DK": "Læst",
+        "en_US": "Read"
+    },
 
-  "mailHelp": {
-    "da_DK": "Klik på din mail for at læse den og erklære den læst, eller tryk på home ikonet i toppen til venstre, for at vende tilbage til home.",
-    "en_US": "Click on your mail to read it and declare it read, or tap the home icon in the top left, to return to the home menu."
-  },
+    "mailHelp": {
+        "da_DK": "Klik på din mail for at læse den og erklære den læst, eller tryk på home ikonet i toppen til venstre, for at vende tilbage til home.",
+        "en_US": "Click on your mail to read it and declare it read, or tap the home icon in the top left, to return to the home menu."
+    },
 
-  "feedbackHelp": {
-    "da_DK": "Klik på en smiley, for at bedømme din trænings indsats.",
-    "en_US": "Click on a smiley, to evaluate your training."
-  },
+    "feedbackHelp": {
+        "da_DK": "Klik på en smiley, for at bedømme din trænings indsats.",
+        "en_US": "Click on a smiley, to evaluate your training."
+    },
 
-  "trainingHelp": {
-    "da_DK": "Påbegynd træningen imens videoen kører og husk at holde en pause, så snart timeren viser det.",
-    "en_US": "Begin training, while the video is running and remember to take a break, as soon as the timer shows it."
-  },
+    "trainingHelp": {
+        "da_DK": "Påbegynd træningen imens videoen kører og husk at holde en pause, så snart timeren viser det.",
+        "en_US": "Begin training, while the video is running and remember to take a break, as soon as the timer shows it."
+    },
 
-  "homeHelp": {
-    "da_DK": "Tryk på logoet på skærmen for at fortsætte til oversigt over dagens træning. Du kan ikke vende tilbage fra træningen, når den er påbegyndt.",
-    "en_US": "Tap the logo on the screen to continue to your daily training overview. You will not be able to return to this point when the training has started."
-  },
+    "homeHelp": {
+        "da_DK": "Tryk på logoet på skærmen for at fortsætte til oversigt over dagens træning. Du kan ikke vende tilbage fra træningen, når den er påbegyndt.",
+        "en_US": "Tap the logo on the screen to continue to your daily training overview. You will not be able to return to this point when the training has started."
+    },
 
-  "trainingPlanHelp": {
-    "da_DK": "Her er en oversigt over dagens træning. Tryk på fortsæt for at begynde træningen fra listens først punkt.",
-    "en_US": "This is an overview of today's exercise. Tap continue to begin the exercise in the top of the list."
-  },
+    "trainingPlanHelp": {
+        "da_DK": "Her er en oversigt over dagens træning. Tryk på fortsæt for at begynde træningen fra listens først punkt.",
+        "en_US": "This is an overview of today's exercise. Tap continue to begin the exercise in the top of the list."
+    },
 
-  "trainingDemoHelp": {
-    "da_DK": "Her ser du et eksempel på, hvordan din træning skal udføres. Hvis det ønskes kan videon afspilles igen",
-    "en_US": "This is an example of how to perform your exercise. If you want to, you can replay the video."
-  },
+    "trainingDemoHelp": {
+        "da_DK": "Her ser du et eksempel på, hvordan din træning skal udføres. Hvis det ønskes kan videon afspilles igen",
+        "en_US": "This is an example of how to perform your exercise. If you want to, you can replay the video."
+    },
 
-  "headerTitle": {
-    "da_DK": "Virtuel Træning",
-    "en_US": "Virtual Training"
-  },
+    "headerTitle": {
+        "da_DK": "Virtuel Træning",
+        "en_US": "Virtual Training"
+    },
 
-  "notesTitle": {
-    "da_DK": "Skriv din besked her...\n\nTryk på 'Fortsæt' knappen når du er færdig.",
-    "en_US": "Write your message here...\n\nPress the 'Continue' button when done."
-  },
+    "notesTitle": {
+        "da_DK": "Skriv din besked her...\n\nTryk på 'Fortsæt' knappen når du er færdig.",
+        "en_US": "Write your message here...\n\nPress the 'Continue' button when done."
+    },
 
-  "remainingChars": {
-    "da_DK": "Resterende tegn: ",
-    "en_US": "Remaining characters: "
-  },
+    "remainingChars": {
+        "da_DK": "Resterende tegn: ",
+        "en_US": "Remaining characters: "
+    },
 
-  "notesHelp": {
-    "da_DK": "Du kan skrive til din terapeut, ved at indtaste en besked i det hvide tekstfelt, og herefter trykke på 'Fortsæt' knappen.",
-    "en_US": "You can contact your therapist by entering a message in the white textarea, followed by a press on the 'Continue' button."
-  },
+    "notesHelp": {
+        "da_DK": "Du kan skrive til din terapeut, ved at indtaste en besked i det hvide tekstfelt, og herefter trykke på 'Fortsæt' knappen.",
+        "en_US": "You can contact your therapist by entering a message in the white textarea, followed by a press on the 'Continue' button."
+    },
 
-  "min": {
-    "da_DK": "min",
-    "en_US": "min"
-  },
+    "min": {
+        "da_DK": "min",
+        "en_US": "min"
+    },
 
-  "sec": {
-    "da_DK": "sek",
-    "en_US": "sec"
-  },
+    "sec": {
+        "da_DK": "sek",
+        "en_US": "sec"
+    },
 
-  "pause": {
-    "da_DK": "Pause",
-    "en_US": "Pause"
-  },
+    "pause": {
+        "da_DK": "Pause",
+        "en_US": "Pause"
+    },
 
-  "set": {
-    "da_DK": "Set",
-    "en_US": "Set"
-  },
+    "set": {
+        "da_DK": "Sæt",
+        "en_US": "Sets"
+    },
 
-  "of": {
-    "da_DK": "af",
-    "en_US": "of"
-  },
+    "of": {
+        "da_DK": "af",
+        "en_US": "of"
+    },
 
-  "painLevel": {
-    "da_DK": "Smerteniveau",
-    "en_US": "Painlevel"
-  },
+    "feedbackTitle": {
+        "da_DK": "Smiley",
+        "en_US": "Smiley"
+    },
 
-  "painLevelHelp": {
-    "da_DK": "Benyt slideren til at angive dagens smerte niveau. Efter valget af smerte niveau, klik på knappen for at gå videre og for at sende dataen til terapeuten.",
-    "en_US": "Use the slider to indicate todays pain level. After indicating the pain level, click the button to continue and to send your data to the therapist."
-  },
+    "smiley5": {
+        "da_DK": "Rigtig godt",
+        "en_US": "Very good"
+    },
 
-  "painDescription1": {
-    "da_DK": "Ingen smerter",
-    "en_US": "No pain"
-  },
-  "painDescription2": {
-    "da_DK": "Lette smerter",
-    "en_US": "Mild, annoying pain"
-  },
-  "painDescription3": {
-    "da_DK": "Moderate smerter",
-    "en_US": "Uncomfortable pain"
-  },
-  "painDescription4": {
-    "da_DK": "Svære smerter",
-    "en_US": "Dreadful pain"
-  },
-  "painDescription5": {
-    "da_DK": "Værst tænkelige smerter",
-    "en_US": "Worst possible, excrutiating pain"
-  },
-  "wifiHeader": {
-    "da_DK": "WI-FI ikke tilgængelig",
-    "en_US": "No WI-FI available"
-  },
-  "wifiText": {
-    "da_DK": "Vil du downloade træningsplan alligevel? Dette kan koste ekstra dataforbrug hos din udbyder.",
-    "en_US": "Do you want to download your training plan anyways? This may incur extra fees of data usage from your provider."
-  }
+    "smiley4": {
+        "da_DK": "Godt",
+        "en_US": "Good"
+    },
+
+    "smiley3": {
+        "da_DK": "Okay",
+        "en_US": "Okay"
+    },
+
+    "smiley2": {
+        "da_DK": "Dårligt",
+        "en_US": "Bad"
+    },
+
+    "smiley1": {
+        "da_DK": "Rigtig dårligt",
+        "en_US": "Very bad"
+    },
+
+    "painLevel": {
+        "da_DK": "Smerteniveau",
+        "en_US": "Painlevel"
+    },
+
+    "painLevelHelp": {
+        "da_DK": "Benyt slideren til at angive dagens smerte niveau. Efter valget af smerte niveau, klik på knappen for at gå videre og for at sende dataen til terapeuten.",
+        "en_US": "Use the slider to indicate todays pain level. After indicating the pain level, click the button to continue and to send your data to the therapist."
+    },
+
+    "painDescription1": {
+        "da_DK": "Ingen smerter",
+        "en_US": "No pain"
+    },
+    "painDescription2": {
+        "da_DK": "Lette smerter",
+        "en_US": "Mild, annoying pain"
+    },
+    "painDescription3": {
+        "da_DK": "Moderate smerter",
+        "en_US": "Uncomfortable pain"
+    },
+    "painDescription4": {
+        "da_DK": "Svære smerter",
+        "en_US": "Dreadful pain"
+    },
+    "painDescription5": {
+        "da_DK": "Værst tænkelige smerter",
+        "en_US": "Worst possible, excrutiating pain"
+    },
+    "wifiHeader": {
+        "da_DK": "WI-FI ikke tilgængelig",
+        "en_US": "No WI-FI available"
+    },
+    "wifiText": {
+        "da_DK": "Vil du downloade træningsplan alligevel? Dette kan koste ekstra dataforbrug hos din udbyder.",
+        "en_US": "Do you want to download your training plan anyways? This may incur extra fees of data usage from your provider."
+    }
 }

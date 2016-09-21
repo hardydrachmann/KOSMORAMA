@@ -3,7 +3,7 @@
 
     <audio src="{{training.getAudio(training.currentTrainingId)}}" type="audio/mpeg" autoplay></audio>
 
-    <video id="playerID" class="video-positioning" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" controls autoplay loop></video>
+    <video id="playerID" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" controls autoplay loop></video>
 
     <p class="textbody" class="text-white">
         {{training.trainingDescription()}}

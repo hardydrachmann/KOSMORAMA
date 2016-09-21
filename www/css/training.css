@@ -1,15 +1,3 @@
-#plan-list {
-    margin: auto;
-    margin-top: 2vh;
-    width: 90%;
-}
-
-#plan-list .item {
-    margin-bottom: 1vh;
-    background-color: #303C50;
-    border: none;
-}
-
 #pas-title {
     margin-top: 3vh;
 }

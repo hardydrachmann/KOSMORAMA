@@ -1,43 +1,13 @@
-<div class="backgroundColor">
-    <div>
+<div class="bg-blue-shoes">
+    <wd-header title="lang.getText('feedbackTitle')"></wd-header>
 
-        <h1 id="header">Angiv resultat</h1>
+    <div id="smiley-list" class="spaced-list">
 
-    </div>
-    <ion-scroll id="feedbackScroller">
-        <div class="list languageMenu tpDivBackground">
+        <div ng-repeat="i in [5,4,3,2,1]" class="item item-thumbnail-left" ng-click="feedback.setSmileyValue({{i}})">
 
-            <div id="feedbackDiv" class="item item-thumbnail-left" ng-click="feedback.setSmileyValue(5)">
-
-                <img id="feedbackImg" src="img/smilies/smile_1.png">
-                <h2>Rigtig Godt</h2>
-
-            </div>
-            <div id="feedbackDiv" class="item item-thumbnail-left" ng-click="feedback.setSmileyValue(4)">
-
-                <img id="feedbackImg" src="img/smilies/smile_2.png">
-                <h2>Godt</h2>
-
-            </div>
-            <div id="feedbackDiv" class="item item-thumbnail-left" ng-click="feedback.setSmileyValue(3)">
-
-                <img id="feedbackImg" src="img/smilies/smile_3.png">
-                <h2>Okay</h2>
-
-            </div>
-            <div id="feedbackDiv" class="item item-thumbnail-left" ng-click="feedback.setSmileyValue(2)">
-
-                <img id="feedbackImg" src="img/smilies/smile_4.png">
-                <h2>Dårligt</h2>
-
-            </div>
-            <div id="feedbackDiv" class="item item-thumbnail-left" ng-click="feedback.setSmileyValue(1)">
-
-                <img id="feedbackImg" src="img/smilies/smile_5.png">
-                <h2>Rigtig Dårligt</h2>
-
-            </div>
+            <img ng-src="img/smilies/smiley-{{i}}.png">
+            <p>{{lang.getText('smiley' + i)}}</p>
 
         </div>
-    </ion-scroll>
+    </div>
 </div>

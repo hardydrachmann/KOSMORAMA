@@ -8,9 +8,6 @@ angular
 
 			self.online = false;
 
-			/**
-			 * Acquire mails and user data upon connecting to the internet.
-			 */
 			(function init() {
 				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
 					// assessNetwork();
@@ -35,10 +32,17 @@ angular
 				});
 			})();
 
-			self.spoofOnline = true;
+
+			/**
+			 * Pretend to access to network when working from a browser.
+			 */
+			self.spoofNetwork = true;
 			self.browserSubmit = function() {
-				if (self.spoofOnline) {
-					assessNetwork('wifi');
+				if (!debugService.device) {
+					if (self.spoofNetwork) {
+						assessNetwork('wifi');
+
+					}
 				}
 			};
 
@@ -91,9 +95,7 @@ angular
 			}
 
 			/**
-			 * Get training items from service.
-			 * 1. Remove all media files on device.
-			 * 2. Download all new media files.
+			 * Get training items from service and download media.
 			 */
 			function getTraining(userId) {
 				dataService.getTraining(userId, function(data) {
@@ -108,9 +110,6 @@ angular
 					else {
 						loadingService.loaderHide();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
-						$timeout(function() {
-							tabsService.setTabs();
-						}, 1000);
 					}
 				});
 			}
@@ -137,13 +136,12 @@ angular
 				}
 				else {
 					popupService.checkPopup(false);
-					tabsService.setTabs();
 				}
 				self.audio = '';
 			}
 
 			/**
-			 * Sorting and adding a pass Item for each set of training.
+			 * Sorting and adding a pass item for each set of training.
 			 */
 			function sortTraining(data) {
 				if (data.length > 0) {

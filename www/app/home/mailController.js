@@ -16,6 +16,9 @@ angular
                 });
             })();
 
+            /**
+			 * Toggle mail menu active.
+			 */
             self.mailToggle = function() {
                 self.mailMenu = !self.mailMenu;
             };

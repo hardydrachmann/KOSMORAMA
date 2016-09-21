@@ -60,6 +60,19 @@ ion-scroll {
     color: white;
 }
 
+.spaced-list {
+    margin: auto;
+    margin-top: 2vh;
+    width: 90%;
+}
+
+.spaced-list .item {
+    margin-bottom: 1vh;
+    background-color: #303C50;
+    border: none;
+}
+
+
 @font-face {
     font-family: Segan;
     src: url(../fonts/Segan-Light.ttf);

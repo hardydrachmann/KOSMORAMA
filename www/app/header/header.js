@@ -2,7 +2,7 @@ angular
     .module('kosmoramaApp')
     .directive('wdHeader', function() {
         return {
-            templateUrl: 'header.html',
+            templateUrl: 'app/header/header.html',
             scope: {
                 title: '='
             }

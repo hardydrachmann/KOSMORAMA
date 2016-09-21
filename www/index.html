@@ -8,6 +8,8 @@
 <link href="css/login.css" rel="stylesheet">
 <link href="css/home.css" rel="stylesheet">
 <link href="css/training.css" rel="stylesheet">
+<link href="css/progress-bar.css" rel="stylesheet">
+<link href="css/feedback.css" rel="stylesheet">
 <link href="css/buttons.css" rel="stylesheet">
 <link href="css/popups.css" rel="stylesheet">
 <link href="lib/components/angular-material/angular-material.css">
@@ -27,29 +29,29 @@
     <script src="app/app.js"></script>
 
     <!-- controllers -->
-    <script src="app/tabsController.js"></script>
+    <script src="app/tabs/tabsController.js"></script>
     <script src="app/language/languageController.js"></script>
     <script src="app/login/loginController.js"></script>
     <script src="app/help/helpController.js"></script>
     <script src="app/home/homeController.js"></script>
     <script src="app/home/mailController.js"></script>
     <script src="app/training/trainingController.js"></script>
+    <script src="app/training/timerController.js"></script>
     <script src="app/feedback/feedbackController.js"></script>
     <script src="app/feedback/notesController.js"></script>
-    <script src="app/training/timerController.js"></script>
 
     <!-- directives -->
-    <script src="app/header.js"></script>
+    <script src="app/header/header.js"></script>
 
     <!-- services -->
     <script src="app/services/dataService.js"></script>
     <script src="app/services/popupService.js"></script>
-    <script src="app/services/languageService.js"></script>
+    <script src="app/language/languageService.js"></script>
     <script src="app/services/loadingService.js"></script>
     <script src="app/services/storageService.js"></script>
     <script src="app/services/downloadService.js"></script>
     <script src="app/services/mediaService.js"></script>
-    <script src="app/services/tabsService.js"></script>
+    <script src="app/tabs/tabsService.js"></script>
     <script src="app/services/debugService.js"></script>
 
     <!-- libraries -->
@@ -86,7 +88,7 @@
                                                 <i id="new-mail-tab" ng-if="mailTab.newMailCount > 0" class="icon icon-tag ion-record"></i>
                                                 </i>
                                             </div>
-                                            <div ng-if="help.getState() !== 'login'" class="item">
+                                            <div ng-if="help.getState() === 'home'" class="item" menu-close ng-click="home.browserSubmit()">
                                                 <p>{{lang.getText('syncTab')}}</p>
                                                 <i class="icon ion-loop"></i>
                                             </div>
@@ -106,7 +108,7 @@
                                         <ion-list>
                                             <div class="item" menu-close ng-repeat="language in lang.service.langs | orderBy:'language'" ng-click="lang.selectLanguage(language);">
                                                 <p class="white-text" style="text-align: left">{{language.language}}</p>
-                                                <img src="{{language.url}}">
+                                                <img ng-src="{{language.url}}">
                                             </div>
                                         </ion-list>
                                     </ion-content>

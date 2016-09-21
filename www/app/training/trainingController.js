@@ -10,9 +10,6 @@ angular
 			self.TrainingItems = [];
 			self.currentTrainingId = -1;
 
-			/**
-			 * Perform appropriate state action and register event for the training controller.
-			 */
 			(function init() {
 				stateAction();
 				if (storageService.proceduralUserData.currentTraining) {
@@ -30,20 +27,14 @@ angular
 				return trainingItem.LangName[languageService.lang];
 			};
 
+			/**
+			 * Returns the appropriate language description for the next exercise.
+			 */
 			self.trainingDescription = function() {
-				// Returns the appropriate language description for the next exercise.
 				var item = storageService.proceduralUserData.currentTraining;
 				if (item) {
 					return item.LangDesc[languageService.lang];
 				}
-			};
-
-			// Move to timer controller
-			self.formatTime = function(time) {
-				// Takes the time as seconds in the parameter and returns it in a formatted string with min/sec.
-				var min = Math.floor(time / 60);
-				var sec = time - min * 60;
-				return min + " " + languageService.getText('min') + " " + sec + " " + languageService.getText('sec');
 			};
 
 			/**

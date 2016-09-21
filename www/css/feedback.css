@@ -1,0 +1,30 @@
+#smiley-list {
+    margin-top: 5vh;
+}
+
+#smiley-list .item {
+    min-height: 15vh;
+    max-height: 15vh;
+}
+
+#smiley-list img {
+    /* Already absolute, though */
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    left: 3%;
+    height: 12vh;
+    width: 12vh;
+    max-height: 12vh;
+    max-width: 12vh;
+}
+
+#smiley-list p {
+    position: relative;
+    transform: translateY(-50%);
+    top: 6.5vh;
+    text-align: center;
+    font-size: 5vh;
+    line-height: 2;
+    color: white;
+}

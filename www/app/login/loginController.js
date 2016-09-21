@@ -1,7 +1,7 @@
 angular
     .module('kosmoramaApp')
     .controller('LoginController',
-        function($state, $timeout, tabsService, debugService, languageService, popupService, dataService, storageService, $cordovaNetwork) {
+        function($state, $timeout, $cordovaNetwork, tabsService, debugService, languageService, popupService, dataService, storageService, mediaService) {
 
             var self = this;
 
@@ -63,6 +63,7 @@ angular
             self.logout = function() {
                 popupService.confirmPopup(languageService.getText('logoutText'), '', function() {
                     storageService.clearPersistentData();
+                    mediaService.removeMedia();
                     screenNumber = '';
                     $state.go('login');
                 });

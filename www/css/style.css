@@ -1,6 +1,8 @@
+/* Deprecated CSS */
+
 .backgroundColor {
   background: linear-gradient(to top, rgba(25, 219, 25, 1), #303C50);
-  }
+}
 
 p {
   margin: 0;

@@ -27,8 +27,6 @@ angular
         }, 101);
     })
     .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-        $ionicConfigProvider.tabs.position('bottom');
-        $ionicConfigProvider.tabs.style('standard');
 
         $stateProvider.state('home', {
             url: '/home',
@@ -40,23 +38,6 @@ angular
         .state('login', {
             url: '/login',
             templateUrl: 'app/login/login.html'
-        })
-
-        .state('language', {
-            url: '/language',
-            templateUrl: 'app/language/language.html'
-        })
-
-        .state('help', {
-            url: '/help',
-            templateUrl: 'app/help/help.html'
-        })
-
-        .state('mail', {
-            url: '/mail',
-            templateUrl: 'app/home/mail.html',
-            controller: 'HomeController',
-            controllerAs: 'home'
         })
 
         .state('trainingPlan', {

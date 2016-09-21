@@ -1,19 +1,28 @@
-<div class="backgroundColor">
-  <div ng-controller="TimerController as timer">
+<div class="bg-blue-to-brown">
+    <wd-header title="lang.getText('trainingTitle')"></wd-header>
 
-    <audio src="{{training.getAudio('startTraining')}}" type="audio/mpeg" autoplay="autoplay"></audio>
+    <div ng-controller="TimerController as timer">
 
-    <audio src="{{timer.stopAudio}}" type="audio/mpeg" autoplay="autoplay"></audio>
+        <audio src="{{training.getAudio('startTraining')}}" type="audio/mpeg" autoplay="autoplay"></audio>
 
-    <video id="playerID" class="video-positioning" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" style="margin-top:2em" controls autoplay loop></video>
+        <audio src="{{timer.stopAudio}}" type="audio/mpeg" autoplay="autoplay"></audio>
 
-    <div class="progress-wrapper">
-      <round-progress id="progress" max="timeProgress" current="progress" color="#303c50" bgcolor="#8092b3" radius="100" stroke="20" semi="false" rounded="false" clockwise="true" responsive="true" duration="1000" animation="linearEase" animation-delay="0" offset="0">bla</round-progress>
-      <div class="progress-text">
-        <p class="progress-text-head">{{timerText()}}</p>
-        <p>{{training.formatTime(counter)}}</p>
-      </div>
+        <video id="playerID" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" autoplay loop></video>
+
+        <div class="progress-wrapper" ng-click="timer.continue()">
+            <round-progress animation="linearEase" stroke="6" rounded="true" duration="1000" radius="{{timer.radius}}" color="{{(timer.seconds >= timer.training.time) ? '#19DC19' : 'url(#green-to-cyan-gradient)'}}" current="timer.seconds" max="timer.training.time">
+                <svg>
+                    <linearGradient id="green-to-cyan-gradient" x1="0" x2="0" y1="0" y2="1">
+                        <stop stop-color="#19DC19"/>
+                        <stop offset="100%" stop-color="#53C6E6"/>
+                    </linearGradient>
+                </svg>
+            </round-progress>
+            <div class="progress-content">
+                <p>{{timer.formattedTime().min}}<span class="small-text">{{lang.getText('min')}}.</span>&nbsp;{{timer.formattedTime().sec}}<span class="small-text">{{lang.getText('sec')}}.</span></p>
+                <p><span class="small-text">{{lang.getText('set')}}:&nbsp;</span>{{timer.training.sets}}</p>
+            </div>
+        </div>
+
     </div>
-
-  </div>
 </div>

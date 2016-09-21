@@ -2,11 +2,11 @@ angular
 	.module('kosmoramaApp')
 	.service('storageService', function($window) {
 
+		/**
+		 * Print completed training from local storage.
+		 */
 		this.printStorage = function() {
-			console.log('DATA FROM LOCAL STORAGE:');
-			// console.log('Key/Id:', [$window.localStorage['kosmoramaKey'], $window.localStorage['kosmoramaId']]);
-			// console.log('Lang:', $window.localStorage['kosmoramaLang']);
-			console.log('Completed:', this.getCompleted());
+			console.log('Completed data from local storage:', this.getCompleted());
 		};
 
 		this.persistentUserData = {
@@ -38,6 +38,9 @@ angular
 		var passCount = 0;
 		this.completed = [];
 
+		/**
+		 * Get the completed trainings from local storage.
+		 */
 		this.getCompleted = function() {
 			if (!this.completed.length) {
 				var stored = $window.localStorage['kosmoramaCompleted'];
@@ -49,6 +52,9 @@ angular
 			return this.completed;
 		};
 
+		/**
+		 * Get the selected language from local storage.
+		 */
 		this.getSelectedLanguage = function() {
 			if (this.persistentUserData.language) {
 				return this.persistentUserData.language;
@@ -72,11 +78,17 @@ angular
 			return language.replace('_', '-');
 		};
 
+		/**
+		 * Set the selected language chosen by the user.
+		 */
 		this.setSelectedLanguage = function(language) {
 			this.persistentUserData.language = language;
 			$window.localStorage['kosmoramaLang'] = language;
 		};
 
+		/**
+		 * Get the user screen number from the local storage.
+		 */
 		this.getUserScreenNumber = function() {
 			if (this.persistentUserData.userScreenNumber) {
 				return this.persistentUserData.userScreenNumber;
@@ -91,6 +103,9 @@ angular
 			return '';
 		};
 
+		/**
+		 * Set the user screen number of the current user by encrypting it and storing it locally.
+		 */
 		this.setUserScreenNumber = function(number) {
 			var key = getRandomKey();
 			var id = sjcl.encrypt(key, number);
@@ -99,16 +114,25 @@ angular
 			this.persistentUserData.userScreenNumber = number;
 		};
 
+		/**
+		 * Access whether the user is allowed to send messages to the therapist.
+		 */
 		this.getAllowMessage = function() {
 			this.persistentUserData.allowMessage = $window.localStorage['kosmoramaNote'];
 			return this.persistentUserData.allowMessage;
 		};
 
+		/**
+		 * Alter whether the current user is allowed to send messages to the therapist.
+		 */
 		this.setAllowMessage = function(allow) {
 			this.persistentUserData.allowMessage = allow;
 			$window.localStorage['kosmoramaNote'] = allow;
 		};
 
+		/**
+		 * Clear all persistent user data from the device.
+		 */
 		this.clearPersistentData = function() {
 			$window.localStorage.removeItem('kosmoramaId');
 			$window.localStorage.removeItem('kosmoramaKey');
@@ -116,12 +140,19 @@ angular
 			$window.localStorage.removeItem('kosmoramaNote');
 		};
 
+		/**
+		 * Clear completed training data from local storage.
+		 */
 		this.clearTrainingData = function() {
 			$window.localStorage.removeItem('kosmoramaCompleted');
 			this.persistentUserData.training = [];
 			this.completed = [];
 		};
 
+		/**
+		 * Upon completing a training, it's kept in the completed trainings array.
+		 * Takes into account that there might be pass headers in the list.
+		 */
 		this.complete = function(trainingReport) {
 			if (!this.completed[passCount]) {
 				this.completed[passCount] = getTemplate();
@@ -130,11 +161,15 @@ angular
 			if (this.proceduralUserData.isLastPassItem) {
 				this.persistentUserData.training.shift();
 				this.persistentUserData.training.shift();
-			} else {
+			}
+			else {
 				this.persistentUserData.training.splice(1, 1);
 			}
 		};
 
+		/**
+		 * Save the current pass data in local storage.
+		 */
 		this.retainCurrentPassData = function() {
 			if (!this.completed[passCount]) {
 				console.log('Pretty sure this is not ever supposed to happen!');
@@ -146,6 +181,11 @@ angular
 			passCount++;
 		};
 
+		/**
+		 * Shuffle the persistent user data object to the next training item in line.
+		 * Also create procedural data points, if next training is available.
+		 * Takes into account that there might be pass headers in the list.
+		 */
 		this.nextTraining = function() {
 			// Is this the last pass item?
 			var isLastItem = this.persistentUserData.training[2] == undefined;
@@ -168,20 +208,9 @@ angular
 			return [];
 		};
 
-		this.setTemporaryTimerData = function(timerData) {
-			this.temporaryTimerData = timerData;
-			window.localStorage.setItem('timer', JSON.stringify(this.temporaryTimerData));
-		};
-
-		this.getTemporaryTimerData = function() {
-			var data = window.localStorage.getItem('timer');
-			return JSON.parse(data);
-		};
-
-		this.removeTemporaryTimerData = function() {
-			window.localStorage.removeItem('timer');
-		};
-
+		/**
+		 * Get a new clone of a training pass template.
+		 */
 		var getTemplate = function() {
 			return {
 				reports: [],
@@ -194,6 +223,9 @@ angular
 			};
 		};
 
+		/**
+		 * Determine whether the item is a training item.
+		 */
 		var isTrainingItem = function(item) {
 			return item.hasOwnProperty('ExerciseId');
 		};
@@ -210,6 +242,21 @@ angular
 				key += String.fromCharCode(Math.ceil(random));
 			}
 			return key;
+		};
+
+		/* Not yet implemented section */
+		this.setTemporaryTimerData = function(timerData) {
+			this.temporaryTimerData = timerData;
+			window.localStorage.setItem('timer', JSON.stringify(this.temporaryTimerData));
+		};
+
+		this.getTemporaryTimerData = function() {
+			var data = window.localStorage.getItem('timer');
+			return JSON.parse(data);
+		};
+
+		this.removeTemporaryTimerData = function() {
+			window.localStorage.removeItem('timer');
 		};
 
 	});
