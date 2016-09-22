@@ -1,12 +1,12 @@
 angular
 	.module('kosmoramaApp')
 	.controller('TrainingController',
-		function($rootScope, $state, $timeout, $ionicHistory, tabsService, languageService, popupService, dataService, loadingService, storageService, mediaService) {
+		function($rootScope, $state, $timeout, $ionicHistory, tabsService, languageService, popupService, dataService, loadingService, storageService, mediaService, blobService, debugService) {
 
 			var self = this;
-			self.getAudio = mediaService.getAudio;
-			self.getVideo = mediaService.getVideo;
-			self.getPicture = mediaService.getPicture;
+			self.getAudio = debugService.device ? mediaService.getAudio : blobService.getAudio;
+			self.getVideo = debugService.device ? mediaService.getVideo : blobService.getVideo;
+			self.getPicture = debugService.device ? mediaService.getPicture : blobService.getPicture;
 			self.TrainingItems = [];
 			self.currentTrainingId = -1;
 

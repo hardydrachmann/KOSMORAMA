@@ -37,10 +37,10 @@ angular
 			 */
 			self.spoofNetwork = true;
 			self.browserSubmit = function() {
+				console.log('test');
 				if (!debugService.device) {
 					if (self.spoofNetwork) {
 						assessNetwork('wifi');
-
 					}
 				}
 			};
@@ -88,7 +88,7 @@ angular
 			function getData() {
 				loadingService.loaderShow();
 				storageService.clearTrainingData();
-				dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
+				dataService.getUser(storageService.getUserScreenNumber(), function(result) {
 					getTraining(result.Id);
 				});
 			}

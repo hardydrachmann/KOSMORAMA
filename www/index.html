@@ -53,6 +53,7 @@
     <script src="app/services/downloadService.js"></script>
     <script src="app/services/mediaService.js"></script>
     <script src="app/tabs/tabsService.js"></script>
+    <script src="app/services/blobService.js"></script>
     <script src="app/services/debugService.js"></script>
 
     <!-- libraries -->
@@ -89,11 +90,11 @@
                                                 <i id="new-mail-tab" ng-if="mailTab.newMailCount > 0" class="icon icon-tag ion-record"></i>
                                                 </i>
                                             </div>
-                                            <div ng-if="help.getState() === 'home'" class="item" menu-close="" ng-click="home.browserSubmit()">
+                                            <div ng-if="help.getState() === 'home'" class="item" menu-close ng-click="tabs.sync()">
                                                 <p>{{lang.getText('syncTab')}}</p>
                                                 <i class="icon ion-loop"></i>
                                             </div>
-                                            <div ng-if="help.getState() !== 'login'" class="item" menu-close="" ng-click="user.logout()">
+                                            <div ng-if="help.getState() !== 'login'" class="item" menu-close ng-click="user.logout()">
                                                 <p>{{lang.getText('logoutText')}}</p>
                                                 <i class="icon ion-reply"></i>
                                             </div>

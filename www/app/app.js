@@ -26,7 +26,7 @@ angular
             return false;
         }, 101);
     })
-    .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $sceDelegateProvider) {
 
         $stateProvider.state('home', {
             url: '/home',
@@ -89,4 +89,10 @@ angular
         });
 
         $urlRouterProvider.otherwise('/login');
+
+        // Whitelist self and azure blob url.
+        $sceDelegateProvider.resourceUrlWhitelist([
+            'self',
+            'https://welfaredenmark.blob.core.windows.net/**'
+        ]);
     });

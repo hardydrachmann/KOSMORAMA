@@ -1,31 +1,29 @@
 // This is a service which can get the locally stored media files related to a users training (pictures, audio & video) & delete them 'all-at-once' when not needed anymore.
 
-angular.module('kosmoramaApp').service('mediaService', function(loadingService, popupService, $cordovaFile, storageService, debugService) {
+angular.module('kosmoramaApp').service('mediaService', function($cordovaFile, loadingService, popupService, storageService, debugService) {
 
 	/**
 	 * Get currently stored and relevant training picture.
 	 */
 	this.getPicture = function(exerciseId) {
-		if (debugService.device) {
-			return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/picture/picture.png';
-		}
+		return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/picture/picture.png';
+
 	};
 
 	/**
 	 * Get currently stored and relevant training audio.
 	 */
 	this.getAudio = function(exerciseId) {
-		if (debugService.device) {
-			switch (exerciseId) {
-				case 'startTraining':
-					return 'fx/start_training.mp3';
-				case 'stopTraining':
-					return 'fx/stop_training.mp3';
-				case 'prompt':
-					return 'fx/prompt.mp3';
-				default:
-					return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
-			}
+		switch (exerciseId) {
+			case 'startTraining':
+				return 'fx/start_training.mp3';
+			case 'stopTraining':
+				return 'fx/stop_training.mp3';
+			case 'prompt':
+				return 'fx/prompt.mp3';
+			default:
+				var language = storageService.getCorrectedLanguageString();
+				return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/audio/' + language + '/speak.mp3';
 		}
 	};
 
@@ -33,9 +31,8 @@ angular.module('kosmoramaApp').service('mediaService', function(loadingService, 
 	 * Get currently stored and relevant training video.
 	 */
 	this.getVideo = function(exerciseId) {
-		if (debugService.device) {
-			return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/video/speak.mp4';
-		}
+		return cordova.file.externalApplicationStorageDirectory + 'media/' + exerciseId + '/video/speak.mp4';
+
 	};
 
 	/**

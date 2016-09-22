@@ -105,6 +105,11 @@ angular
 		 * Used when the screen changes size while developing in a browser.
 		 */
 		function refreshRadius() {
-			self.radius = $window.outerHeight / 5;
+			if ($window.outerWidth / $window.innerHeight == 0.75) {
+				self.radius = $window.outerHeight / 7;
+			}
+			else {
+				self.radius = $window.outerHeight / 6;
+			}
 		}
 	});

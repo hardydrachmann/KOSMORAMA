@@ -7,19 +7,19 @@
 
 .progress-wrapper {
     position: absolute;
-    bottom: 10vh;
+    bottom: 5vh;
     left: 50%;
     transform: translateX(-50%);
 }
 
 .progress-content {
     position: absolute;
-    bottom: 32.5%;
+    bottom: 30%;
     left: 50%;
     height: 15vh;
     transform: translateX(-50%);
     text-align: center;
-    font-size: 10vh;
+    font-size: 9vh;
     overflow: visible;
     color: white;
     line-height: 1;
