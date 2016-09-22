@@ -1,7 +1,7 @@
 angular
     .module('kosmoramaApp')
     .controller('MailController',
-        function($rootScope, $timeout, languageService, popupService, dataService, storageService) {
+        function($rootScope, $timeout, $ionicHistory, languageService, popupService, dataService, storageService) {
 
             var self = this;
 
@@ -10,15 +10,20 @@ angular
             self.mailMenu = false;
 
             (function init() {
-                getMails();
+                var currentView = $ionicHistory.currentView();
+                if (currentView) {
+                    if (currentView.stateName !== 'login') {
+                        getMails();
+                    }
+                }
                 $rootScope.$on('expandLeftEvent', function() {
                     self.mailMenu = false;
                 });
             })();
 
             /**
-			 * Toggle mail menu active.
-			 */
+             * Toggle mail menu active.
+             */
             self.mailToggle = function() {
                 self.mailMenu = !self.mailMenu;
             };

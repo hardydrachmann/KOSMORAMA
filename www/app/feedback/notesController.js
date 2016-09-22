@@ -24,7 +24,7 @@ angular
                     if ($ionicHistory.currentView().stateName === 'notes') {
                         storageService.retainCurrentPassData();
                     }
-                    else if (!storageService.persistentUserData.allowMessage) {
+                    else if (!storageService.getAllowMessage()) {
                         storageService.retainCurrentPassData();
                     }
 
@@ -51,9 +51,7 @@ angular
             };
 
             self.getRemainingCharsColor = function() {
-                var remainingChars = self.maxChars - self.messageText.length;
-                console.log(remainingChars)
-                return remainingChars < 100 ? red : green;
+                return self.maxChars - self.messageText.length < 100 ? red : green;
             };
 
             /**

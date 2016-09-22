@@ -32,7 +32,8 @@ angular
             url: '/home',
             templateUrl: 'app/home/home.html',
             controller: 'HomeController',
-            controllerAs: 'home'
+            controllerAs: 'home',
+            cache: false
         })
 
         .state('login', {

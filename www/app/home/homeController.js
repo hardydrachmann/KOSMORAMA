@@ -31,13 +31,22 @@ angular
 				});
 			})();
 
+			self.getPassCount = function() {
+				var trainings = storageService.persistentUserData.training;
+				var passCount = 0;
+				for (var i = 0; i < trainings.length; i++) {
+					if (trainings[i].passTitle) {
+						passCount++;
+					}
+				}
+				return passCount;
+			};
 
 			/**
 			 * Pretend to access to network when working from a browser.
 			 */
 			self.spoofNetwork = true;
-			self.browserSubmit = function() {
-				console.log('test');
+			$rootScope.browserSubmit = function() {
 				if (!debugService.device) {
 					if (self.spoofNetwork) {
 						assessNetwork('wifi');
@@ -49,7 +58,9 @@ angular
 			 * Checks the internet status to determine whether it's possible to sync.
 			 */
 			function assessNetwork(networkState) {
+				console.log('Assessing network state...');
 				if (debugService.device) {
+					// Actually get the network state of the device.
 					networkState = $cordovaNetwork.getNetwork();
 				}
 				if (storageService.getCompleted().length) {
@@ -62,11 +73,12 @@ angular
 
 			/**
 			 * Syncs data to the database and updates current training plan.
+			 * !BUG!: Need callback to avoid getting new training before currently finished training has been submitted.
 			 */
 			function syncData() {
 				var data = storageService.getCompleted();
-				console.log('Stored data', data);
-				if (data) {
+				console.log('Syncing stored data.', data);
+				if (data.length) {
 					loadingService.loaderShow();
 					for (var i = 0; i < data.length; i++) {
 						if (data[i]) {
@@ -78,16 +90,18 @@ angular
 							dataService.postFeedback(data[i].passData);
 						}
 					}
-					getData();
 				}
+				getData();
 			}
 
 			/**
 			 * Get the user's training plan.
 			 */
 			function getData() {
+				console.log('Getting data.');
 				loadingService.loaderShow();
 				storageService.clearTrainingData();
+				storageService.printUserData();
 				dataService.getUser(storageService.getUserScreenNumber(), function(result) {
 					getTraining(result.Id);
 				});
@@ -105,8 +119,10 @@ angular
 							}
 							sortTraining(data);
 							loadingService.loaderHide();
+							console.log('Getting data done!');
 							storageService.printStorage();
-						}, 7000);
+							storageService.printUserData();
+						}, 2000);
 					}
 					else {
 						loadingService.loaderHide();

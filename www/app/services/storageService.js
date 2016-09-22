@@ -1,12 +1,20 @@
 angular
 	.module('kosmoramaApp')
 	.service('storageService', function($window) {
-
+		var self = this;
 		/**
 		 * Print completed training from local storage.
 		 */
 		this.printStorage = function() {
-			console.log('Completed data from local storage:', this.getCompleted());
+			console.log('Completed data in local storage:', this.getCompleted());
+		};
+
+		/**
+		 * Print user data from memory.
+		 */
+		this.printUserData = function() {
+			console.log('Persistent user data in memory:', this.persistentUserData);
+			console.log('Procedural user data in memory:', this.proceduralUserData);
 		};
 
 		this.persistentUserData = {
@@ -35,20 +43,38 @@ angular
 			progress: 0
 		};
 
-		var passCount = 0;
 		this.completed = [];
+		this.passCount = 0;
+
+		/**
+		 * Get a new clone of a training pass template.
+		 */
+		var getTemplate = function() {
+			return {
+				reports: [],
+				passData: {
+					trainingId: 0,
+					sessionOrderNumber: 0,
+					painLevel: null,
+					message: null
+				}
+			};
+		};
 
 		/**
 		 * Get the completed trainings from local storage.
 		 */
 		this.getCompleted = function() {
+			console.log('Getting completed data from storage service. Data in memory: ', this.completed);
 			if (!this.completed.length) {
 				var stored = $window.localStorage['kosmoramaCompleted'];
+				console.log('Getting completed data as string from storage.', stored);
 				if (stored) {
 					stored = JSON.parse(stored);
 					this.completed = stored;
 				}
 			}
+			console.log('Returning completed data:', this.completed);
 			return this.completed;
 		};
 
@@ -141,17 +167,21 @@ angular
 		 * Clear all persistent user data from the device.
 		 */
 		this.clearPersistentData = function() {
+			console.log('Cleared persistent data.');
 			$window.localStorage.removeItem('kosmoramaId');
 			$window.localStorage.removeItem('kosmoramaKey');
 			$window.localStorage.removeItem('kosmoramaLang');
 			$window.localStorage.removeItem('kosmoramaNote');
+			this.persistentUserData = {};
 		};
 
 		/**
 		 * Clear completed training data from local storage.
 		 */
 		this.clearTrainingData = function() {
+			console.log('Cleared training data.');
 			$window.localStorage.removeItem('kosmoramaCompleted');
+			this.proceduralUserData = {};
 			this.persistentUserData.training = [];
 			this.completed = [];
 		};
@@ -159,12 +189,16 @@ angular
 		/**
 		 * Upon completing a training, it's kept in the completed trainings array.
 		 * Takes into account that there might be pass headers in the list.
+		 * Array positions........
 		 */
 		this.complete = function(trainingReport) {
-			if (!this.completed[passCount]) {
-				this.completed[passCount] = getTemplate();
+			console.log('PassCount', this.passCount);
+			if (!this.completed[this.passCount]) {
+				this.completed[this.passCount] = getTemplate();
+				console.log('Fresh template.', this.completed[this.passCount]);
 			}
-			this.completed[passCount].reports.push(trainingReport);
+			this.completed[this.passCount].reports.push(trainingReport);
+			console.log('Completed training data:', this.completed[this.passCount].reports);
 			if (this.proceduralUserData.isLastPassItem) {
 				this.persistentUserData.training.shift();
 				this.persistentUserData.training.shift();
@@ -178,20 +212,22 @@ angular
 		 * Save the current pass data in local storage.
 		 */
 		this.retainCurrentPassData = function() {
-			if (!this.completed[passCount]) {
+			console.log('Retaining current pass data', this.proceduralUserData.passData, this.completed);
+			if (!this.completed[this.passCount]) {
 				console.log('Pretty sure this is not ever supposed to happen!');
-				this.completed[passCount] = getTemplate();
+				this.completed[this.passCount] = getTemplate();
 			}
-			this.completed[passCount].passData = this.proceduralUserData.passData;
+			this.completed[this.passCount].passData = this.proceduralUserData.passData;
 			this.proceduralUserData.passData = null;
 			$window.localStorage['kosmoramaCompleted'] = JSON.stringify(this.completed);
-			passCount++;
+			this.passCount++;
 		};
 
 		/**
-		 * Shuffle the persistent user data object to the next training item in line.
+		 * Shift the next training item in the persistent user data object to the next item in line.
 		 * Also create procedural data points, if next training is available.
 		 * Takes into account that there might be pass headers in the list.
+		 * Array positions.......
 		 */
 		this.nextTraining = function() {
 			// Is this the last pass item?
@@ -213,21 +249,6 @@ angular
 				return this.persistentUserData.training;
 			}
 			return [];
-		};
-
-		/**
-		 * Get a new clone of a training pass template.
-		 */
-		var getTemplate = function() {
-			return {
-				reports: [],
-				passData: {
-					trainingId: 0,
-					sessionOrderNumber: 0,
-					painLevel: null,
-					message: null
-				}
-			};
 		};
 
 		/**
