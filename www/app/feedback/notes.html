@@ -1,11 +1,14 @@
-<!--WIP-->
-<div class="backgroundColor">
+<div class="bg-blue-shoes">
+	<wd-header title="lang.getText('notesTitle')"></wd-header>
 
-	<i class="ion-compose"></i>
 	<div id="notesArea">
-		<textarea id="notesInput" maxlength="{{notes.maxChars}}" ng-focus="notes.clearContent($event)" ng-blur="notes.revertContent($event)" ng-model="notes.messageText" ng-change="notes.remainingChars()" rows="14" placeholder="{{lang.getText('notesTitle')}}">
+		<textarea maxlength="{{notes.maxChars}}" ng-focus="notes.clearContent($event)" ng-blur="notes.revertContent($event)" ng-model="notes.messageText" ng-change="notes.remainingChars()" placeholder="{{lang.getText('notesPlaceholder')}}">
 		</textarea>
 
-		<p>{{lang.getText('remainingChars')}}<span id="showCharsCount" style="color:white">{{notes.maxChars}}</span></p>
+		<p>{{lang.getText('remainingChars')}}<span id="showCharsCount" ng-style="notes.getRemainingCharsColor()">{{notes.maxChars}}</span></p>
+	</div>
+
+	<div class="wide-button blue-button notes-button" ng-click="user.login()">
+		<p class="content-font">{{lang.getText('notesSend')}}</p>
 	</div>
 </div>

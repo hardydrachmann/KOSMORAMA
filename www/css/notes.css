@@ -16,6 +16,30 @@
 .notes-button {
     position: absolute;
     left: 50%;
-    bottom: 10vh;
+    bottom: 11vh;
     transform: translateX(-50%);
+}
+
+#notesArea {
+    display: block;
+    margin: auto;
+    margin-top: 5vh;
+}
+
+#notesArea textarea {
+    margin: auto;
+    padding: 2vh;
+    width: 90%;
+    height: 50vh;
+    font-size: 3vh;
+    resize: none;
+    background-color: rgba(0, 0, 0, 0.25);
+    color: white;
+}
+
+#notesArea p {
+    margin-left: 10%;
+    font-weight: bold;
+    margin-top: 2vh;
+    font-size: 3vh;
 }

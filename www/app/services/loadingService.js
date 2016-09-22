@@ -7,7 +7,7 @@ angular.module('kosmoramaApp').service('loadingService', function($ionicLoading,
 	 */
 	this.loaderShow = function() {
 		$ionicLoading.show({
-			template: '<ion-spinner icon="circles"></ion-spinner>',
+			template: '<ion-spinner icon="bubbles"></ion-spinner>',
 			animation: 'fade-in'
 		});
 	};

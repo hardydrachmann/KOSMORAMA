@@ -33,6 +33,13 @@ angular
                 });
             })();
 
+            var red = {
+                'color': '#DB1A1A'
+            };
+            var green = {
+                'color': '#19DC19'
+            };
+
             self.getPainLevelDescription = function() {
                 var level = Math.ceil(self.painValue / 2);
                 level = level == 0 ? 1 : level;
@@ -40,11 +47,13 @@ angular
             };
 
             self.getPainLevelColor = function() {
-                return self.painValue > 5 ? {
-                    'color': '#DB1A1A'
-                } : {
-                    'color': '#19DC19'
-                };
+                return self.painValue > 5 ? red : green;
+            };
+
+            self.getRemainingCharsColor = function() {
+                var remainingChars = self.maxChars - self.messageText.length;
+                console.log(remainingChars)
+                return remainingChars < 100 ? red : green;
             };
 
             /**
@@ -60,7 +69,7 @@ angular
              */
             self.revertContent = function(event) {
                 var element = $(event.target);
-                element.attr('placeholder', languageService.getText('notesTitle'));
+                element.attr('placeholder', languageService.getText('notesPlaceholder'));
             };
 
             self.maxChars = 500;
@@ -69,8 +78,7 @@ angular
              * Display remaining amount of characters to the user.
              */
             self.remainingChars = function() {
-                var textLength = self.messageText.length;
-                var remainingChars = self.maxChars - textLength;
+                var remainingChars = self.maxChars - self.messageText.length;
                 $('#showCharsCount').html(remainingChars);
             };
 

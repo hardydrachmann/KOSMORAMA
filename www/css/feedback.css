@@ -24,9 +24,15 @@
     position: relative;
     transform: translateY(-50%);
     top: 6.5vh;
-    left: 2.5vh;
+    left: 1vh;
     text-align: left;
     font-size: 5vh;
     line-height: 2;
     color: white;
+}
+
+@media (min-width: 600px) {
+    #smiley-list p {
+        left: 10vh;
+    }
 }

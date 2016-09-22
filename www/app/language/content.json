@@ -145,6 +145,11 @@
     },
 
     "notesTitle": {
+        "da_DK": "Notat til Træning",
+        "en_US": "Training Notes"
+    },
+
+    "notesPlaceholder": {
         "da_DK": "Skriv din besked her...\n\nTryk på 'Fortsæt' knappen når du er færdig.",
         "en_US": "Write your message here...\n\nPress the 'Continue' button when done."
     },
@@ -152,6 +157,11 @@
     "remainingChars": {
         "da_DK": "Resterende tegn: ",
         "en_US": "Remaining characters: "
+    },
+
+    "notesSend": {
+        "da_DK": "Send!",
+        "en_US": "Send!"
     },
 
     "notesHelp": {
