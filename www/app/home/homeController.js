@@ -1,7 +1,7 @@
 angular
 	.module('kosmoramaApp')
 	.controller('HomeController',
-		function($rootScope, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
+		function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
 
 			var self = this;
 			self.audio = '';
@@ -80,25 +80,44 @@ angular
 				console.log('Syncing stored data.', data);
 				if (data.length) {
 					loadingService.loaderShow();
+					var toSync = 0;
 					for (var i = 0; i < data.length; i++) {
 						if (data[i]) {
 							for (var j = 0; j < data[i].reports.length; j++) {
 								console.log('Training report', data[i].reports[j][0]);
-								dataService.postData(data[i].reports[j]);
+								toSync++;
+								dataService.postData(data[i].reports[j], function() {
+									toSync--;
+									console.log('Training submitted!');
+								});
 							}
 							console.log('Training feedback', data[i].passData);
-							dataService.postFeedback(data[i].passData);
+							toSync++;
+							dataService.postFeedback(data[i].passData, function() {
+								toSync--;
+							});
 						}
 					}
+					console.log('total items to sync', toSync);
+					var syncInterval = $interval(function() {
+						console.log('Syncing items...', toSync);
+						if (toSync <= 0) {
+							console.log('Done syncing!');
+							getData();
+							$interval.cancel(syncInterval);
+						}
+					}, 1000);
 				}
-				getData();
+				else {
+					getData();
+				}
 			}
 
 			/**
 			 * Get the user's training plan.
 			 */
 			function getData() {
-				console.log('Getting data.');
+				console.log('Getting user and training data...');
 				loadingService.loaderShow();
 				storageService.clearTrainingData();
 				storageService.printUserData();
@@ -118,10 +137,8 @@ angular
 								downloadTraining(data);
 							}
 							sortTraining(data);
+							console.log('All training get!')
 							loadingService.loaderHide();
-							console.log('Getting data done!');
-							storageService.printStorage();
-							storageService.printUserData();
 						}, 2000);
 					}
 					else {
@@ -135,28 +152,29 @@ angular
 			 * Remove all media files on device, then download all new media files.
 			 */
 			function downloadTraining(trainings) {
-				self.audio = '';
 				mediaService.removeMedia();
+				self.audio = '';
 				downloadService.createMediaFolders(trainings, function() {
-					var success = false;
+					var toDownload = 0;
 					for (var i = 0; i < trainings.length; i++) {
-						success = downloadService.downloadMedia(trainings[i].ExerciseId);
-						if (!success) {
-							break;
+						toDownload++;
+						downloadService.downloadMedia(trainings[i].ExerciseId, function() {
+							toDownload--;
+						});
+					}
+
+					var downloadInterval = $interval(function() {
+						console.log('Downloading training bundles...', toDownload);
+						if (toDownload <= 0) {
+							// $timeout(function() {
+							// Timeout might not be necessary.
+							self.audio = mediaService.getAudio('prompt');
+							// }, 100);
+							loadingService.loaderHide();
+							$interval.cancel(downloadInterval);
 						}
-						console.log('success at: ', trainings[i]);
-					}
-					loadingService.loaderHide();
-					$timeout(function() {
-						self.audio = mediaService.getAudio('prompt');
-					}, 100);
-					if (success) {
-						popupService.checkPopup(true);
-					}
-					else {
-						popupService.checkPopup(false);
-						tabsService.setTabs();
-					}
+					}, 1000);
+
 					self.audio = '';
 				});
 			}

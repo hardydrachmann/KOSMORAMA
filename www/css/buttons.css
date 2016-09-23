@@ -13,7 +13,7 @@
 }
 
 
-/*Help Button*/
+/*Header Button*/
 
 .tiny-button {
     display: inline-block;
@@ -41,6 +41,30 @@
 
 .tiny-button-left {
     left: 4vh;
+}
+
+
+/*Medium Button*/
+
+.medium-button {
+    display: inline-block;
+    width: 10vh;
+    height: 10vh;
+    position: absolute;
+    bottom: 4vh;
+    right: 4vh;
+    border: solid #53C6E6 2px;
+    border-radius: 100%;
+    text-align: center;
+    color: #53C6E6;
+}
+
+.medium-button i {
+    display: inline-block;
+    position: relative;
+    transform: translateY(-50%);
+    top: 50%;
+    font-size: 6vh;
 }
 
 

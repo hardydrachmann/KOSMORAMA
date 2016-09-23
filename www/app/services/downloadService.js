@@ -1,22 +1,32 @@
 // This is a service which can download media files related to a users training (audio, video & pictures).
 
-angular.module('kosmoramaApp').service('downloadService', function($cordovaFileTransfer, $cordovaFile, loadingService, storageService, languageService, debugService) {
+angular.module('kosmoramaApp').service('downloadService', function($cordovaFileTransfer, $cordovaFile, $interval, loadingService, storageService, languageService, debugService) {
 
 	var self = this;
-	var fileTransfer, trainingId;
+	var fileTransfer;
 	var baseURL = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
+	var deviceApplicationPath;
 
 	document.addEventListener('deviceready', onDeviceReady, false);
 
 	function onDeviceReady() {
 		fileTransfer = debugService.device ? new FileTransfer() : 'not on device';
+		var devicePlatform = device.platform;
+		if (devicePlatform === 'Android') {
+			deviceApplicationPath = cordova.file.externalDataDirectory;
+		}
+		else {
+			deviceApplicationPath = cordova.file.documentsDirectory;
+		}
+		console.log('downloadService -> onDeviceReady -> platform -> ', devicePlatform);
+		console.log('downloadService -> onDeviceReady -> application path -> ', deviceApplicationPath);
 	}
 
 	/**
 	 * Setup all folders on the device for media files.
 	 */
 	self.createMediaFolders = function(trainings, callback) {
-		var appDir = cordova.file.externalApplicationStorageDirectory;
+		var appDir = deviceApplicationPath;
 		self.createFolder(appDir, 'media/', function(folder) {
 			var subDir = appDir + folder;
 			for (var i = 0; i < trainings.length; i++) {
@@ -43,6 +53,7 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 
 	/**
 	 * Setup a single folder on the device and return the folder in a callback if needed.
+	 * When the downloads are all finished, fire the callback to inform the invoking block to continue it's procedure.
 	 */
 	self.createFolder = function(root, folder, callback) {
 		$cordovaFile.createDir(root, folder, false)
@@ -58,95 +69,89 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 	/**
 	 * Setup media path variables for device storage, and fire the download functions.
 	 */
-	self.downloadMedia = function(exerciseId) {
+	self.downloadMedia = function(exerciseId, callback) {
 		if (debugService.device) {
-			trainingId = exerciseId;
-			var deviceAudioPath, urlAudioPath;
 			try {
-				// add audio files for all languages (used if language is changed while offline).
+				// Count downloading elements and prepare decrementer for
+				var toDownload = 0;
+				var downloadDone = function() {
+					toDownload--;
+				};
+
+				// Download audio files.
 				for (var i = 0; i < languageService.langs.length; i++) {
-					deviceAudioPath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/audio/' + storageService.getCorrectLanguageStringFromInput(languageService.langs[i].tag) + '/speak.mp3';
-					urlAudioPath = baseURL + trainingId + '/speak/' + storageService.getCorrectLanguageStringFromInput(languageService.langs[i].tag) + '/speak.mp3';
-					self.downloadAudio(deviceAudioPath, urlAudioPath);
+					toDownload++;
+					var audioPath = deviceApplicationPath + 'media/' + exerciseId + '/audio/' + storageService.getCorrectLanguageStringFromInput(languageService.langs[i].tag) + '/speak.mp3';
+					var audioUrl = baseURL + exerciseId + '/speak/' + storageService.getCorrectLanguageStringFromInput(languageService.langs[i].tag) + '/speak.mp3';
+					self.downloadAudio(audioPath, audioUrl, downloadDone);
 				}
-				// add video files.
-				var deviceVideoPath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/video/speak.mp4';
-				self.downloadVideo(deviceVideoPath);
-				// add picture files.
-				var devicePicturePath = cordova.file.externalApplicationStorageDirectory + 'media/' + trainingId + '/picture/picture.png';
-				self.downloadPicture(devicePicturePath);
-				return true;
+
+				// Download video files.
+				toDownload++;
+				var videoPath = deviceApplicationPath + 'media/' + exerciseId + '/video/speak.mp4';
+				var videoUrl = baseURL + exerciseId + '/video/speak.mp4';
+				self.downloadVideo(videoPath, videoUrl, downloadDone);
+
+				// Download picture files.
+				toDownload++;
+				var picturePath = deviceApplicationPath + 'media/' + exerciseId + '/picture/picture.png';
+				var pictureUrl = baseURL + exerciseId + '/picture/picture.png';
+				self.downloadPicture(picturePath, pictureUrl, downloadDone);
+
+				// When done downloading everything, callback and cancel the interval.
+				console.log('Downloading ' + toDownload + ' elements from mediaService.');
+				var downloadInterval = $interval(function() {
+					console.log('Downloading individual media...', toDownload);
+					$interval.cancel(downloadInterval);
+					callback();
+				}, 1000);
 			}
 			catch (error) {
-				return false;
+				console.log('Download error', error);
 			}
 		}
-		else {
-			return true;
-		}
 	};
 
 	/**
-	 * Download relevant audio to the device, based on exerciseId and selected language.
+	 * Download audio for a training.
 	 */
-	self.downloadAudio = function(deviceAudioPath, urlAudioPath) {
+	self.downloadAudio = function(audioPath, audioUrl, callback) {
 		fileTransfer.download(
-			encodeURI(urlAudioPath),
-			deviceAudioPath,
-			self.downloadSuccess,
+			encodeURI(audioUrl),
+			audioPath,
+			callback,
 			self.downloadError
 		);
 	};
 
 	/**
-	 * Download relevant video to the device, based on exerciseId.
+	 * Download video for a training.
 	 */
-	self.downloadVideo = function(deviceVideoPath) {
+	self.downloadVideo = function(videoPath, videoUrl, callback) {
 		fileTransfer.download(
-			encodeURI(self.getExerciseVideoURL()),
-			deviceVideoPath,
-			self.downloadSuccess,
+			encodeURI(videoUrl),
+			videoPath,
+			callback,
 			self.downloadError
 		);
 	};
 
 	/**
-	 * Download relevant picture to the device, based on exerciseId.
+	 * Download picture for a training.
 	 */
-	self.downloadPicture = function(devicePicturePath) {
+	self.downloadPicture = function(picturePath, pictureUrl, callback) {
 		fileTransfer.download(
-			encodeURI(self.getExercisePictureURL()),
-			devicePicturePath,
-			self.downloadSuccess,
+			encodeURI(pictureUrl),
+			picturePath,
+			callback,
 			self.downloadError
 		);
 	};
 
 	/**
-	 * Handle download functions callback when successful.
-	 */
-	self.downloadSuccess = function(entry) {
-		console.log('download successful');
-	};
-
-	/**
-	 * Handle download functions callback when an error occur.
+	 * Print out download errors.
 	 */
 	self.downloadError = function(error) {
-		console.log('download ERROR: ', error);
-	};
-
-	/**
-	 * Gets the exercise video, based on exerciseId.
-	 */
-	self.getExerciseVideoURL = function() {
-		return baseURL + trainingId + '/video/speak.mp4';
-	};
-
-	/**
-	 * Gets the exercise picture, based on exerciseId.
-	 */
-	self.getExercisePictureURL = function() {
-		return baseURL + trainingId + '/picture/picture.png';
+		console.log('Download error!', error);
 	};
 });

@@ -1,7 +1,6 @@
 angular
 	.module('kosmoramaApp')
 	.service('storageService', function($window) {
-		var self = this;
 		/**
 		 * Print completed training from local storage.
 		 */
@@ -65,7 +64,7 @@ angular
 		 * Get the completed trainings from local storage.
 		 */
 		this.getCompleted = function() {
-			console.log('Getting completed data from storage service. Data in memory: ', this.completed);
+			console.log('Completed data in memory: ', this.completed);
 			if (!this.completed.length) {
 				var stored = $window.localStorage['kosmoramaCompleted'];
 				console.log('Getting completed data as string from storage.', stored);
@@ -167,7 +166,6 @@ angular
 		 * Clear all persistent user data from the device.
 		 */
 		this.clearPersistentData = function() {
-			console.log('Cleared persistent data.');
 			$window.localStorage.removeItem('kosmoramaId');
 			$window.localStorage.removeItem('kosmoramaKey');
 			$window.localStorage.removeItem('kosmoramaLang');
@@ -179,7 +177,6 @@ angular
 		 * Clear completed training data from local storage.
 		 */
 		this.clearTrainingData = function() {
-			console.log('Cleared training data.');
 			$window.localStorage.removeItem('kosmoramaCompleted');
 			this.proceduralUserData = {};
 			this.persistentUserData.training = [];
@@ -189,16 +186,14 @@ angular
 		/**
 		 * Upon completing a training, it's kept in the completed trainings array.
 		 * Takes into account that there might be pass headers in the list.
-		 * Array positions........
+		 * At the last item in the pass, shift the array twice to remove the header which each pass has.
 		 */
 		this.complete = function(trainingReport) {
 			console.log('PassCount', this.passCount);
 			if (!this.completed[this.passCount]) {
 				this.completed[this.passCount] = getTemplate();
-				console.log('Fresh template.', this.completed[this.passCount]);
 			}
 			this.completed[this.passCount].reports.push(trainingReport);
-			console.log('Completed training data:', this.completed[this.passCount].reports);
 			if (this.proceduralUserData.isLastPassItem) {
 				this.persistentUserData.training.shift();
 				this.persistentUserData.training.shift();
@@ -212,7 +207,6 @@ angular
 		 * Save the current pass data in local storage.
 		 */
 		this.retainCurrentPassData = function() {
-			console.log('Retaining current pass data', this.proceduralUserData.passData, this.completed);
 			if (!this.completed[this.passCount]) {
 				console.log('Pretty sure this is not ever supposed to happen!');
 				this.completed[this.passCount] = getTemplate();
@@ -227,7 +221,9 @@ angular
 		 * Shift the next training item in the persistent user data object to the next item in line.
 		 * Also create procedural data points, if next training is available.
 		 * Takes into account that there might be pass headers in the list.
-		 * Array positions.......
+		 * Headers take up the first position, so if it's not the last item in the pass,
+		 * which is definitely a header in that case.
+		 * This is why index 1 and 2 are used as opposed to 0 and 1.
 		 */
 		this.nextTraining = function() {
 			// Is this the last pass item?
@@ -271,20 +267,4 @@ angular
 			}
 			return key;
 		};
-
-		/* Not yet implemented section */
-		this.setTemporaryTimerData = function(timerData) {
-			this.temporaryTimerData = timerData;
-			window.localStorage.setItem('timer', JSON.stringify(this.temporaryTimerData));
-		};
-
-		this.getTemporaryTimerData = function() {
-			var data = window.localStorage.getItem('timer');
-			return JSON.parse(data);
-		};
-
-		this.removeTemporaryTimerData = function() {
-			window.localStorage.removeItem('timer');
-		};
-
 	});
