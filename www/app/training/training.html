@@ -5,8 +5,6 @@
 
         <audio src="{{training.getAudio('startTraining')}}" type="audio/mpeg" autoplay="autoplay"></audio>
 
-        <audio src="{{timer.stopAudio}}" type="audio/mpeg" autoplay="autoplay"></audio>
-
         <video id="playerID" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" autoplay loop></video>
 
         <div class="progress-wrapper" ng-click="timer.continue()">
@@ -22,6 +20,11 @@
                 <p>{{timer.formattedTime().min}}<span class="small-text">{{lang.getText('min')}}.</span>&nbsp;{{timer.formattedTime().sec}}<span class="small-text">{{lang.getText('sec')}}.</span></p>
                 <p><span class="small-text">{{lang.getText('set')}}:&nbsp;</span>{{timer.training.sets}}</p>
             </div>
+        </div>
+
+        <div class="medium-button medium-button-right" ng-click="timer.pause()">
+            <i style="left: 0.vh" ng-if="timer.paused" class="icon ion-play"></i>
+            <i ng-if="!timer.paused" class="icon ion-pause"></i>
         </div>
 
     </div>

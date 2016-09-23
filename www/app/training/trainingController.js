@@ -32,6 +32,7 @@ angular
 			 */
 			self.trainingDescription = function() {
 				var item = storageService.proceduralUserData.currentTraining;
+				// console.log(item);
 				if (item) {
 					return item.LangDesc[languageService.lang];
 				}

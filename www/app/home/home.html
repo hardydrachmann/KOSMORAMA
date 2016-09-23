@@ -3,12 +3,12 @@
 
     <img class="round-image" ng-src="img/round-placeholder.png">
 
-    <p class="textbody">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi facilisis elementum dui quis posuere. Sed euismod eu risus ac ornare. Suspendisse commodo velit ut nisl auctor cursus.</p>
+    <p class="textbody">Velkommen til Virtuel Træning. Du har på nuværende tidspunkt {{home.getPassCount()}} træningspas tilbage. Tryk på start for at begynde, eller vælg menuen i øverste venstre hjørne, for at se din post.</p>
 
     <div id="button-start">
         <a ng-href="#/trainingPlan">
             <div class="wide-button blue-button">
-                <p class="content-font">Start!</p>
+                <p class="content-font">{{lang.getText('start')}}</p>
             </div>
         </a>
     </div>

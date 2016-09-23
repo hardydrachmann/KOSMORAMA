@@ -1,10 +1,10 @@
 angular
 	.module('kosmoramaApp')
-	.controller('TimerController', function($interval, $window, $state, languageService, storageService, mediaService, tabsService) {
+	.controller('TimerController', function($interval, $window, $timeout, $state, languageService, storageService, mediaService, tabsService) {
 
 		var self = this;
 		var counter;
-		var video = $('video');
+		var video = $('video').get(0);
 
 		self.continue = tabsService.continue;
 
@@ -24,7 +24,6 @@ angular
 				time: currentTraining.TimeSet * 60,
 				pause: currentTraining.Pause * 60
 			};
-			console.log('Training data for timer:', self.training);
 			$window.onresize = refreshRadius;
 			refreshRadius();
 			start();
@@ -41,6 +40,10 @@ angular
 				}
 				else {
 					$interval.cancel(counter);
+					$timeout(function() {
+						// Let interval cancel before pausing video.
+						video.pause();
+					}, 100);
 					self.paused = true;
 				}
 			}
@@ -50,6 +53,7 @@ angular
 		 * Resume the timer.
 		 */
 		self.resume = function() {
+			video.play();
 			counter = $interval(function() {
 				incrementTimer();
 			}, 1000, self.training.time - self.seconds);
@@ -83,7 +87,7 @@ angular
 		 */
 		function start() {
 			if (!counter) {
-				video.get(0).play();
+				video.play();
 				incrementTimer();
 				counter = $interval(function() {
 					incrementTimer();
@@ -103,6 +107,7 @@ angular
 		/**
 		 * Update the radius of the progress bar.
 		 * Used when the screen changes size while developing in a browser.
+		 * Also take into account the ratio of the screen, to make sure the progress bar fits on wider devices.
 		 */
 		function refreshRadius() {
 			if ($window.outerWidth / $window.innerHeight == 0.75) {

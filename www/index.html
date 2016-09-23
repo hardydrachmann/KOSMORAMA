@@ -76,7 +76,7 @@
                             <ion-side-menu side="left">
                                 <ion-menu ng-if="!lang.langMenu && !mailTab.mailMenu">
                                     <ion-header class="menu-header">
-                                        <h1>Menu</h1>
+                                        <h1>{{lang.getText('menu')}}</h1>
                                     </ion-header>
                                     <ion-content class="menu-list" scroll="false">
                                         <ion-list>
@@ -90,7 +90,7 @@
                                                 <i id="new-mail-tab" ng-if="mailTab.newMailCount > 0" class="icon icon-tag ion-record"></i>
                                                 </i>
                                             </div>
-                                            <div ng-if="help.getState() === 'home'" class="item" menu-close ng-click="tabs.sync()">
+                                            <div ng-if="help.getState() === 'home'" class="item" menu-close ng-click="browserSubmit()">
                                                 <p>{{lang.getText('syncTab')}}</p>
                                                 <i class="icon ion-loop"></i>
                                             </div>

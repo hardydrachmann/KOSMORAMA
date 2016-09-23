@@ -35,7 +35,8 @@ angular
 			url: '/home',
 			templateUrl: 'app/home/home.html',
 			controller: 'HomeController',
-			controllerAs: 'home'
+			controllerAs: 'home',
+			cache: false
 		})
 
 		.state('login', {
@@ -93,7 +94,7 @@ angular
 
 		$urlRouterProvider.otherwise('/login');
 
-		// Whitelist self and azure blob url.
+		// Whitelist 'self' (keyword) and azure blob url.
 		$sceDelegateProvider.resourceUrlWhitelist([
 			'self',
 			'https://welfaredenmark.blob.core.windows.net/**'

@@ -1,12 +1,19 @@
 angular
 	.module('kosmoramaApp')
 	.service('storageService', function($window) {
-
 		/**
 		 * Print completed training from local storage.
 		 */
 		this.printStorage = function() {
-			console.log('Completed data from local storage:', this.getCompleted());
+			console.log('Completed data in local storage:', this.getCompleted());
+		};
+
+		/**
+		 * Print user data from memory.
+		 */
+		this.printUserData = function() {
+			console.log('Persistent user data in memory:', this.persistentUserData);
+			console.log('Procedural user data in memory:', this.proceduralUserData);
 		};
 
 		this.persistentUserData = {
@@ -35,20 +42,38 @@ angular
 			progress: 0
 		};
 
-		var passCount = 0;
 		this.completed = [];
+		this.passCount = 0;
+
+		/**
+		 * Get a new clone of a training pass template.
+		 */
+		var getTemplate = function() {
+			return {
+				reports: [],
+				passData: {
+					trainingId: 0,
+					sessionOrderNumber: 0,
+					painLevel: null,
+					message: null
+				}
+			};
+		};
 
 		/**
 		 * Get the completed trainings from local storage.
 		 */
 		this.getCompleted = function() {
+			console.log('Completed data in memory: ', this.completed);
 			if (!this.completed.length) {
 				var stored = $window.localStorage['kosmoramaCompleted'];
+				console.log('Getting completed data as string from storage.', stored);
 				if (stored) {
 					stored = JSON.parse(stored);
 					this.completed = stored;
 				}
 			}
+			console.log('Returning completed data:', this.completed);
 			return this.completed;
 		};
 
@@ -145,6 +170,7 @@ angular
 			$window.localStorage.removeItem('kosmoramaKey');
 			$window.localStorage.removeItem('kosmoramaLang');
 			$window.localStorage.removeItem('kosmoramaNote');
+			this.persistentUserData = {};
 		};
 
 		/**
@@ -152,6 +178,7 @@ angular
 		 */
 		this.clearTrainingData = function() {
 			$window.localStorage.removeItem('kosmoramaCompleted');
+			this.proceduralUserData = {};
 			this.persistentUserData.training = [];
 			this.completed = [];
 		};
@@ -159,12 +186,14 @@ angular
 		/**
 		 * Upon completing a training, it's kept in the completed trainings array.
 		 * Takes into account that there might be pass headers in the list.
+		 * At the last item in the pass, shift the array twice to remove the header which each pass has.
 		 */
 		this.complete = function(trainingReport) {
-			if (!this.completed[passCount]) {
-				this.completed[passCount] = getTemplate();
+			console.log('PassCount', this.passCount);
+			if (!this.completed[this.passCount]) {
+				this.completed[this.passCount] = getTemplate();
 			}
-			this.completed[passCount].reports.push(trainingReport);
+			this.completed[this.passCount].reports.push(trainingReport);
 			if (this.proceduralUserData.isLastPassItem) {
 				this.persistentUserData.training.shift();
 				this.persistentUserData.training.shift();
@@ -178,20 +207,23 @@ angular
 		 * Save the current pass data in local storage.
 		 */
 		this.retainCurrentPassData = function() {
-			if (!this.completed[passCount]) {
+			if (!this.completed[this.passCount]) {
 				console.log('Pretty sure this is not ever supposed to happen!');
-				this.completed[passCount] = getTemplate();
+				this.completed[this.passCount] = getTemplate();
 			}
-			this.completed[passCount].passData = this.proceduralUserData.passData;
+			this.completed[this.passCount].passData = this.proceduralUserData.passData;
 			this.proceduralUserData.passData = null;
 			$window.localStorage['kosmoramaCompleted'] = JSON.stringify(this.completed);
-			passCount++;
+			this.passCount++;
 		};
 
 		/**
-		 * Shuffle the persistent user data object to the next training item in line.
+		 * Shift the next training item in the persistent user data object to the next item in line.
 		 * Also create procedural data points, if next training is available.
 		 * Takes into account that there might be pass headers in the list.
+		 * Headers take up the first position, so if it's not the last item in the pass,
+		 * which is definitely a header in that case.
+		 * This is why index 1 and 2 are used as opposed to 0 and 1.
 		 */
 		this.nextTraining = function() {
 			// Is this the last pass item?
@@ -216,21 +248,6 @@ angular
 		};
 
 		/**
-		 * Get a new clone of a training pass template.
-		 */
-		var getTemplate = function() {
-			return {
-				reports: [],
-				passData: {
-					trainingId: 0,
-					sessionOrderNumber: 0,
-					painLevel: null,
-					message: null
-				}
-			};
-		};
-
-		/**
 		 * Determine whether the item is a training item.
 		 */
 		var isTrainingItem = function(item) {
@@ -250,20 +267,4 @@ angular
 			}
 			return key;
 		};
-
-		/* Not yet implemented section */
-		this.setTemporaryTimerData = function(timerData) {
-			this.temporaryTimerData = timerData;
-			window.localStorage.setItem('timer', JSON.stringify(this.temporaryTimerData));
-		};
-
-		this.getTemporaryTimerData = function() {
-			var data = window.localStorage.getItem('timer');
-			return JSON.parse(data);
-		};
-
-		this.removeTemporaryTimerData = function() {
-			window.localStorage.removeItem('timer');
-		};
-
 	});

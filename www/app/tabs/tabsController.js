@@ -47,8 +47,6 @@ angular
                         }
                         break;
                     case 'painLevel':
-                        console.log('Allow', storageService.getAllowMessage());
-                        console.log('USN', storageService.getUserScreenNumber());
                         if (storageService.getAllowMessage()) {
                             $state.go('notes');
                         }

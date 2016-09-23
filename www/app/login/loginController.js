@@ -63,6 +63,7 @@ angular
             self.logout = function() {
                 popupService.confirmPopup(languageService.getText('logoutText'), '', function() {
                     storageService.clearPersistentData();
+                    storageService.clearTrainingData();
                     mediaService.removeMedia();
                     screenNumber = '';
                     $state.go('login');

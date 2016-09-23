@@ -1,7 +1,7 @@
 angular
 	.module('kosmoramaApp')
 	.controller('HomeController',
-		function($rootScope, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
+		function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
 
 			var self = this;
 			self.audio = '';
@@ -31,13 +31,22 @@ angular
 				});
 			})();
 
+			self.getPassCount = function() {
+				var trainings = storageService.persistentUserData.training;
+				var passCount = 0;
+				for (var i = 0; i < trainings.length; i++) {
+					if (trainings[i].passTitle) {
+						passCount++;
+					}
+				}
+				return passCount;
+			};
 
 			/**
 			 * Pretend to access to network when working from a browser.
 			 */
 			self.spoofNetwork = true;
-			self.browserSubmit = function() {
-				console.log('test');
+			$rootScope.browserSubmit = function() {
 				if (!debugService.device) {
 					if (self.spoofNetwork) {
 						assessNetwork('wifi');
@@ -49,35 +58,55 @@ angular
 			 * Checks the internet status to determine whether it's possible to sync.
 			 */
 			function assessNetwork(networkState) {
+				console.log('Assessing network state...');
 				if (debugService.device) {
+					// Actually get the network state of the device.
 					networkState = $cordovaNetwork.getNetwork();
 				}
 				if (storageService.getCompleted().length) {
 					syncData();
-				}
-				else {
+				} else {
 					getData();
 				}
 			}
 
 			/**
 			 * Syncs data to the database and updates current training plan.
+			 * !BUG!: Need callback to avoid getting new training before currently finished training has been submitted.
 			 */
 			function syncData() {
 				var data = storageService.getCompleted();
-				console.log('Stored data', data);
-				if (data) {
+				console.log('Syncing stored data.', data);
+				if (data.length) {
 					loadingService.loaderShow();
+					var toSync = 0;
 					for (var i = 0; i < data.length; i++) {
 						if (data[i]) {
 							for (var j = 0; j < data[i].reports.length; j++) {
 								console.log('Training report', data[i].reports[j][0]);
-								dataService.postData(data[i].reports[j]);
+								toSync++;
+								dataService.postData(data[i].reports[j], function() {
+									toSync--;
+									console.log('Training submitted!');
+								});
 							}
 							console.log('Training feedback', data[i].passData);
-							dataService.postFeedback(data[i].passData);
+							toSync++;
+							dataService.postFeedback(data[i].passData, function() {
+								toSync--;
+							});
 						}
 					}
+					console.log('total items to sync', toSync);
+					var syncInterval = $interval(function() {
+						console.log('Syncing items...', toSync);
+						if (toSync <= 0) {
+							console.log('Done syncing!');
+							getData();
+							$interval.cancel(syncInterval);
+						}
+					}, 1000);
+				} else {
 					getData();
 				}
 			}
@@ -86,8 +115,10 @@ angular
 			 * Get the user's training plan.
 			 */
 			function getData() {
+				console.log('Getting user and training data...');
 				loadingService.loaderShow();
 				storageService.clearTrainingData();
+				storageService.printUserData();
 				dataService.getUser(storageService.getUserScreenNumber(), function(result) {
 					getTraining(result.Id);
 				});
@@ -99,16 +130,12 @@ angular
 			function getTraining(userId) {
 				dataService.getTraining(userId, function(data) {
 					if (data) {
-						$timeout(function() {
-							if (debugService.device) {
-								downloadTraining(data);
-							}
-							sortTraining(data);
-							loadingService.loaderHide();
-							storageService.printStorage();
-						}, 7000);
-					}
-					else {
+						console.log('All training get!');
+						if (debugService.device) {
+							downloadTraining(data);
+						}
+						sortTraining(data);
+					} else {
 						loadingService.loaderHide();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 					}
@@ -119,28 +146,29 @@ angular
 			 * Remove all media files on device, then download all new media files.
 			 */
 			function downloadTraining(trainings) {
-				self.audio = '';
+
 				mediaService.removeMedia();
+				self.audio = '';
+				var toDownload = trainings.length;
+				var downloadDone = function() {
+					toDownload--;
+				};
+				console.log('INIT DOWNLOAD ', toDownload);
 				downloadService.createMediaFolders(trainings, function() {
-					var success = false;
+					console.log('MEDIA folders CREATED!');
 					for (var i = 0; i < trainings.length; i++) {
-						success = downloadService.downloadMedia(trainings[i].ExerciseId);
-						if (!success) {
-							break;
+						downloadService.downloadMedia(trainings[i].ExerciseId, downloadDone);
+					}
+
+					var downloadInterval = $interval(function() {
+						console.log('DOWNLOAD BUNDLES...', toDownload);
+						if (toDownload <= 0) {
+							console.log('Download completed');
+							self.audio = mediaService.getAudio('prompt');
+							loadingService.loaderHide();
+							$interval.cancel(downloadInterval);
 						}
-						console.log('success at: ', trainings[i]);
-					}
-					loadingService.loaderHide();
-					$timeout(function() {
-						self.audio = mediaService.getAudio('prompt');
-					}, 100);
-					if (success) {
-						popupService.checkPopup(true);
-					}
-					else {
-						popupService.checkPopup(false);
-						tabsService.setTabs();
-					}
+					}, 1000);
 					self.audio = '';
 				});
 			}
