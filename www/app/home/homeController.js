@@ -159,16 +159,16 @@ angular
 					var downloadDone = function() {
 						toDownload--;
 					};
-					// console.log('INIT DOWNLOAD ', toDownload);
+					console.log('INIT DOWNLOAD ', toDownload);
 					downloadService.createMediaFolders(trainings, function() {
 						for (var i = 0; i < trainings.length; i++) {
 							downloadService.downloadMedia(trainings[i].ExerciseId, downloadDone);
 						}
 
 						var downloadInterval = $interval(function() {
-							// console.log('DOWNLOAD BUNDLES...', toDownload);
+							console.log('DOWNLOAD BUNDLES...', toDownload);
 							if (toDownload <= 0) {
-								// console.log('Download completed');
+								console.log('Download completed');
 								self.audio = mediaService.getAudio('prompt');
 								loadingService.loaderHide();
 								$interval.cancel(downloadInterval);
