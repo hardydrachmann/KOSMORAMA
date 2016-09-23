@@ -1,3 +1,3 @@
 angular.module('kosmoramaApp').service('debugService', function() {
-	this.device = true;
+	this.device = false;
 });

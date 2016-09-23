@@ -65,7 +65,8 @@ angular
 				}
 				if (storageService.getCompleted().length) {
 					syncData();
-				} else {
+				}
+				else {
 					getData();
 				}
 			}
@@ -106,7 +107,8 @@ angular
 							$interval.cancel(syncInterval);
 						}
 					}, 1000);
-				} else {
+				}
+				else {
 					getData();
 				}
 			}
@@ -134,8 +136,12 @@ angular
 						if (debugService.device) {
 							downloadTraining(data);
 						}
+						else {
+							loadingService.loaderHide();
+						}
 						sortTraining(data);
-					} else {
+					}
+					else {
 						loadingService.loaderHide();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 					}
@@ -146,31 +152,34 @@ angular
 			 * Remove all media files on device, then download all new media files.
 			 */
 			function downloadTraining(trainings) {
-
 				mediaService.removeMedia();
 				self.audio = '';
-				var toDownload = trainings.length;
-				var downloadDone = function() {
-					toDownload--;
-				};
-				console.log('INIT DOWNLOAD ', toDownload);
-				downloadService.createMediaFolders(trainings, function() {
-					console.log('MEDIA folders CREATED!');
-					for (var i = 0; i < trainings.length; i++) {
-						downloadService.downloadMedia(trainings[i].ExerciseId, downloadDone);
-					}
-
-					var downloadInterval = $interval(function() {
-						console.log('DOWNLOAD BUNDLES...', toDownload);
-						if (toDownload <= 0) {
-							console.log('Download completed');
-							self.audio = mediaService.getAudio('prompt');
-							loadingService.loaderHide();
-							$interval.cancel(downloadInterval);
+				if (trainings.length) {
+					var toDownload = trainings.length;
+					var downloadDone = function() {
+						toDownload--;
+					};
+					// console.log('INIT DOWNLOAD ', toDownload);
+					downloadService.createMediaFolders(trainings, function() {
+						for (var i = 0; i < trainings.length; i++) {
+							downloadService.downloadMedia(trainings[i].ExerciseId, downloadDone);
 						}
-					}, 1000);
-					self.audio = '';
-				});
+
+						var downloadInterval = $interval(function() {
+							// console.log('DOWNLOAD BUNDLES...', toDownload);
+							if (toDownload <= 0) {
+								// console.log('Download completed');
+								self.audio = mediaService.getAudio('prompt');
+								loadingService.loaderHide();
+								$interval.cancel(downloadInterval);
+							}
+						}, 1000);
+						self.audio = '';
+					});
+				}
+				else {
+					loadingService.loaderHide();
+				}
 			}
 
 			/**
