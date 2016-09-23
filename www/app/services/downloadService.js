@@ -73,37 +73,36 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 		if (debugService.device) {
 			try {
 				// Count downloading elements and prepare decrementer for
-				var toDownload = 0;
+				var toDownload = languageService.langs.length + 2;
 				var downloadDone = function() {
 					toDownload--;
 				};
 
 				// Download audio files.
 				for (var i = 0; i < languageService.langs.length; i++) {
-					toDownload++;
 					var audioPath = deviceApplicationPath + 'media/' + exerciseId + '/audio/' + storageService.getCorrectLanguageStringFromInput(languageService.langs[i].tag) + '/speak.mp3';
 					var audioUrl = baseURL + exerciseId + '/speak/' + storageService.getCorrectLanguageStringFromInput(languageService.langs[i].tag) + '/speak.mp3';
 					self.downloadAudio(audioPath, audioUrl, downloadDone);
 				}
 
 				// Download video files.
-				toDownload++;
 				var videoPath = deviceApplicationPath + 'media/' + exerciseId + '/video/speak.mp4';
 				var videoUrl = baseURL + exerciseId + '/video/speak.mp4';
 				self.downloadVideo(videoPath, videoUrl, downloadDone);
 
 				// Download picture files.
-				toDownload++;
 				var picturePath = deviceApplicationPath + 'media/' + exerciseId + '/picture/picture.png';
 				var pictureUrl = baseURL + exerciseId + '/picture/picture.png';
 				self.downloadPicture(picturePath, pictureUrl, downloadDone);
 
 				// When done downloading everything, callback and cancel the interval.
-				console.log('Downloading ' + toDownload + ' elements from mediaService.');
+				console.log('downloading ' + toDownload + ' elements from mediaService.');
 				var downloadInterval = $interval(function() {
-					console.log('Downloading individual media...', toDownload);
-					$interval.cancel(downloadInterval);
-					callback();
+					console.log('download individual media...', toDownload);
+					if (toDownload <= 0) {
+						$interval.cancel(downloadInterval);
+						callback();
+					}
 				}, 1000);
 			}
 			catch (error) {

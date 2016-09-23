@@ -132,14 +132,11 @@ angular
 			function getTraining(userId) {
 				dataService.getTraining(userId, function(data) {
 					if (data) {
-						$timeout(function() {
-							if (debugService.device) {
-								downloadTraining(data);
-							}
-							sortTraining(data);
-							console.log('All training get!')
-							loadingService.loaderHide();
-						}, 2000);
+						if (debugService.device) {
+							downloadTraining(data);
+						}
+						sortTraining(data);
+						console.log('All training get!');
 					}
 					else {
 						loadingService.loaderHide();
@@ -155,21 +152,19 @@ angular
 				mediaService.removeMedia();
 				self.audio = '';
 				downloadService.createMediaFolders(trainings, function() {
-					var toDownload = 0;
+					var toDownload = trainings.length;
+					console.log('INIT DOWNLOAD ', toDownload);
 					for (var i = 0; i < trainings.length; i++) {
-						toDownload++;
 						downloadService.downloadMedia(trainings[i].ExerciseId, function() {
 							toDownload--;
 						});
 					}
 
 					var downloadInterval = $interval(function() {
-						console.log('Downloading training bundles...', toDownload);
+						console.log('DOWNLOAD BUNDLES...', toDownload);
 						if (toDownload <= 0) {
-							// $timeout(function() {
-							// Timeout might not be necessary.
+							console.log('Download completed');
 							self.audio = mediaService.getAudio('prompt');
-							// }, 100);
 							loadingService.loaderHide();
 							$interval.cancel(downloadInterval);
 						}

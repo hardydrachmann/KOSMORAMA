@@ -108,9 +108,7 @@ angular.module('kosmoramaApp').service('mediaService', function($timeout, loadin
 	self.removeMedia = function() {
 		if (debugService.device) {
 			if ($cordovaFile.checkDir(deviceApplicationPath, 'media')) {
-				loadingService.loaderShow();
 				$cordovaFile.removeRecursively(deviceApplicationPath, 'media');
-				loadingService.loaderHide();
 			}
 		}
 	};
