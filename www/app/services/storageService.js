@@ -127,8 +127,6 @@ angular
 			}
 			var key = $window.localStorage.getItem('kosmoramaKey');
 			var encryptedId = $window.localStorage.getItem('kosmoramaId');
-			console.log('IOS storagesrv getuserscreennumber.key: ', key);
-			console.log('IOS storagesrv getuserscreennumber.encryptedId: ', encryptedId);
 			if (key && encryptedId) {
 				var decryptedId = sjcl.decrypt(key, encryptedId);
 				this.persistentUserData.userScreenNumber = decryptedId;

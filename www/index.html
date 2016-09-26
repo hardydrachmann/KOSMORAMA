@@ -91,7 +91,7 @@
                                                 <i id="new-mail-tab" ng-if="mailTab.newMailCount > 0" class="icon icon-tag ion-record"></i>
                                                 </i>
                                             </div>
-                                            <div ng-if="help.getState() === 'home'" class="item" menu-close ng-click="forceSync()">
+                                            <div ng-if="help.getState() === 'home'" class="item" menu-close ng-click="forceSync(); mailTab.getMails();">
                                                 <p>{{lang.getText('syncTab')}}</p>
                                                 <i class="icon ion-loop"></i>
                                             </div>

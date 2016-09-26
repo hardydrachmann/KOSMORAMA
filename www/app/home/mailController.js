@@ -14,7 +14,7 @@ angular
                     var currentView = $ionicHistory.currentView();
                     if (currentView) {
                         if (currentView.stateName !== 'login') {
-                            getMails();
+                            self.getMails();
                         }
                     }
                 }, 1000);
@@ -48,7 +48,7 @@ angular
             /**
              * Loads messages for user by using the screen number.
              */
-            function getMails() {
+            self.getMails = function() {
                 console.log('Get mails!');
                 dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
                     self.mails = result.UserMessages;
@@ -77,7 +77,7 @@ angular
                         // If for some reason the server is unavailable.
                         popupService.alertPopup(languageService.getText('mailError'));
                     }
-                    getMails();
+                    self.getMails();
                 });
             };
         });

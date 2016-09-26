@@ -9,12 +9,8 @@ angular
 			self.idle = true;
 
 			(function init() {
-				try {
-					if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
-						assessNetwork();
-					}
-				} catch (err) {
-					console.log('IOS homectrl init: ', JSON.stringify(err));
+				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
+					assessNetwork();
 				}
 				$rootScope.device = debugService.device;
 
@@ -73,7 +69,8 @@ angular
 					}
 					if (storageService.getCompleted().length) {
 						syncData();
-					} else {
+					}
+					else {
 						getData();
 					}
 				}
@@ -114,7 +111,8 @@ angular
 							$interval.cancel(syncInterval);
 						}
 					}, 1000);
-				} else {
+				}
+				else {
 					getData();
 				}
 			}
@@ -141,11 +139,13 @@ angular
 						console.log('All training get!');
 						if (debugService.device) {
 							downloadTraining(data);
-						} else {
+						}
+						else {
 							done();
 						}
 						sortTraining(data);
-					} else {
+					}
+					else {
 						done();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 					}
@@ -180,7 +180,8 @@ angular
 						}, 1000);
 						self.audio = '';
 					});
-				} else {
+				}
+				else {
 					done();
 				}
 			}
