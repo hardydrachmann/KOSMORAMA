@@ -1,6 +1,6 @@
 angular
     .module('kosmoramaApp')
-    .service('dataService', function() {
+    .service('mockService', function() {
 
         var mockballeman = {
             AllowMsgFeedback: true,
@@ -121,27 +121,27 @@ angular
         }];
 
         this.getUser = function(userScreenNumber, callback) {
-            console.log('Get user with screen number', userScreenNumber);
+            console.log('MOCK: Get user with screen number', userScreenNumber);
             callback(mockballeman);
         };
 
         this.getTraining = function(UserId, callback) {
-            console.log('Get training for user with id', UserId);
+            console.log('MOCK: Get training for user with id', UserId);
             callback(mockTraining);
         };
 
         this.postData = function(trainingReport, callback) {
-            console.log('Report received by database', trainingReport);
+            console.log('MOCK: Report received by database', trainingReport);
             callback();
         };
 
         this.postNoteData = function(noteId, callback) {
-            console.log('Message marked as read by database', noteId);
+            console.log('MOCK: Message marked as read by database', noteId);
             callback();
         };
 
         this.postFeedback = function(feedbackObject, callback) {
-            console.log('Training pass feedback received by database', feedbackObject);
+            console.log('MOCK: Training pass feedback received by database', feedbackObject);
             callback();
         };
     });

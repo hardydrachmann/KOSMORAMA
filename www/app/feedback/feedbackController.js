@@ -18,6 +18,7 @@ angular
                     "Score": stats,
                     "Time": calculateTime(training),
                     "Repetitions": [],
+                    "IsMobile": true,
                     "Questions": null
                 }];
                 storageService.complete(trainingReport);

@@ -51,7 +51,6 @@ angular
             function getMails() {
                 dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
                     self.mails = result.UserMessages;
-                    console.log(self.mails);
                     countNewMails(self.mails);
                 });
             }

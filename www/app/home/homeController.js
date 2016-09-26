@@ -57,10 +57,10 @@ angular
 			 * Checks the internet status to determine whether it's possible to sync.
 			 */
 			function assessNetwork(networkState) {
-				console.log('Idle', self.idle);
 				if (self.idle) {
 					console.log('Assessing network state...');
 					self.idle = false;
+					console.log('Idle?', self.idle);
 					if (debugService.device) {
 						// Actually get the network state of the device.
 						networkState = $cordovaNetwork.getNetwork();
@@ -122,7 +122,7 @@ angular
 				console.log('Getting user and training data...');
 				loadingService.loaderShow();
 				storageService.clearTrainingData();
-				storageService.printUserData();
+				// storageService.printUserData();
 				dataService.getUser(storageService.getUserScreenNumber(), function(result) {
 					getTraining(result.Id);
 				});
@@ -139,12 +139,12 @@ angular
 							downloadTraining(data);
 						}
 						else {
-							loadingService.loaderHide();
+							done();
 						}
 						sortTraining(data);
 					}
 					else {
-						loadingService.loaderHide();
+						done();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 					}
 				});
@@ -172,8 +172,7 @@ angular
 							if (toDownload <= 0) {
 								console.log('Download completed');
 								self.audio = mediaService.getAudio('prompt');
-								loadingService.loaderHide();
-								self.idle = true;
+								done();
 								$interval.cancel(downloadInterval);
 							}
 						}, 1000);
@@ -181,8 +180,7 @@ angular
 					});
 				}
 				else {
-					loadingService.loaderHide();
-					self.idle = true;
+					done();
 				}
 			}
 
@@ -206,4 +204,10 @@ angular
 					}
 				}
 			}
+
+			var done = function() {
+				loadingService.loaderHide();
+				self.idle = true;
+				console.log('Idle?', self.idle);
+			};
 		});

@@ -64,16 +64,16 @@ angular
 		 * Get the completed trainings from local storage.
 		 */
 		this.getCompleted = function() {
-			console.log('Completed data in memory: ', this.completed);
+			// console.log('Completed data in memory: ', this.completed);
 			if (!this.completed.length) {
-				var stored = $window.localStorage['kosmoramaCompleted'];
-				console.log('Getting completed data as string from storage.', stored);
+				var stored = $window.localStorage.getItem('kosmoramaCompleted');
+				// console.log('Getting completed data as string from storage.', stored);
 				if (stored) {
 					stored = JSON.parse(stored);
 					this.completed = stored;
 				}
 			}
-			console.log('Returning completed data:', this.completed);
+			// console.log('Returning completed data:', this.completed);
 			return this.completed;
 		};
 
@@ -84,7 +84,7 @@ angular
 			if (this.persistentUserData.language) {
 				return this.persistentUserData.language;
 			}
-			var language = $window.localStorage['kosmoramaLang'];
+			var language = $window.localStorage.getItem('kosmoramaLang');
 			if (language) {
 				this.persistentUserData.language = language;
 				return language;
@@ -115,7 +115,7 @@ angular
 		 */
 		this.setSelectedLanguage = function(language) {
 			this.persistentUserData.language = language;
-			$window.localStorage['kosmoramaLang'] = language;
+			$window.localStorage.setItem('kosmoramaLang', language);
 		};
 
 		/**
@@ -125,8 +125,8 @@ angular
 			if (this.persistentUserData.userScreenNumber) {
 				return this.persistentUserData.userScreenNumber;
 			}
-			var key = $window.localStorage['kosmoramaKey'];
-			var encryptedId = $window.localStorage['kosmoramaId'];
+			var key = $window.localStorage.getItem('kosmoramaKey');
+			var encryptedId = $window.localStorage.getItem('kosmoramaId');
 			if (key && encryptedId) {
 				var decryptedId = sjcl.decrypt(key, encryptedId);
 				this.persistentUserData.userScreenNumber = decryptedId;
@@ -141,8 +141,8 @@ angular
 		this.setUserScreenNumber = function(number) {
 			var key = getRandomKey();
 			var id = sjcl.encrypt(key, number);
-			$window.localStorage['kosmoramaKey'] = key;
-			$window.localStorage['kosmoramaId'] = id;
+			$window.localStorage.setItem('kosmoramaKey', key);
+			$window.localStorage.setItem('kosmoramaId', id);
 			this.persistentUserData.userScreenNumber = number;
 		};
 
@@ -150,7 +150,7 @@ angular
 		 * Access whether the user is allowed to send messages to the therapist.
 		 */
 		this.getAllowMessage = function() {
-			this.persistentUserData.allowMessage = $window.localStorage['kosmoramaNote'];
+			this.persistentUserData.allowMessage = $window.localStorage.getItem('kosmoramaNote');
 			return this.persistentUserData.allowMessage;
 		};
 
@@ -159,7 +159,7 @@ angular
 		 */
 		this.setAllowMessage = function(allow) {
 			this.persistentUserData.allowMessage = allow;
-			$window.localStorage['kosmoramaNote'] = allow;
+			$window.localStorage('kosmoramaNote', allow);
 		};
 
 		/**
@@ -212,7 +212,7 @@ angular
 			}
 			this.completed[this.passCount].passData = this.proceduralUserData.passData;
 			this.proceduralUserData.passData = null;
-			$window.localStorage['kosmoramaCompleted'] = JSON.stringify(this.completed);
+			$window.localStorage.setItem('kosmoramaCompleted', JSON.stringify(this.completed));
 			this.passCount++;
 		};
 
