@@ -7,13 +7,13 @@ angular
             Id: 79,
             Name: "G. Ravballeman",
             UserMessages: [{
-                Content: 'Mock message content',
-                IsRead: false,
-                Time: "2016-09-19T16:58:23.37",
-                Title: "Ny besked",
-            }, {
-                Content: 'Test 2',
+                Content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse a tellus a nisl tincidunt posuere. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam posuere felis quis sodales pellentesque. Fusce vel placerat ipsum. Nam eu lacus sed justo porttitor aliquet. Quisque at arcu fermentum, dictum purus vel, blandit metus. Duis bibendum porta massa, ut laoreet leo venenatis eget. Vestibulum cursus dapibus lorem eu dignissim. Praesent lacus felis, facilisis lobortis mi vel, porttitor facilisis tellus. Vestibulum fermentum ligula risus, facilisis congue nisi finibus vitae. Ut laoreet eros urna, nec finibus risus vulputate in. Aenean vel fringilla risus. Nam aliquet leo lorem.',
                 IsRead: true,
+                Time: "2016-09-19T16:58:23.37",
+                Title: "Lipsum besked",
+            }, {
+                Content: 'Mock message content test',
+                IsRead: false,
                 Time: "2016-09-19T16:58:23.37",
                 Title: "Testbesked",
             }]
@@ -137,7 +137,7 @@ angular
 
         this.postNoteData = function(noteId, callback) {
             console.log('MOCK: Message marked as read by database', noteId);
-            callback();
+            callback({});
         };
 
         this.postFeedback = function(feedbackObject, callback) {

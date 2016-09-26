@@ -49,6 +49,7 @@ angular
              * Loads messages for user by using the screen number.
              */
             function getMails() {
+                console.log('Get mails!');
                 dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
                     self.mails = result.UserMessages;
                     countNewMails(self.mails);

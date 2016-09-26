@@ -159,7 +159,7 @@ angular
 		 */
 		this.setAllowMessage = function(allow) {
 			this.persistentUserData.allowMessage = allow;
-			$window.localStorage('kosmoramaNote', allow);
+			$window.localStorage.setItem('kosmoramaNote', allow);
 		};
 
 		/**

@@ -32,6 +32,9 @@ angular
 				});
 			})();
 
+			/**
+			 * Get the amount of remaining training passes to complete.
+			 */
 			self.getPassCount = function() {
 				var trainings = storageService.persistentUserData.training;
 				var passCount = 0;
@@ -44,9 +47,8 @@ angular
 			};
 
 			/**
-			 * Pretend to access to network when working from a browser.
+			 * Force accessing the network to do a selective sync.
 			 */
-			self.spoofNetwork = true;
 			$rootScope.forceSync = function() {
 				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
 					assessNetwork();
@@ -205,9 +207,9 @@ angular
 				}
 			}
 
-			var done = function() {
+			function done() {
 				loadingService.loaderHide();
 				self.idle = true;
 				console.log('Idle?', self.idle);
-			};
+			}
 		});
