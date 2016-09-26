@@ -9,27 +9,31 @@ angular
 			self.idle = true;
 
 			(function init() {
-				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
-					assessNetwork();
+				try {
+					if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
+						assessNetwork();
+					}
+				} catch (err) {
+					console.log('IOS homectrl init: ', JSON.stringify(err));
 				}
 				$rootScope.device = debugService.device;
 
-				$rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
-					if (!self.online) {
-						if (networkState === 'wifi') {
-							self.online = true;
-							assessNetwork(networkState);
-						}
-					}
-				});
-
-				$rootScope.$on('$cordovaNetwork:offline', function(event, networkState) {
-					if (self.online) {
-						if (networkState !== 'wifi') {
-							self.online = false;
-						}
-					}
-				});
+				// $rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
+				// 	if (!self.online) {
+				// 		if (networkState === 'wifi') {
+				// 			self.online = true;
+				// 			assessNetwork(networkState);
+				// 		}
+				// 	}
+				// });
+				//
+				// $rootScope.$on('$cordovaNetwork:offline', function(event, networkState) {
+				// 	if (self.online) {
+				// 		if (networkState !== 'wifi') {
+				// 			self.online = false;
+				// 		}
+				// 	}
+				// });
 			})();
 
 			self.getPassCount = function() {
@@ -67,8 +71,7 @@ angular
 					}
 					if (storageService.getCompleted().length) {
 						syncData();
-					}
-					else {
+					} else {
 						getData();
 					}
 				}
@@ -109,8 +112,7 @@ angular
 							$interval.cancel(syncInterval);
 						}
 					}, 1000);
-				}
-				else {
+				} else {
 					getData();
 				}
 			}
@@ -137,13 +139,11 @@ angular
 						console.log('All training get!');
 						if (debugService.device) {
 							downloadTraining(data);
-						}
-						else {
+						} else {
 							done();
 						}
 						sortTraining(data);
-					}
-					else {
+					} else {
 						done();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 					}
@@ -171,15 +171,14 @@ angular
 							console.log('DOWNLOAD BUNDLES...', toDownload);
 							if (toDownload <= 0) {
 								console.log('Download completed');
-								self.audio = mediaService.getAudio('prompt');
+								// self.audio = mediaService.getAudio('prompt');
 								done();
 								$interval.cancel(downloadInterval);
 							}
 						}, 1000);
 						self.audio = '';
 					});
-				}
-				else {
+				} else {
 					done();
 				}
 			}

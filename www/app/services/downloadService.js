@@ -61,7 +61,7 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 					callback(folder);
 				}
 			}, function(error) {
-				console.log('error: ', error);
+				console.log('error: ', JSON.stringify(error));
 			});
 	};
 

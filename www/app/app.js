@@ -41,7 +41,8 @@ angular
 
 		.state('login', {
 			url: '/login',
-			templateUrl: 'app/login/login.html'
+			templateUrl: 'app/login/login.html',
+			cache: false
 		})
 
 		.state('trainingPlan', {
@@ -99,4 +100,6 @@ angular
 			'self',
 			'https://welfaredenmark.blob.core.windows.net/**'
 		]);
+
+		$ionicConfigProvider.views.swipeBackEnabled(false);
 	});

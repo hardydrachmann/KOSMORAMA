@@ -127,6 +127,8 @@ angular
 			}
 			var key = $window.localStorage.getItem('kosmoramaKey');
 			var encryptedId = $window.localStorage.getItem('kosmoramaId');
+			console.log('IOS storagesrv getuserscreennumber.key: ', key);
+			console.log('IOS storagesrv getuserscreennumber.encryptedId: ', encryptedId);
 			if (key && encryptedId) {
 				var decryptedId = sjcl.decrypt(key, encryptedId);
 				this.persistentUserData.userScreenNumber = decryptedId;
@@ -159,7 +161,7 @@ angular
 		 */
 		this.setAllowMessage = function(allow) {
 			this.persistentUserData.allowMessage = allow;
-			$window.localStorage('kosmoramaNote', allow);
+			$window.localStorage.setItem('kosmoramaNote', allow);
 		};
 
 		/**
@@ -196,8 +198,7 @@ angular
 			if (this.proceduralUserData.isLastPassItem) {
 				this.persistentUserData.training.shift();
 				this.persistentUserData.training.shift();
-			}
-			else {
+			} else {
 				this.persistentUserData.training.splice(1, 1);
 			}
 		};
