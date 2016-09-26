@@ -10,12 +10,14 @@ angular
             self.mailMenu = false;
 
             (function init() {
-                var currentView = $ionicHistory.currentView();
-                if (currentView) {
-                    if (currentView.stateName !== 'login') {
-                        getMails();
+                $timeout(function() {
+                    var currentView = $ionicHistory.currentView();
+                    if (currentView) {
+                        if (currentView.stateName !== 'login') {
+                            getMails();
+                        }
                     }
-                }
+                }, 1000);
                 $rootScope.$on('expandLeftEvent', function() {
                     self.mailMenu = false;
                 });
@@ -49,6 +51,7 @@ angular
             function getMails() {
                 dataService.getUser(storageService.persistentUserData.userScreenNumber, function(result) {
                     self.mails = result.UserMessages;
+                    console.log(self.mails);
                     countNewMails(self.mails);
                 });
             }

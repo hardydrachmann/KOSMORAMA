@@ -55,6 +55,7 @@
     <script src="app/tabs/tabsService.js"></script>
     <script src="app/services/blobService.js"></script>
     <script src="app/services/debugService.js"></script>
+    <script src="app/services/mockService.js"></script>
 
     <!-- libraries -->
     <script src="lib/components/jquery/dist/jquery.js"></script>
@@ -90,7 +91,7 @@
                                                 <i id="new-mail-tab" ng-if="mailTab.newMailCount > 0" class="icon icon-tag ion-record"></i>
                                                 </i>
                                             </div>
-                                            <div ng-if="help.getState() === 'home'" class="item" menu-close ng-click="browserSubmit()">
+                                            <div ng-if="help.getState() === 'home'" class="item" menu-close ng-click="forceSync()">
                                                 <p>{{lang.getText('syncTab')}}</p>
                                                 <i class="icon ion-loop"></i>
                                             </div>

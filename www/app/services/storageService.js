@@ -189,7 +189,6 @@ angular
 		 * At the last item in the pass, shift the array twice to remove the header which each pass has.
 		 */
 		this.complete = function(trainingReport) {
-			console.log('PassCount', this.passCount);
 			if (!this.completed[this.passCount]) {
 				this.completed[this.passCount] = getTemplate();
 			}

@@ -6,6 +6,7 @@ angular
 			var self = this;
 			self.audio = '';
 			self.online = false;
+			self.idle = true;
 
 			(function init() {
 				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
@@ -46,11 +47,9 @@ angular
 			 * Pretend to access to network when working from a browser.
 			 */
 			self.spoofNetwork = true;
-			$rootScope.browserSubmit = function() {
-				if (!debugService.device) {
-					if (self.spoofNetwork) {
-						assessNetwork('wifi');
-					}
+			$rootScope.forceSync = function() {
+				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
+					assessNetwork();
 				}
 			};
 
@@ -58,22 +57,25 @@ angular
 			 * Checks the internet status to determine whether it's possible to sync.
 			 */
 			function assessNetwork(networkState) {
-				console.log('Assessing network state...');
-				if (debugService.device) {
-					// Actually get the network state of the device.
-					networkState = $cordovaNetwork.getNetwork();
-				}
-				if (storageService.getCompleted().length) {
-					syncData();
-				}
-				else {
-					getData();
+				console.log('Idle', self.idle);
+				if (self.idle) {
+					console.log('Assessing network state...');
+					self.idle = false;
+					if (debugService.device) {
+						// Actually get the network state of the device.
+						networkState = $cordovaNetwork.getNetwork();
+					}
+					if (storageService.getCompleted().length) {
+						syncData();
+					}
+					else {
+						getData();
+					}
 				}
 			}
 
 			/**
 			 * Syncs data to the database and updates current training plan.
-			 * !BUG!: Need callback to avoid getting new training before currently finished training has been submitted.
 			 */
 			function syncData() {
 				var data = storageService.getCompleted();
@@ -171,6 +173,7 @@ angular
 								console.log('Download completed');
 								self.audio = mediaService.getAudio('prompt');
 								loadingService.loaderHide();
+								self.idle = true;
 								$interval.cancel(downloadInterval);
 							}
 						}, 1000);
@@ -179,6 +182,7 @@ angular
 				}
 				else {
 					loadingService.loaderHide();
+					self.idle = true;
 				}
 			}
 
