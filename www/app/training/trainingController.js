@@ -50,6 +50,8 @@ angular
 							$state.go('home');
 							popupService.alertPopup(languageService.getText('noTrainingText'));
 						}
+					} else if (currentState === 'trainingDemo') {
+						$('video').get(0).play();
 					}
 				}
 			}
