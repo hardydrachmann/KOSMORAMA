@@ -1,6 +1,6 @@
 // This is a service which can get the locally stored media files related to a users training (pictures, audio & video) & delete them 'all-at-once' when not needed anymore.
 
-angular.module('kosmoramaApp').service('mediaService', function($interval, $cordovaFile, $cordovaMedia, loadingService, popupService, storageService, debugService) {
+angular.module('kosmoramaApp').service('mediaService', function($interval, $cordovaFile, $cordovaMedia, loadingService, popupService, storageService, debugService, $window) {
 	var self = this;
 	var deviceApplicationPath, devicePlatform;
 	var audioStartTraining = 'fx/start_training.mp3';
@@ -52,22 +52,25 @@ angular.module('kosmoramaApp').service('mediaService', function($interval, $cord
 	/**
 	 * Get currently stored and relevant training audio (iOS only).
 	 */
-	self.getIosAudio = function(exerciseId) {
+	self.playIosAudio = function(exerciseId) {
 		if (debugService.device) {
 			if (devicePlatform === 'iOS') {
 				switch (exerciseId) {
 					case 'startTraining':
-						self.playIosAudio(audioStartTraining);
+						self.getIosAudio(audioStartTraining);
 						break;
 					case 'stopTraining':
-						self.playIosAudio(audioStopTraining);
+						self.getIosAudio(audioStopTraining);
 						break;
 					case 'prompt':
-						self.playIosAudio(audioPrompt);
+						self.getIosAudio(audioPrompt);
 						break;
 					default:
-						self.playIosAudio(deviceApplicationPath + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3');
-						// cordova.file.documentsDirectory
+						var audioDescription = deviceApplicationPath + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
+						$window.resolveLocalFileSystemURL(audioDescription, function(dir) {
+							var basePath = dir.toInternalURL();
+							self.getIosAudio(basePath);
+						});
 						break;
 				}
 			}
@@ -77,7 +80,7 @@ angular.module('kosmoramaApp').service('mediaService', function($interval, $cord
 	/**
 	 * Play an audio file (iOS only).
 	 */
-	self.playIosAudio = function(audioFile) {
+	self.getIosAudio = function(audioFile) {
 		var iosAudio = $cordovaMedia.newMedia(audioFile);
 		var iosPlayOptions = {
 			playAudioWhenScreenIsLocked: false

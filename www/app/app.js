@@ -101,5 +101,6 @@ angular
 			'https://welfaredenmark.blob.core.windows.net/**'
 		]);
 
+		// Disable 'swipe' back on iOS.
 		$ionicConfigProvider.views.swipeBackEnabled(false);
 	});

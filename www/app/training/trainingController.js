@@ -11,10 +11,10 @@ angular
 			self.currentTrainingId = -1;
 
 			(function init() {
-				stateAction();
 				if (storageService.proceduralUserData.currentTraining) {
 					self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
 				}
+				stateAction();
 				$rootScope.$on('continueEvent', function() {
 					$('video').remove();
 				});
@@ -51,8 +51,10 @@ angular
 							popupService.alertPopup(languageService.getText('noTrainingText'));
 						}
 					} else if (currentState === 'trainingDemo') {
+						mediaService.playIosAudio(self.currentTrainingId);
 						$('video').get(0).play();
-						mediaService.getIosAudio('startTraining');
+					} else if (currentState === 'training') {
+						mediaService.playIosAudio('startTraining');
 					}
 				}
 			}

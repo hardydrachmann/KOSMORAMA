@@ -68,8 +68,7 @@ angular
 					}
 					if (storageService.getCompleted().length) {
 						syncData();
-					}
-					else {
+					} else {
 						getData();
 					}
 				}
@@ -110,8 +109,7 @@ angular
 							$interval.cancel(syncInterval);
 						}
 					}, 1000);
-				}
-				else {
+				} else {
 					getData();
 				}
 			}
@@ -138,13 +136,11 @@ angular
 						console.log('All training get!');
 						if (debugService.device) {
 							downloadTraining(data);
-						}
-						else {
+						} else {
 							done();
 						}
 						sortTraining(data);
-					}
-					else {
+					} else {
 						done();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 					}
@@ -172,15 +168,14 @@ angular
 								console.log('DOWNLOAD BUNDLES...', toDownload);
 								if (toDownload <= 0) {
 									console.log('Download completed');
-									mediaService.getIosAudio('prompt');
+									mediaService.playIosAudio('prompt');
 									done();
 									$interval.cancel(downloadInterval);
 								}
 							}, 1000);
 							self.audio = '';
 						});
-					}
-					else {
+					} else {
 						done();
 					}
 				});
