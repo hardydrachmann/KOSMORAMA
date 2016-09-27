@@ -9,9 +9,12 @@ angular
 			self.idle = true;
 
 			(function init() {
-				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
-					assessNetwork();
-				}
+				$timeout(function() {
+					if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
+						assessNetwork();
+					}
+				}, 2000);
+
 				$rootScope.device = debugService.device;
 
 				// $rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
