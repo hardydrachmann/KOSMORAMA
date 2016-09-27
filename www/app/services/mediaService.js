@@ -1,7 +1,6 @@
 // This is a service which can get the locally stored media files related to a users training (pictures, audio & video) & delete them 'all-at-once' when not needed anymore.
 
-angular.module('kosmoramaApp').service('mediaService', function($timeout, loadingService, popupService, $cordovaFile, storageService, debugService) {
-
+angular.module('kosmoramaApp').service('mediaService', function($interval, $cordovaFile, $cordovaMedia, loadingService, popupService, storageService, debugService) {
 	var self = this;
 	var deviceApplicationPath, devicePlatform;
 	var audioStartTraining = 'fx/start_training.mp3';
@@ -21,7 +20,6 @@ angular.module('kosmoramaApp').service('mediaService', function($timeout, loadin
 		console.log('mediaService -> onDeviceReady -> application path -> ', deviceApplicationPath);
 	}
 
-
 	/**
 	 * Get currently stored and relevant training picture.
 	 */
@@ -32,7 +30,7 @@ angular.module('kosmoramaApp').service('mediaService', function($timeout, loadin
 	};
 
 	/**
-	 * Get currently stored and relevant training audio.
+	 * Get currently stored and relevant training audio (Android only).
 	 */
 	self.getAudio = function(exerciseId) {
 		if (debugService.device) {
@@ -47,48 +45,44 @@ angular.module('kosmoramaApp').service('mediaService', function($timeout, loadin
 					default:
 						return deviceApplicationPath + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
 				}
-			} else {
+			}
+		}
+	};
+
+	/**
+	 * Get currently stored and relevant training audio (iOS only).
+	 */
+	self.getIosAudio = function(exerciseId) {
+		if (debugService.device) {
+			if (devicePlatform === 'iOS') {
 				switch (exerciseId) {
 					case 'startTraining':
-						self.playAudio(audioStartTraining);
+						self.playIosAudio(audioStartTraining);
 						break;
 					case 'stopTraining':
-						self.playAudio(audioStopTraining);
+						self.playIosAudio(audioStopTraining);
 						break;
 					case 'prompt':
-						self.playAudio(audioPrompt);
+						self.playIosAudio(audioPrompt);
 						break;
 					default:
-						return deviceApplicationPath + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
+						self.playIosAudio(deviceApplicationPath + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3');
+						// cordova.file.documentsDirectory
+						break;
 				}
 			}
 		}
 	};
 
 	/**
-	 * Play an audio file once on an ios devices.
+	 * Play an audio file (iOS only).
 	 */
-	self.playAudio = function(audioFile) {
-		console.log('iOS PLAY AUDIO CALLED');
-		var iosAudio = new Media(audioFile);
-		iosAudio.play({
-			numberOfLoops: 0
-		});
-		$timeout(function() {
-			iosAudio.release();
-		}, 2000);
-		// var iosAudio = new Media(audioFile,
-		// 	function() {
-		// 		iosAudio.play({
-		// 			numberOfLoops: 1
-		// 		});
-		// 		// iosAudio.stop();
-		// 		// iosAudio.release();
-		// 	},
-		// 	function(err) {
-		// 		console.log('iosAudio playback error: ', err);
-		// 	}
-		// );
+	self.playIosAudio = function(audioFile) {
+		var iosAudio = $cordovaMedia.newMedia(audioFile);
+		var iosPlayOptions = {
+			playAudioWhenScreenIsLocked: false
+		};
+		iosAudio.play(iosPlayOptions);
 	};
 
 	/**
@@ -103,10 +97,18 @@ angular.module('kosmoramaApp').service('mediaService', function($timeout, loadin
 	/**
 	 * Remove all currently stored media files.
 	 */
-	self.removeMedia = function() {
+	self.removeMedia = function(callback) {
 		if (debugService.device) {
 			if ($cordovaFile.checkDir(deviceApplicationPath, 'media')) {
 				$cordovaFile.removeRecursively(deviceApplicationPath, 'media');
+				var removeInterval = $interval(function() {
+					if ($cordovaFile.checkDir(deviceApplicationPath, 'media')) {
+						$interval.cancel(removeInterval);
+						callback();
+					}
+				}, 1000);
+			} else {
+				callback();
 			}
 		}
 	};

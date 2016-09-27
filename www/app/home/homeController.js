@@ -69,8 +69,7 @@ angular
 					}
 					if (storageService.getCompleted().length) {
 						syncData();
-					}
-					else {
+					} else {
 						getData();
 					}
 				}
@@ -111,8 +110,7 @@ angular
 							$interval.cancel(syncInterval);
 						}
 					}, 1000);
-				}
-				else {
+				} else {
 					getData();
 				}
 			}
@@ -139,13 +137,11 @@ angular
 						console.log('All training get!');
 						if (debugService.device) {
 							downloadTraining(data);
-						}
-						else {
+						} else {
 							done();
 						}
 						sortTraining(data);
-					}
-					else {
+					} else {
 						done();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 					}
@@ -156,34 +152,37 @@ angular
 			 * Remove all media files on device, then download all new media files.
 			 */
 			function downloadTraining(trainings) {
-				mediaService.removeMedia();
-				self.audio = '';
-				if (trainings.length) {
-					var toDownload = trainings.length;
-					var downloadDone = function() {
-						toDownload--;
-					};
-					console.log('INIT DOWNLOAD ', toDownload);
-					downloadService.createMediaFolders(trainings, function() {
-						for (var i = 0; i < trainings.length; i++) {
-							downloadService.downloadMedia(trainings[i].ExerciseId, downloadDone);
-						}
-
-						var downloadInterval = $interval(function() {
-							console.log('DOWNLOAD BUNDLES...', toDownload);
-							if (toDownload <= 0) {
-								console.log('Download completed');
-								// self.audio = mediaService.getAudio('prompt');
-								done();
-								$interval.cancel(downloadInterval);
+				mediaService.removeMedia(function() {
+					self.audio = '';
+					if (trainings.length) {
+						var toDownload = trainings.length;
+						var downloadDone = function() {
+							toDownload--;
+						};
+						console.log('INIT DOWNLOAD ', toDownload);
+						downloadService.createMediaFolders(trainings, function() {
+							for (var i = 0; i < trainings.length; i++) {
+								downloadService.downloadMedia(trainings[i].ExerciseId, downloadDone);
 							}
-						}, 1000);
-						self.audio = '';
-					});
-				}
-				else {
-					done();
-				}
+
+							var downloadInterval = $interval(function() {
+								console.log('DOWNLOAD BUNDLES...', toDownload);
+								if (toDownload <= 0) {
+									console.log('Download completed');
+									devicePlatform = device.platform;
+									if (devicePlatform === 'iOS') {
+										mediaService.getIosAudio('prompt');
+									}
+									done();
+									$interval.cancel(downloadInterval);
+								}
+							}, 1000);
+							self.audio = '';
+						});
+					} else {
+						done();
+					}
+				});
 			}
 
 			/**
