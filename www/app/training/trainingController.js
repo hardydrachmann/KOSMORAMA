@@ -52,6 +52,7 @@ angular
 						}
 					} else if (currentState === 'trainingDemo') {
 						$('video').get(0).play();
+						mediaService.getIosAudio('startTraining');
 					}
 				}
 			}

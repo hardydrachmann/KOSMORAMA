@@ -169,10 +169,7 @@ angular
 								console.log('DOWNLOAD BUNDLES...', toDownload);
 								if (toDownload <= 0) {
 									console.log('Download completed');
-									devicePlatform = device.platform;
-									if (devicePlatform === 'iOS') {
-										mediaService.getIosAudio('prompt');
-									}
+									mediaService.getIosAudio('prompt');
 									done();
 									$interval.cancel(downloadInterval);
 								}
@@ -212,3 +209,7 @@ angular
 				console.log('Idle?', self.idle);
 			}
 		});
+}
+});
+}
+});
