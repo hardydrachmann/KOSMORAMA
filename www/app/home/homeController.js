@@ -7,11 +7,10 @@ angular
 			self.audio = '';
 			self.online = false;
 			self.idle = true;
+			$rootScope.forceSync = self.doSync;
 
 			(function init() {
-				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
-					assessNetwork();
-				}
+				$timeout(self.doSync, 1000);
 				$rootScope.device = debugService.device;
 
 				// $rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
@@ -46,10 +45,11 @@ angular
 				return passCount;
 			};
 
+
 			/**
 			 * Force accessing the network to do a selective sync.
 			 */
-			$rootScope.forceSync = function() {
+			self.doSync = function() {
 				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
 					assessNetwork();
 				}
@@ -69,7 +69,8 @@ angular
 					}
 					if (storageService.getCompleted().length) {
 						syncData();
-					} else {
+					}
+					else {
 						getData();
 					}
 				}
@@ -110,7 +111,8 @@ angular
 							$interval.cancel(syncInterval);
 						}
 					}, 1000);
-				} else {
+				}
+				else {
 					getData();
 				}
 			}
@@ -137,11 +139,13 @@ angular
 						console.log('All training get!');
 						if (debugService.device) {
 							downloadTraining(data);
-						} else {
+						}
+						else {
 							done();
 						}
 						sortTraining(data);
-					} else {
+					}
+					else {
 						done();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 					}
@@ -179,7 +183,8 @@ angular
 							}, 1000);
 							self.audio = '';
 						});
-					} else {
+					}
+					else {
 						done();
 					}
 				});
