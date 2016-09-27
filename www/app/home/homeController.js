@@ -209,7 +209,3 @@ angular
 				console.log('Idle?', self.idle);
 			}
 		});
-}
-});
-}
-});
