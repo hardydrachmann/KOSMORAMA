@@ -7,10 +7,10 @@ angular
 			self.audio = '';
 			self.online = false;
 			self.idle = true;
-			$rootScope.forceSync = self.doSync;
+			$rootScope.forceSync = doSync;
 
 			(function init() {
-				$timeout(self.doSync, 1000);
+				$timeout(doSync, 1000);
 				$rootScope.device = debugService.device;
 
 				// $rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
@@ -32,6 +32,15 @@ angular
 			})();
 
 			/**
+			 * Force accessing the network to do a selective sync.
+			 */
+			function doSync() {
+				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
+					assessNetwork();
+				}
+			}
+
+			/**
 			 * Get the amount of remaining training passes to complete.
 			 */
 			self.getPassCount = function() {
@@ -43,16 +52,6 @@ angular
 					}
 				}
 				return passCount;
-			};
-
-
-			/**
-			 * Force accessing the network to do a selective sync.
-			 */
-			self.doSync = function() {
-				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
-					assessNetwork();
-				}
 			};
 
 			/**
@@ -173,10 +172,7 @@ angular
 								console.log('DOWNLOAD BUNDLES...', toDownload);
 								if (toDownload <= 0) {
 									console.log('Download completed');
-									devicePlatform = device.platform;
-									if (devicePlatform === 'iOS') {
-										mediaService.getIosAudio('prompt');
-									}
+									mediaService.getIosAudio('prompt');
 									done();
 									$interval.cancel(downloadInterval);
 								}
@@ -214,6 +210,6 @@ angular
 			function done() {
 				loadingService.loaderHide();
 				self.idle = true;
-				console.log('Idle?', self.idle);
+				// console.log('Idle?', self.idle);
 			}
 		});
