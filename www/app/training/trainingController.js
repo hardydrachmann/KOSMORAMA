@@ -1,7 +1,7 @@
 angular
 	.module('kosmoramaApp')
 	.controller('TrainingController',
-		function($rootScope, $state, $timeout, $ionicHistory, tabsService, languageService, popupService, dataService, loadingService, storageService, mediaService, blobService, debugService) {
+		function($rootScope, $state, $timeout, $ionicHistory, $ionicPlatform, tabsService, languageService, popupService, dataService, loadingService, storageService, mediaService, blobService, debugService) {
 
 			var self = this;
 			self.getAudio = debugService.device ? mediaService.getAudio : blobService.getAudio;
@@ -11,6 +11,24 @@ angular
 			self.currentTrainingId = -1;
 
 			(function init() {
+				$ionicPlatform.on('pause', function() {
+					$('video').get(0).pause();
+					if (device.platform === 'Android') {
+						$('audio').get(0).pause();
+					} else {
+						mediaService.pauseIosAudio();
+					}
+				});
+
+				$ionicPlatform.on('resume', function() {
+					$('video').get(0).play();
+					if (device.platform === 'Android') {
+						$('audio').get(0).play();
+					} else {
+						mediaService.resumeIosAudio();
+					}
+				});
+
 				if (storageService.proceduralUserData.currentTraining) {
 					self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
 				}

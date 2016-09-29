@@ -6,6 +6,7 @@ angular.module('kosmoramaApp').service('mediaService', function($interval, $cord
 	var audioStartTraining = 'fx/start_training.mp3';
 	var audioStopTraining = 'fx/stop_training.mp3';
 	var audioPrompt = 'fx/prompt.mp3';
+	var currentPlayback;
 
 	document.addEventListener('deviceready', onDeviceReady, false);
 
@@ -78,14 +79,23 @@ angular.module('kosmoramaApp').service('mediaService', function($interval, $cord
 	};
 
 	/**
-	 * Play an audio file (iOS only).
+	 * Start playback of an audio file (iOS only).
 	 */
 	self.getIosAudio = function(audioFile) {
 		var iosAudio = $cordovaMedia.newMedia(audioFile);
 		var iosPlayOptions = {
 			playAudioWhenScreenIsLocked: false
 		};
+		currentPlayback = iosAudio;
 		iosAudio.play(iosPlayOptions);
+	};
+
+	self.pauseIosAudio = function() {
+		currentPlayback.pause();
+	};
+
+	self.resumeIosAudio = function() {
+		currentPlayback.play();
 	};
 
 	/**
