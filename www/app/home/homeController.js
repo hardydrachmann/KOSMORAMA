@@ -1,10 +1,10 @@
 angular
 	.module('kosmoramaApp')
 	.controller('HomeController',
-		function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
+		function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, blobService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
 
 			var self = this;
-			self.audio = '';
+			self.getAudio = '';
 			self.online = false;
 			self.idle = true;
 			$rootScope.forceSync = doSync;
@@ -152,7 +152,7 @@ angular
 			 */
 			function downloadTraining(trainings) {
 				mediaService.removeMedia(function() {
-					self.audio = '';
+					self.getAudio = '';
 					if (trainings.length) {
 						var toDownload = trainings.length;
 						var downloadDone = function() {
@@ -168,12 +168,13 @@ angular
 								console.log('DOWNLOAD BUNDLES...', toDownload);
 								if (toDownload <= 0) {
 									console.log('Download completed');
+									self.getAudio = debugService.device ? mediaService.getAudio('prompt') : blobService.getAudio('prompt');
 									mediaService.playIosAudio('prompt');
 									done();
 									$interval.cancel(downloadInterval);
 								}
 							}, 1000);
-							self.audio = '';
+							self.getAudio = '';
 						});
 					} else {
 						done();

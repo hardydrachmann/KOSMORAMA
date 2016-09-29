@@ -1,13 +1,13 @@
 // This is a service which can show and hide a progress-loader while waiting for data/tasks.
 
-angular.module('kosmoramaApp').service('loadingService', function($ionicLoading, $timeout) {
+angular.module('kosmoramaApp').service('loadingService', function($ionicLoading, $timeout, languageService) {
 
 	/**
 	 * Shows Ionic loader.
 	 */
 	this.loaderShow = function() {
 		$ionicLoading.show({
-			template: '<ion-spinner icon="bubbles"></ion-spinner>',
+			template: '<ion-spinner icon="bubbles"></ion-spinner></br>' + languageService.getText('spinnerText'),
 			animation: 'fade-in'
 		});
 	};

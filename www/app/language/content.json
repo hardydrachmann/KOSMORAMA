@@ -276,5 +276,9 @@
     "wifiText": {
         "da_DK": "Vil du downloade træningsplan alligevel? Dette kan koste ekstra dataforbrug hos din udbyder.",
         "en_US": "Do you want to download your training plan anyways? This may incur extra fees of data usage from your provider."
+    },
+    "spinnerText": {
+        "da_DK": "Synkroniserer træningsdata",
+        "en_US": "Synchronizing training data"
     }
 }

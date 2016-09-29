@@ -5,7 +5,7 @@
 
         <audio src="{{training.getAudio('startTraining')}}" type="audio/mpeg" autoplay="autoplay"></audio>
 
-        <video id="playerID" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" autoplay loop></video>
+        <video id="playerID" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4"  webkit-playsinline autoplay loop></video>
 
         <div class="progress-wrapper" ng-click="timer.continue()">
             <round-progress animation="linearEase" stroke="12" rounded="true" bgcolor="transparent" duration="1000" radius="{{timer.radius}}" color="{{(timer.seconds >= timer.training.time) ? '#19DC19' : 'url(#green-to-cyan-gradient)'}}" current="timer.seconds" max="timer.training.time">
