@@ -39,6 +39,15 @@ angular
 			};
 
 			/**
+			 * Returns an object containing remaining minutes and seconds.
+			 */
+			self.formatTime = function(time) {
+				var minutes = Math.floor(time / 60);
+				var seconds = time - (minutes * 60);
+				return minutes + ' ' + languageService.getText('min') + ' ' + seconds + ' ' + languageService.getText('sec');
+			};
+
+			/**
 			 * Execute the appropriate action for the current training view variation.
 			 */
 			function stateAction() {
@@ -50,10 +59,12 @@ angular
 							$state.go('home');
 							popupService.alertPopup(languageService.getText('noTrainingText'));
 						}
-					} else if (currentState === 'trainingDemo') {
+					}
+					else if (currentState === 'trainingDemo') {
 						mediaService.playIosAudio(self.currentTrainingId);
 						$('video').get(0).play();
-					} else if (currentState === 'training') {
+					}
+					else if (currentState === 'training') {
 						mediaService.playIosAudio('startTraining');
 					}
 				}
