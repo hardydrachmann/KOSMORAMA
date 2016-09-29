@@ -2,11 +2,10 @@
 
 angular.module('kosmoramaApp').service('mediaService', function($interval, $cordovaFile, $cordovaMedia, loadingService, popupService, storageService, debugService, $window) {
 	var self = this;
-	var deviceApplicationPath, devicePlatform;
+	var deviceApplicationPath, devicePlatform, currentPlayback, currentPlaybackPosition;
 	var audioStartTraining = 'fx/start_training.mp3';
 	var audioStopTraining = 'fx/stop_training.mp3';
 	var audioPrompt = 'fx/prompt.mp3';
-	var currentPlayback;
 
 	document.addEventListener('deviceready', onDeviceReady, false);
 
@@ -87,13 +86,22 @@ angular.module('kosmoramaApp').service('mediaService', function($interval, $cord
 			playAudioWhenScreenIsLocked: false
 		};
 		currentPlayback = iosAudio;
-		iosAudio.play(iosPlayOptions);
+		iosAudio.play(iosPlayOptions).then(function() {
+			iosAudio.stop();
+			iosAudio.release();
+		});
 	};
 
+	/*
+	 * Pause audio playback (iOS only).
+	 */
 	self.pauseIosAudio = function() {
 		currentPlayback.pause();
 	};
 
+	/*
+	 * Resume audio playback (iOS only).
+	 */
 	self.resumeIosAudio = function() {
 		currentPlayback.play();
 	};

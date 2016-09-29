@@ -11,11 +11,19 @@ angular
 			self.currentTrainingId = -1;
 
 			(function init() {
+				if (storageService.proceduralUserData.currentTraining) {
+					self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
+				}
+				stateAction();
+				$rootScope.$on('continueEvent', function() {
+					$('video').remove();
+				});
 				$ionicPlatform.on('pause', function() {
 					$('video').get(0).pause();
 					if (device.platform === 'Android') {
 						$('audio').get(0).pause();
-					} else {
+					}
+					else {
 						mediaService.pauseIosAudio();
 					}
 				});
@@ -24,19 +32,13 @@ angular
 					$('video').get(0).play();
 					if (device.platform === 'Android') {
 						$('audio').get(0).play();
-					} else {
+					}
+					else {
 						mediaService.resumeIosAudio();
 					}
 				});
-
-				if (storageService.proceduralUserData.currentTraining) {
-					self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
-				}
-				stateAction();
-				$rootScope.$on('continueEvent', function() {
-					$('video').remove();
-				});
 			})();
+
 
 			/**
 			 * Returns the appropriate language name for the selected item.
@@ -50,7 +52,6 @@ angular
 			 */
 			self.trainingDescription = function() {
 				var item = storageService.proceduralUserData.currentTraining;
-				// console.log(item);
 				if (item) {
 					return item.LangDesc[languageService.lang];
 				}
