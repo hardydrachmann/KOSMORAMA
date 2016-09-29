@@ -86,7 +86,10 @@ angular.module('kosmoramaApp').service('mediaService', function($interval, $cord
 			playAudioWhenScreenIsLocked: false
 		};
 		currentPlayback = iosAudio;
-		iosAudio.play(iosPlayOptions);
+		iosAudio.play(iosPlayOptions).then(function() {
+			iosAudio.stop();
+			iosAudio.release();
+		});
 	};
 
 	/*
