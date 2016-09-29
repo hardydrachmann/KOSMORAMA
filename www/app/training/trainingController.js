@@ -11,6 +11,7 @@ angular
 			self.currentTrainingId = -1;
 
 			(function init() {
+				// When 'home' button is pressed, pause audio, video etc.
 				$ionicPlatform.on('pause', function() {
 					$('video').get(0).pause();
 					if (device.platform === 'Android') {
@@ -19,7 +20,7 @@ angular
 						mediaService.pauseIosAudio();
 					}
 				});
-
+				// When 'home' button is pressed, resume audio, video etc.
 				$ionicPlatform.on('resume', function() {
 					$('video').get(0).play();
 					if (device.platform === 'Android') {
@@ -28,7 +29,6 @@ angular
 						mediaService.resumeIosAudio();
 					}
 				});
-
 				if (storageService.proceduralUserData.currentTraining) {
 					self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
 				}
@@ -54,6 +54,15 @@ angular
 				if (item) {
 					return item.LangDesc[languageService.lang];
 				}
+			};
+
+			/**
+			 * Returns an object containing remaining minutes and seconds.
+			 */
+			self.formatTime = function(time) {
+				var minutes = Math.floor(time / 60);
+				var seconds = time - (minutes * 60);
+				return minutes + ' ' + languageService.getText('min') + ' ' + seconds + ' ' + languageService.getText('sec');
 			};
 
 			/**
