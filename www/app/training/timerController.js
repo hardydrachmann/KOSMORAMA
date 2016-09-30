@@ -5,6 +5,7 @@ angular
 		var self = this;
 		var counter;
 		var video = $('video').get(0);
+		var audioStopTraining = mediaService.getAudio('stopTraining');
 
 		self.seconds = 0;
 		self.capacity = 0;
@@ -126,8 +127,21 @@ angular
 					video.pause();
 				} else {
 					self.reset();
+					// Remove video element so it does not continue or pause during 'stop training audio' playback (also remove other html elements to give a good ux).
+					video.remove();
+					$('#progress-timer').get(0).remove();
+					$('.progress-content').get(0).remove();
+					$('#progress-button').get(0).remove();
+					// Play training stop sound (iOS only).
 					mediaService.playIosAudio('stopTraining');
-					tabsService.continue();
+					// Play training stop sound (Android only).
+					var audioPlayer = $('#trainingAudio').attr('src', audioStopTraining);
+					audioPlayer[0].play();
+					// Timeout before changing view, so audio can finish playback, removing audio before progressing to eliminate bugs.
+					$timeout(function() {
+						audioPlayer[0].remove();
+						tabsService.continue();
+					}, 1200);
 				}
 			}
 		}
