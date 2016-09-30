@@ -127,7 +127,6 @@ angular
 				} else {
 					self.reset();
 					mediaService.playIosAudio('stopTraining');
-
 					tabsService.continue();
 				}
 			}
