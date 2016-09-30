@@ -38,8 +38,7 @@ angular
 				if (self.paused) {
 					self.resume();
 					self.paused = false;
-				}
-				else {
+				} else {
 					$interval.cancel(counter);
 					counter = null;
 					$timeout(function() {
@@ -102,7 +101,7 @@ angular
 		}
 
 		/**
-		 * If training in progress, increment the timer it by a second until the specified time is reached.
+		 * If training in progress, increment the timer by a second until the specified time is reached.
 		 * If pause in progress, decrement the timer by a second until 0 is reached.
 		 * When the limit is reached, switch between active and pause. Decrement set count, if pause is over.
 		 */
@@ -110,8 +109,7 @@ angular
 			if (self.intermission) {
 				if (self.seconds > 0) {
 					self.seconds--;
-				}
-				else {
+				} else {
 					self.intermission = false;
 					start(self.training.time);
 					video.play();
@@ -119,18 +117,16 @@ angular
 						self.training.sets--;
 					}
 				}
-			}
-			else {
+			} else {
 				if (self.seconds < self.training.time) {
 					self.seconds++;
-				}
-				else if (self.training.sets > 1) {
+				} else if (self.training.sets > 1) {
 					self.intermission = true;
 					start(self.training.pause);
 					video.pause();
-				}
-				else {
+				} else {
 					self.reset();
+					mediaService.playIosAudio('stopTraining');
 					tabsService.continue();
 				}
 			}
@@ -144,8 +140,7 @@ angular
 		function refreshRadius() {
 			if ($window.outerWidth / $window.innerHeight == 0.75) {
 				self.radius = $window.outerHeight / 7;
-			}
-			else {
+			} else {
 				self.radius = $window.outerHeight / 6;
 			}
 		}
