@@ -42,14 +42,14 @@ angular
                 nb_NO: "Klem hand rundt ball - venstre",
                 sv_SE: null
             },
-            Pause: 0,
+            Pause: 0.1,
             PlanExerciseId: 261221,
             Questions: null,
             Repetitions: 1,
             SessionOrderNumber: 2,
             SetId: 2,
-            Sets: 1,
-            TimeSet: 1,
+            Sets: 2,
+            TimeSet: 0.2,
             TrainingId: 212436,
             Type: 40
         }, {
@@ -75,7 +75,7 @@ angular
                 nb_NO: "Kortfotsøvelse venstre",
                 sv_SE: null
             },
-            Pause: 0,
+            Pause: 1,
             PlanExerciseId: 261222,
             Questions: null,
             Repetitions: 1,
@@ -108,7 +108,7 @@ angular
                 nb_NO: "Stående pullover, vanskelighetsgrad 2",
                 sv_SE: null
             },
-            Pause: 0,
+            Pause: 0.5,
             PlanExerciseId: 261223,
             Questions: null,
             Repetitions: 1,

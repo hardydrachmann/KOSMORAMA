@@ -1,16 +1,16 @@
 angular
 	.module('kosmoramaApp')
-	.controller('TimerController', function($interval, $window, $timeout, $state, languageService, storageService, mediaService, tabsService) {
+	.controller('TimerController', function($interval, $window, $timeout, $state, $ionicHistory, languageService, storageService, mediaService, tabsService) {
 
 		var self = this;
 		var counter;
 		var video = $('video').get(0);
 
-		self.continue = tabsService.continue;
-
 		self.seconds = 0;
+		self.capacity = 0;
 		self.paused = false;
 		self.radius = 0;
+		self.intermission = false;
 		self.training = {
 			sets: 0,
 			time: 0,
@@ -26,20 +26,21 @@ angular
 			};
 			$window.onresize = refreshRadius;
 			refreshRadius();
-			start();
+			start(self.training.time);
 		})();
 
 		/**
-		 * Pause the timer. If paused, resume instead.
+		 * Pause the timer if not in intermission. If paused, resume instead.
 		 */
 		self.pause = function() {
-			if (counter) {
+			console.log(video);
+			if (!self.intermission) {
 				if (self.paused) {
 					self.resume();
 					self.paused = false;
-				}
-				else {
+				} else {
 					$interval.cancel(counter);
+					counter = null;
 					$timeout(function() {
 						// Let interval cancel before pausing video.
 						video.pause();
@@ -50,13 +51,17 @@ angular
 		};
 
 		/**
-		 * Resume the timer.
+		 * Resume the timer if training is not in intermission.
 		 */
 		self.resume = function() {
 			video.play();
+			// Get remaining seconds point before starting inc/dec again.
+			var seconds = self.training.time - self.seconds;
+			incrementTimer();
 			counter = $interval(function() {
 				incrementTimer();
-			}, 1000, self.training.time - self.seconds);
+			}, 1000, seconds);
+
 		};
 
 		/**
@@ -73,7 +78,7 @@ angular
 		 * Returns an object containing remaining minutes and seconds.
 		 */
 		self.formattedTime = function() {
-			var remainingTime = self.training.time - self.seconds;
+			var remainingTime = self.intermission ? self.seconds : self.training.time - self.seconds;
 			var minutes = Math.floor(remainingTime / 60);
 			var seconds = remainingTime - (minutes * 60);
 			return {
@@ -85,22 +90,46 @@ angular
 		/**
 		 * Start the timer if not already started.
 		 */
-		function start() {
-			if (!counter) {
-				video.play();
+		function start(time) {
+			self.capacity = time;
+			self.seconds = self.intermission ? time : 0;
+			video.play();
+			incrementTimer();
+			counter = $interval(function() {
 				incrementTimer();
-				counter = $interval(function() {
-					incrementTimer();
-				}, 1000, self.training.time);
-			}
+			}, 1000, time);
 		}
 
 		/**
-		 * Increment the timer by a second.
+		 * If training in progress, increment the timer by a second until the specified time is reached.
+		 * If pause in progress, decrement the timer by a second until 0 is reached.
+		 * When the limit is reached, switch between active and pause. Decrement set count, if pause is over.
 		 */
 		function incrementTimer() {
-			if (self.seconds < self.training.time) {
-				self.seconds++;
+			if (self.intermission) {
+				if (self.seconds > 0) {
+					self.seconds--;
+				} else {
+					self.intermission = false;
+					start(self.training.time);
+					video.play();
+					if (self.training.sets > 0) {
+						self.training.sets--;
+					}
+				}
+			} else {
+				if (self.seconds < self.training.time) {
+					self.seconds++;
+				} else if (self.training.sets > 1) {
+					self.intermission = true;
+					start(self.training.pause);
+					video.pause();
+				} else {
+					self.reset();
+					mediaService.playIosAudio('stopTraining');
+
+					tabsService.continue();
+				}
 			}
 		}
 
@@ -112,8 +141,7 @@ angular
 		function refreshRadius() {
 			if ($window.outerWidth / $window.innerHeight == 0.75) {
 				self.radius = $window.outerHeight / 7;
-			}
-			else {
+			} else {
 				self.radius = $window.outerHeight / 6;
 			}
 		}
