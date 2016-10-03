@@ -7,9 +7,6 @@
 
         <video id="playerID" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" webkit-playsinline autoplay loop></video>
 
-        <!-- Uncomment below line for ios version, because no loader is visible yet, this will just display a 'pause' text to the user as of now -->
-        <!-- <div ng-if="timer.intermission" style="font-size:1em; color:white; text-align:center;">PAUSE</div> -->
-
         <!-- Temporary ng-click for dev purposes -->
         <!-- <div class="progress-wrapper" ng-click="tabs.continue()"> -->
             <div class="progress-wrapper">
@@ -22,7 +19,7 @@
                     </linearGradient>
                 </svg>
             </round-progress>
-            <div class="progress-content">
+            <div class="progress-content" ng-if="!timer.isIos || (!timer.intermission && timer.isIos)">
                 <p><span ng-if="timer.formattedTime().min">{{timer.formattedTime().min}}<span class="small-text">{{lang.getText('min')}}.</span></span>&nbsp;{{timer.formattedTime().sec}}<span class="small-text">{{lang.getText('sec')}}.</span></p>
                 <p><span class="small-text">{{lang.getText('set')}}:&nbsp;</span>{{timer.training.sets}}</p>
             </div>

@@ -284,5 +284,13 @@
     "trainingPausedIndicator": {
         "da_DK": "Pause",
         "en_US": "Pause"
+    },
+    "welcomeText1": {
+        "da_DK": "Velkommen til Virtuel Træning. Du har på nuværende tidspunkt ",
+        "en_US": "Welcome to Virtual Training. You currently have "
+    },
+    "welcomeText2": {
+        "da_DK": " træningspas tilbage. Tryk på start for at begynde, eller vælg menuen i øverste venstre hjørne, for at se din post.",
+        "en_US": " training pass(es) left. Press start to begin, or choose the menu in the top left corner to see your mail."
     }
 }

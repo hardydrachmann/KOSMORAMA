@@ -5,7 +5,7 @@
 
     <img class="round-image" ng-src="img/round-placeholder.png">
 
-    <p class="textbody">Velkommen til Virtuel Træning. Du har på nuværende tidspunkt {{home.getPassCount()}} træningspas tilbage. Tryk på start for at begynde, eller vælg menuen i øverste venstre hjørne, for at se din post.</p>
+    <p class="textbody">{{lang.getText('welcomeText1') + home.getPassCount() + lang.getText('welcomeText2')}}</p>
 
     <div id="button-start">
         <a ng-href="#/trainingPlan">

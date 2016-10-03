@@ -4,9 +4,12 @@ angular
 
 		var self = this;
 
+		var pauseLock = false;
 		var counter;
 		var video = $('video').get(0);
 		var audioStopTraining = mediaService.getAudio('stopTraining');
+
+		self.isIos = device.platform === 'iOS';
 
 		self.seconds = 0;
 		self.capacity = 0;
@@ -46,7 +49,7 @@ angular
 				}, 1000, seconds);
 				self.paused = false;
 				video.play();
-			} else {
+			} else if (!pauseLock) {
 				$interval.cancel(counter);
 				counter = null;
 				self.paused = true;
@@ -54,6 +57,10 @@ angular
 				$timeout(function() {
 					video.pause();
 				}, 100);
+				pauseLock = true;
+				$timeout(function() {
+					pauseLock = false;
+				}, 2000);
 			}
 		};
 
@@ -133,8 +140,8 @@ angular
 					start(self.training.pause);
 					video.pause();
 					if (device.platform === 'iOS') {
-						var pauseTime = (self.training.pause - 1) * 1000000;
-						$cordovaProgress.showDeterminateWithLabel(false, pauseTime, languageService.getText('trainingPausedIndicator'));
+						var pauseTime = (self.training.pause - 1) * 10000;
+						$cordovaProgress.showDeterminateWithLabel(true, pauseTime, languageService.getText('trainingPausedIndicator'));
 					}
 				}
 				// If training is done.
