@@ -7,7 +7,7 @@
 
         <video id="playerID" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" webkit-playsinline autoplay loop></video>
 
-        <!-- Temporary ng-click for dev purposes -->
+        <!-- Temporary ng-click on progress-wrapper for dev purposes -->
         <div class="progress-wrapper" ng-click="tabs.continue()">
             <round-progress animation="linearEase" stroke="12" rounded="true" bgcolor="transparent" duration="1000" radius="{{timer.radius}}" color="{{timer.intermission ? 'red' : (timer.seconds >= timer.training.time) ? '#19DC19' : 'url(#green-to-cyan-gradient)'}}"
                 current="timer.seconds" max="timer.capacity">
@@ -25,8 +25,7 @@
         </div>
 
         <div ng-if="!timer.intermission" class="medium-button medium-button-right" ng-click="timer.pause()">
-            <i style="left: 0.5vh" ng-if="timer.paused" class="icon ion-play"></i>
-            <i ng-if="!timer.paused" class="icon ion-pause"></i>
+            <i class="icon" ng-class="timer.getIcon()"></i>
         </div>
 
     </div>
