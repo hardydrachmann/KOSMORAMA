@@ -1,34 +1,33 @@
 <div class="bg-blue-to-brown">
-  <wd-header title="lang.getText('trainingTitle')"></wd-header>
+    <wd-header title="lang.getText('trainingTitle')"></wd-header>
 
-  <div ng-controller="TimerController as timer">
+    <div ng-controller="TimerController as timer">
 
-    <audio id="trainingAudio" src="{{training.getAudio('startTraining')}}" type="audio/mpeg" autoplay="autoplay"></audio>
+        <audio id="trainingAudio" src="{{training.getAudio('startTraining')}}" type="audio/mpeg" autoplay="autoplay"></audio>
 
-    <video id="playerID" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" webkit-playsinline autoplay loop></video>
+        <video id="playerID" src="{{training.getVideo(training.currentTrainingId)}}" type="video/mp4" webkit-playsinline autoplay loop></video>
 
-    <!-- Uncomment below line for ios version, because no loader is visible yet, this will just display a 'pause' text to the user as of now -->
-    <!-- <div ng-if="timer.intermission" style="font-size:1em; color:white; text-align:center;">PAUSE</div> -->
+        <!-- Uncomment below line for ios version, because no loader is visible yet, this will just display a 'pause' text to the user as of now -->
+        <!-- <div ng-if="timer.intermission" style="font-size:1em; color:white; text-align:center;">PAUSE</div> -->
 
-    <!-- Temporary ng-click for dev purposes -->
-    <!-- <div class="progress-wrapper" ng-click="tabs.continue()"> -->
-    <div class="progress-wrapper">
-      <round-progress id="progress-timer" animation="linearEase" stroke="12" rounded="true" bgcolor="transparent" duration="1000" radius="{{timer.radius}}" color="{{timer.intermission ? 'red' : (timer.seconds >= timer.training.time) ? '#19DC19' : 'url(#green-to-cyan-gradient)'}}"
-          current="timer.seconds" max="timer.capacity">
-        <svg>
+        <!-- Temporary ng-click for dev purposes -->
+        <div class="progress-wrapper" ng-click="tabs.continue()">
+            <round-progress id="progress-timer" animation="linearEase" stroke="12" rounded="true" bgcolor="transparent" duration="1000" radius="{{timer.radius}}" color="{{timer.intermission ? 'red' : (timer.seconds >= timer.training.time) ? '#19DC19' : 'url(#green-to-cyan-gradient)'}}"
+                current="timer.seconds" max="timer.capacity">
+                <svg>
                     <linearGradient id="green-to-cyan-gradient" x1="0" x2="0" y1="0" y2="1">
                         <stop stop-color="#19DC19"/>
                         <stop offset="100%" stop-color="#53C6E6"/>
                     </linearGradient>
                 </svg>
-      </round-progress>
-      <div class="progress-content">
-        <p><span ng-if="timer.formattedTime().min">{{timer.formattedTime().min}}<span class="small-text">{{lang.getText('min')}}.</span></span>&nbsp;{{timer.formattedTime().sec}}<span class="small-text">{{lang.getText('sec')}}.</span></p>
-        <p><span class="small-text">{{lang.getText('set')}}:&nbsp;</span>{{timer.training.sets}}</p>
-      </div>
+            </round-progress>
+            <div class="progress-content">
+                <p><span ng-if="timer.formattedTime().min">{{timer.formattedTime().min}}<span class="small-text">{{lang.getText('min')}}.</span></span>&nbsp;{{timer.formattedTime().sec}}<span class="small-text">{{lang.getText('sec')}}.</span></p>
+                <p><span class="small-text">{{lang.getText('set')}}:&nbsp;</span>{{timer.training.sets}}</p>
+            </div>
+        </div>
+        <div id="progress-button" ng-if="!timer.intermission" class="medium-button medium-button-right" ng-click="timer.pause()">
+            <i class="icon" ng-class="timer.getIcon()"></i>
+        </div>
     </div>
-    <div id="progress-button" ng-if="!timer.intermission" class="medium-button medium-button-right" ng-click="timer.pause()">
-      <i class="icon" ng-class="timer.getIcon()"></i>
-    </div>
-  </div>
 </div>

@@ -139,8 +139,7 @@ angular
 					self.reset();
 					// Remove video element so it does not continue or pause during 'stop training audio' playback (also remove other html elements to give a good ux).
 					video.remove();
-					$('#progress-timer').get(0).remove();
-					$('.progress-content').get(0).remove();
+					$('.progress-wrapper').get(0).remove();
 					$('#progress-button').get(0).remove();
 					// Play training stop sound (iOS only).
 					mediaService.playIosAudio('stopTraining');

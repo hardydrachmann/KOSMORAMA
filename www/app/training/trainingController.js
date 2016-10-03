@@ -61,8 +61,9 @@ angular
 			 * Returns an object containing remaining minutes and seconds.
 			 */
 			self.formatTime = function(time) {
-				var minutes = Math.floor(time / 60);
-				var seconds = time - (minutes * 60);
+				var seconds = time * 60;
+				var minutes = seconds >= 60 ? seconds / 60 : 0;
+				seconds = seconds % 60;
 				return minutes + ' ' + languageService.getText('min') + ' ' + seconds + ' ' + languageService.getText('sec');
 			};
 
