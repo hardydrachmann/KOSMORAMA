@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="dk.welfaredenmark.virtualtraining" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Virtuel Træning</name>
+  <name>Virtual Training</name>
   <description>&#xD;
         Virtual Training - One Of The Worlds Most Advanced eHealth Solutions!&#xD;
     </description>
@@ -16,7 +16,6 @@
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="SplashScreenDelay" value="2500"/>
   <preference name="FadeSplashScreenDuration" value="2500"/>
-  <preference name="android-minSdkVersion" value="16"/>
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="MediaPlaybackRequiresUserAction" value="true"/>

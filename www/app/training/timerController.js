@@ -136,6 +136,7 @@ angular
 				// If training is done.
 				else {
 					self.reset();
+					mediaService.playIosAudio('stopTraining');
 					tabsService.continue();
 				}
 			}
@@ -149,8 +150,7 @@ angular
 		function refreshRadius() {
 			if ($window.outerWidth / $window.innerHeight == 0.75) {
 				self.radius = $window.outerHeight / 7;
-			}
-			else {
+			} else {
 				self.radius = $window.outerHeight / 6;
 			}
 		}
