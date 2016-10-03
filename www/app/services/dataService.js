@@ -174,10 +174,10 @@ angular
             var convertedFeedbackCollection = [];
             for (var i = 0; i < feedbackCollection.length; i++) {
                 var feedbackReport = {
-                    "ScheduleId": feedbackCollection.trainingId,
-                    "SessionOrderNumber": feedbackCollection.sessionOrderNumber,
-                    "Message": feedbackCollection.message,
-                    "PainLevel": feedbackCollection.painLevel || 0,
+                    "ScheduleId": feedbackCollection[i].trainingId,
+                    "SessionOrderNumber": feedbackCollection[i].sessionOrderNumber,
+                    "Message": feedbackCollection[i].message,
+                    "PainLevel": feedbackCollection[i].painLevel || 0,
                 };
                 convertedFeedbackCollection.push(feedbackReport);
             }
