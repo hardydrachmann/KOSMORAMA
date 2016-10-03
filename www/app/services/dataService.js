@@ -166,10 +166,10 @@ angular
         // This function saves feedbackReport to therpist, it handles both message and PainLevel
         // returns true if success and false when an error has occured.
         this.postFeedback = function(feedbackCollection, callback) {
-            // if (debugService.mock) {
-            //     mockService.postFeedback(feedbackObject, callback);
-            //     return;
-            // }
+            if (debugService.mock) {
+                mockService.postFeedback(feedbackCollection, callback);
+                return;
+            }
 
             var convertedFeedbackCollection = [];
             for (var i = 0; i < feedbackCollection.length; i++) {

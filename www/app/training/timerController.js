@@ -1,6 +1,6 @@
 angular
 	.module('kosmoramaApp')
-	.controller('TimerController', function($interval, $window, $timeout, $state, $ionicHistory, $cordovaProgress, languageService, storageService, mediaService, tabsService) {
+	.controller('TimerController', function($interval, $window, $timeout, $state, $ionicHistory, $cordovaProgress, languageService, storageService, mediaService, tabsService, debugService) {
 
 		var self = this;
 
@@ -9,7 +9,7 @@ angular
 		var video = $('video').get(0);
 		var audioStopTraining = mediaService.getAudio('stopTraining');
 
-		self.isIos = device.platform === 'iOS';
+		self.isIos = false;
 
 		self.seconds = 0;
 		self.capacity = 0;
@@ -33,6 +33,9 @@ angular
 			$window.onresize = refreshRadius;
 			refreshRadius();
 			start(self.training.time);
+			if (debugService.device) {
+				self.isIos = device.platform === 'iOS';
+			}
 		})();
 
 		/**
@@ -49,7 +52,8 @@ angular
 				}, 1000, seconds);
 				self.paused = false;
 				video.play();
-			} else if (!pauseLock) {
+			}
+			else if (!pauseLock) {
 				$interval.cancel(counter);
 				counter = null;
 				self.paused = true;
@@ -173,7 +177,8 @@ angular
 		function refreshRadius() {
 			if ($window.outerWidth / $window.innerHeight == 0.75) {
 				self.radius = $window.outerHeight / 7;
-			} else {
+			}
+			else {
 				self.radius = $window.outerHeight / 6;
 			}
 		}

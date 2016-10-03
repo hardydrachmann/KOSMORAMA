@@ -130,8 +130,8 @@ angular
 			callback(mockTraining);
 		};
 
-		this.postData = function(trainingReport, callback) {
-			console.log('MOCK: Report received by database', trainingReport);
+		this.postData = function(trainingReportCollection, callback) {
+			console.log('MOCK: Report received by database', trainingReportCollection);
 			callback();
 		};
 
@@ -140,8 +140,8 @@ angular
 			callback({});
 		};
 
-		this.postFeedback = function(feedbackObject, callback) {
-			console.log('MOCK: Training pass feedback received by database', feedbackObject);
+		this.postFeedback = function(feedbackCollection, callback) {
+			console.log('MOCK: Training pass feedback received by database', feedbackCollection);
 			callback();
 		};
 	});
