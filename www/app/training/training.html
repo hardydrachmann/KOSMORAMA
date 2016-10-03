@@ -27,11 +27,8 @@
         <p><span class="small-text">{{lang.getText('set')}}:&nbsp;</span>{{timer.training.sets}}</p>
       </div>
     </div>
-
     <div id="progress-button" ng-if="!timer.intermission" class="medium-button medium-button-right" ng-click="timer.pause()">
-      <i style="left: 0.5vh" ng-if="timer.paused" class="icon ion-play"></i>
-      <i ng-if="!timer.paused" class="icon ion-pause"></i>
+      <i class="icon" ng-class="timer.getIcon()"></i>
     </div>
-
   </div>
 </div>
