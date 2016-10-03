@@ -10,6 +10,7 @@ angular
 			$rootScope.forceSync = doSync;
 
 			(function init() {
+				console.log(storageService.persistentUserData);
 				$timeout(doSync, 1000);
 				$rootScope.device = debugService.device;
 

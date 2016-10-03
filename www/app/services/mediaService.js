@@ -125,7 +125,9 @@ angular.module('kosmoramaApp').service('mediaService', function($interval, $cord
 				var removeInterval = $interval(function() {
 					if ($cordovaFile.checkDir(deviceApplicationPath, 'media')) {
 						$interval.cancel(removeInterval);
-						callback();
+						if (callback) {
+							callback();
+						}
 					}
 				}, 1000);
 			} else {
