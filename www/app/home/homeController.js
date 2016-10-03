@@ -69,7 +69,8 @@ angular
 					}
 					if (storageService.getCompleted().length) {
 						syncData();
-					} else {
+					}
+					else {
 						getData();
 					}
 				}
@@ -80,37 +81,25 @@ angular
 			 */
 			function syncData() {
 				var data = storageService.getCompleted();
+				var feedbackCollection = [];
+				var trainingReportCollection = [];
 				console.log('Syncing stored data.', data);
 				if (data.length) {
 					loadingService.loaderShow();
-					var toSync = 0;
 					for (var i = 0; i < data.length; i++) {
 						if (data[i]) {
-							for (var j = 0; j < data[i].reports.length; j++) {
-								console.log('Training report', data[i].reports[j][0]);
-								toSync++;
-								dataService.postData(data[i].reports[j], function() {
-									toSync--;
-									console.log('Training submitted!');
-								});
+							for (var x = 0; x < data[i].reports.length; x++) {
+								trainingReportCollection.push(data[i].reports[x][0]);
 							}
-							console.log('Training feedback', data[i].passData);
-							toSync++;
-							dataService.postFeedback(data[i].passData, function() {
-								toSync--;
-							});
+							feedbackCollection.push(data[i].passData);
 						}
 					}
-					console.log('total items to sync', toSync);
-					var syncInterval = $interval(function() {
-						console.log('Syncing items...', toSync);
-						if (toSync <= 0) {
-							console.log('Done syncing!');
-							getData();
-							$interval.cancel(syncInterval);
-						}
-					}, 1000);
-				} else {
+					dataService.postData(trainingReportCollection, function(result) {
+						getData();
+					});
+					dataService.postFeedback(feedbackCollection);
+				}
+				else {
 					getData();
 				}
 			}
@@ -137,11 +126,13 @@ angular
 						console.log('All training get!');
 						if (debugService.device) {
 							downloadTraining(data);
-						} else {
+						}
+						else {
 							done();
 						}
 						sortTraining(data);
-					} else {
+					}
+					else {
 						done();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 					}
@@ -177,7 +168,8 @@ angular
 							}, 1000);
 							self.getAudio = '';
 						});
-					} else {
+					}
+					else {
 						done();
 					}
 				});

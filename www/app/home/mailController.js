@@ -61,9 +61,11 @@ angular
              */
             function countNewMails(mails) {
                 self.newMailCount = 0;
-                for (var i = 0; i < mails.length; i++) {
-                    if (mails[i].IsRead === false) {
-                        self.newMailCount++;
+                if (mails) {
+                    for (var i = 0; i < mails.length; i++) {
+                        if (mails[i].IsRead === false) {
+                            self.newMailCount++;
+                        }
                     }
                 }
             }

@@ -165,22 +165,27 @@ angular
 
         // This function saves feedbackReport to therpist, it handles both message and PainLevel
         // returns true if success and false when an error has occured.
-        this.postFeedback = function(feedbackObject, callback) {
-            if (debugService.mock) {
-                mockService.postFeedback(feedbackObject, callback);
-                return;
+        this.postFeedback = function(feedbackCollection, callback) {
+            // if (debugService.mock) {
+            //     mockService.postFeedback(feedbackObject, callback);
+            //     return;
+            // }
+
+            var convertedFeedbackCollection = [];
+            for (var i = 0; i < feedbackCollection.length; i++) {
+                var feedbackReport = {
+                    "ScheduleId": feedbackCollection.trainingId,
+                    "SessionOrderNumber": feedbackCollection.sessionOrderNumber,
+                    "Message": feedbackCollection.message,
+                    "PainLevel": feedbackCollection.painLevel || 0,
+                };
+                convertedFeedbackCollection.push(feedbackReport);
             }
-            var feedbackReport = {
-                "ScheduleId": feedbackObject.trainingId,
-                "SessionOrderNumber": feedbackObject.sessionOrderNumber,
-                "Message": feedbackObject.message,
-                "PainLevel": feedbackObject.painLevel || 0,
-            };
 
             var content = {
                 id: '3',
                 method: 'PostFeedback',
-                params: feedbackReport
+                params: convertedFeedbackCollection
             };
 
             var dataString = JSON.stringify(content); // Converting javascript to Json
