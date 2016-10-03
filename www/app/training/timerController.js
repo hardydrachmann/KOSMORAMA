@@ -1,6 +1,6 @@
 angular
 	.module('kosmoramaApp')
-	.controller('TimerController', function($interval, $window, $timeout, $state, $ionicHistory, languageService, storageService, mediaService, tabsService) {
+	.controller('TimerController', function($interval, $window, $timeout, $state, $ionicHistory, $cordovaProgress, languageService, storageService, mediaService, tabsService) {
 
 		var self = this;
 
@@ -46,8 +46,7 @@ angular
 				}, 1000, seconds);
 				self.paused = false;
 				video.play();
-			}
-			else {
+			} else {
 				$interval.cancel(counter);
 				counter = null;
 				self.paused = true;
@@ -133,6 +132,10 @@ angular
 					self.intermission = true;
 					start(self.training.pause);
 					video.pause();
+					if (device.platform === 'iOS') {
+						var pauseTime = (self.training.pause - 1) * 1000000;
+						$cordovaProgress.showDeterminateWithLabel(false, pauseTime, languageService.getText('trainingPausedIndicator'));
+					}
 				}
 				// If training is done.
 				else {

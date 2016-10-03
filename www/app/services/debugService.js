@@ -1,4 +1,4 @@
 angular.module('kosmoramaApp').service('debugService', function() {
 	this.mock = true;
-	this.device = false;
+	this.device = true;
 });
