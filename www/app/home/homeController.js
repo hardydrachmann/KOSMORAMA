@@ -37,7 +37,9 @@ angular
 				var passCount = 0;
 				for (var i = 0; i < trainings.length; i++) {
 					if (trainings[i].passTitle) {
-						passCount++;
+						if (trainings[i].date.setHours(0, 0, 0, 0) == dateToday.setHours(0, 0, 0, 0)) {
+							passCount++;
+						}
 					}
 				}
 				return passCount;
@@ -94,7 +96,6 @@ angular
 			 * Get the user's training plan.
 			 */
 			function getData() {
-
 				loadingService.loaderShow();
 				console.log('Getting user and training data...');
 				storageService.clearTrainingData();
@@ -140,7 +141,6 @@ angular
 							for (var i = 0; i < trainings.length; i++) {
 								downloadService.downloadMedia(trainings[i].ExerciseId, downloadDone);
 							}
-
 							var downloadInterval = $interval(function() {
 								console.log('DOWNLOAD BUNDLES...', toDownload);
 								if (toDownload <= 0) {
@@ -169,9 +169,11 @@ angular
 						firstTrainingId = data[0].TrainingId;
 					for (var i = 0; i < data.length; i++) {
 						if (data[i].SessionOrderNumber === setCount || data[i].TrainingId > firstTrainingId) {
-							storageService.persistentUserData.training.push({
-								passTitle: languageService.getText('passText') + pass++
-							});
+							var passItem = {
+								'passTitle': languageService.getText('passText') + pass++,
+								'date': data[i].date
+							};
+							storageService.persistentUserData.training.push(passItem);
 							setCount++;
 							firstTrainingId = data[i].TrainingId;
 						}

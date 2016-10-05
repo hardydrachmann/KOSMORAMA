@@ -1,11 +1,12 @@
 // This is a service which can download media files related to a users training (audio, video & pictures).
 
-angular.module('kosmoramaApp').service('downloadService', function($cordovaFileTransfer, $cordovaFile, $interval, loadingService, storageService, languageService, debugService) {
+angular.module('kosmoramaApp').service('downloadService', function($cordovaFileTransfer, $cordovaFile, dataService, $interval, loadingService, storageService, languageService, debugService) {
 
 	var self = this;
 	var fileTransfer;
 	var baseURL = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
 	var deviceApplicationPath;
+	var toDownload;
 
 	document.addEventListener('deviceready', onDeviceReady, false);
 
@@ -72,7 +73,7 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 		if (debugService.device) {
 			try {
 				// Count downloading elements and prepare decrementer for
-				var toDownload = languageService.langs.length + 2;
+				toDownload = languageService.langs.length + 2;
 				var downloadDone = function() {
 					toDownload--;
 				};
@@ -111,14 +112,22 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 
 	/**
 	 * Download audio for a training.
+	 * If audio file is not found, decrement toDownload counter, ignore download and continue (since not all exercises contain all languages for that specific training).
 	 */
 	self.downloadAudio = function(audioPath, audioUrl, callback) {
-		fileTransfer.download(
-			encodeURI(audioUrl),
-			audioPath,
-			callback,
-			self.downloadError
-		);
+		dataService.checkAudioUrlExist(audioUrl, function(existCall) {
+			// console.log('url exist:', existCall, 'url audio:', audioUrl);
+			if (existCall) {
+				fileTransfer.download(
+					encodeURI(audioUrl),
+					audioPath,
+					callback,
+					self.downloadError
+				);
+			} else {
+				toDownload--;
+			}
+		});
 	};
 
 	/**
@@ -149,6 +158,6 @@ angular.module('kosmoramaApp').service('downloadService', function($cordovaFileT
 	 * Print out download errors.
 	 */
 	self.downloadError = function(error) {
-		console.log('Download error!', error);
+		console.log('media file not found on blob server', error);
 	};
 });

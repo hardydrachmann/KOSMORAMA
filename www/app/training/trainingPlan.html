@@ -1,10 +1,9 @@
-
 <div class="bg-blue-to-brown">
     <wd-header title="lang.getText('trainingPlan')"></wd-header>
 
     <ion-scroll>
         <div class="spaced-list" class="list">
-            <div ng-repeat="item in training.TrainingItems">
+            <div ng-repeat="item in training.TrainingItems" ng-if="training.isToday(item)">
 
                 <!-- Pas title item -->
                 <div id="pas-title" class="item" ng-if="item.passTitle">

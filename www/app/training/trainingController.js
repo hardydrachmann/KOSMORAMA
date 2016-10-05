@@ -22,8 +22,7 @@ angular
 					$('video').get(0).pause();
 					if (device.platform === 'Android') {
 						$('audio').get(0).pause();
-					}
-					else {
+					} else {
 						mediaService.pauseIosAudio();
 					}
 				});
@@ -32,8 +31,7 @@ angular
 					$('video').get(0).play();
 					if (device.platform === 'Android') {
 						$('audio').get(0).play();
-					}
-					else {
+					} else {
 						mediaService.resumeIosAudio();
 					}
 				});
@@ -72,21 +70,31 @@ angular
 			 */
 			function stateAction() {
 				var currentState = $ionicHistory.currentView().stateName;
+				var dateToday = new Date();
 				if (currentState.startsWith('training')) {
 					if (currentState === 'trainingPlan') {
 						self.TrainingItems = storageService.nextTraining();
-						if (!self.TrainingItems.length) {
+						if (!self.TrainingItems.length || self.TrainingItems[0].date.setHours(0, 0, 0, 0) !== dateToday.setHours(0, 0, 0, 0)) {
 							$state.go('home');
 							popupService.alertPopup(languageService.getText('noTrainingText'));
 						}
-					}
-					else if (currentState === 'trainingDemo') {
+					} else if (currentState === 'trainingDemo') {
 						mediaService.playIosAudio(self.currentTrainingId);
 						$('video').get(0).play();
-					}
-					else if (currentState === 'training') {
+					} else if (currentState === 'training') {
 						mediaService.playIosAudio('startTraining');
 					}
 				}
 			}
+
+			/**
+			 * Compare the exercise date with current date, and return true if date is the same.
+			 */
+			self.isToday = function(item) {
+				var dateToday = new Date();
+				if (item.date.setHours(0, 0, 0, 0) == dateToday.setHours(0, 0, 0, 0)) {
+					return true;
+				}
+				return false;
+			};
 		});
