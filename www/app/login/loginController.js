@@ -66,5 +66,4 @@ angular
 					$state.go('login');
 				});
 			};
-
 		});

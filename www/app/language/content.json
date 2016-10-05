@@ -269,13 +269,13 @@
         "da_DK": "Værst tænkelige smerter",
         "en_US": "Worst possible, excrutiating pain"
     },
-    "wifiHeader": {
-        "da_DK": "WI-FI ikke tilgængelig",
-        "en_US": "No WI-FI available"
+    "noWifiSyncHeader": {
+        "da_DK": "Intet WI-FI fundet",
+        "en_US": "No WI-FI detected"
     },
-    "wifiText": {
-        "da_DK": "Vil du downloade træningsplan alligevel? Dette kan koste ekstra dataforbrug hos din udbyder.",
-        "en_US": "Do you want to download your training plan anyways? This may incur extra fees of data usage from your provider."
+    "noWifiSyncTitle": {
+        "da_DK": "Vil du hente din træningsplan alligevel? Dette kan koste ekstra dataforbrug hos din udbyder.",
+        "en_US": "Do you want to download your training plan anyway? This may incur extra fees of data usage from your provider."
     },
     "spinnerText": {
         "da_DK": "Synkroniserer træningsdata",

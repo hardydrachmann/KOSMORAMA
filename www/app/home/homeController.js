@@ -8,27 +8,11 @@ angular
 			self.online = false;
 			self.idle = true;
 			$rootScope.forceSync = doSync;
+			var dateToday = new Date();
 
 			(function init() {
 				$timeout(doSync, 1000);
 				$rootScope.device = debugService.device;
-
-				// $rootScope.$on('$cordovaNetwork:online', function(event, networkState) {
-				// 	if (!self.online) {
-				// 		if (networkState === 'wifi') {
-				// 			self.online = true;
-				// 			assessNetwork(networkState);
-				// 		}
-				// 	}
-				// });
-				//
-				// $rootScope.$on('$cordovaNetwork:offline', function(event, networkState) {
-				// 	if (self.online) {
-				// 		if (networkState !== 'wifi') {
-				// 			self.online = false;
-				// 		}
-				// 	}
-				// });
 			})();
 
 			/**
@@ -37,6 +21,11 @@ angular
 			function doSync() {
 				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
 					assessNetwork();
+				}
+				if (!debugService.device || $cordovaNetwork.getNetwork() === '4g' || $cordovaNetwork.getNetwork() === '3g') {
+					popupService.confirmPopup(languageService.getText('noWifiSyncHeader'), languageService.getText('noWifiSyncTitle'), '', function() {
+						assessNetwork();
+					});
 				}
 			}
 
@@ -68,8 +57,7 @@ angular
 					}
 					if (storageService.getCompleted().length) {
 						syncData();
-					}
-					else {
+					} else {
 						getData();
 					}
 				}
@@ -97,8 +85,7 @@ angular
 						getData();
 					});
 					dataService.postFeedback(feedbackCollection);
-				}
-				else {
+				} else {
 					getData();
 				}
 			}
@@ -107,8 +94,9 @@ angular
 			 * Get the user's training plan.
 			 */
 			function getData() {
-				console.log('Getting user and training data...');
+
 				loadingService.loaderShow();
+				console.log('Getting user and training data...');
 				storageService.clearTrainingData();
 				// storageService.printUserData();
 				dataService.getUser(storageService.getUserScreenNumber(), function(result) {
@@ -125,13 +113,11 @@ angular
 						console.log('All training get!');
 						if (debugService.device) {
 							downloadTraining(data);
-						}
-						else {
+						} else {
 							done();
 						}
 						sortTraining(data);
-					}
-					else {
+					} else {
 						done();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 					}
@@ -167,8 +153,7 @@ angular
 							}, 1000);
 							self.getAudio = '';
 						});
-					}
-					else {
+					} else {
 						done();
 					}
 				});
