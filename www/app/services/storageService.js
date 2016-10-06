@@ -225,7 +225,7 @@ angular
 		 */
 		this.nextTraining = function() {
 			// Is this the last pass item?
-			var isLastItem = this.persistentUserData.training[3] == undefined;
+			var isLastItem = this.persistentUserData.training[2] == undefined;
 			if (!isLastItem) {
 				isLastItem = !isTrainingItem(this.persistentUserData.training[2]);
 			}
