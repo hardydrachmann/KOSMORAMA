@@ -21,6 +21,7 @@ angular
 			language: '',
 			allowMessage: false,
 			training: []
+				// TODO save training in localstorage (remember date).
 		};
 
 		this.proceduralUserData = {
@@ -32,14 +33,6 @@ angular
 				painLevel: null,
 				message: null
 			}
-		};
-
-		this.temporaryTimerData = {
-			currentSet: 0,
-			setsRemaining: 0,
-			isPauseNext: true,
-			counter: 0,
-			progress: 0
 		};
 
 		this.completed = [];
@@ -226,6 +219,8 @@ angular
 		this.nextTraining = function() {
 			// Is this the last pass item?
 			var isLastItem = this.persistentUserData.training[2] == undefined;
+			// TODO Implement date into storage system.
+			//isLastItem = isLastItem ? isLastItem : this.persistentUserData.training.date.setHours(0, 0, 0, 0) !== new Date().setHours(0, 0, 0, 0);
 			if (!isLastItem) {
 				isLastItem = !isTrainingItem(this.persistentUserData.training[2]);
 			}

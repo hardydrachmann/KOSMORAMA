@@ -74,7 +74,8 @@ angular
 				if (currentState.startsWith('training')) {
 					if (currentState === 'trainingPlan') {
 						self.TrainingItems = storageService.nextTraining();
-						if (!self.TrainingItems.length || self.TrainingItems[0].date.setHours(0, 0, 0, 0) !== dateToday.setHours(0, 0, 0, 0)) {
+						// TODO rewrite if-statement
+						if (self.TrainingItems.length < 2 || self.TrainingItems[1].date.setHours(0, 0, 0, 0) !== dateToday.setHours(0, 0, 0, 0)) {
 							$state.go('home');
 							popupService.alertPopup(languageService.getText('noTrainingText'));
 						}
@@ -89,6 +90,7 @@ angular
 
 			/**
 			 * Compare the exercise date with current date, and return true if date is the same.
+			 * TODO use method
 			 */
 			self.isToday = function(item) {
 				var dateToday = new Date();
