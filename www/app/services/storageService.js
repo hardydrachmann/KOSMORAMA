@@ -55,6 +55,8 @@ angular
 				if (isEmptyObject(userData)) {
 					loadUserData();
 				}
+				console.warn('User data initialized, but training data missing. Initializing training data.');
+				initTrainingData();
 			}
 		};
 
@@ -262,7 +264,6 @@ angular
 					}
 					userData.training.push(data[i]);
 				}
-				// React to new data.
 				initTrainingData();
 			}
 			else {
@@ -289,18 +290,8 @@ angular
 
 
 
-
-
-
-
-
-
 		this.completed = [];
 		this.passCount = 0;
-
-
-
-
 
 
 		/**
@@ -309,7 +300,7 @@ angular
 		this.getCompleted = function() {
 			// console.log('Completed data in memory: ', this.completed);
 			if (!this.completed.length) {
-				var stored = $window.localStorage.getItem('kosmoramaCompleted');
+				var stored = $window.localStorage.getItem(VT + 'Completed');
 				// console.log('Getting completed data as string from storage.', stored);
 				if (stored) {
 					stored = JSON.parse(stored);
@@ -353,7 +344,7 @@ angular
 			}
 			this.completed[this.passCount].passData = trainingData.passData;
 			trainingData.passData = null;
-			$window.localStorage.setItem('kosmoramaCompleted', JSON.stringify(this.completed));
+			$window.localStorage.setItem(VT + 'Completed', JSON.stringify(this.completed));
 			this.passCount++;
 		};
 
