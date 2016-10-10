@@ -1,5 +1,5 @@
 angular
-    .module('kosmoramaApp')
+    .module('virtualTrainingApp')
     .controller('TabsController',
         function($rootScope, $state, $timeout, $ionicHistory, $ionicSideMenuDelegate, languageService, tabsService, storageService) {
 

@@ -1,5 +1,5 @@
 angular
-	.module('kosmoramaApp')
+	.module('virtualTrainingApp')
 	.controller('LoginController',
 		function($state, $timeout, $cordovaNetwork, tabsService, debugService, languageService, popupService, dataService, storageService, mediaService) {
 

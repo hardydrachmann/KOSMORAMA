@@ -1,5 +1,5 @@
 angular
-    .module('kosmoramaApp')
+    .module('virtualTrainingApp')
     .directive('wdHeader', function() {
         return {
             templateUrl: 'app/header/header.html',

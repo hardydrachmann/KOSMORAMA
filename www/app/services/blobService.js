@@ -1,5 +1,5 @@
 angular
-	.module('kosmoramaApp')
+	.module('virtualTrainingApp')
 	.service('blobService', function(storageService) {
 
 		var baseURL = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';

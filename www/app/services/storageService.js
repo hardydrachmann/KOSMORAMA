@@ -1,5 +1,5 @@
 angular
-	.module('kosmoramaApp')
+	.module('virtualTrainingApp')
 	.service('storageService', function($window) {
 		const VT = 'VirtualTraining';
 		var userData = {};
@@ -253,7 +253,7 @@ angular
 				for (var i = 0; i < data.length; i++) {
 					if (data[i].SessionOrderNumber === setCount || data[i].TrainingId > firstTrainingId) {
 						var passItem = {
-							'passTitle': 'pas' + pass++, // TODO: refactor hardcoded string.
+							'passTitle': pass++,
 							'date': data[i].date
 						};
 						userData.training.push(passItem);

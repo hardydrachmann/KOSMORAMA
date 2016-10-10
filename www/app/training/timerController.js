@@ -1,5 +1,5 @@
 angular
-	.module('kosmoramaApp')
+	.module('virtualTrainingApp')
 	.controller('TimerController', function($interval, $window, $timeout, $state, $ionicHistory, $cordovaProgress, languageService, storageService, mediaService, tabsService, debugService) {
 
 		var self = this;

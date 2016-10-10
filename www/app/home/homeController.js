@@ -1,5 +1,5 @@
 angular
-	.module('kosmoramaApp')
+	.module('virtualTrainingApp')
 	.controller('HomeController',
 		function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, blobService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
 			var self = this;
@@ -9,6 +9,8 @@ angular
 			self.idle = true;
 			$rootScope.forceSync = doSync;
 			self.getPassCount = storageService.getPassCount;
+
+			var syncHasFailed = false;
 
 			(function init() {
 				$timeout(doSync, 1000);
@@ -29,12 +31,19 @@ angular
 				}
 			}
 
+			var syncPromise;
 			/**
 			 * Checks the internet status to determine whether it's possible to sync.
 			 */
 			function assessNetwork(networkState) {
+				syncHasFailed = false;
 				if (self.idle) {
 					console.log('Assessing network state...');
+					syncPromise = $timeout(function() {
+						syncHasFailed = true;
+						done();
+						popupService.alertPopup(languageService.getText('syncError'));
+					}, 5000);
 					self.idle = false;
 					if (debugService.device) {
 						// Actually get the network state of the device.
@@ -48,6 +57,19 @@ angular
 					}
 				}
 			}
+
+			/**
+			 * Start button functions:
+			 * if success, advance to training plan view.
+			 * if error, alert user and return.
+			 */
+			self.startButton = function() {
+				if (syncHasFailed) {
+					popupService.alertPopup(languageService.getText('syncHasFailed'));
+					return;
+				}
+				$state.go('trainingPlan');
+			};
 
 			/**
 			 * Syncs data to the database and updates current training plan.
@@ -130,8 +152,10 @@ angular
 								console.log('DOWNLOAD BUNDLES...', toDownload);
 								if (toDownload <= 0) {
 									console.log('Download completed');
-									self.getAudio = debugService.device ? mediaService.getAudio('prompt') : blobService.getAudio('prompt');
-									mediaService.playIosAudio('prompt');
+									if (!syncHasFailed) {
+										self.getAudio = debugService.device ? mediaService.getAudio('prompt') : blobService.getAudio('prompt');
+										mediaService.playIosAudio('prompt');
+									}
 									done();
 									$interval.cancel(downloadInterval);
 								}
@@ -149,6 +173,7 @@ angular
 			function done() {
 				loadingService.loaderHide();
 				self.idle = true;
+				$timeout.cancel(syncPromise);
 				// console.log('Idle?', self.idle);
 			}
 		});
