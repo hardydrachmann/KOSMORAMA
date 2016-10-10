@@ -12,6 +12,7 @@ angular
 			 */
 			(function init() {
 				screenNumber = storageService.getUserScreenNumber();
+				console.log(screenNumber);
 				if (screenNumber) {
 					$timeout(function() {
 						$state.go('home');

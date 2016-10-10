@@ -4,6 +4,8 @@ angular
 		const VT = 'VirtualTraining';
 		var userData = {};
 		var trainingData = {};
+		this.completed = [];
+		this.passCount = 0;
 
 		/**
 		 * Get a new clone of a user data template.
@@ -91,14 +93,12 @@ angular
 		var loadUserData = function() {
 			var decryptionKey = $window.localStorage.getItem(VT + 'Key');
 			var encryptedData = $window.localStorage.getItem(VT + 'UserData');
-			var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
-			userData = JSON.parse(decryptedData);
+			if (decryptionKey && encryptedData) {
+				var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
+				userData = JSON.parse(decryptedData);
+			}
 			// console.log('Loaded user data:', userData);
 		};
-
-
-
-
 
 		/**
 		 * Clear all persistent user data from the device.
@@ -242,8 +242,6 @@ angular
 			trainingData.message = message;
 		};
 
-
-
 		/**
 		 * Sorting and adding a pass item for each set of training.
 		 */
@@ -288,12 +286,6 @@ angular
 			return passCount;
 		};
 
-
-
-		this.completed = [];
-		this.passCount = 0;
-
-
 		/**
 		 * Get the completed trainings from local storage.
 		 */
@@ -310,11 +302,6 @@ angular
 			// console.log('Returning completed data:', this.completed);
 			return this.completed;
 		};
-
-
-
-
-
 
 		/**
 		 * Upon completing a training, it's kept in the completed trainings array.
