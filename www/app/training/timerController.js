@@ -24,7 +24,7 @@ angular
 		};
 
 		(function init() {
-			var currentTraining = storageService.proceduralUserData.currentTraining;
+			var currentTraining = storageService.getCurrentTraining();
 			self.training = {
 				sets: currentTraining.Sets,
 				time: (currentTraining.TimeSet * 60) + 1,
@@ -153,8 +153,13 @@ angular
 					self.reset();
 					// Remove video element so it does not continue or pause during 'stop training audio' playback (also remove other html elements to give a good ux).
 					video.remove();
-					$('.progress-wrapper').get(0).remove();
-					$('#progress-button').get(0).remove();
+					try {
+						$('.progress-wrapper').get(0).remove();
+						$('#progress-button').get(0).remove();
+					}
+					catch (error) {
+						console.warn('Trying to remove non-existing progress bar element');
+					}
 					// Play training stop sound (iOS only).
 					mediaService.playIosAudio('stopTraining');
 					// Play training stop sound (Android only).

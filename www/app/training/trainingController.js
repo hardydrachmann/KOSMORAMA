@@ -8,12 +8,10 @@ angular
 			self.getVideo = debugService.device ? mediaService.getVideo : blobService.getVideo;
 			self.getPicture = debugService.device ? mediaService.getPicture : blobService.getPicture;
 			self.TrainingItems = [];
-			self.currentTrainingId = -1;
+			self.currentTraining = {};
 
 			(function init() {
-				if (storageService.proceduralUserData.currentTraining) {
-					self.currentTrainingId = storageService.proceduralUserData.currentTraining.ExerciseId;
-				}
+				self.currentTraining = storageService.getCurrentTraining();
 				stateAction();
 				$rootScope.$on('continueEvent', function() {
 					$('video').remove();
@@ -22,7 +20,8 @@ angular
 					$('video').get(0).pause();
 					if (device.platform === 'Android') {
 						$('audio').get(0).pause();
-					} else {
+					}
+					else {
 						mediaService.pauseIosAudio();
 					}
 				});
@@ -31,7 +30,8 @@ angular
 					$('video').get(0).play();
 					if (device.platform === 'Android') {
 						$('audio').get(0).play();
-					} else {
+					}
+					else {
 						mediaService.resumeIosAudio();
 					}
 				});
@@ -49,10 +49,7 @@ angular
 			 * Returns the appropriate language description for the next exercise.
 			 */
 			self.trainingDescription = function() {
-				var item = storageService.proceduralUserData.currentTraining;
-				if (item) {
-					return item.LangDesc[languageService.lang];
-				}
+				return self.currentTraining.LangDesc[languageService.lang];
 			};
 
 			/**
@@ -79,10 +76,12 @@ angular
 							$state.go('home');
 							popupService.alertPopup(languageService.getText('noTrainingText'));
 						}
-					} else if (currentState === 'trainingDemo') {
-						mediaService.playIosAudio(self.currentTrainingId);
+					}
+					else if (currentState === 'trainingDemo') {
+						mediaService.playIosAudio(self.currentTraining.ExerciseId);
 						$('video').get(0).play();
-					} else if (currentState === 'training') {
+					}
+					else if (currentState === 'training') {
 						mediaService.playIosAudio('startTraining');
 					}
 				}

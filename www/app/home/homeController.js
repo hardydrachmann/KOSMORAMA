@@ -2,13 +2,13 @@ angular
 	.module('kosmoramaApp')
 	.controller('HomeController',
 		function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, blobService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
-
 			var self = this;
+
 			self.getAudio = '';
 			self.online = false;
 			self.idle = true;
 			$rootScope.forceSync = doSync;
-			var dateToday = new Date();
+			self.getPassCount = storageService.getPassCount;
 
 			(function init() {
 				$timeout(doSync, 1000);
@@ -22,28 +22,12 @@ angular
 				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
 					assessNetwork();
 				}
-				if (!debugService.device || $cordovaNetwork.getNetwork() === '4g' || $cordovaNetwork.getNetwork() === '3g') {
+				else if (!debugService.device || $cordovaNetwork.getNetwork() === '4g' || $cordovaNetwork.getNetwork() === '3g') {
 					popupService.confirmPopup(languageService.getText('noWifiSyncHeader'), languageService.getText('noWifiSyncTitle'), '', function() {
 						assessNetwork();
 					});
 				}
 			}
-
-			/**
-			 * Get the amount of remaining training passes to complete.
-			 */
-			self.getPassCount = function() {
-				var trainings = storageService.persistentUserData.training;
-				var passCount = 0;
-				for (var i = 0; i < trainings.length; i++) {
-					if (trainings[i].passTitle) {
-						if (trainings[i].date.setHours(0, 0, 0, 0) == dateToday.setHours(0, 0, 0, 0)) {
-							passCount++;
-						}
-					}
-				}
-				return passCount;
-			};
 
 			/**
 			 * Checks the internet status to determine whether it's possible to sync.
@@ -52,14 +36,14 @@ angular
 				if (self.idle) {
 					console.log('Assessing network state...');
 					self.idle = false;
-					console.log('Idle?', self.idle);
 					if (debugService.device) {
 						// Actually get the network state of the device.
 						networkState = $cordovaNetwork.getNetwork();
 					}
 					if (storageService.getCompleted().length) {
 						syncData();
-					} else {
+					}
+					else {
 						getData();
 					}
 				}
@@ -87,7 +71,8 @@ angular
 						getData();
 					});
 					dataService.postFeedback(feedbackCollection);
-				} else {
+				}
+				else {
 					getData();
 				}
 			}
@@ -97,28 +82,28 @@ angular
 			 */
 			function getData() {
 				loadingService.loaderShow();
-				console.log('Getting user and training data...');
 				storageService.clearTrainingData();
-				// storageService.printUserData();
 				dataService.getUser(storageService.getUserScreenNumber(), function(result) {
-					getTraining(result.Id);
+					getTrainingFromDB(result.Id);
 				});
 			}
 
 			/**
 			 * Get training items from service and download media.
 			 */
-			function getTraining(userId) {
+			function getTrainingFromDB(userId) {
 				dataService.getTraining(userId, function(data) {
 					if (data) {
 						console.log('All training get!');
 						if (debugService.device) {
 							downloadTraining(data);
-						} else {
+						}
+						else {
 							done();
 						}
-						sortTraining(data);
-					} else {
+						storageService.sortTraining(data);
+					}
+					else {
 						done();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 					}
@@ -153,34 +138,13 @@ angular
 							}, 1000);
 							self.getAudio = '';
 						});
-					} else {
+					}
+					else {
 						done();
 					}
 				});
 			}
 
-			/**
-			 * Sorting and adding a pass item for each set of training.
-			 */
-			function sortTraining(data) {
-				if (data.length > 0) {
-					var setCount = data[0].SessionOrderNumber,
-						pass = 1,
-						firstTrainingId = data[0].TrainingId;
-					for (var i = 0; i < data.length; i++) {
-						if (data[i].SessionOrderNumber === setCount || data[i].TrainingId > firstTrainingId) {
-							var passItem = {
-								'passTitle': languageService.getText('passText') + pass++,
-								'date': data[i].date
-							};
-							storageService.persistentUserData.training.push(passItem);
-							setCount++;
-							firstTrainingId = data[i].TrainingId;
-						}
-						storageService.persistentUserData.training.push(data[i]);
-					}
-				}
-			}
 
 			function done() {
 				loadingService.loaderHide();

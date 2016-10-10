@@ -17,12 +17,11 @@ angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $ti
 	/**
 	 * Initiates a confirm popup when called.
 	 */
-	this.confirmPopup = function(title, subTitle, toConfirm, callback) {
+	this.confirmPopup = function(title, subTitle, callback) {
 		var confirm = $ionicPopup.confirm({
 			title: title,
 			cssClass: 'popup-box',
 			subTitle: subTitle,
-			template: toConfirm,
 			okText: ' ',
 			okType: 'button icon-center ion-ios-checkmark-empty ok-button popup-confirm-button',
 			cancelText: ' ',
@@ -30,7 +29,9 @@ angular.module('kosmoramaApp').service('popupService', function($ionicPopup, $ti
 		});
 		confirm.then(function(response) {
 			if (response) {
-				callback();
+				if (callback) {
+					callback();
+				}
 			}
 		});
 	};
