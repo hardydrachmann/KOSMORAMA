@@ -1,7 +1,7 @@
 // This is a data service which gets and posts data in the API-service.
 
 angular
-	.module('kosmoramaApp')
+	.module('virtualTrainingApp')
 	.service('dataService', function($http, debugService, mockService) {
 
 		var url = 'http://176.62.203.178/Comm/DataService';

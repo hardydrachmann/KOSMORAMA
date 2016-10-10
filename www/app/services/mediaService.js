@@ -1,6 +1,6 @@
 // This is a service which can get the locally stored media files related to a users training (pictures, audio & video) & delete them 'all-at-once' when not needed anymore.
 
-angular.module('kosmoramaApp').service('mediaService', function($interval, $cordovaFile, $cordovaMedia, loadingService, popupService, storageService, debugService, $window) {
+angular.module('virtualTrainingApp').service('mediaService', function($interval, $cordovaFile, $cordovaMedia, loadingService, popupService, storageService, debugService, $window) {
 	var self = this;
 	var deviceApplicationPath, devicePlatform, currentPlayback, currentPlaybackPosition;
 	var audioStartTraining = 'fx/start_training.mp3';

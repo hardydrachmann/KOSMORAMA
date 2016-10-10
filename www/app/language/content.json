@@ -292,5 +292,13 @@
     "welcomeText2": {
         "da_DK": " træningspas tilbage. Tryk på start for at begynde, eller vælg menuen i øverste venstre hjørne, for at se din post.",
         "en_US": " training pass(es) left. Press start to begin, or choose the menu in the top left corner to see your mail."
+    },
+    "syncError": {
+        "da_DK": "Der opstod en fejl under synkroniseringen, prøv venligst at synkronisere igen senere.",
+        "en_US": "An error occurred during synchronization, please try to synchronize again later."
+    },
+    "syncHasFailed": {
+        "da_DK": "Du skal synkronisere før du kan påbegynde dagens træning.",
+        "en_US": "You need to synchronize before starting your training."
     }
 }

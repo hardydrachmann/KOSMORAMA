@@ -1,5 +1,5 @@
 angular
-	.module('kosmoramaApp')
+	.module('virtualTrainingApp')
 	.service('storageService', function($window) {
 		/**
 		 * Print completed training from local storage.

@@ -1,5 +1,5 @@
 angular
-    .module('kosmoramaApp')
+    .module('virtualTrainingApp')
     .controller('NotesController',
         function($rootScope, $state, $ionicHistory, languageService, storageService, dataService) {
 

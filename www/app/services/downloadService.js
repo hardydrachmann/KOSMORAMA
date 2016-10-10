@@ -1,6 +1,6 @@
 // This is a service which can download media files related to a users training (audio, video & pictures).
 
-angular.module('kosmoramaApp').service('downloadService', function($cordovaFileTransfer, $cordovaFile, dataService, $interval, loadingService, storageService, languageService, debugService) {
+angular.module('virtualTrainingApp').service('downloadService', function($cordovaFileTransfer, $cordovaFile, dataService, $interval, loadingService, storageService, languageService, debugService) {
 
 	var self = this;
 	var fileTransfer;

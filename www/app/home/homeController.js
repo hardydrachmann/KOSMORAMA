@@ -1,5 +1,5 @@
 angular
-	.module('kosmoramaApp')
+	.module('virtualTrainingApp')
 	.controller('HomeController',
 		function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, blobService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
 
@@ -8,6 +8,7 @@ angular
 			self.online = false;
 			self.idle = true;
 			$rootScope.forceSync = doSync;
+			var syncHasFailed = false;
 			var dateToday = new Date();
 
 			(function init() {
@@ -45,12 +46,19 @@ angular
 				return passCount;
 			};
 
+			var syncPromise;
 			/**
 			 * Checks the internet status to determine whether it's possible to sync.
 			 */
 			function assessNetwork(networkState) {
+				syncHasFailed = false;
 				if (self.idle) {
 					console.log('Assessing network state...');
+					syncPromise = $timeout(function() {
+						syncHasFailed = true;
+						done();
+						popupService.alertPopup(languageService.getText('syncError'));
+					}, 30000);
 					self.idle = false;
 					console.log('Idle?', self.idle);
 					if (debugService.device) {
@@ -64,6 +72,19 @@ angular
 					}
 				}
 			}
+
+			/**
+			 * Start button functions:
+			 * if success, advance to training plan view.
+			 * if error, alert user and return.
+			 */
+			self.startButton = function() {
+				if (syncHasFailed) {
+					popupService.alertPopup(languageService.getText('syncHasFailed'));
+					return;
+				}
+				$window.location.hash = "#/trainingPlan";
+			};
 
 			/**
 			 * Syncs data to the database and updates current training plan.
@@ -145,8 +166,10 @@ angular
 								console.log('DOWNLOAD BUNDLES...', toDownload);
 								if (toDownload <= 0) {
 									console.log('Download completed');
-									self.getAudio = debugService.device ? mediaService.getAudio('prompt') : blobService.getAudio('prompt');
-									mediaService.playIosAudio('prompt');
+									if (!syncHasFailed) {
+										self.getAudio = debugService.device ? mediaService.getAudio('prompt') : blobService.getAudio('prompt');
+										mediaService.playIosAudio('prompt');
+									}
 									done();
 									$interval.cancel(downloadInterval);
 								}
@@ -185,6 +208,7 @@ angular
 			function done() {
 				loadingService.loaderHide();
 				self.idle = true;
+				$timeout.cancel(syncPromise);
 				// console.log('Idle?', self.idle);
 			}
 		});

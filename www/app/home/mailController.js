@@ -1,5 +1,5 @@
 angular
-	.module('kosmoramaApp')
+	.module('virtualTrainingApp')
 	.controller('MailController',
 		function($rootScope, $timeout, $ionicHistory, languageService, popupService, dataService, storageService) {
 

@@ -8,7 +8,7 @@
     <p class="textbody">{{lang.getText('welcomeText1') + home.getPassCount() + lang.getText('welcomeText2')}}</p>
 
     <div id="button-start">
-        <a ng-href="#/trainingPlan">
+        <a ng-click="home.startButton()">
             <div class="wide-button blue-button">
                 <p class="content-font">{{lang.getText('start')}}</p>
             </div>

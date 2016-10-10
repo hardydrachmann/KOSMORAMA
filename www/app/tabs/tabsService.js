@@ -1,5 +1,5 @@
 angular
-    .module('kosmoramaApp')
+    .module('virtualTrainingApp')
     .service('tabsService',
         function() {
             this.continue;

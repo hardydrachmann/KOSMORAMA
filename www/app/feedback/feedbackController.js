@@ -1,5 +1,5 @@
 angular
-    .module('kosmoramaApp')
+    .module('virtualTrainingApp')
     .controller('FeedbackController',
         function($state, tabsService, dataService, loadingService, storageService) {
 
