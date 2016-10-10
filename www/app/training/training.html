@@ -8,10 +8,9 @@
         <video id="playerID" src="{{training.getVideo(training.currentTraining.ExerciseId)}}" type="video/mp4" webkit-playsinline autoplay loop></video>
 
         <!-- Temporary ng-click for dev purposes -->
-        <!-- <div class="progress-wrapper" ng-click="tabs.continue()"> -->
-            <div class="progress-wrapper">
-            <round-progress id="progress-timer" animation="linearEase" stroke="12" rounded="true" bgcolor="transparent" duration="1000" radius="{{timer.radius}}" color="{{timer.intermission ? 'red' : (timer.seconds >= timer.training.time) ? '#19DC19' : 'url(#green-to-cyan-gradient)'}}"
-                current="timer.seconds" max="timer.capacity">
+        <div class="progress-wrapper" ng-click="tabs.continue()">
+            <!--<div class="progress-wrapper">-->
+            <round-progress id="progress-timer" animation="linearEase" stroke="12" rounded="true" bgcolor="transparent" duration="1000" radius="{{timer.radius}}" color="{{timer.intermission ? 'red' : (timer.seconds >= timer.training.time) ? '#19DC19' : 'url(#green-to-cyan-gradient)'}}" current="timer.seconds" max="timer.capacity">
                 <svg>
                     <linearGradient id="green-to-cyan-gradient" x1="0" x2="0" y1="0" y2="1">
                         <stop stop-color="#19DC19"/>

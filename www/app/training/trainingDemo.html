@@ -1,7 +1,7 @@
 <div class="bg-blue-to-brown">
     <wd-header title="lang.getText('trainingDemoTitle')"></wd-header>
 
-    <audio src="{{training.getAudio(training.currentTrainingId)}}" type="audio/mpeg" autoplay></audio>
+    <audio src="{{training.getAudio(training.currentTraining.ExerciseId)}}" type="audio/mpeg" autoplay></audio>
 
     <video id="playerID" src="{{training.getVideo(training.currentTraining.ExerciseId)}}" type="video/mp4"  webkit-playsinline autoplay loop></video>
 

@@ -57,8 +57,12 @@ angular
 				if (isEmptyObject(userData)) {
 					loadUserData();
 				}
-				console.warn('User data initialized, but training data missing. Initializing training data.');
-				initTrainingData();
+				if (userData.training) {
+					initTrainingData();
+				}
+				else {
+					console.warn('User data initialized, but training data missing. Initializing training data.');
+				}
 			}
 		};
 
@@ -275,11 +279,13 @@ angular
 		this.getPassCount = function() {
 			var trainings = userData.training;
 			var passCount = 0;
-			for (var i = 0; i < trainings.length; i++) {
-				if (isTrainingItem(trainings[i])) {
-					var date = new Date(trainings[i].date).setHours(0, 0, 0, 0);
-					if (date == new Date().setHours(0, 0, 0, 0)) {
-						passCount++;
+			if (trainings) {
+				for (var i = 0; i < trainings.length; i++) {
+					if (isTrainingItem(trainings[i])) {
+						var date = new Date(trainings[i].date).setHours(0, 0, 0, 0);
+						if (date == new Date().setHours(0, 0, 0, 0)) {
+							passCount++;
+						}
 					}
 				}
 			}
