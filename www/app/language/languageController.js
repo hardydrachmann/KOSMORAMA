@@ -35,5 +35,6 @@ angular
             self.selectLanguage = function(language) {
                 self.langToggle();
                 languageService.setLanguage(language);
+                self.langMenu = false;
             };
         });

@@ -101,6 +101,7 @@
                                             </div>
                                         </ion-list>
                                     </ion-content>
+                                    <button menu-close class="close-menu-button">{{lang.getText('close') | uppercase}}</button>
                                 </ion-menu>
 
                                 <ion-menu ng-if="lang.langMenu">
@@ -109,12 +110,13 @@
                                     </ion-header>
                                     <ion-content class="menu-list" scroll="true">
                                         <ion-list>
-                                            <div class="item" menu-close="" ng-repeat="language in lang.service.langs | orderBy:'language'" ng-click="lang.selectLanguage(language);">
+                                            <div class="item" ng-repeat="language in lang.service.langs | orderBy:'language'" ng-click="lang.selectLanguage(language);">
                                                 <p class="white-text" style="text-align: left">{{language.language}}</p>
                                                 <img ng-src="{{language.url}}">
                                             </div>
                                         </ion-list>
                                     </ion-content>
+                                    <button ng-click="lang.langMenu = false;" class="close-menu-button">{{lang.getText('back') | uppercase}}</button>
                                 </ion-menu>
 
                                 <ion-menu ng-if="mailTab.mailMenu">
@@ -127,11 +129,11 @@
                                                 <div class="mail-title">
                                                     <h2 ng-switch="" on="mail.IsRead">
                                                         <strong ng-switch-when="false">
-                                                        {{mail.Title}}
-                                                    </strong>
+                                                            {{mail.Title}}
+                                                        </strong>
                                                         <span ng-switch-default="">
-                                                        {{mail.Title}}
-                                                    </span>
+                                                            {{mail.Title}}
+                                                        </span>
                                                     </h2>
                                                 </div>
                                                 <h3 class="mail-timestamp">
@@ -151,6 +153,7 @@
                                             </div>
                                         </ion-list>
                                     </ion-content>
+                                    <button ng-click="mailTab.mailMenu = false;" class="close-menu-button">{{lang.getText('back') | uppercase}}</button>
                                 </ion-menu>
 
                             </ion-side-menu>
@@ -162,6 +165,9 @@
                             <ion-side-menu side="right" class="help-text">
                                 <h1>{{lang.getText('helpTab')}}</h1>
                                 <p>{{lang.getText(help.getState() + 'Help')}}</p>
+                                <ion-content>
+                                    <button menu-close class="close-menu-button">{{lang.getText('close') | uppercase}}</button>
+                                </ion-content>
                             </ion-side-menu>
 
                         </ion-side-menus>

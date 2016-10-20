@@ -4,11 +4,6 @@
         "en_US": "Welcome"
     },
 
-    "mailError": {
-        "da_DK": "Det er på nuværende tidspunkt ikke muligt at tilgå mail-systemet. Prøv igen senere.",
-        "en_US": "It is not possible to access the mail service, at this time. Try again later."
-    },
-
     "trainingPlan": {
         "da_DK": "Dagens træning",
         "en_US": "Today's training"
@@ -57,6 +52,11 @@
     "start": {
         "da_DK": "Start!",
         "en_US": "Start!"
+    },
+
+    "back": {
+        "da_DK": "Tilbage",
+        "en_US": "Back"
     },
 
     "menu": {
@@ -122,6 +122,16 @@
     "mailHelp": {
         "da_DK": "Klik på din mail for at læse den og erklære den læst, eller tryk på home ikonet i toppen til venstre, for at vende tilbage til home.",
         "en_US": "Click on your mail to read it and declare it read, or tap the home icon in the top left, to return to the home menu."
+    },
+
+    "mailError": {
+        "da_DK": "Det er på nuværende tidspunkt ikke muligt at tilgå mail-systemet. Prøv igen senere.",
+        "en_US": "It is not possible to access the mail service, at this time. Try again later."
+    },
+
+    "close": {
+        "da_DK": "Luk Menu",
+        "en_US": "Close Menu"
     },
 
     "feedbackHelp": {

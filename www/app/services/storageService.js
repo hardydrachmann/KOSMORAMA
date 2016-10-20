@@ -2,8 +2,10 @@ angular
 	.module('virtualTrainingApp')
 	.service('storageService', function($window) {
 		const VT = 'VirtualTraining';
+
 		var userData = {};
 		var trainingData = {};
+
 		this.completed = [];
 		this.passCount = 0;
 
