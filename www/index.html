@@ -165,12 +165,14 @@
                                 <ion-nav-view></ion-nav-view>
                             </ion-side-menu-content>
 
-                            <ion-side-menu side="right" class="help-text">
-                                <h1>{{lang.getText('helpTab')}}</h1>
-                                <p>{{lang.getText(help.getState() + 'Help')}}</p>
-                                <ion-content>
+                            <ion-side-menu side="right">
+                                <ion-menu>
+                                    <ion-content class="help-text">
+                                        <h1>{{lang.getText('helpTab')}}</h1>
+                                        <p>{{lang.getText(help.getState() + 'Help')}}</p>
+                                    </ion-content>
                                     <button menu-close class="close-menu-button">{{lang.getText('close') | uppercase}}</button>
-                                </ion-content>
+                                </ion-menu>
                             </ion-side-menu>
                         </ion-side-menus>
 
