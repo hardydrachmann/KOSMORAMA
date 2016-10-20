@@ -53,7 +53,7 @@ angular
 					self.mails = result.UserMessages;
 					countNewMails(self.mails);
 					// Use this line to simulate an empty inbox.
-					//self.mails = [];
+					// self.mails = [];
 				});
 			};
 

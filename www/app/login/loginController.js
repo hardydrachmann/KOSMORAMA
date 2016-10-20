@@ -1,7 +1,7 @@
 angular
 	.module('virtualTrainingApp')
 	.controller('LoginController',
-		function($state, $timeout, $cordovaNetwork, tabsService, debugService, languageService, popupService, dataService, storageService, mediaService) {
+		function($state, $timeout, $cordovaNetwork, tabsService, deviceService, languageService, popupService, dataService, storageService, mediaService) {
 
 			var self = this;
 
@@ -34,7 +34,7 @@ angular
 			 * If this user exist, encrypt the login id in local storage using a random key.
 			 */
 			self.login = function() {
-				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
+				if (!deviceService.device || $cordovaNetwork.getNetwork() === 'wifi') {
 					if (screenNumber) {
 						dataService.getUser(screenNumber, function(result) {
 							if (result) {

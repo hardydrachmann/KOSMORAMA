@@ -2,7 +2,7 @@
 
 angular
 	.module('virtualTrainingApp')
-	.service('dataService', function($http, debugService, mockService) {
+	.service('dataService', function($http, deviceService, mockService) {
 
 		var url = 'http://176.62.203.178/Comm/DataService';
 		// var url = 'http://localhost:8080/Comm/DataService';
@@ -11,7 +11,7 @@ angular
 
 		// This function gets a user by the Screen number entered on login.
 		this.getUser = function(userScreenNumber, callback) {
-			if (debugService.mock) {
+			if (deviceService.mock) {
 				mockService.getUser(userScreenNumber, callback);
 				return;
 			}
@@ -46,7 +46,7 @@ angular
 
 		// This function gets the trainig for a user on the current day.
 		this.getTraining = function(UserId, callback) {
-			if (debugService.mock) {
+			if (deviceService.mock) {
 				mockService.getTraining(UserId, callback);
 				return;
 			}
@@ -115,7 +115,7 @@ angular
 
 		// This function post traning data.
 		this.postData = function(trainingReport, callback) {
-			if (debugService.mock) {
+			if (deviceService.mock) {
 				mockService.postData(trainingReport, callback);
 				return;
 			}
@@ -150,7 +150,7 @@ angular
 		// This function saves the note as read
 		// returns true if success and false when an error has occured.
 		this.postNoteData = function(noteId, callback) {
-			if (debugService.mock) {
+			if (deviceService.mock) {
 				mockService.postNoteData(noteId, callback);
 				return;
 			}
@@ -185,7 +185,7 @@ angular
 		// This function saves feedbackReport to therpist, it handles both message and PainLevel
 		// returns true if success and false when an error has occured.
 		this.postFeedback = function(feedbackCollection, callback) {
-			if (debugService.mock) {
+			if (deviceService.mock) {
 				mockService.postFeedback(feedbackCollection, callback);
 				return;
 			}

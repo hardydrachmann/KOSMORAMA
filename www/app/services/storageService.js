@@ -358,8 +358,7 @@ angular
 			this.completed[this.passCount].passData = trainingData.passData;
 			trainingData.passData = {};
 			$window.localStorage.setItem(VT + 'Completed', JSON.stringify(this.completed));
-			this.trainingData.passData.isLastPassItem = false;
-			this.trainingData.currentTraining = {};
+			trainingData.currentTraining = {};
 			this.passCount++;
 		};
 

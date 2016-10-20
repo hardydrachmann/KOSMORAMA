@@ -313,8 +313,8 @@
         "en_US": " training pass(es) left. Press start to begin, or choose the menu in the top left corner to see your mail. Press the question mark in the top rigth corner to get contextual help."
     },
     "syncError": {
-        "da_DK": "Der opstod en fejl under synkroniseringen, prøv venligst at synkronisere igen senere.",
-        "en_US": "An error occurred during synchronization, please try to synchronize again later."
+        "da_DK": "Der opstod en fejl under synkroniseringen. Ventetiden udløb. Prøv venligst at synkronisere igen senere.",
+        "en_US": "An error occurred during synchronization. The process timed out. Please try to synchronize again later."
     },
     "syncHasFailed": {
         "da_DK": "Du skal synkronisere før du kan påbegynde dagens træning.",

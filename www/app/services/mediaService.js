@@ -1,8 +1,8 @@
 // This is a service which can get the locally stored media files related to a users training (pictures, audio & video) & delete them 'all-at-once' when not needed anymore.
 
-angular.module('virtualTrainingApp').service('mediaService', function($interval, $cordovaFile, $cordovaMedia, loadingService, popupService, storageService, debugService, $window) {
+angular.module('virtualTrainingApp').service('mediaService', function($window, $timeout, $interval, $cordovaFile, $cordovaMedia, loadingService, popupService, storageService, deviceService, tabsService) {
 	var self = this;
-	var deviceApplicationPath, devicePlatform, currentPlayback, currentPlaybackPosition;
+	var deviceApplicationPath, currentPlayback;
 	var audioStartTraining = 'fx/start_training.mp3';
 	var audioStopTraining = 'fx/stop_training.mp3';
 	var audioPrompt = 'fx/prompt.mp3';
@@ -10,13 +10,7 @@ angular.module('virtualTrainingApp').service('mediaService', function($interval,
 	document.addEventListener('deviceready', onDeviceReady, false);
 
 	function onDeviceReady() {
-		devicePlatform = device.platform;
-		if (devicePlatform === 'Android') {
-			deviceApplicationPath = cordova.file.externalDataDirectory;
-		} else {
-			deviceApplicationPath = cordova.file.documentsDirectory;
-		}
-		console.log('mediaService -> onDeviceReady -> platform -> ', devicePlatform);
+		deviceApplicationPath = deviceService.getDeviceApplicationPath();
 		console.log('mediaService -> onDeviceReady -> application path -> ', deviceApplicationPath);
 	}
 
@@ -24,7 +18,7 @@ angular.module('virtualTrainingApp').service('mediaService', function($interval,
 	 * Get currently stored and relevant training picture.
 	 */
 	self.getPicture = function(exerciseId) {
-		if (debugService.device) {
+		if (deviceService.device) {
 			return deviceApplicationPath + 'media/' + exerciseId + '/picture/picture.png';
 		}
 	};
@@ -33,18 +27,16 @@ angular.module('virtualTrainingApp').service('mediaService', function($interval,
 	 * Get currently stored and relevant training audio (Android only).
 	 */
 	self.getAudio = function(exerciseId) {
-		if (debugService.device) {
-			if (devicePlatform === 'Android') {
-				switch (exerciseId) {
-					case 'startTraining':
-						return audioStartTraining;
-					case 'stopTraining':
-						return audioStopTraining;
-					case 'prompt':
-						return audioPrompt;
-					default:
-						return deviceApplicationPath + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
-				}
+		if (deviceService.device && deviceService.isAndroid()) {
+			switch (exerciseId) {
+				case 'startTraining':
+					return audioStartTraining;
+				case 'stopTraining':
+					return audioStopTraining;
+				case 'prompt':
+					return audioPrompt;
+				default:
+					return deviceApplicationPath + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
 			}
 		}
 	};
@@ -53,26 +45,24 @@ angular.module('virtualTrainingApp').service('mediaService', function($interval,
 	 * Get currently stored and relevant training audio (iOS only).
 	 */
 	self.playIosAudio = function(exerciseId) {
-		if (debugService.device) {
-			if (devicePlatform === 'iOS') {
-				switch (exerciseId) {
-					case 'startTraining':
-						self.getIosAudio(audioStartTraining);
-						break;
-					case 'stopTraining':
-						self.getIosAudio(audioStopTraining);
-						break;
-					case 'prompt':
-						self.getIosAudio(audioPrompt);
-						break;
-					default:
-						var audioDescription = deviceApplicationPath + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
-						$window.resolveLocalFileSystemURL(audioDescription, function(dir) {
-							var basePath = dir.toInternalURL();
-							self.getIosAudio(basePath);
-						});
-						break;
-				}
+		if (deviceService.device && !deviceService.isAndroid()) {
+			switch (exerciseId) {
+				case 'startTraining':
+					self.getIosAudio(audioStartTraining);
+					break;
+				case 'stopTraining':
+					self.getIosAudio(audioStopTraining);
+					break;
+				case 'prompt':
+					self.getIosAudio(audioPrompt);
+					break;
+				default:
+					var audioDescription = deviceApplicationPath + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
+					$window.resolveLocalFileSystemURL(audioDescription, function(dir) {
+						var basePath = dir.toInternalURL();
+						self.getIosAudio(basePath);
+					});
+					break;
 			}
 		}
 	};
@@ -87,6 +77,9 @@ angular.module('virtualTrainingApp').service('mediaService', function($interval,
 		};
 		currentPlayback = iosAudio;
 		iosAudio.play(iosPlayOptions).then(function() {
+			$timeout(function() {
+				tabsService.continue();
+			}, 5000);
 			iosAudio.stop();
 			iosAudio.release();
 		});
@@ -110,7 +103,7 @@ angular.module('virtualTrainingApp').service('mediaService', function($interval,
 	 * Get currently stored and relevant training video.
 	 */
 	self.getVideo = function(exerciseId) {
-		if (debugService.device) {
+		if (deviceService.device) {
 			return deviceApplicationPath + 'media/' + exerciseId + '/video/speak.mp4';
 		}
 	};
@@ -119,7 +112,7 @@ angular.module('virtualTrainingApp').service('mediaService', function($interval,
 	 * Remove all currently stored media files.
 	 */
 	self.removeMedia = function(callback) {
-		if (debugService.device) {
+		if (deviceService.device) {
 			if ($cordovaFile.checkDir(deviceApplicationPath, 'media')) {
 				$cordovaFile.removeRecursively(deviceApplicationPath, 'media');
 				var removeInterval = $interval(function() {
