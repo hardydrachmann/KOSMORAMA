@@ -1,6 +1,6 @@
 // This is a service which can download media files related to a users training (audio, video & pictures).
 
-angular.module('virtualTrainingApp').service('downloadService', function($cordovaFileTransfer, $cordovaFile, dataService, $interval, loadingService, storageService, languageService, debugService) {
+angular.module('virtualTrainingApp').service('downloadService', function($cordovaFileTransfer, $cordovaFile, dataService, $interval, loadingService, storageService, languageService, deviceService) {
 
 	var self = this;
 	var fileTransfer;
@@ -11,14 +11,8 @@ angular.module('virtualTrainingApp').service('downloadService', function($cordov
 	document.addEventListener('deviceready', onDeviceReady, false);
 
 	function onDeviceReady() {
-		fileTransfer = debugService.device ? new FileTransfer() : 'not on device';
-		var devicePlatform = device.platform;
-		if (devicePlatform === 'Android') {
-			deviceApplicationPath = cordova.file.externalDataDirectory;
-		} else {
-			deviceApplicationPath = cordova.file.documentsDirectory;
-		}
-		console.log('downloadService -> onDeviceReady -> platform -> ', devicePlatform);
+		fileTransfer = deviceService.device ? new FileTransfer() : 'not on device';
+		deviceApplicationPath = deviceService.getDeviceApplicationPath();
 		console.log('downloadService -> onDeviceReady -> application path -> ', deviceApplicationPath);
 	}
 
@@ -70,7 +64,7 @@ angular.module('virtualTrainingApp').service('downloadService', function($cordov
 	 * Setup media path variables for device storage, and fire the download functions.
 	 */
 	self.downloadMedia = function(exerciseId, callback) {
-		if (debugService.device) {
+		if (deviceService.device) {
 			try {
 				// Count downloading elements and prepare decrementer for
 				toDownload = languageService.langs.length + 2;

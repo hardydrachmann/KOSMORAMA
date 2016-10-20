@@ -1,7 +1,7 @@
 angular
 	.module('virtualTrainingApp')
 	.controller('HomeController',
-		function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, blobService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
+		function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, blobService, dataService, loadingService, mediaService, downloadService, deviceService, tabsService) {
 			var self = this;
 
 			self.getAudio = '';
@@ -14,17 +14,16 @@ angular
 
 			(function init() {
 				$timeout(doSync, 1000);
-				$rootScope.device = debugService.device;
+				$rootScope.device = deviceService.device;
 			})();
 
 			/**
 			 * Force accessing the network to do a selective sync.
 			 */
 			function doSync() {
-				if (!debugService.device || $cordovaNetwork.getNetwork() === 'wifi') {
+				if (!deviceService.device || $cordovaNetwork.getNetwork() === 'wifi') {
 					assessNetwork();
-				}
-				else if (!debugService.device || $cordovaNetwork.getNetwork() === '4g' || $cordovaNetwork.getNetwork() === '3g') {
+				} else if (!deviceService.device || $cordovaNetwork.getNetwork() === '4g' || $cordovaNetwork.getNetwork() === '3g') {
 					popupService.confirmPopup(languageService.getText('noWifiSyncHeader'), languageService.getText('noWifiSyncTitle'), '', function() {
 						assessNetwork();
 					});
@@ -43,16 +42,15 @@ angular
 						syncHasFailed = true;
 						done();
 						popupService.alertPopup(languageService.getText('syncError'));
-					}, 5000);
+					}, 60000);
 					self.idle = false;
-					if (debugService.device) {
+					if (deviceService.device) {
 						// Actually get the network state of the device.
 						networkState = $cordovaNetwork.getNetwork();
 					}
 					if (storageService.getCompleted().length) {
 						syncData();
-					}
-					else {
+					} else {
 						getData();
 					}
 				}
@@ -93,8 +91,7 @@ angular
 						getData();
 					});
 					dataService.postFeedback(feedbackCollection);
-				}
-				else {
+				} else {
 					getData();
 				}
 			}
@@ -117,15 +114,13 @@ angular
 				dataService.getTraining(userId, function(data) {
 					if (data) {
 						console.log('All training get!');
-						if (debugService.device) {
+						if (deviceService.device) {
 							downloadTraining(data);
-						}
-						else {
+						} else {
 							done();
 						}
 						storageService.sortTraining(data);
-					}
-					else {
+					} else {
 						done();
 						popupService.alertPopup(languageService.getText('noTrainingText'));
 					}
@@ -153,7 +148,7 @@ angular
 								if (toDownload <= 0) {
 									console.log('Download completed');
 									if (!syncHasFailed) {
-										self.getAudio = debugService.device ? mediaService.getAudio('prompt') : blobService.getAudio('prompt');
+										self.getAudio = deviceService.device ? mediaService.getAudio('prompt') : blobService.getAudio('prompt');
 										mediaService.playIosAudio('prompt');
 									}
 									done();
@@ -162,8 +157,7 @@ angular
 							}, 1000);
 							self.getAudio = '';
 						});
-					}
-					else {
+					} else {
 						done();
 					}
 				});

@@ -1,12 +1,12 @@
 angular
 	.module('virtualTrainingApp')
 	.controller('TrainingController',
-		function($rootScope, $state, $timeout, $ionicHistory, $ionicPlatform, tabsService, languageService, popupService, dataService, loadingService, storageService, mediaService, blobService, debugService) {
+		function($rootScope, $state, $timeout, $ionicHistory, $ionicPlatform, $interval, tabsService, languageService, popupService, dataService, loadingService, storageService, mediaService, blobService, deviceService) {
 
 			var self = this;
-			self.getAudio = debugService.device ? mediaService.getAudio : blobService.getAudio;
-			self.getVideo = debugService.device ? mediaService.getVideo : blobService.getVideo;
-			self.getPicture = debugService.device ? mediaService.getPicture : blobService.getPicture;
+			self.getAudio = deviceService.device ? mediaService.getAudio : blobService.getAudio;
+			self.getVideo = deviceService.device ? mediaService.getVideo : blobService.getVideo;
+			self.getPicture = deviceService.device ? mediaService.getPicture : blobService.getPicture;
 			self.TrainingItems = [];
 			self.currentTraining = {};
 
@@ -20,18 +20,15 @@ angular
 					$('video').get(0).pause();
 					if (device.platform === 'Android') {
 						$('audio').get(0).pause();
-					}
-					else {
+					} else {
 						mediaService.pauseIosAudio();
 					}
 				});
-
 				$ionicPlatform.on('resume', function() {
 					$('video').get(0).play();
 					if (device.platform === 'Android') {
 						$('audio').get(0).play();
-					}
-					else {
+					} else {
 						mediaService.resumeIosAudio();
 					}
 				});
@@ -76,12 +73,24 @@ angular
 							$state.go('home');
 							popupService.alertPopup(languageService.getText('noTrainingText'));
 						}
-					}
-					else if (currentState === 'trainingDemo') {
-						mediaService.playIosAudio(self.currentTraining.ExerciseId);
+					} else if (currentState === 'trainingDemo') {
+						var boafb = mediaService.playIosAudio(self.currentTraining.ExerciseId);
 						$('video').get(0).play();
-					}
-					else if (currentState === 'training') {
+						// When audio playback stops, wait 5 sec. more, then auto-continue to training view (Android only).
+						var audioPlaying = $('audio').get(0);
+						var promise = $interval(function() {
+							if (audioPlaying.ended) {
+								$interval.cancel(promise);
+								$timeout(function() {
+									tabsService.continue();
+								}, 5000);
+							}
+						}, 1000);
+						$rootScope.$on('continueEvent', function() {
+							if (promise)
+								$interval.cancel(promise);
+						});
+					} else if (currentState === 'training') {
 						mediaService.playIosAudio('startTraining');
 					}
 				}
