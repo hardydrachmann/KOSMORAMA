@@ -13,21 +13,18 @@ angular
              */
             (function init() {
                 var handler = $rootScope.$on('continueEvent', function() {
-                    if (self.painValue && storageService.proceduralUserData.passData.painLevel === null) {
-                        storageService.proceduralUserData.passData.painLevel = self.painValue;
+                    if (self.painValue && storageService.getCurrentPainLevel()) {
+                        storageService.setCurrentPainLevel(self.painValue);
                     }
-                    else if (self.messageText && storageService.proceduralUserData.passData.message === null) {
-                        storageService.proceduralUserData.passData.message = self.messageText;
+                    else if (self.messageText && storageService.getCurrentNotesMessage()) {
+                        storageService.setCurrentNotesMessage(self.messageText);
                     }
-                    storageService.proceduralUserData.isLastPassTraining = false;
-                    storageService.proceduralUserData.currentTraining = {};
                     if ($ionicHistory.currentView().stateName === 'notes') {
                         storageService.retainCurrentPassData();
                     }
                     else if (!storageService.getAllowMessage()) {
                         storageService.retainCurrentPassData();
                     }
-
                     // Terminate the handler after running.
                     handler();
                 });

@@ -38,7 +38,8 @@ angular
 				if (mail.hasClass('inactive-mail')) {
 					mail.removeClass('inactive-mail');
 					mail.addClass('active-mail');
-				} else {
+				}
+				else {
 					mail.removeClass('active-mail');
 					mail.addClass('inactive-mail');
 				}
@@ -51,6 +52,8 @@ angular
 				dataService.getUser(storageService.getUserScreenNumber(), function(result) {
 					self.mails = result.UserMessages;
 					countNewMails(self.mails);
+					// Use this line to simulate an empty inbox.
+					//self.mails = [];
 				});
 			};
 

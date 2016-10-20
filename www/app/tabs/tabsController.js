@@ -39,7 +39,7 @@ angular
                         $state.go('feedback');
                         break;
                     case 'feedback':
-                        if (storageService.proceduralUserData.isLastPassItem) {
+                        if (storageService.isLastPassItem()) {
                             $state.go('painLevel');
                         }
                         else {

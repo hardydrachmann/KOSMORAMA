@@ -6,7 +6,7 @@ header {
     display: inline-block;
     transform: translateX(-50%);
     margin-left: 47%;
-    padding-top: 5.5vh;
+    padding-top: 6vh;
     height: auto;
     width: auto;
     white-space: nowrap;
@@ -17,7 +17,7 @@ header {
     position: relative;
     top: -1vh;
     left: 1.5vh;
-    font-size: 4vh;
+    font-size: 3.5vh;
     color: white;
 }
 
@@ -111,9 +111,21 @@ header {
 }
 
 .mail-text {
+    /* !important to override Ionic */
     white-space: pre-line !important;
+    color: black !important;
+    font-size: 3vh !important;
     font-style: italic;
     font-weight: bold;
+    line-height: 1.2;
+}
+
+#no-mail-text {
+    margin: 15px;
+    margin-top: 10vh;
+    text-align: center;
+    line-height: 1.5;
+    font-size: 4vh;
 }
 
 #new-mail-menu {

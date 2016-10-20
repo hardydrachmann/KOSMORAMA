@@ -186,7 +186,7 @@ angular
 		// returns true if success and false when an error has occured.
 		this.postFeedback = function(feedbackCollection, callback) {
 			if (debugService.mock) {
-				mockService.postFeedback(feedbackObject, callback);
+				mockService.postFeedback(feedbackCollection, callback);
 				return;
 			}
 

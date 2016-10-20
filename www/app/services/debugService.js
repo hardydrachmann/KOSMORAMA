@@ -1,4 +1,4 @@
 angular.module('virtualTrainingApp').service('debugService', function() {
-	this.mock = false;
+	this.mock = true;
 	this.device = false;
 });

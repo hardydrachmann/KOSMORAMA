@@ -10,7 +10,7 @@ angular
              */
             self.setSmileyValue = function(value) {
                 var stats = value * 20;
-                var training = storageService.proceduralUserData.currentTraining;
+                var training = storageService.getCurrentTraining();
                 var trainingReport = [{
                     "PlanExerciseId": training.PlanExerciseId,
                     "Id": training.TrainingId,

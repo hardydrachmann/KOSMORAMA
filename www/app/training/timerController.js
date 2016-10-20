@@ -158,13 +158,18 @@ angular
 						$('#progress-button').get(0).remove();
 					}
 					catch (error) {
-						console.warn('Trying to remove non-existing progress bar element');
+						console.warn('Trying to remove non-existing progress bar element. This is probably happening due to incorrect browser navigation.');
 					}
 					// Play training stop sound (iOS only).
 					mediaService.playIosAudio('stopTraining');
 					// Play training stop sound (Android only).
 					var audioPlayer = $('#trainingAudio').attr('src', audioStopTraining);
-					audioPlayer[0].play();
+					try {
+						audioPlayer[0].play();
+					}
+					catch (error) {
+						console.warn('Trying to invoke "play()" on non-existing player. This is probably happening due to incorrect browser navigation.');
+					}
 					// Timeout before changing view, so audio can finish playback, removing audio before progressing to eliminate bugs.
 					$timeout(function() {
 						audioPlayer[0].remove();

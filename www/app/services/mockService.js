@@ -20,6 +20,7 @@ angular
 		};
 
 		var mockTraining = [{
+			date: new Date(),
 			ExeciseUrl: "https://www.youtube.com/v/csa_VMnnO2U?version=2&rel=0&autohide=1&showinfo=0&theme=light&loop=1&modestbranding=1",
 			ExerciseId: "NoKinect_03",
 			ExerciseOrderNumber: 0,
@@ -53,6 +54,7 @@ angular
 			TrainingId: 212436,
 			Type: 40
 		}, {
+			date: new Date(),
 			ExeciseUrl: "https://www.youtube.com/v/5U5L7AIYR-4?version=2&rel=0&autohide=1&showinfo=0&theme=light&loop=1&modestbranding=1",
 			ExerciseId: "NoKinect_02",
 			ExerciseOrderNumber: 1,
@@ -86,6 +88,7 @@ angular
 			TrainingId: 212436,
 			Type: 40,
 		}, {
+			date: new Date(),
 			ExeciseUrl: "https://www.youtube.com/v/grfE6C3hYK8?version=2&rel=0&autohide=1&showinfo=0&theme=light&loop=1&modestbranding=1",
 			ExerciseId: "57_hard",
 			ExerciseOrderNumber: 2,
@@ -122,26 +125,36 @@ angular
 
 		this.getUser = function(userScreenNumber, callback) {
 			console.log('MOCK: Get user with screen number', userScreenNumber);
-			callback(mockballeman);
+			if (callback) {
+				callback(mockballeman);
+			}
 		};
 
 		this.getTraining = function(UserId, callback) {
 			console.log('MOCK: Get training for user with id', UserId);
-			callback(mockTraining);
+			if (callback) {
+				callback(mockTraining);
+			}
 		};
 
 		this.postData = function(trainingReportCollection, callback) {
 			console.log('MOCK: Report received by database', trainingReportCollection);
-			callback();
+			if (callback) {
+				callback();
+			}
 		};
 
 		this.postNoteData = function(noteId, callback) {
 			console.log('MOCK: Message marked as read by database', noteId);
-			callback({});
+			if (callback) {
+				callback({});
+			}
 		};
 
 		this.postFeedback = function(feedbackCollection, callback) {
 			console.log('MOCK: Training pass feedback received by database', feedbackCollection);
-			callback();
+			if (callback) {
+				callback();
+			}
 		};
 	});

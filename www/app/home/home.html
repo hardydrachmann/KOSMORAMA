@@ -5,7 +5,7 @@
 
     <img class="round-image" ng-src="img/round-placeholder.png">
 
-    <p class="textbody">{{lang.getText('welcomeText1') + home.getPassCount() + lang.getText('welcomeText2')}}</p>
+    <p class="textbody">{{home.getWelcomeText()}}</p>
 
     <div id="button-start">
         <a ng-click="home.startButton()">

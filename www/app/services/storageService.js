@@ -206,9 +206,9 @@ angular
 		/**
 		 * Get whether this is the last item in the pass.
 		 */
-		this.isLastItem = function() {
+		this.isLastPassItem = function() {
 			verifyData();
-			console.log('Getting isLastPassItem', trainingData.isLastPassItem);
+			// console.log('Getting isLastPassItem', trainingData.isLastPassItem);
 			return trainingData.isLastPassItem;
 		};
 
@@ -226,17 +226,35 @@ angular
 		 */
 		this.getCurrentPassData = function() {
 			verifyData();
-			console.log('Getting current PassData', trainingData.passData);
+			// console.log('Getting current PassData', trainingData.passData);
 			return trainingData.passData;
 		};
 
 		/**
 		 * Get the pain level for the currently active pass.
 		 */
+		this.getCurrentPainLevel = function() {
+			verifyData();
+			// console.log('Getting current Pain Level', trainingData.passData.painLevel);
+			return trainingData.passData.painLevel;
+		};
+
+		/**
+		 * Set the pain level for the currently active pass.
+		 */
 		this.setCurrentPainLevel = function(level) {
 			verifyData();
-			console.log('Setting current Pain Level', level);
-			trainingData.painLevel = level;
+			// console.log('Setting current Pain Level', level);
+			trainingData.passData.painLevel = level;
+		};
+
+		/**
+		 * Get the message for the currently active pass.
+		 */
+		this.getCurrentNotesMessage = function() {
+			verifyData();
+			// console.log('Getting current Message', trainingData.passData.message);
+			return trainingData.passData.message;
 		};
 
 		/**
@@ -244,7 +262,7 @@ angular
 		 */
 		this.setCurrentNotesMessage = function(message) {
 			verifyData();
-			console.log('Setting current Message', message);
+			// console.log('Setting current Message', message);
 			trainingData.message = message;
 		};
 
@@ -338,8 +356,10 @@ angular
 				console.error('Pretty sure this is not ever supposed to happen!');
 			}
 			this.completed[this.passCount].passData = trainingData.passData;
-			trainingData.passData = null;
+			trainingData.passData = {};
 			$window.localStorage.setItem(VT + 'Completed', JSON.stringify(this.completed));
+			this.trainingData.passData.isLastPassItem = false;
+			this.trainingData.currentTraining = {};
 			this.passCount++;
 		};
 
@@ -374,10 +394,6 @@ angular
 			}
 			return [];
 		};
-
-
-
-
 
 		/**
 		 * Print completed training from local storage.

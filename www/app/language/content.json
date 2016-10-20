@@ -129,6 +129,11 @@
         "en_US": "It is not possible to access the mail service, at this time. Try again later."
     },
 
+    "noMailText": {
+        "da_DK": "Du har ikke noget post at læse lige nu. Kom tilbage senere for at holde dig selv opdateret.",
+        "en_US": "You currently have no mail to read. Come back later to keep yourself up to date."
+    },
+
     "close": {
         "da_DK": "Luk Menu",
         "en_US": "Close Menu"
@@ -145,8 +150,8 @@
     },
 
     "homeHelp": {
-        "da_DK": "Tryk på logoet på skærmen for at fortsætte til oversigt over dagens træning. Du kan ikke vende tilbage fra træningen, når den er påbegyndt.",
-        "en_US": "Tap the logo on the screen to continue to your daily training overview. You will not be able to return to this point when the training has started."
+        "da_DK": "Tryk på logoet på skærmen for at fortsætte til oversigt over dagens træning. Du kan ikke vende tilbage fra træningen, når den er påbegyndt. Du altid finde hjælp i dette vindue, hvis du sidder fast eller bliver forvirret.",
+        "en_US": "Tap the logo on the screen to continue to your daily training overview. You will not be able to return to this point when the training has started. You can always receive help in this window, if you find yourself stuck or confused."
     },
 
     "trainingPlanHelp": {
@@ -165,8 +170,8 @@
     },
 
     "notesTitle": {
-        "da_DK": "Notat til Træning",
-        "en_US": "Training Notes"
+        "da_DK": "Notat til Terapeut",
+        "en_US": "Note for Therapist"
     },
 
     "notesPlaceholder": {
@@ -215,8 +220,8 @@
     },
 
     "feedbackTitle": {
-        "da_DK": "Smiley",
-        "en_US": "Smiley"
+        "da_DK": "Bedøm Din Indsats",
+        "en_US": "Your Performance"
     },
 
     "smiley5": {
@@ -296,12 +301,16 @@
         "en_US": "Pause"
     },
     "welcomeText1": {
-        "da_DK": "Velkommen til Virtuel Træning. Du har på nuværende tidspunkt ",
-        "en_US": "Welcome to Virtual Training. You currently have "
+        "da_DK": "Velkommen til Virtuel Træning",
+        "en_US": "Welcome to Virtual Training"
     },
     "welcomeText2": {
-        "da_DK": " træningspas tilbage. Tryk på start for at begynde, eller vælg menuen i øverste venstre hjørne, for at se din post.",
-        "en_US": " training pass(es) left. Press start to begin, or choose the menu in the top left corner to see your mail."
+        "da_DK": "Du har på nuværende tidspunkt ",
+        "en_US": "You currently have "
+    },
+    "welcomeText3": {
+        "da_DK": " træningspas tilbage. Tryk på start for at begynde, eller vælg menuen i øverste venstre hjørne, for at se din post. Tryk på spørgsmålstegnet i øverste højre hjørne for at få kontekstuel hjælp.",
+        "en_US": " training pass(es) left. Press start to begin, or choose the menu in the top left corner to see your mail. Press the question mark in the top rigth corner to get contextual help."
     },
     "syncError": {
         "da_DK": "Der opstod en fejl under synkroniseringen, prøv venligst at synkronisere igen senere.",

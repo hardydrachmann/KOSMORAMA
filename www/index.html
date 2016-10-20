@@ -123,7 +123,10 @@
                                     <ion-header class="menu-header">
                                         <h1>{{lang.getText('mailTab')}}</h1>
                                     </ion-header>
-                                    <ion-content class="mail-list" ng-blur(="" 'mailtab.test()')="">
+                                    <p ng-if="mailTab.mails.length <= 0" id="no-mail-text">
+                                        {{lang.getText('noMailText')}}
+                                    </p>
+                                    <ion-content ng-if="mailTab.mails.length > 0" class="mail-list">
                                         <ion-list>
                                             <div class="item" ng-repeat="mail in mailTab.mails | orderBy:Time:true" ng-click="mailTab.toggleMailDisplay($index)">
                                                 <div class="mail-title">

@@ -17,8 +17,8 @@
 
 .tiny-button {
     display: inline-block;
-    width: 5vh;
-    height: 5vh;
+    width: 8vh;
+    height: 8vh;
     position: absolute;
     top: 2.5vh;
     border-radius: 100%;
@@ -33,6 +33,7 @@
 
 .tiny-button p {
     font-family: Helvetica;
+    font-size: 6vh;
 }
 
 .tiny-button-right {

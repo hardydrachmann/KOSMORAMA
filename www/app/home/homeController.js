@@ -1,14 +1,21 @@
 angular
 	.module('virtualTrainingApp')
 	.controller('HomeController',
-		function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, blobService, dataService, loadingService, mediaService, downloadService, debugService, tabsService) {
+		function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, blobService, dataService, loadingService, mediaService, downloadService, debugService) {
 			var self = this;
 
 			self.getAudio = '';
 			self.online = false;
 			self.idle = true;
 			$rootScope.forceSync = doSync;
-			self.getPassCount = storageService.getPassCount;
+
+			var nameOfUser = '';
+			self.getWelcomeText = function() {
+				if (nameOfUser) {
+					return languageService.getText('welcomeText1') + ', ' + nameOfUser + '. ' + languageService.getText('welcomeText2') + storageService.getPassCount() + languageService.getText('welcomeText3');
+				}
+				return '';
+			};
 
 			var syncHasFailed = false;
 
@@ -106,6 +113,7 @@ angular
 				loadingService.loaderShow();
 				storageService.clearTrainingData();
 				dataService.getUser(storageService.getUserScreenNumber(), function(result) {
+					nameOfUser = result.Name;
 					getTrainingFromDB(result.Id);
 				});
 			}
