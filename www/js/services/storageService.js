@@ -235,7 +235,7 @@ angular
 		 */
 		this.getCurrentPainLevel = function() {
 			verifyData();
-			// console.log('Getting current Pain Level', trainingData.passData.painLevel);
+			console.log('Getting current Pain Level', trainingData.passData.painLevel);
 			return trainingData.passData.painLevel;
 		};
 
@@ -244,7 +244,7 @@ angular
 		 */
 		this.setCurrentPainLevel = function(level) {
 			verifyData();
-			// console.log('Setting current Pain Level', level);
+			console.log('Setting current Pain Level', level);
 			trainingData.passData.painLevel = level;
 		};
 
@@ -262,8 +262,8 @@ angular
 		 */
 		this.setCurrentNotesMessage = function(message) {
 			verifyData();
-			// console.log('Setting current Message', message);
-			trainingData.message = message;
+			console.log('Setting current Message', message);
+			trainingData.passData.message = message;
 		};
 
 		/**
@@ -352,6 +352,7 @@ angular
 		 * Save the current pass data in local storage.
 		 */
 		this.retainCurrentPassData = function() {
+			console.log('Retaining pass data:', this.completed[this.passCount]);
 			if (!this.completed[this.passCount]) {
 				console.error('Pretty sure this is not ever supposed to happen!');
 			}

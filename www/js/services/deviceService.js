@@ -3,7 +3,10 @@ angular.module('virtualTrainingApp').service('deviceService', function() {
 	this.device = false;
 
 	this.isAndroid = function() {
-		return device.platform === 'Android';
+		if (this.device) {
+			return device.platform === 'Android';
+		}
+		return false;
 	};
 
 	this.getDeviceApplicationPath = function() {

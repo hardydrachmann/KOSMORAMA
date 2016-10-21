@@ -18,7 +18,7 @@
                     </linearGradient>
                 </svg>
             </round-progress>
-            <div class="progress-content" ng-if="!timer.isIos || (!timer.intermission && timer.isIos)">
+            <div class="progress-content" ng-if="timer.isAndroid || (!timer.intermission && !timer.isAndroid)">
                 <p><span ng-if="timer.formattedTime().min">{{timer.formattedTime().min}}<span class="small-text">{{lang.getText('min')}}.</span></span>&nbsp;{{timer.formattedTime().sec}}<span class="small-text">{{lang.getText('sec')}}.</span></p>
                 <p><span class="small-text">{{lang.getText('set')}}:&nbsp;</span>{{timer.training.sets}}</p>
             </div>
