@@ -11,11 +11,11 @@ angular
 			if (exerciseId) {
 				switch (exerciseId) {
 					case 'startTraining':
-						return 'fx/start_training.mp3';
+						return 'audio/start_training.mp3';
 					case 'stopTraining':
-						return 'fx/stop_training.mp3';
+						return 'audio/stop_training.mp3';
 					case 'prompt':
-						return 'fx/prompt.mp3';
+						return 'audio/prompt.mp3';
 					default:
 						break;
 				}

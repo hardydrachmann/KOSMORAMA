@@ -2,7 +2,7 @@ angular
     .module('virtualTrainingApp')
     .directive('wdHeader', function() {
         return {
-            templateUrl: 'app/header/header.html',
+            templateUrl: 'js/directives/header/header.html',
             scope: {
                 title: '='
             }

@@ -3,9 +3,9 @@
 angular.module('virtualTrainingApp').service('mediaService', function($window, $timeout, $interval, $cordovaFile, $cordovaMedia, loadingService, popupService, storageService, deviceService, tabsService) {
 	var self = this;
 	var deviceApplicationPath, currentPlayback;
-	var audioStartTraining = 'fx/start_training.mp3';
-	var audioStopTraining = 'fx/stop_training.mp3';
-	var audioPrompt = 'fx/prompt.mp3';
+	var audioStartTraining = 'audio/start_training.mp3';
+	var audioStopTraining = 'audio/stop_training.mp3';
+	var audioPrompt = 'audio/prompt.mp3';
 
 	document.addEventListener('deviceready', onDeviceReady, false);
 

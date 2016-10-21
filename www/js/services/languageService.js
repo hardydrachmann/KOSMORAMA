@@ -46,10 +46,10 @@ angular
              * Loads appropriate data from content.json, depending on which language has been selected.
              */
             function loadData() {
-                $.getJSON('app/language/content.json', function(data) {
+                $.getJSON('data/content.json', function(data) {
                     self.text = data;
                 });
-                $.getJSON('app/language/langs.json', function(data) {
+                $.getJSON('data/langs.json', function(data) {
                     self.langs = data;
                 });
             }

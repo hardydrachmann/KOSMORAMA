@@ -33,7 +33,7 @@ angular
 
 		$stateProvider.state('home', {
 			url: '/home',
-			templateUrl: 'app/home/home.html',
+			templateUrl: 'views/home.html',
 			controller: 'HomeController',
 			controllerAs: 'home',
 			cache: false
@@ -41,13 +41,13 @@ angular
 
 		.state('login', {
 			url: '/login',
-			templateUrl: 'app/login/login.html',
+			templateUrl: 'views/login.html',
 			cache: false
 		})
 
 		.state('trainingPlan', {
 			url: '/trainingPlan',
-			templateUrl: 'app/training/trainingPlan.html',
+			templateUrl: 'views/trainingPlan.html',
 			controller: 'TrainingController',
 			controllerAs: 'training',
 			cache: false
@@ -55,7 +55,7 @@ angular
 
 		.state('trainingDemo', {
 			url: '/trainingDemo',
-			templateUrl: 'app/training/trainingDemo.html',
+			templateUrl: 'views/trainingDemo.html',
 			controller: 'TrainingController',
 			controllerAs: 'training',
 			cache: false
@@ -63,7 +63,7 @@ angular
 
 		.state('training', {
 			url: '/training',
-			templateUrl: 'app/training/training.html',
+			templateUrl: 'views/training.html',
 			controller: 'TrainingController',
 			controllerAs: 'training',
 			cache: false
@@ -71,7 +71,7 @@ angular
 
 		.state('feedback', {
 			url: '/feedback',
-			templateUrl: 'app/feedback/feedback.html',
+			templateUrl: 'views/feedback.html',
 			controller: 'FeedbackController',
 			controllerAs: 'feedback',
 			cache: false
@@ -79,7 +79,7 @@ angular
 
 		.state('painLevel', {
 			url: '/painLevel',
-			templateUrl: 'app/feedback/painLevel.html',
+			templateUrl: 'views/painLevel.html',
 			controller: 'NotesController',
 			controllerAs: 'notes',
 			cache: false
@@ -87,7 +87,7 @@ angular
 
 		.state('notes', {
 			url: '/notes',
-			templateUrl: 'app/feedback/notes.html',
+			templateUrl: 'views/notes.html',
 			controller: 'NotesController',
 			controllerAs: 'notes',
 			cache: false
