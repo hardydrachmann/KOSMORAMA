@@ -123,6 +123,9 @@ var mockService = function() {
 		Type: 40
 	}];
 
+	/**
+     * Mock version of the getUser method.
+     */
 	this.getUser = function(userScreenNumber, callback) {
 		console.log('MOCK: Get user with screen number', userScreenNumber);
 		if (callback) {
@@ -130,6 +133,9 @@ var mockService = function() {
 		}
 	};
 
+	/**
+     * Mock version of the getTraining method.
+     */
 	this.getTraining = function(UserId, callback) {
 		console.log('MOCK: Get training for user with id', UserId);
 		if (callback) {
@@ -137,6 +143,9 @@ var mockService = function() {
 		}
 	};
 
+	/**
+     * Mock version of the postData method.
+     */
 	this.postData = function(trainingReportCollection, callback) {
 		console.log('MOCK: Report received by database', trainingReportCollection);
 		if (callback) {
@@ -144,6 +153,9 @@ var mockService = function() {
 		}
 	};
 
+	/**
+     * Mock version of the postNoteData method.
+     */
 	this.postNoteData = function(noteId, callback) {
 		console.log('MOCK: Message marked as read by database', noteId);
 		if (callback) {
@@ -151,6 +163,9 @@ var mockService = function() {
 		}
 	};
 
+	/**
+     * Mock version of the postFeedback method.
+     */
 	this.postFeedback = function(feedbackCollection, callback) {
 		console.log('MOCK: Training pass feedback received by database', feedbackCollection);
 		if (callback) {
