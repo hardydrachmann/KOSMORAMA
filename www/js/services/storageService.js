@@ -1,10 +1,24 @@
 var storageService = function($window) {
 	const VT = 'VirtualTraining';
 
+	/**
+	 * User meta data.
+	 */
 	var userData = {};
+
+	/**
+	 * Procedural training data.
+	 */
 	var trainingData = {};
 
+	/**
+	 * List of completed training and pass data.
+	 */
 	this.completed = [];
+
+	/**
+	 * The counter for the passes. Holds the current pass count.
+	 */
 	this.passCount = 0;
 
 	/**
@@ -50,6 +64,9 @@ var storageService = function($window) {
 		};
 	};
 
+	/**
+	 * Verify that the service has data. If not acquire it from local storage.
+	 */
 	var verifyData = function() {
 		// console.log('Verifying training data', trainingData);
 		if (isEmptyObject(trainingData)) {
@@ -59,12 +76,29 @@ var storageService = function($window) {
 			}
 			if (userData.training) {
 				initTrainingData();
-			} else {
+			}
+			else {
 				console.warn('User data initialized, but training data missing. Initializing training data.');
 			}
 		}
 	};
 
+	/**
+	 * Load and decrypt user data from local storage.
+	 */
+	var loadUserData = function() {
+		var decryptionKey = $window.localStorage.getItem(VT + 'Key');
+		var encryptedData = $window.localStorage.getItem(VT + 'UserData');
+		if (decryptionKey && encryptedData) {
+			var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
+			userData = JSON.parse(decryptedData);
+		}
+		// console.log('Loaded user data:', userData);
+	};
+
+	/**
+	 * Initialize the training data from the user meta data and prepare the first training pass.
+	 */
 	var initTrainingData = function() {
 		console.log('Ready to init:', userData);
 		trainingData = getTrainingDataTemplate();
@@ -77,12 +111,16 @@ var storageService = function($window) {
 			if (!nextItem || (nextItem && isTrainingItem(nextItem))) {
 				trainingData.isLastPassItem = true;
 			}
-		} else {
+		}
+		else {
 			console.warn('Currently no training data to assign.');
 		}
 		console.log('Initialized training data:', trainingData);
 	};
 
+	/**
+	 * Encrypt and save user data in local storage.
+	 */
 	var saveUserData = function() {
 		// console.log('Saving user data...:', userData);
 		var userDataString = JSON.stringify(userData);
@@ -90,16 +128,6 @@ var storageService = function($window) {
 		var encryptedData = sjcl.encrypt(encryptionKey, userDataString);
 		$window.localStorage.setItem(VT + 'Key', encryptionKey);
 		$window.localStorage.setItem(VT + 'UserData', encryptedData);
-	};
-
-	var loadUserData = function() {
-		var decryptionKey = $window.localStorage.getItem(VT + 'Key');
-		var encryptedData = $window.localStorage.getItem(VT + 'UserData');
-		if (decryptionKey && encryptedData) {
-			var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
-			userData = JSON.parse(decryptedData);
-		}
-		// console.log('Loaded user data:', userData);
 	};
 
 	/**
@@ -283,7 +311,8 @@ var storageService = function($window) {
 				userData.training.push(data[i]);
 			}
 			initTrainingData();
-		} else {
+		}
+		else {
 			console.error('No training submitted for sorting.');
 		}
 	};
@@ -337,7 +366,8 @@ var storageService = function($window) {
 		if (trainingData.isLastPassItem) {
 			userData.training.shift();
 			userData.training.shift();
-		} else {
+		}
+		else {
 			userData.training.splice(1, 1);
 		}
 	};
@@ -368,8 +398,6 @@ var storageService = function($window) {
 	this.nextTraining = function() {
 		// Is this the last pass item?
 		var isLastItem = userData.training[2] == undefined;
-		// TODO Implement date into storage system.
-		//isLastItem = isLastItem ? isLastItem : userData.training.date.setHours(0, 0, 0, 0) !== new Date().setHours(0, 0, 0, 0);
 		if (!isLastItem) {
 			isLastItem = !isTrainingItem(userData.training[2]);
 		}
