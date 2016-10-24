@@ -1,6 +1,10 @@
 var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, blobService, dataService, loadingService, mediaService, downloadService, deviceService, tabsService) {
 	var ctrl = this;
 
+	var nameOfUser = '';
+	var syncHasFailed = false;
+	var syncTimeoutPromise;
+
 	ctrl.getAudio = '';
 	ctrl.online = false;
 	ctrl.idle = true;
@@ -12,7 +16,9 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 		$rootScope.device = deviceService.device;
 	})();
 
-	var nameOfUser = '';
+	/**
+	 * Get the welcome text on the home screen, displaying the user's name as well as remaining passes.
+	 */
 	ctrl.getWelcomeText = function() {
 		if (nameOfUser) {
 			return languageService.getText('welcomeText1') + ', ' + nameOfUser + '. ' + languageService.getText('welcomeText2') + storageService.getPassCount() + languageService.getText('welcomeText3');
@@ -20,7 +26,6 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 		return '';
 	};
 
-	var syncHasFailed = false;
 	/**
 	 * Start button functions:
 	 * if success, advance to training plan view.
@@ -48,7 +53,6 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 		}
 	}
 
-	var syncPromise;
 	/**
 	 * Checks the internet status to determine whether it's possible to sync.
 	 */
@@ -56,7 +60,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 		syncHasFailed = false;
 		if (ctrl.idle) {
 			console.log('Assessing network state...');
-			syncPromise = $timeout(function() {
+			syncTimeoutPromise = $timeout(function() {
 				syncHasFailed = true;
 				done();
 				popupService.alertPopup(languageService.getText('syncError'));
@@ -174,10 +178,13 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 		});
 	}
 
+	/**
+	 * Done syncing. This method removes the loading spinner, stops the sync timeout and reverts to idle state.
+	 */
 	function done() {
 		loadingService.loaderHide();
 		ctrl.idle = true;
-		$timeout.cancel(syncPromise);
+		$timeout.cancel(syncTimeoutPromise);
 		// console.log('Idle?', ctrl.idle);
 	}
 };

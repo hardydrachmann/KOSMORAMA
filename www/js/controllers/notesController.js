@@ -33,16 +33,25 @@ var notesCtrl = function($rootScope, $state, $ionicHistory, languageService, sto
         'color': '#19DC19'
     };
 
+    /**
+     * Get the description for the pain levels.
+     */
     ctrl.getPainLevelDescription = function() {
         var level = Math.ceil(ctrl.painValue / 2);
         level = level == 0 ? 1 : level;
         return languageService.getText('painDescription' + level);
     };
 
+    /**
+     * Get appropriate pain level color.
+     */
     ctrl.getPainLevelColor = function() {
         return ctrl.painValue > 5 ? red : green;
     };
 
+    /**
+     * Get color for the remaining chars indicator.
+     */
     ctrl.getRemainingCharsColor = function() {
         return ctrl.maxChars - ctrl.messageText.length < 100 ? red : green;
     };

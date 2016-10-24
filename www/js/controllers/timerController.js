@@ -85,6 +85,9 @@ var timerCtrl = function($interval, $window, $timeout, $state, $ionicHistory, $c
 		};
 	};
 
+	/**
+     * Get the appropriate play/pause icon.
+     */
 	ctrl.getIcon = function() {
 		return ctrl.paused ? 'ion-play icon-position' : 'ion-pause';
 	};

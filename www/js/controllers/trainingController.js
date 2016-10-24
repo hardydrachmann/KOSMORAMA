@@ -33,7 +33,6 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 		});
 	})();
 
-
 	/**
 	 * Returns the appropriate language name for the selected item.
 	 */
@@ -60,7 +59,6 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 
 	/**
 	 * Compare the exercise date with current date, and return true if date is the same.
-	 * TODO use method
 	 */
 	ctrl.isToday = function(item) {
 		var dateToday = new Date();
@@ -75,18 +73,16 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 	 */
 	function stateAction() {
 		var currentState = $ionicHistory.currentView().stateName;
-		var dateToday = new Date();
 		if (currentState.startsWith('training')) {
 			if (currentState === 'trainingPlan') {
 				ctrl.TrainingItems = storageService.nextTraining();
-				// TODO rewrite if-statement
-				if (ctrl.TrainingItems.length < 2 || ctrl.TrainingItems[1].date.setHours(0, 0, 0, 0) !== dateToday.setHours(0, 0, 0, 0)) {
+				if (ctrl.TrainingItems.length < 2 || ctrl.isToday(ctrl.TrainingItems[1].date)) {
 					$state.go('home');
 					popupService.alertPopup(languageService.getText('noTrainingText'));
 				}
 			}
 			else if (currentState === 'trainingDemo') {
-				var boafb = mediaService.playIosAudio(ctrl.currentTraining.ExerciseId);
+				mediaService.playIosAudio(ctrl.currentTraining.ExerciseId);
 				$('video').get(0).play();
 				// When audio playback stops, wait 5 sec. more, then auto-continue to training view (Android only).
 				var audioPlaying = $('audio').get(0);
