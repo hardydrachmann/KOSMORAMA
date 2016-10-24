@@ -1,6 +1,6 @@
 // This is a service which can download media files related to a users training (audio, video & pictures).
 
-angular.module('virtualTrainingApp').service('downloadService', function($cordovaFileTransfer, $cordovaFile, dataService, $interval, loadingService, storageService, languageService, deviceService) {
+var downloadService = function($cordovaFileTransfer, $cordovaFile, dataService, $interval, loadingService, storageService, languageService, deviceService) {
 
 	var self = this;
 	var fileTransfer;
@@ -98,7 +98,8 @@ angular.module('virtualTrainingApp').service('downloadService', function($cordov
 						callback();
 					}
 				}, 1000);
-			} catch (error) {
+			}
+			catch (error) {
 				console.log('Download error', error);
 			}
 		}
@@ -118,7 +119,8 @@ angular.module('virtualTrainingApp').service('downloadService', function($cordov
 					callback,
 					self.downloadError
 				);
-			} else {
+			}
+			else {
 				toDownload--;
 			}
 		});
@@ -154,4 +156,6 @@ angular.module('virtualTrainingApp').service('downloadService', function($cordov
 	self.downloadError = function(error) {
 		console.log('media file not found on blob server', error);
 	};
-});
+};
+
+angular.module('virtualTrainingApp').service('downloadService', downloadService);

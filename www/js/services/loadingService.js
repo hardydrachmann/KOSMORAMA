@@ -1,6 +1,6 @@
 // This is a service which can show and hide a progress-loader while waiting for data/tasks.
 
-angular.module('virtualTrainingApp').service('loadingService', function($ionicLoading, $timeout, languageService) {
+var mediaService = function($ionicLoading, $timeout, languageService) {
 
 	/**
 	 * Shows Ionic loader.
@@ -20,5 +20,6 @@ angular.module('virtualTrainingApp').service('loadingService', function($ionicLo
 			$ionicLoading.hide();
 		}, time | 0);
 	};
+};
 
-});
+angular.module('virtualTrainingApp').service('loadingService', mediaService);

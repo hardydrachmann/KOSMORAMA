@@ -6,7 +6,13 @@ angular
 		var userData = {};
 		var trainingData = {};
 
+		/**
+		 * Array of completed trainings and corresponding pass data.
+		 */
 		this.completed = [];
+		/**
+		 * The current pass count.
+		 */
 		this.passCount = 0;
 
 		/**
@@ -52,6 +58,9 @@ angular
 			};
 		};
 
+		/**
+		 * Verify that the service has any data. Otherwise, load the data.
+		 */
 		var verifyData = function() {
 			// console.log('Verifying training data', trainingData);
 			if (isEmptyObject(trainingData)) {
@@ -68,6 +77,22 @@ angular
 			}
 		};
 
+		/**
+		 * Load the user's encrypted meta data from local storage and decrypt it.
+		 */
+		var loadUserData = function() {
+			var decryptionKey = $window.localStorage.getItem(VT + 'Key');
+			var encryptedData = $window.localStorage.getItem(VT + 'UserData');
+			if (decryptionKey && encryptedData) {
+				var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
+				userData = JSON.parse(decryptedData);
+			}
+			// console.log('Loaded user data:', userData);
+		};
+
+		/**
+		 * Initialize training data like current training and setup the pass to receive completed data.
+		 */
 		var initTrainingData = function() {
 			console.log('Ready to init:', userData);
 			trainingData = getTrainingDataTemplate();
@@ -87,6 +112,9 @@ angular
 			console.log('Initialized training data:', trainingData);
 		};
 
+		/**
+		 * Encrypt user data and submit it to local storage.
+		 */
 		var saveUserData = function() {
 			// console.log('Saving user data...:', userData);
 			var userDataString = JSON.stringify(userData);
@@ -94,16 +122,6 @@ angular
 			var encryptedData = sjcl.encrypt(encryptionKey, userDataString);
 			$window.localStorage.setItem(VT + 'Key', encryptionKey);
 			$window.localStorage.setItem(VT + 'UserData', encryptedData);
-		};
-
-		var loadUserData = function() {
-			var decryptionKey = $window.localStorage.getItem(VT + 'Key');
-			var encryptedData = $window.localStorage.getItem(VT + 'UserData');
-			if (decryptionKey && encryptedData) {
-				var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
-				userData = JSON.parse(decryptedData);
-			}
-			// console.log('Loaded user data:', userData);
 		};
 
 		/**
@@ -235,7 +253,7 @@ angular
 		 */
 		this.getCurrentPainLevel = function() {
 			verifyData();
-			console.log('Getting current Pain Level', trainingData.passData.painLevel);
+			// console.log('Getting current Pain Level', trainingData.passData.painLevel);
 			return trainingData.passData.painLevel;
 		};
 
@@ -244,7 +262,7 @@ angular
 		 */
 		this.setCurrentPainLevel = function(level) {
 			verifyData();
-			console.log('Setting current Pain Level', level);
+			// console.log('Setting current Pain Level', level);
 			trainingData.passData.painLevel = level;
 		};
 
@@ -262,7 +280,7 @@ angular
 		 */
 		this.setCurrentNotesMessage = function(message) {
 			verifyData();
-			console.log('Setting current Message', message);
+			// console.log('Setting current Message', message);
 			trainingData.passData.message = message;
 		};
 
