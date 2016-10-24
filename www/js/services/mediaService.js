@@ -1,6 +1,6 @@
 // This is a service which can get the locally stored media files related to a users training (pictures, audio & video) & delete them 'all-at-once' when not needed anymore.
 
-angular.module('virtualTrainingApp').service('mediaService', function($window, $timeout, $interval, $cordovaFile, $cordovaMedia, loadingService, popupService, storageService, deviceService, tabsService) {
+var mediaService = function($window, $timeout, $interval, $cordovaFile, $cordovaMedia, loadingService, popupService, storageService, deviceService, tabsService) {
 	var self = this;
 	var deviceApplicationPath, currentPlayback;
 	var audioStartTraining = 'audio/start_training.mp3';
@@ -128,4 +128,6 @@ angular.module('virtualTrainingApp').service('mediaService', function($window, $
 			}
 		}
 	};
-});
+};
+
+angular.module('virtualTrainingApp').service('mediaService', mediaService);

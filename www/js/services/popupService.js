@@ -1,6 +1,6 @@
 // This is a service which can show and hide different popup boxes.
 
-angular.module('virtualTrainingApp').service('popupService', function($ionicPopup, $timeout) {
+var popupService = function($ionicPopup, $timeout) {
 
 	/**
 	 * Initiates a default popup when called.
@@ -63,4 +63,6 @@ angular.module('virtualTrainingApp').service('popupService', function($ionicPopu
 			popup.close();
 		}, 2000);
 	};
-});
+};
+
+angular.module('virtualTrainingApp').service('popupService', popupService);

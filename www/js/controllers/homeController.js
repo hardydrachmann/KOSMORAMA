@@ -5,10 +5,10 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 	ctrl.online = false;
 	ctrl.idle = true;
 
-	$rootScope.forceSync = doSync;
+	$rootScope.forceSync = assessNetwork;
 
 	(function init() {
-		$timeout(doSync, 1000);
+		$timeout(assessNetwork, 1000);
 		$rootScope.device = deviceService.device;
 	})();
 
@@ -37,13 +37,13 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 	/**
 	 * Force accessing the network to do a selective sync.
 	 */
-	function doSync() {
-		if (!deviceService.device || $cordovaNetwork.getNetwork() === 'wifi') {
-			assessNetwork();
-		}
-		else if (!deviceService.device || $cordovaNetwork.getNetwork() === '4g' || $cordovaNetwork.getNetwork() === '3g') {
-			popupService.confirmPopup(languageService.getText('noWifiSyncHeader'), languageService.getText('noWifiSyncTitle'), '', function() {
-				assessNetwork();
+	function assessNetwork() {
+		var networkState = $cordovaNetwork.getNetwork();
+		if (!deviceService.device || networkState === 'wifi') {
+			doSync();
+		} else if (networkState === '4g' || networkState === '3g') {
+			popupService.confirmPopup(languageService.getText('noWifiSyncHeader'), languageService.getText('noWifiSyncTitle'), function() {
+				doSync();
 			});
 		}
 	}
@@ -52,7 +52,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 	/**
 	 * Checks the internet status to determine whether it's possible to sync.
 	 */
-	function assessNetwork(networkState) {
+	function doSync() {
 		syncHasFailed = false;
 		if (ctrl.idle) {
 			console.log('Assessing network state...');
@@ -64,12 +64,11 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 			ctrl.idle = false;
 			if (deviceService.device) {
 				// Actually get the network state of the device.
-				networkState = $cordovaNetwork.getNetwork();
+				var networkState = $cordovaNetwork.getNetwork();
 			}
 			if (storageService.getCompleted().length) {
 				syncData();
-			}
-			else {
+			} else {
 				getData();
 			}
 		}
@@ -97,8 +96,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 				getData();
 			});
 			dataService.postFeedback(feedbackCollection);
-		}
-		else {
+		} else {
 			getData();
 		}
 	}
@@ -124,13 +122,11 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 				console.log('All training get!');
 				if (deviceService.device) {
 					downloadTraining(data);
-				}
-				else {
+				} else {
 					done();
 				}
 				storageService.sortTraining(data);
-			}
-			else {
+			} else {
 				done();
 				popupService.alertPopup(languageService.getText('noTrainingText'));
 			}
@@ -167,8 +163,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 					}, 1000);
 					ctrl.getAudio = '';
 				});
-			}
-			else {
+			} else {
 				done();
 			}
 		});
