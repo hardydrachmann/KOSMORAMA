@@ -1,3 +1,5 @@
+// This is a service which contains the mock data, to use when not on a physical device.
+
 var mockService = function() {
 
 	var mockballeman = {

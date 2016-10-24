@@ -1,3 +1,5 @@
+// This is a service which can save and get needed data onto a physical device.
+
 var storageService = function($window) {
 	const VT = 'VirtualTraining';
 

@@ -1,3 +1,5 @@
+// This is a service which can get media files from the blob.
+
 var blobService = function(storageService) {
 	var baseURL = 'https://welfaredenmark.blob.core.windows.net/exercises/Exercises/';
 

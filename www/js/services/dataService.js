@@ -1,4 +1,4 @@
-// This is a data service which gets and posts data in the API-service.
+// This is a service which gets and posts data in the API-service.
 
 var dataService = function($http, deviceService, mockService) {
 
