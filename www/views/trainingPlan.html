@@ -3,7 +3,7 @@
 
     <ion-scroll>
         <div class="spaced-list" class="list">
-            <div ng-repeat="item in training.TrainingItems" ng-if="training.isToday(item)">
+            <div ng-repeat="item in training.TrainingItems" ng-if="training.isToday(item.date)">
 
                 <!-- Pas title item -->
                 <div id="pas-title" class="item" ng-if="item.passTitle">

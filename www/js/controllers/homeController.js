@@ -43,14 +43,20 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 	 * Force accessing the network to do a selective sync.
 	 */
 	function assessNetwork() {
-		var networkState = $cordovaNetwork.getNetwork();
-		if (!deviceService.device || networkState === 'wifi') {
-			doSync();
-		}
-		else if (networkState === '4g' || networkState === '3g') {
-			popupService.confirmPopup(languageService.getText('noWifiSyncHeader'), languageService.getText('noWifiSyncTitle'), function() {
+		var networkState;
+		if (deviceService.device) {
+			networkState = $cordovaNetwork.getNetwork();
+			if (networkState === 'wifi') {
 				doSync();
-			});
+			}
+			else if (networkState === '4g' || networkState === '3g') {
+				popupService.confirmPopup(languageService.getText('noWifiSyncHeader'), languageService.getText('noWifiSyncTitle'), function() {
+					doSync();
+				});
+			}
+		}
+		else {
+			doSync();
 		}
 	}
 

@@ -13,7 +13,8 @@ var languageService = function(storageService) {
 		if (!lang) {
 			self.lang = 'da_DK';
 			storageService.setSelectedLanguage(self.lang);
-		} else {
+		}
+		else {
 			self.lang = lang;
 		}
 	})();

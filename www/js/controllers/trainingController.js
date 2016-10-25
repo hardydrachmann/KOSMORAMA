@@ -7,6 +7,17 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 	ctrl.TrainingItems = [];
 	ctrl.currentTraining = {};
 
+	/**
+	 * Compare the exercise date with current date, and return true if date is the same.
+	 */
+	ctrl.isToday = function(date) {
+		var dateToday = new Date();
+		if (date.setHours(0, 0, 0, 0) == dateToday.setHours(0, 0, 0, 0)) {
+			return true;
+		}
+		return false;
+	};
+
 	(function init() {
 		ctrl.currentTraining = storageService.getCurrentTraining();
 		stateAction();
@@ -58,17 +69,6 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 	};
 
 	/**
-	 * Compare the exercise date with current date, and return true if date is the same.
-	 */
-	ctrl.isToday = function(item) {
-		var dateToday = new Date();
-		if (item.date.setHours(0, 0, 0, 0) == dateToday.setHours(0, 0, 0, 0)) {
-			return true;
-		}
-		return false;
-	};
-
-	/**
 	 * Execute the appropriate action for the current training view variation.
 	 */
 	function stateAction() {
@@ -76,7 +76,7 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 		if (currentState.startsWith('training')) {
 			if (currentState === 'trainingPlan') {
 				ctrl.TrainingItems = storageService.nextTraining();
-				if (ctrl.TrainingItems.length < 2 || ctrl.isToday(ctrl.TrainingItems[1].date)) {
+				if (ctrl.TrainingItems.length < 2 || !ctrl.isToday(ctrl.TrainingItems[1].date)) {
 					$state.go('home');
 					popupService.alertPopup(languageService.getText('noTrainingText'));
 				}
