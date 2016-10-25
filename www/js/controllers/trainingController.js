@@ -28,8 +28,7 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 			$('video').get(0).pause();
 			if (deviceService.isAndroid()) {
 				$('audio').get(0).pause();
-			}
-			else {
+			} else {
 				mediaService.pauseIosAudio();
 			}
 		});
@@ -37,8 +36,7 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 			$('video').get(0).play();
 			if (deviceService.isAndroid()) {
 				$('audio').get(0).play();
-			}
-			else {
+			} else {
 				mediaService.resumeIosAudio();
 			}
 		});
@@ -80,26 +78,30 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 					$state.go('home');
 					popupService.alertPopup(languageService.getText('noTrainingText'));
 				}
-			}
-			else if (currentState === 'trainingDemo') {
-				mediaService.playIosAudio(ctrl.currentTraining.ExerciseId);
+			} else if (currentState === 'trainingDemo') {
 				$('video').get(0).play();
 				// When audio playback stops, wait 5 sec. more, then auto-continue to training view (Android only).
-				var audioPlaying = $('audio').get(0);
-				var promise = $interval(function() {
-					if (audioPlaying.ended) {
-						$interval.cancel(promise);
-						$timeout(function() {
-							tabsService.continue();
-						}, 5000);
-					}
-				}, 1000);
+				var promise;
+				if (deviceService.isAndroid()) {
+					var audioPlaying = $('audio').get(0);
+					promise = $interval(function() {
+						if (audioPlaying.ended) {
+							$interval.cancel(promise);
+							$timeout(function() {
+								tabsService.continue();
+							}, 5000);
+						}
+					}, 1000);
+				} else {
+					// When audio playback stops, wait 5 sec. more, then auto-continue to training view (iOS only).
+					mediaService.playIosAudio(ctrl.currentTraining.ExerciseId);
+				}
 				$rootScope.$on('continueEvent', function() {
 					if (promise)
 						$interval.cancel(promise);
 				});
-			}
-			else if (currentState === 'training') {
+			} else if (currentState === 'training') {
+				$('video').get(0).play();
 				mediaService.playIosAudio('startTraining');
 			}
 		}

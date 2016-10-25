@@ -48,14 +48,12 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 			networkState = $cordovaNetwork.getNetwork();
 			if (networkState === 'wifi') {
 				doSync();
-			}
-			else if (networkState === '4g' || networkState === '3g') {
+			} else if (networkState === '4g' || networkState === '3g') {
 				popupService.confirmPopup(languageService.getText('noWifiSyncHeader'), languageService.getText('noWifiSyncTitle'), function() {
 					doSync();
 				});
 			}
-		}
-		else {
+		} else {
 			doSync();
 		}
 	}
@@ -75,8 +73,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 			ctrl.idle = false;
 			if (storageService.getCompleted().length) {
 				syncData();
-			}
-			else {
+			} else {
 				getData();
 			}
 		}
@@ -104,8 +101,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 				getData();
 			});
 			dataService.postFeedback(feedbackCollection);
-		}
-		else {
+		} else {
 			getData();
 		}
 	}
@@ -131,13 +127,11 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 				console.log('All training get!');
 				if (deviceService.device) {
 					downloadTraining(data);
-				}
-				else {
+				} else {
 					done();
 				}
 				storageService.sortTraining(data);
-			}
-			else {
+			} else {
 				done();
 				popupService.alertPopup(languageService.getText('noTrainingText'));
 			}
@@ -174,8 +168,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 					}, 1000);
 					ctrl.getAudio = '';
 				});
-			}
-			else {
+			} else {
 				done();
 			}
 		});
