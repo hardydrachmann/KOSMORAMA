@@ -10,7 +10,7 @@ var loginCtrl = function($state, $timeout, $cordovaNetwork, tabsService, deviceS
 		screenNumber = storageService.getUserScreenNumber();
 		if (screenNumber) {
 			$timeout(function() {
-				$state.go('home');
+				ctrl.login();
 			}, 100);
 		}
 	})();
@@ -54,7 +54,7 @@ var loginCtrl = function($state, $timeout, $cordovaNetwork, tabsService, deviceS
 	};
 
 	/**
-	 * At logout, remove the locally stored users data, then set the scope to 'empty' and logout.
+	 * At logout, remove the locally stored users data then logout.
 	 */
 	ctrl.logout = function() {
 		popupService.confirmPopup(languageService.getText('logoutText'), '', function() {

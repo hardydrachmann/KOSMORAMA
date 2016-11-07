@@ -220,8 +220,8 @@
     },
 
     "feedbackTitle": {
-        "da_DK": "Bedøm Din Indsats",
-        "en_US": "Your Performance"
+        "da_DK": "Bedøm din indsats",
+        "en_US": "Your performance"
     },
 
     "smiley5": {
@@ -301,8 +301,8 @@
         "en_US": "Pause"
     },
     "welcomeText1": {
-        "da_DK": "Velkommen til Virtuel Træning",
-        "en_US": "Welcome to Virtual Training"
+        "da_DK": "Velkommen til Virtuel Træning!",
+        "en_US": "Welcome to Virtual Training!"
     },
     "welcomeText2": {
         "da_DK": "Du har på nuværende tidspunkt ",

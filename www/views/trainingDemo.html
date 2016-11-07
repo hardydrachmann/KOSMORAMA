@@ -3,14 +3,14 @@
 
     <audio src="{{training.getAudio(training.currentTraining.ExerciseId)}}" type="audio/mpeg" autoplay></audio>
 
-    <video id="playerID" src="{{training.getVideo(training.currentTraining.ExerciseId)}}" type="video/mp4"  webkit-playsinline autoplay loop></video>
+    <video id="playerID" src="{{training.getVideo(training.currentTraining.ExerciseId)}}" type="video/mp4" webkit-playsinline autoplay loop></video>
 
     <p class="textbody" class="text-white">
         {{training.trainingDescription()}}
     </p>
 
-        <div class="wide-button blue-button" ng-click="tabs.continue()">
-            <p class="content-font">{{lang.getText('start') | uppercase}}</p>
-        </div>
+    <div class="wide-button blue-button" ng-click="tabs.continue()">
+        <p class="content-font">{{lang.getText('start') | uppercase}}</p>
+    </div>
 
 </div>

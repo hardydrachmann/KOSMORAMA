@@ -140,7 +140,7 @@ var timerCtrl = function($interval, $window, $timeout, $state, $ionicHistory, $c
 				ctrl.intermission = true;
 				start(ctrl.training.pause);
 				video.pause();
-				if (!ctrl.isAndroid()) {
+				if (deviceService.device && !deviceService.isAndroid()) {
 					var pauseTime = (ctrl.training.pause - 1) * 10000;
 					$cordovaProgress.showDeterminateWithLabel(true, pauseTime, languageService.getText('trainingPausedIndicator'));
 				}

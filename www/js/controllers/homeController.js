@@ -1,30 +1,21 @@
 var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, blobService, dataService, loadingService, mediaService, downloadService, deviceService, tabsService) {
 	var ctrl = this;
 
-	var nameOfUser = '';
 	var syncHasFailed = false;
 	var syncTimeoutPromise;
 
+	ctrl.nameOfUser = '';
 	ctrl.getAudio = '';
 	ctrl.online = false;
 	ctrl.idle = true;
 
+	ctrl.getPassCount = storageService.getPassCount;
 	$rootScope.forceSync = assessNetwork;
 
 	(function init() {
 		$timeout(assessNetwork, 1000);
 		$rootScope.device = deviceService.device;
 	})();
-
-	/**
-	 * Get the welcome text on the home screen, displaying the user's name as well as remaining passes.
-	 */
-	ctrl.getWelcomeText = function() {
-		if (nameOfUser) {
-			return languageService.getText('welcomeText1') + ', ' + nameOfUser + '. ' + languageService.getText('welcomeText2') + storageService.getPassCount() + languageService.getText('welcomeText3');
-		}
-		return '';
-	};
 
 	/**
 	 * Start button functions:
@@ -117,7 +108,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 		loadingService.loaderShow();
 		storageService.clearTrainingData();
 		dataService.getUser(storageService.getUserScreenNumber(), function(result) {
-			nameOfUser = result.Name;
+			ctrl.nameOfUser = result.Name;
 			getTrainingFromDB(result.Id);
 		});
 	}

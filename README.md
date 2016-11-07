@@ -1,25 +1,7 @@
-Ionic App Base
-=====================
+## TODO
+Antal træningspas - fejl. Jeg har oprettet 3 træningspas for i dag med hhv. 2 øvelser, 1 øvelser og 3 øvelser. Den skriver så i starten at jeg stadig har 6 træningspas tilbage. Det er forkert. Jeg har kun 3 træningspas tilbage. Det er 6 øvelser men det skal den ikke skrive, den skal skrive 3 træningspas.
 
-A starting project for Ionic that optionally supports using custom SCSS.
+Når man har oprettet øvelsen som sæt og f.eks. med 15 sek. pause i mellem de sæt så kommer der bare et tomt sort billede (så man faktisk tror at skærmen er gået i "freeze"). Men det er fordi den mangler at indsætte det pause-billede vi har timeglasset der tæller ned.
 
-## Using this project
-
-We recommend using the [Ionic CLI](https://github.com/driftyco/ionic-cli) to create new Ionic projects that are based on this project but use a ready-made starter template.
-
-For example, to start a new Ionic project with the default tabs interface, make sure the `ionic` utility is installed:
-
-```bash
-$ npm install -g ionic
-```
-
-Then run: 
-
-```bash
-$ ionic start myProject tabs
-```
-
-More info on this can be found on the Ionic [Getting Started](http://ionicframework.com/getting-started) page and the [Ionic CLI](https://github.com/driftyco/ionic-cli) repo.
-
-## Issues
-Issues have been disabled on this repo, if you do find an issue or have a question consider posting it on the [Ionic Forum](http://forum.ionicframework.com/).  Or else if there is truly an error, follow our guidelines for [submitting an issue](http://ionicframework.com/submit-issue/) to the main Ionic repository.
+Feedback besked. Jeg har ikke fået lov at give feedback besked selvom jeg har afkrydset den tjekboks. Går der nogen tid før det er registreret eller skal man logge ud og ind igen for at det sker? Er det ikke nok at trykke på synkroniser?
+    Test offline funktionalitet.

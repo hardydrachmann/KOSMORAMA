@@ -9,12 +9,20 @@ var tabsCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicSideM
         $rootScope.$broadcast('expandLeftEvent');
     };
 
+    ctrl.isLeftMenuOpen = function() {
+        return $ionicSideMenuDelegate.isOpenLeft();
+    };
+
     /**
      * Expand the right side menu.
      */
     ctrl.expandRightMenu = function() {
         $ionicSideMenuDelegate.toggleRight();
         $rootScope.$broadcast('expandRightEvent');
+    };
+
+    ctrl.isRightMenuOpen = function() {
+        return $ionicSideMenuDelegate.isOpenRight();
     };
 
     /**

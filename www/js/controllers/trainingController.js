@@ -61,8 +61,8 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 	/**
 	 * Returns an object containing remaining minutes and seconds.
 	 */
-	ctrl.formatTime = function(time) {
-		var seconds = time * 60;
+	ctrl.formatTime = function(item) {
+		var seconds = (item.TimeSet * 60) / item.Sets;
 		var minutes = seconds >= 60 ? seconds / 60 : 0;
 		seconds = seconds % 60;
 		return minutes + ' ' + languageService.getText('min') + ' ' + seconds + ' ' + languageService.getText('sec');
