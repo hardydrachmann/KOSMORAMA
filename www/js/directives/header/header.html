@@ -1,7 +1,7 @@
 <div>
     <div class="tiny-button tiny-button-left" ng-click="$parent.tabs.expandLeftMenu()">
         <p class="content-font center-vert">
-            <i class="icon ion-navicon">
+            <i ng-class="{'icon ion-navicon': !$parent.tabs.isLeftMenuOpen(), $parent.tabs.isLeftMenuOpen(): icon ion-close-round}">
                 <i id="new-mail-menu" ng-if="$parent.mailTab.newMailCount > 0" class="icon icon-tag ion-record"></i>
             </i>
         </p>
