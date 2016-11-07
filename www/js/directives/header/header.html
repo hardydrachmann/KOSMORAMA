@@ -11,7 +11,9 @@
         <p class=content-font>{{title}}</p>
     </div>
     <div class="tiny-button tiny-button-right" ng-click="$parent.tabs.expandRightMenu()">
-        <p ng-if="!$parent.tabs.isRightMenuOpen()" class="content-font center-vert">?</p>
+        <p ng-if="!$parent.tabs.isRightMenuOpen()" class="content-font center-vert">
+            ?
+        </p>
         <p class="content-font center-vert">
             <i ng-if="$parent.tabs.isRightMenuOpen()" class="icon ion-close-round"></i>
         </p>

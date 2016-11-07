@@ -3,19 +3,7 @@
     "tag": "da_DK",
     "url": "img/flags/dk.png"
 }, {
-    "language": "Deutsch",
-    "tag": "de_AT",
-    "url": "img/flags/de.png"
-}, {
     "language": "English",
     "tag": "en_US",
     "url": "img/flags/uk.png"
-}, {
-    "language": "Norsk",
-    "tag": "nb_NO",
-    "url": "img/flags/no.png"
-}, {
-    "language": "Svenska",
-    "tag": "sv_SE",
-    "url": "img/flags/se.png"
 }]

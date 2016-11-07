@@ -4,14 +4,54 @@ var loginCtrl = function($state, $timeout, $cordovaNetwork, tabsService, deviceS
 	var screenNumber;
 
 	/**
+	 * If user does not exist, check the DB for a user with the entered login id.
+	 * If this user exist, encrypt the login id in local storage using a random key.
+	 */
+	ctrl.login = function() {
+		$timeout(function() {
+			if (!deviceService.device || $cordovaNetwork.getNetwork() === 'wifi') {
+				if (screenNumber) {
+					dataService.getUser(screenNumber, function(result) {
+						if (result) {
+							storageService.setUserScreenNumber(screenNumber);
+							storageService.setAllowMessage(result.AllowMsgFeedback);
+							$state.go('home');
+							$('#setUserScreenNumber').val('');
+						}
+						else {
+							popupService.alertPopup(languageService.getText('loginFail'));
+						}
+					});
+				}
+				else {
+					popupService.alertPopup(languageService.getText('loginHelp'));
+				}
+			}
+			else {
+				popupService.alertPopup(languageService.getText('loginNoWifi'));
+			}
+
+		}, 100);
+	};
+
+	/**
 	 * On launch, check if a user exist in local storage. If so, decrypt user, then place this user on the scope and login.
 	 */
 	(function init() {
 		screenNumber = storageService.getUserScreenNumber();
 		if (screenNumber) {
-			$timeout(function() {
+			if (deviceService.device) {
+				var network = $cordovaNetwork.getNetwork();
+				if (network === 'wifi' || network === '3g' || network === '4g') {
+					ctrl.login();
+				}
+				else {
+					$state.go('home');
+				}
+			}
+			else {
 				ctrl.login();
-			}, 100);
+			}
 		}
 	})();
 
@@ -22,34 +62,6 @@ var loginCtrl = function($state, $timeout, $cordovaNetwork, tabsService, deviceS
 		var inputValue = $('#setUserScreenNumber').val();
 		if (inputValue) {
 			screenNumber = inputValue;
-		}
-	};
-
-	/**
-	 * If user does not exist, check the DB for a user with the entered login id.
-	 * If this user exist, encrypt the login id in local storage using a random key.
-	 */
-	ctrl.login = function() {
-		if (!deviceService.device || $cordovaNetwork.getNetwork() === 'wifi') {
-			if (screenNumber) {
-				dataService.getUser(screenNumber, function(result) {
-					if (result) {
-						storageService.setUserScreenNumber(screenNumber);
-						storageService.setAllowMessage(result.AllowMsgFeedback);
-						$state.go('home');
-						$('#setUserScreenNumber').val('');
-					}
-					else {
-						popupService.alertPopup(languageService.getText('loginFail'));
-					}
-				});
-			}
-			else {
-				popupService.alertPopup(languageService.getText('loginHelp'));
-			}
-		}
-		else {
-			popupService.alertPopup(languageService.getText('loginNoWifi'));
 		}
 	};
 
@@ -65,6 +77,10 @@ var loginCtrl = function($state, $timeout, $cordovaNetwork, tabsService, deviceS
 			$state.go('login');
 		});
 	};
+
+	function attemptLogin() {
+
+	}
 };
 
 angular.module('virtualTrainingApp').controller('LoginController', loginCtrl);

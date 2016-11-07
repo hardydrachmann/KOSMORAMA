@@ -1,0 +1,13 @@
+[{
+    "language": "Deutsch",
+    "tag": "de_AT",
+    "url": "img/flags/de.png"
+}, {
+    "language": "Norsk",
+    "tag": "nb_NO",
+    "url": "img/flags/no.png"
+}, {
+    "language": "Svenska",
+    "tag": "sv_SE",
+    "url": "img/flags/se.png"
+}]

@@ -5,7 +5,7 @@
         <input ng-change="{{user.setUserScreenNumber()}}" id="setUserScreenNumber" ng-model="user.userScreenNumber" type="text" placeholder="ID" onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID'">
     </form>
 
-    <div id="login-button" class="wide-button blue-button" ng-click="user.login()">
+    <div class="wide-button blue-button" ng-click="user.login()">
         <p class="content-font">{{lang.getText('loginText')}}</p>
     </div>
 

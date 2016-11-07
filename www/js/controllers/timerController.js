@@ -24,7 +24,7 @@ var timerCtrl = function($interval, $window, $timeout, $state, $ionicHistory, $c
 		var currentTraining = storageService.getCurrentTraining();
 		ctrl.training = {
 			sets: currentTraining.Sets,
-			time: (currentTraining.TimeSet * 60) + 1,
+			time: ((currentTraining.TimeSet * 60) / currentTraining.Sets) + 1,
 			pause: (currentTraining.Pause * 60) + 1
 		};
 		$window.onresize = refreshRadius;
