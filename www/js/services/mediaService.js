@@ -44,23 +44,23 @@ var mediaService = function($window, $timeout, $interval, $cordovaFile, $cordova
 	/**
 	 * Get currently stored and relevant training audio (iOS only).
 	 */
-	self.playIosAudio = function(exerciseId) {
+	self.playIosAudio = function(exerciseId, callback) {
 		if (deviceService.device && !deviceService.isAndroid()) {
 			switch (exerciseId) {
 				case 'startTraining':
-					self.getIosAudio(audioStartTraining);
+					self.getIosAudio(audioStartTraining, callback);
 					break;
 				case 'stopTraining':
-					self.getIosAudio(audioStopTraining);
+					self.getIosAudio(audioStopTraining, callback);
 					break;
 				case 'prompt':
-					self.getIosAudio(audioPrompt);
+					self.getIosAudio(audioPrompt, callback);
 					break;
 				default:
 					var audioDescription = deviceApplicationPath + 'media/' + exerciseId + '/audio/' + storageService.getCorrectedLanguageString() + '/speak.mp3';
 					$window.resolveLocalFileSystemURL(audioDescription, function(dir) {
 						var basePath = dir.toInternalURL();
-						self.getIosAudio(basePath);
+						self.getIosAudio(basePath, callback);
 					});
 					break;
 			}
@@ -70,18 +70,18 @@ var mediaService = function($window, $timeout, $interval, $cordovaFile, $cordova
 	/**
 	 * Start playback of an audio file (iOS only).
 	 */
-	self.getIosAudio = function(audioFile) {
+	self.getIosAudio = function(audioFile, callback) {
 		var iosAudio = $cordovaMedia.newMedia(audioFile);
 		var iosPlayOptions = {
 			playAudioWhenScreenIsLocked: false
 		};
 		currentPlayback = iosAudio;
 		iosAudio.play(iosPlayOptions).then(function() {
-			$timeout(function() {
-				tabsService.continue();
-			}, 5000);
 			iosAudio.stop();
 			iosAudio.release();
+			if (callback) {
+				callback();
+			}
 		});
 	};
 

@@ -72,7 +72,6 @@
                     <div ng-controller="MailController as mailTab">
 
                         <ion-side-menus>
-
                             <ion-side-menu side="left">
                                 <ion-menu ng-if="!lang.langMenu && !mailTab.mailMenu">
                                     <ion-header class="menu-header">
@@ -96,13 +95,11 @@
                                             </div>
                                             <div ng-if="help.getState() !== 'login'" class="item" menu-close ng-click="user.logout()">
                                                 <p>{{lang.getText('logoutText')}}</p>
-                                                <i class="icon ion-reply"></i>
+                                                <i class="icon ion-close-circled"></i>
                                             </div>
                                         </ion-list>
                                     </ion-content>
-                                    <button menu-close class="close-menu-button">{{lang.getText('close') | uppercase}}</button>
                                 </ion-menu>
-
                                 <ion-menu ng-if="lang.langMenu">
                                     <ion-header class="menu-header">
                                         <h1>{{lang.getText('languageTab')}}</h1>
@@ -115,9 +112,10 @@
                                             </div>
                                         </ion-list>
                                     </ion-content>
-                                    <button ng-click="lang.langMenu = false;" class="close-menu-button">{{lang.getText('back') | uppercase}}</button>
+                                    <div ng-click="lang.langMenu = false;" class="close-menu-button menu-icon-left">
+                                        <i class="icon ion-reply"></i>
+                                    </div>
                                 </ion-menu>
-
                                 <ion-menu ng-if="mailTab.mailMenu">
                                     <ion-header class="menu-header">
                                         <h1>{{lang.getText('mailTab')}}</h1>
@@ -155,25 +153,23 @@
                                             </div>
                                         </ion-list>
                                     </ion-content>
-                                    <button ng-click="mailTab.mailMenu = false;" class="close-menu-button">{{lang.getText('back') | uppercase}}</button>
+                                    <div ng-click="mailTab.mailMenu = false;" class="close-menu-button menu-icon-left">
+                                        <i class="icon ion-reply"></i>
+                                    </div>
                                 </ion-menu>
-
                             </ion-side-menu>
 
                             <ion-side-menu-content>
                                 <ion-nav-view></ion-nav-view>
                             </ion-side-menu-content>
-
                             <ion-side-menu side="right">
                                 <ion-menu>
                                     <ion-content class="help-text">
                                         <h1>{{lang.getText('helpTab')}}</h1>
                                         <p>{{lang.getText(help.getState() + 'Help')}}</p>
                                     </ion-content>
-                                    <button menu-close class="close-menu-button">{{lang.getText('close') | uppercase}}</button>
                                 </ion-menu>
                             </ion-side-menu>
-
                         </ion-side-menus>
 
                     </div>

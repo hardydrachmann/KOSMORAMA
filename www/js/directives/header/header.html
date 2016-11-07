@@ -1,15 +1,19 @@
 <div>
     <div class="tiny-button tiny-button-left" ng-click="$parent.tabs.expandLeftMenu()">
         <p class="content-font center-vert">
-            <i class="icon ion-navicon">
+            <i ng-if="!$parent.tabs.isLeftMenuOpen()" class="icon ion-navicon">
                 <i id="new-mail-menu" ng-if="$parent.mailTab.newMailCount > 0" class="icon icon-tag ion-record"></i>
             </i>
+            <i ng-if="$parent.tabs.isLeftMenuOpen()" class="icon ion-close-round"></i>
         </p>
     </div>
     <div id="wd-title">
         <p class=content-font>{{title}}</p>
     </div>
     <div class="tiny-button tiny-button-right" ng-click="$parent.tabs.expandRightMenu()">
-        <p class="content-font center-vert">?</p>
+        <p ng-if="!$parent.tabs.isRightMenuOpen()" class="content-font center-vert">?</p>
+        <p class="content-font center-vert">
+            <i ng-if="$parent.tabs.isRightMenuOpen()" class="icon ion-close-round"></i>
+        </p>
     </div>
 </div>

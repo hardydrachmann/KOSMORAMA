@@ -8,26 +8,26 @@
  */
 
 .bg-blue-to-green {
-    background-image: url('../img/backgrounds/blue-to-green.png');
-    background-size: cover;
+  background-image: url('../img/backgrounds/blue-to-green.png');
+  background-size: cover;
 }
 
 .bg-blue-shoes {
-    background-image: url('../img/backgrounds/blue-shoes.png');
-    background-size: cover;
+  background-image: url('../img/backgrounds/blue-shoes.png');
+  background-size: cover;
 }
 
 .bg-blue-to-brown {
-    background-image: url('../img/backgrounds/blue-to-brown.png');
-    background-size: cover;
+  background-image: url('../img/backgrounds/blue-to-brown.png');
+  background-size: cover;
 }
 
 * {
-    font-family: Segan;
+  font-family: Segan;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 video {
@@ -38,41 +38,41 @@ video {
 }
 
 ion-scroll {
-    height: 100vh;
+  height: 100vh;
 }
 
 .white-text {
-    color: white;
+  color: white;
 }
 
 .cyan-text {
-    color: #53C6E6 !important;
+  color: #53C6E6 !important;
 }
 
 .textbody {
-    width: 90%;
-    height: 25%;
-    margin: auto;
-    padding: 2em;
-    font-size: 2.5vh;
-    line-height: 1.2;
-    color: white;
-    text-align: justify;
+  width: 90%;
+  height: 25%;
+  margin: auto;
+  padding: 2em;
+  font-size: 2.5vh;
+  line-height: 1.2;
+  color: white;
+  text-align: justify;
 }
 
 .spaced-list {
-    margin: auto;
-    margin-top: 2vh;
-    width: 90%;
+  margin: auto;
+  margin-top: 2vh;
+  width: 90%;
 }
 
 .spaced-list .item {
-    margin-bottom: 1vh;
-    background-color: #303C50;
-    border: none;
+  margin-bottom: 1vh;
+  background-color: #303C50;
+  border: none;
 }
 
 @font-face {
-    font-family: Segan;
-    src: url(../Segan-Light.ttf);
+  font-family: Segan;
+  src: url(../Segan-Light.ttf);
 }
