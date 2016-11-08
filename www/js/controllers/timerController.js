@@ -37,9 +37,10 @@ var timerCtrl = function($interval, $window, $timeout, $state, $ionicHistory, $c
 	 * Pause the timer if not in intermission. If paused, resume instead.
 	 */
 	ctrl.pause = function() {
+		// Get remaining seconds before starting incrementing again.
+		var seconds = ctrl.training.time - ctrl.seconds;
+		console.log(seconds);
 		if (ctrl.paused) {
-			// Get remaining seconds before starting incrementing again.
-			var seconds = ctrl.training.time - ctrl.seconds;
 			// Start incrementing.
 			incrementTimer();
 			counter = $interval(function() {
@@ -48,7 +49,7 @@ var timerCtrl = function($interval, $window, $timeout, $state, $ionicHistory, $c
 			ctrl.paused = false;
 			video.play();
 		}
-		else if (!pauseLock) {
+		else if (!pauseLock && seconds > 2) {
 			$interval.cancel(counter);
 			counter = null;
 			ctrl.paused = true;
