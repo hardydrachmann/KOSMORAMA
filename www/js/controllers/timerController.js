@@ -7,6 +7,7 @@ var timerCtrl = function($interval, $window, $timeout, $state, $ionicHistory, $c
 	var audioStopTraining = mediaService.getAudio('stopTraining');
 
 	ctrl.isAndroid = deviceService.isAndroid();
+	ctrl.isDevice = deviceService.device;
 
 	ctrl.seconds = 0;
 	ctrl.capacity = 0;
@@ -86,8 +87,8 @@ var timerCtrl = function($interval, $window, $timeout, $state, $ionicHistory, $c
 	};
 
 	/**
-     * Get the appropriate play/pause icon.
-     */
+	 * Get the appropriate play/pause icon.
+	 */
 	ctrl.getIcon = function() {
 		return ctrl.paused ? 'ion-play icon-position' : 'ion-pause';
 	};

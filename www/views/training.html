@@ -7,9 +7,14 @@
 
         <video id="playerID" src="{{training.getVideo(training.currentTraining.ExerciseId)}}" type="video/mp4" webkit-playsinline autoplay loop></video>
 
-        <!-- Temporary ng-click for dev purposes -->
-        <!--<div class="progress-wrapper" ng-click="tabs.continue()">-->
-        <div class="progress-wrapper">
+        <!-- Temporary ng-click for dev purposes: ng-click="tabs.continue()" -->
+
+        <div class="progress-content" style="bottom: 10vh" ng-if="!timer.isAndroid && timer.isDevice">
+            <p><span ng-if="timer.formattedTime().min">{{timer.formattedTime().min}}<span class="small-text">{{lang.getText('min')}}.</span></span>&nbsp;{{timer.formattedTime().sec}}<span class="small-text">{{lang.getText('sec')}}.</span></p>
+            <p><span class="small-text">{{lang.getText('set')}}:&nbsp;</span>{{timer.training.sets}}</p>
+        </div>
+
+        <div class="progress-wrapper" ng-if="timer.isAndroid">
             <round-progress id="progress-timer" animation="linearEase" stroke="12" rounded="true" bgcolor="transparent" duration="1000" radius="{{timer.radius}}" color="{{timer.intermission ? 'red' : (timer.seconds >= timer.training.time) ? '#19DC19' : 'url(#green-to-cyan-gradient)'}}"
                 current="timer.seconds" max="timer.capacity">
                 <svg>
@@ -24,6 +29,7 @@
                 <p><span class="small-text">{{lang.getText('set')}}:&nbsp;</span>{{timer.training.sets}}</p>
             </div>
         </div>
+
         <div id="progress-button" ng-if="!timer.intermission" class="medium-button medium-button-right" ng-click="timer.pause()">
             <i class="icon" ng-class="timer.getIcon()"></i>
         </div>
