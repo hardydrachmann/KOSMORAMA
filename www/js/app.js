@@ -9,6 +9,7 @@ angular
 		$ionicPlatform.ready(function() {
 			if (window.cordova) {
 				screen.lockOrientation('portrait');
+				window.plugins.insomnia.keepAwake();
 			}
 			if (window.cordova && window.cordova.plugins.Keyboard) {
 				// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
