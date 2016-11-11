@@ -1,8 +1,9 @@
 #login-logo {
     position: relative;
     left: 50%;
+    bottom: -5vh;
     transform: translateX(-50%);
-    width: 60%;
+    height: 35vh;
     opacity: 0.8;
 }
 

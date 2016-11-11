@@ -1,16 +1,16 @@
 <div class="bg-blue-shoes">
-    <wd-header title="lang.getText('headerTitle')"></wd-header>
+  <wd-header title="lang.getText('headerTitle')"></wd-header>
 
-    <audio src="{{home.getAudio}}" type="audio/mpeg" autoplay></audio>
+  <audio src="{{home.getAudio}}" type="audio/mpeg" autoplay></audio>
 
-    <img class="round-image" ng-src="img/round-placeholder.png">
+  <img class="round-image" ng-src="img/round-placeholder.png">
 
-    <p class="textbody">
-        <span id="welcome">{{lang.getText('welcomeText1')}}</span>
-        <span id="user-name">{{home.nameOfUser}}</span> {{lang.getText('welcomeText2') + home.getPassCount() + lang.getText('welcomeText3')}}
-    </p>
+  <p class="textbody">
+    <span id="welcome">{{lang.getText('welcomeText1')}}</span>
+    <span id="user-name">{{home.nameOfUser}}</span> {{lang.getText('welcomeText2') + home.getPassCount() + lang.getText('welcomeText3')}}
+  </p>
 
-    <div class="wide-button blue-button" ng-click="home.startButton()">
-        <p class="content-font">{{lang.getText('start')}}</p>
-    </div>
+  <div class="wide-button blue-button button-fall" ng-click="home.startButton()">
+    <p class="content-font">{{lang.getText('start')}}</p>
+  </div>
 </div>

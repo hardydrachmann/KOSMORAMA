@@ -71,11 +71,14 @@
 
 /*Wide Button*/
 
-.wide-button {
+.button-fall {
     position: absolute;
     left: 50%;
     bottom: 2vh;
     transform: translateX(-50%);
+}
+
+.wide-button {
     margin: auto;
     width: 80%;
     height: 6vh;

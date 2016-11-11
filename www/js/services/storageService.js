@@ -78,8 +78,7 @@ var storageService = function($window) {
 			}
 			if (userData.training) {
 				initTrainingData();
-			}
-			else {
+			} else {
 				console.warn('User data initialized, but training data missing. Initializing training data.');
 			}
 		}
@@ -113,8 +112,7 @@ var storageService = function($window) {
 			if (!nextItem || (nextItem && isTrainingItem(nextItem))) {
 				trainingData.isLastPassItem = true;
 			}
-		}
-		else {
+		} else {
 			console.warn('Currently no training data to assign.');
 		}
 		console.log('Initialized training data:', trainingData);
@@ -302,19 +300,18 @@ var storageService = function($window) {
 				firstTrainingId = data[0].TrainingId;
 			for (var i = 0; i < data.length; i++) {
 				if (data[i].SessionOrderNumber === setCount || data[i].TrainingId > firstTrainingId) {
-					var passItem = {
+					var passHeader = {
 						'passTitle': pass++,
 						'date': data[i].date
 					};
-					userData.training.push(passItem);
+					userData.training.push(passHeader);
 					setCount++;
 					firstTrainingId = data[i].TrainingId;
 				}
 				userData.training.push(data[i]);
 			}
 			initTrainingData();
-		}
-		else {
+		} else {
 			console.error('No training submitted for sorting.');
 		}
 	};
@@ -323,12 +320,12 @@ var storageService = function($window) {
 	 * Get the amount of remaining training passes to complete.
 	 */
 	this.getPassCount = function() {
-		var trainings = userData.training;
 		var passCount = 0;
-		if (trainings) {
-			for (var i = 0; i < trainings.length; i++) {
-				if (isTrainingItem(trainings[i])) {
-					var date = new Date(trainings[i].date).setHours(0, 0, 0, 0);
+		if (userData.training) {
+			for (var i = 0; i < userData.training.length; i++) {
+				var training = userData.training[i];
+				if (!isTrainingItem(training)) {
+					var date = new Date(training.date).setHours(0, 0, 0, 0);
 					if (date == new Date().setHours(0, 0, 0, 0)) {
 						passCount++;
 					}
@@ -368,8 +365,7 @@ var storageService = function($window) {
 		if (trainingData.isLastPassItem) {
 			userData.training.shift();
 			userData.training.shift();
-		}
-		else {
+		} else {
 			userData.training.splice(1, 1);
 		}
 	};
