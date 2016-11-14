@@ -17,17 +17,14 @@ var loginCtrl = function($state, $timeout, $cordovaNetwork, tabsService, deviceS
 							storageService.setAllowMessage(result.AllowMsgFeedback);
 							$state.go('home');
 							$('#setUserScreenNumber').val('');
-						}
-						else {
+						} else {
 							popupService.alertPopup(languageService.getText('loginFail'));
 						}
 					});
-				}
-				else {
+				} else {
 					popupService.alertPopup(languageService.getText('loginHelp'));
 				}
-			}
-			else {
+			} else {
 				popupService.alertPopup(languageService.getText('loginNoWifi'));
 			}
 
@@ -38,18 +35,21 @@ var loginCtrl = function($state, $timeout, $cordovaNetwork, tabsService, deviceS
 	 * On launch, check if a user exist in local storage. If so, decrypt user, then place this user on the scope and login.
 	 */
 	(function init() {
+		if (deviceService.device && !deviceService.isAndroid) {
+			$timeout(function() {
+				navigator.splashscreen.hide();
+			}, 2500);
+		}
 		screenNumber = storageService.getUserScreenNumber();
 		if (screenNumber) {
 			if (deviceService.device) {
 				var network = $cordovaNetwork.getNetwork();
 				if (network === 'wifi' || network === '3g' || network === '4g') {
 					ctrl.login();
-				}
-				else {
+				} else {
 					$state.go('home');
 				}
-			}
-			else {
+			} else {
 				ctrl.login();
 			}
 		}
