@@ -9,5 +9,7 @@ ionic.config.json
 .io-config.json
 **/.DS_Store
 ionic.project
+resources/ios
+resources/android
 
 !platforms/android/AndroidManifest.xml
