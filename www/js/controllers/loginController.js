@@ -28,7 +28,8 @@ var loginCtrl = function($state, $timeout, $cordovaNetwork, tabsService, deviceS
 	 */
 	ctrl.login = function() {
 		$timeout(function() {
-			if (!deviceService.device || $cordovaNetwork.getNetwork() === 'wifi') {
+			var network = $cordovaNetwork.getNetwork();
+			if (!deviceService.device || (network === 'wifi' || network === '3g' || network === '4g')) {
 				if (screenNumber) {
 					dataService.getUser(screenNumber, function(result) {
 						if (result) {
