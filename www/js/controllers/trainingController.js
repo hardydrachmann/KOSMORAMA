@@ -80,7 +80,7 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 				}
 			} else if (currentState === 'trainingDemo') {
 				$('video').get(0).play();
-				// When audio playback stops, wait 5 sec. more, then auto-continue to training view (Android only).
+				// When audio playback stops, wait 5 sec., then auto-continue to training view (Android only).
 				var promise;
 				if (deviceService.isAndroid()) {
 					var audioPlaying = $('audio').get(0);

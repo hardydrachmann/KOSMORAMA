@@ -72,10 +72,6 @@ var loginCtrl = function($state, $timeout, $cordovaNetwork, tabsService, deviceS
 			$state.go('login');
 		});
 	};
-
-	function attemptLogin() {
-
-	}
 };
 
 angular.module('virtualTrainingApp').controller('LoginController', loginCtrl);
