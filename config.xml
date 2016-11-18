@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="dk.welfaredenmark.virtualtraining" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Virtual Training</name>
-  <description>&#xD;&#xD;&#xD;&#xD;
-        Virtual Training - One Of The Worlds Most Advanced eHealth Solutions!&#xD;&#xD;&#xD;&#xD;
+  <description>&#xD;&#xD;&#xD;&#xD;&#xD;
+        Virtual Training - One Of The Worlds Most Advanced eHealth Solutions!&#xD;&#xD;&#xD;&#xD;&#xD;
     </description>
-  <author email="web@welfaredenmark.com" href="http://idisplay.dk">&#xD;&#xD;&#xD;&#xD;
-      Welfare Denmark&#xD;&#xD;&#xD;&#xD;
+  <author email="web@welfaredenmark.com" href="http://idisplay.dk">&#xD;&#xD;&#xD;&#xD;&#xD;
+      Welfare Denmark&#xD;&#xD;&#xD;&#xD;&#xD;
     </author>
   <content src="index.html"/>
   <access origin="*"/>
