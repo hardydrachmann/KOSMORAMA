@@ -65,74 +65,6 @@
 </head>
 
 <body ng-app="virtualTrainingApp">
-<<<<<<< HEAD
-  <div ng-controller="TabsController as tabs">
-    <div ng-controller="LanguageController as lang">
-      <div ng-controller="LoginController as user">
-        <div ng-controller="HelpController as help">
-          <div ng-controller="MailController as mailTab">
-
-            <ion-side-menus>
-
-              <ion-side-menu side="left">
-                <ion-menu ng-if="!lang.langMenu && !mailTab.mailMenu">
-                  <ion-header class="menu-header">
-                    <h1>{{lang.getText('menu')}}</h1>
-                  </ion-header>
-                  <ion-content class="menu-list" scroll="false">
-                    <ion-list>
-                      <div class="item" ng-click="lang.langToggle()">
-                        <p>{{lang.getText('languageTab')}}</p>
-                        <i class="icon ion-chatbubble-working"></i>
-                      </div>
-                      <div ng-if="help.getState() !== 'login'" class="item" ng-click="mailTab.mailToggle()">
-                        <p>{{lang.getText('mailTab')}}</p>
-                        <i class="icon ion-email">
-                            <i id="new-mail-tab" ng-if="mailTab.newMailCount > 0" class="icon icon-tag ion-record"></i>
-                        </i>
-                      </div>
-                      <div ng-if="help.getState() === 'home'" class="item" menu-close="" ng-click="forceSync(); mailTab.getMails();">
-                        <p>{{lang.getText('syncTab')}}</p>
-                        <i class="icon ion-loop"></i>
-                      </div>
-                      <div ng-if="help.getState() !== 'login'" class="item" menu-close="" ng-click="user.logout()">
-                        <p>{{lang.getText('logoutText')}}</p>
-                        <i class="icon ion-close-circled"></i>
-                      </div>
-                    </ion-list>
-                  </ion-content>
-                </ion-menu>
-
-                <ion-menu ng-if="lang.langMenu">
-                  <ion-header class="menu-header">
-                    <h1>{{lang.getText('languageTab')}}</h1>
-                  </ion-header>
-                  <ion-content class="menu-list" scroll="true">
-                    <ion-list>
-                      <div class="item" ng-repeat="language in lang.service.langs | orderBy:'language'" ng-click="lang.selectLanguage(language);">
-                        <p class="white-text" style="text-align: left">{{language.language}}</p>
-                        <img ng-src="{{language.url}}">
-                      </div>
-                    </ion-list>
-                  </ion-content>
-                  <div ng-click="lang.langMenu = false;" class="close-menu-button menu-icon-left">
-                    <i class="icon ion-reply"></i>
-                  </div>
-                </ion-menu>
-
-                <ion-menu ng-if="mailTab.mailMenu">
-                  <ion-header class="menu-header">
-                    <h1>{{lang.getText('mailTab')}}</h1>
-                  </ion-header>
-                  <ion-content class="mail-list" scroll="true">
-                    <p ng-if="!mailTab.mails.length" id="no-mail-text">
-                      {{lang.getText('noMailText')}}
-                    </p>
-                    <ion-list>
-                      <div class="item" ng-repeat="mail in mailTab.mails | orderBy:Time:true" ng-click="mailTab.toggleMailDisplay($index)">
-                        <div class="mail-title">
-                          <h2 ng-switch="" on="mail.IsRead">
-=======
     <div ng-controller="TabsController as tabs">
         <div ng-controller="LanguageController as lang">
             <div ng-controller="LoginController as user">
@@ -155,7 +87,7 @@
                                             <div ng-if="help.getState() !== 'login'" class="item" ng-click="mailTab.mailToggle()">
                                                 <p>{{lang.getText('mailTab')}}</p>
                                                 <i class="icon ion-email">
-                                                <i id="new-mail-tab" ng-if="mailTab.newMailCount > 0" class="icon icon-tag ion-record"></i>
+                                                    <i id="new-mail-tab" ng-if="mailTab.newMailCount > 0" class="icon icon-tag ion-record"></i>
                                                 </i>
                                             </div>
                                             <div ng-if="help.getState() === 'home'" class="item" menu-close="" ng-click="forceSync(); mailTab.getMails();">
@@ -199,7 +131,6 @@
                                             <div class="item" ng-repeat="mail in mailTab.mails | orderBy:Time:true" ng-click="mailTab.toggleMailDisplay($index)">
                                                 <div class="mail-title">
                                                     <h2 ng-switch="" on="mail.IsRead">
->>>>>>> ac362fe4b91dfc888a8e18aafe923af66aa15c2b
                                                         <strong ng-switch-when="false">
                                                             {{mail.Title}}
                                                         </strong>
