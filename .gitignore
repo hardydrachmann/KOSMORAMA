@@ -11,5 +11,6 @@ ionic.config.json
 ionic.project
 resources/ios
 resources/android
+res/
 
 !platforms/android/AndroidManifest.xml
