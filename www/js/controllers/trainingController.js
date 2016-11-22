@@ -1,4 +1,4 @@
-var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicPlatform, $interval, tabsService, languageService, popupService, dataService, loadingService, storageService, mediaService, blobService, deviceService) {
+var trainingCtrl = function ($rootScope, $state, $timeout, $ionicHistory, $ionicPlatform, $interval, tabsService, languageService, popupService, dataService, loadingService, storageService, mediaService, blobService, deviceService) {
 	var ctrl = this;
 
 	ctrl.getAudio = deviceService.device ? mediaService.getAudio : blobService.getAudio;
@@ -11,10 +11,7 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 		var currentState = $ionicHistory.currentView().stateName;
 		stateAction(currentState);
 		ctrl.currentTraining = storageService.getCurrentTraining();
-		$rootScope.$on('continueEvent', function() {
-//			$('video').remove();
-		});
-		$ionicPlatform.on('pause', function() {
+		$ionicPlatform.on('pause', function () {
 			if (currentState === 'trainingDemo') {
 				$('video').get(0).pause();
 				if (deviceService.isAndroid()) {
@@ -24,17 +21,14 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 				}
 			}
 		});
-		$ionicPlatform.on('resume', function() {
+		$ionicPlatform.on('resume', function () {
+			$('video').get(0).play();
 			if (currentState === 'trainingDemo') {
-				$('video').get(0).play();
 				if (deviceService.isAndroid()) {
 					$('audio').get(0).play();
 				} else {
 					mediaService.resumeIosAudio();
 				}
-			}
-			else if (currentState === 'training') {
-				$state.go('trainingPlan');
 			}
 		});
 	})();
@@ -42,21 +36,21 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 	/**
 	 * Returns the appropriate language name for the selected item.
 	 */
-	ctrl.getTrainingName = function(trainingItem) {
+	ctrl.getTrainingName = function (trainingItem) {
 		return trainingItem.LangName[languageService.lang];
 	};
 
 	/**
 	 * Returns the appropriate language description for the next exercise.
 	 */
-	ctrl.trainingDescription = function() {
+	ctrl.trainingDescription = function () {
 		return ctrl.currentTraining.LangDesc[languageService.lang];
 	};
 
 	/**
 	 * Returns an object containing remaining minutes and seconds.
 	 */
-	ctrl.formatTime = function(item) {
+	ctrl.formatTime = function (item) {
 		var seconds = (item.TimeSet * 60) / item.Sets;
 		var minutes = seconds >= 60 ? Math.floor(seconds / 60) : 0;
 		seconds = seconds % 60;
@@ -66,7 +60,7 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 	/**
 	 * Compare the exercise date with current date, and return true if date is the same.
 	 */
-	ctrl.isToday = function(date) {
+	ctrl.isToday = function (date) {
 		var dateToday = new Date();
 		if (date && date.setHours(0, 0, 0, 0) == dateToday.setHours(0, 0, 0, 0)) {
 			return true;
@@ -90,10 +84,10 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 				var promise;
 				if (deviceService.isAndroid()) {
 					var audioPlaying = $('audio').get(0);
-					promise = $interval(function() {
+					promise = $interval(function () {
 						if (audioPlaying.ended) {
 							$interval.cancel(promise);
-							$timeout(function() {
+							$timeout(function () {
 								tabsService.continue();
 							}, 5000);
 						}
@@ -102,7 +96,7 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 					// When audio playback stops, wait 5 sec. more, then auto-continue to training view (iOS only).
 					mediaService.playIosAudio(ctrl.currentTraining.ExerciseId);
 				}
-				$rootScope.$on('continueEvent', function() {
+				$rootScope.$on('continueEvent', function () {
 					if (promise) {
 						$interval.cancel(promise);
 					}

@@ -31,10 +31,12 @@ var timerCtrl = function ($interval, $window, $timeout, $state, $ionicHistory, $
 		$window.onresize = refreshRadius;
 		refreshRadius();
 		start(ctrl.training.time);
-		console.log('Training', ctrl.training)
+		// When minimizing the application during training, return to the plan view.
 		$ionicPlatform.on('pause', function () {
-			console.log('Minimizing');
-			ctrl.reset();
+			if ($ionicHistory.currentView().stateName === 'training') {
+				ctrl.reset();
+				$state.go('trainingPlan');
+			}
 		});
 	})();
 
