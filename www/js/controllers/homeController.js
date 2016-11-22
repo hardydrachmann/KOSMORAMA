@@ -79,7 +79,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 				syncHasFailed = true;
 				done();
 				popupService.alertPopup(languageService.getText('syncError'));
-			}, 60000);
+			}, 300000);
 			ctrl.idle = false;
 			if (storageService.getCompleted().length) {
 				syncData();
@@ -125,6 +125,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 		dataService.getUser(storageService.getUserScreenNumber(), function(result) {
 			ctrl.nameOfUser = result.Name;
 			getTrainingFromDB(result.Id);
+			$rootScope.$broadcast('postSync');
 		});
 	}
 
