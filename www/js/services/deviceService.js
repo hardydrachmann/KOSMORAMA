@@ -1,8 +1,9 @@
 // This is a service which fakes a device with mock data or not (run local or on device) and it can check to see which device you are on.
 
 var deviceService = function() {
+	// VIRKER DET HER FIX?
 	this.mock = true;
-	this.device = false;
+	this.device = true;
 
 	/**
 	 * Return whether the current device is an Android.
