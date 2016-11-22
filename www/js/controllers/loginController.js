@@ -28,28 +28,35 @@ var loginCtrl = function($state, $timeout, $cordovaNetwork, tabsService, deviceS
 	 */
 	ctrl.login = function() {
 		$timeout(function() {
-			var network = $cordovaNetwork.getNetwork();
-			if (!deviceService.device || (network === 'wifi' || network === '3g' || network === '4g')) {
-				if (screenNumber) {
-					dataService.getUser(screenNumber, function(result) {
-						if (result) {
-							storageService.setUserScreenNumber(screenNumber);
-							storageService.setAllowMessage(result.AllowMsgFeedback);
-							$state.go('home');
-							$('#setUserScreenNumber').val('');
-						} else {
-							popupService.alertPopup(languageService.getText('loginFail'));
-						}
-					});
-				} else {
-					popupService.alertPopup(languageService.getText('loginHelp'));
-				}
+			if (!deviceService.device) {
+				doLogin();
 			} else {
-				popupService.alertPopup(languageService.getText('loginNoWifi'));
+				var network = $cordovaNetwork.getNetwork();
+				if (network === 'wifi') {
+					doLogin();
+				} else if (network === '3g' || network === '4g') {
+					doLogin();
+				}
 			}
-
 		}, 100);
 	};
+
+	function doLogin() {
+		if (screenNumber) {
+			dataService.getUser(screenNumber, function(result) {
+				if (result) {
+					storageService.setUserScreenNumber(screenNumber);
+					storageService.setAllowMessage(result.AllowMsgFeedback);
+					$state.go('home');
+					$('#setUserScreenNumber').val('');
+				} else {
+					popupService.alertPopup(languageService.getText('loginFail'));
+				}
+			});
+		} else {
+			popupService.alertPopup(languageService.getText('loginHelp'));
+		}
+	}
 
 	/**
 	 * Get the input from the input field (on changed) an update the scope with this value.
