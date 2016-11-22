@@ -7,37 +7,34 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 	ctrl.TrainingItems = [];
 	ctrl.currentTraining = {};
 
-	/**
-	 * Compare the exercise date with current date, and return true if date is the same.
-	 */
-	ctrl.isToday = function(date) {
-		var dateToday = new Date();
-		if (date.setHours(0, 0, 0, 0) == dateToday.setHours(0, 0, 0, 0)) {
-			return true;
-		}
-		return false;
-	};
-
 	(function init() {
+		var currentState = $ionicHistory.currentView().stateName;
+		stateAction(currentState);
 		ctrl.currentTraining = storageService.getCurrentTraining();
-		stateAction();
 		$rootScope.$on('continueEvent', function() {
-			$('video').remove();
+//			$('video').remove();
 		});
 		$ionicPlatform.on('pause', function() {
-			$('video').get(0).pause();
-			if (deviceService.isAndroid()) {
-				$('audio').get(0).pause();
-			} else {
-				mediaService.pauseIosAudio();
+			if (currentState === 'trainingDemo') {
+				$('video').get(0).pause();
+				if (deviceService.isAndroid()) {
+					$('audio').get(0).pause();
+				} else {
+					mediaService.pauseIosAudio();
+				}
 			}
 		});
 		$ionicPlatform.on('resume', function() {
-			$('video').get(0).play();
-			if (deviceService.isAndroid()) {
-				$('audio').get(0).play();
-			} else {
-				mediaService.resumeIosAudio();
+			if (currentState === 'trainingDemo') {
+				$('video').get(0).play();
+				if (deviceService.isAndroid()) {
+					$('audio').get(0).play();
+				} else {
+					mediaService.resumeIosAudio();
+				}
+			}
+			else if (currentState === 'training') {
+				$state.go('trainingPlan');
 			}
 		});
 	})();
@@ -67,19 +64,28 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 	};
 
 	/**
+	 * Compare the exercise date with current date, and return true if date is the same.
+	 */
+	ctrl.isToday = function(date) {
+		var dateToday = new Date();
+		if (date && date.setHours(0, 0, 0, 0) == dateToday.setHours(0, 0, 0, 0)) {
+			return true;
+		}
+		return false;
+	};
+
+	/**
 	 * Execute the appropriate action for the current training view variation.
 	 */
-	function stateAction() {
-		var currentState = $ionicHistory.currentView().stateName;
+	function stateAction(currentState) {
 		if (currentState.startsWith('training')) {
 			if (currentState === 'trainingPlan') {
 				ctrl.TrainingItems = storageService.nextTraining();
-				if (ctrl.TrainingItems.length < 2 || !ctrl.isToday(ctrl.TrainingItems[1].date)) {
-					$state.go('home');
-					popupService.alertPopup(languageService.getText('noTrainingText'));
-				}
 			} else if (currentState === 'trainingDemo') {
-				$('video').get(0).play();
+				// IOS TEST STATEMENT
+				if (deviceService.device && !deviceService.isAndroid()) {
+					$('video').get(0).play();
+				}
 				// When audio playback stops, wait 5 sec., then auto-continue to training view (Android only).
 				var promise;
 				if (deviceService.isAndroid()) {
@@ -97,11 +103,15 @@ var trainingCtrl = function($rootScope, $state, $timeout, $ionicHistory, $ionicP
 					mediaService.playIosAudio(ctrl.currentTraining.ExerciseId);
 				}
 				$rootScope.$on('continueEvent', function() {
-					if (promise)
+					if (promise) {
 						$interval.cancel(promise);
+					}
 				});
 			} else if (currentState === 'training') {
-				$('video').get(0).play();
+				// IOS TEST STATEMENT
+				if (deviceService.device && !deviceService.isAndroid()) {
+					$('video').get(0).play();
+				}
 				mediaService.playIosAudio('startTraining');
 			}
 		}

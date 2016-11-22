@@ -18,6 +18,17 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 	})();
 
 	/**
+	 * Compare the exercise date with current date, and return true if date is the same.
+	 */
+	ctrl.isToday = function(date) {
+		var dateToday = new Date();
+		if (date && date.setHours(0, 0, 0, 0) == dateToday.setHours(0, 0, 0, 0)) {
+			return true;
+		}
+		return false;
+	};
+
+	/**
 	 * Start button functions:
 	 * if success, advance to training plan view.
 	 * if error, alert user and return.
@@ -27,7 +38,15 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 			popupService.alertPopup(languageService.getText('syncHasFailed'));
 			return;
 		}
-		$state.go('trainingPlan');
+		else {
+			var currentTraining = storageService.getCurrentTraining();
+			if (!currentTraining || !ctrl.isToday(currentTraining.date)) {
+				popupService.alertPopup(languageService.getText('noTrainingText'));
+			}
+			else {
+				$state.go('trainingPlan');
+			}
+		}
 	};
 
 	/**

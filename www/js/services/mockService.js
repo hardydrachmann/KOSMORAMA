@@ -50,7 +50,7 @@ var mockService = function() {
 		SessionOrderNumber: 2,
 		SetId: 2,
 		Sets: 2,
-		TimeSet: 2.5,
+		TimeSet: 0.2,
 		TrainingId: 212436,
 		Type: 40
 	}, {
@@ -84,7 +84,7 @@ var mockService = function() {
 		SessionOrderNumber: 2,
 		SetId: 2,
 		Sets: 1,
-		TimeSet: 1,
+		TimeSet: 0.2,
 		TrainingId: 212436,
 		Type: 40,
 	}, {
@@ -118,7 +118,7 @@ var mockService = function() {
 		SessionOrderNumber: 2,
 		SetId: 2,
 		Sets: 1,
-		TimeSet: 1,
+		TimeSet: 0.2,
 		TrainingId: 212436,
 		Type: 40
 	}];

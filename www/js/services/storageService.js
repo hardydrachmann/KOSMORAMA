@@ -174,10 +174,12 @@ var storageService = function($window) {
 	 *  Checks the current selected language from a string input (if it is 'en_US', change it to 'en-GB'), then return it.
 	 */
 	this.getCorrectLanguageStringFromInput = function(language) {
-		if (language === 'en_US') {
-			language = 'en_GB';
+		if (language) {
+			if (language === 'en_US') {
+				language = 'en_GB';
+			}
+			return language.replace('_', '-');
 		}
-		return language.replace('_', '-');
 	};
 
 	/**
