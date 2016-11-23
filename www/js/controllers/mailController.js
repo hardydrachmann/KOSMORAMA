@@ -46,7 +46,6 @@ var mailCtrl = function ($rootScope, $timeout, $ionicHistory, languageService, p
 	ctrl.getMails = function () {
 		dataService.getUser(storageService.getUserScreenNumber(), function (result) {
 			ctrl.mails = result.UserMessages;
-			console.log('getting mails', ctrl.mails);
 			countNewMails(ctrl.mails);
 			// Use this line to simulate an empty inbox.
 			// ctrl.mails = [];

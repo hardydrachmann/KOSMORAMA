@@ -119,7 +119,7 @@ var timerCtrl = function ($interval, $window, $timeout, $state, $ionicHistory, $
 		$('video').get(0).play();
 		if (deviceService.isAndroid()) {
 			$('audio').get(0).play();
-		} else {
+		} else if (deviceService.device) {
 			mediaService.resumeIosAudio();
 		}
 	}
@@ -128,7 +128,7 @@ var timerCtrl = function ($interval, $window, $timeout, $state, $ionicHistory, $
 		$('video').get(0).pause();
 		if (deviceService.isAndroid()) {
 			$('audio').get(0).pause();
-		} else {
+		} else if (deviceService.device) {
 			mediaService.pauseIosAudio();
 		}
 	}
