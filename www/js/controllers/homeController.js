@@ -37,13 +37,11 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 		if (syncHasFailed) {
 			popupService.alertPopup(languageService.getText('syncHasFailed'));
 			return;
-		}
-		else {
+		} else {
 			var currentTraining = storageService.getCurrentTraining();
 			if (!currentTraining || !ctrl.isToday(currentTraining.date)) {
 				popupService.alertPopup(languageService.getText('noTrainingText'));
-			}
-			else {
+			} else {
 				$state.go('trainingPlan');
 			}
 		}
