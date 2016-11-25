@@ -11,6 +11,6 @@ ionic.config.json
 ionic.project
 resources/ios
 resources/android
-res/
+npm-debug.log
 
 !platforms/android/AndroidManifest.xml
