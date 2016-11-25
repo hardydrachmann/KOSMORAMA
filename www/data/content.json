@@ -49,11 +49,6 @@
     "en_US": "Start!"
   },
 
-  "skip": {
-    "da_DK": "Spring over",
-    "en_US": "Skip"
-  },
-
   "back": {
     "da_DK": "Tilbage",
     "en_US": "Back"
@@ -180,8 +175,8 @@
   },
 
   "notesSend": {
-    "da_DK": "Send!",
-    "en_US": "Send!"
+    "da_DK": "Indsend data og afslut træning",
+    "en_US": "Submit data and finish training"
   },
 
   "notesHelp": {

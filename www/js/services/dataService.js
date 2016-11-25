@@ -122,7 +122,8 @@ var dataService = function($http, deviceService, mockService) {
 			method: 'PostTrainingReport',
 			params: trainingReport
 		};
-
+		
+		console.log('Posting training', content);
 		var dataString = JSON.stringify(content); //Converting javascript to Json
 
 		// Doing the http post request and returns an array of trainig objects.

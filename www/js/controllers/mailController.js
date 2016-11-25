@@ -1,4 +1,4 @@
-var mailCtrl = function($rootScope, $timeout, $ionicHistory, languageService, popupService, dataService, storageService) {
+var mailCtrl = function ($rootScope, $timeout, $ionicHistory, languageService, popupService, dataService, storageService) {
 	var ctrl = this;
 
 	ctrl.mails = [];
@@ -6,15 +6,15 @@ var mailCtrl = function($rootScope, $timeout, $ionicHistory, languageService, po
 	ctrl.mailMenu = false;
 
 	(function init() {
-		$timeout(function() {
+		$rootScope.$on('postSync', function () {
 			var currentView = $ionicHistory.currentView();
 			if (currentView) {
 				if (currentView.stateName !== 'login') {
 					ctrl.getMails();
 				}
 			}
-		}, 1000);
-		$rootScope.$on('expandLeftEvent', function() {
+		});
+		$rootScope.$on('expandLeftEvent', function () {
 			ctrl.mailMenu = false;
 		});
 	})();
@@ -22,20 +22,19 @@ var mailCtrl = function($rootScope, $timeout, $ionicHistory, languageService, po
 	/**
 	 * Toggle mail menu active.
 	 */
-	ctrl.mailToggle = function() {
+	ctrl.mailToggle = function () {
 		ctrl.mailMenu = !ctrl.mailMenu;
 	};
 
 	/**
 	 * Enables the unfolding of mails, so that they can be read.
 	 */
-	ctrl.toggleMailDisplay = function(index) {
+	ctrl.toggleMailDisplay = function (index) {
 		var mail = $('#mail' + index);
 		if (mail.hasClass('inactive-mail')) {
 			mail.removeClass('inactive-mail');
 			mail.addClass('active-mail');
-		}
-		else {
+		} else {
 			mail.removeClass('active-mail');
 			mail.addClass('inactive-mail');
 		}
@@ -44,8 +43,8 @@ var mailCtrl = function($rootScope, $timeout, $ionicHistory, languageService, po
 	/**
 	 * Loads messages for user by using the screen number.
 	 */
-	ctrl.getMails = function() {
-		dataService.getUser(storageService.getUserScreenNumber(), function(result) {
+	ctrl.getMails = function () {
+		dataService.getUser(storageService.getUserScreenNumber(), function (result) {
 			ctrl.mails = result.UserMessages;
 			countNewMails(ctrl.mails);
 			// Use this line to simulate an empty inbox.
@@ -56,8 +55,8 @@ var mailCtrl = function($rootScope, $timeout, $ionicHistory, languageService, po
 	/**
 	 * Saves the message as read.
 	 */
-	ctrl.logMail = function(mailId) {
-		dataService.postNoteData(mailId, function(result) {
+	ctrl.logMail = function (mailId) {
+		dataService.postNoteData(mailId, function (result) {
 			if (!result.result) {
 				// If for some reason the server is unavailable.
 				popupService.alertPopup(languageService.getText('mailError'));

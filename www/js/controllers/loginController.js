@@ -1,4 +1,5 @@
 var loginCtrl = function($rootScope, $state, $timeout, $cordovaNetwork, $window, tabsService, deviceService, languageService, popupService, dataService, storageService, mediaService) {
+
 	var ctrl = this;
 
 	var screenNumber;
@@ -6,6 +7,7 @@ var loginCtrl = function($rootScope, $state, $timeout, $cordovaNetwork, $window,
 	/**
 	 * On launch, check if a user exist in local storage. If so, decrypt user, then place this user on the scope and login.
 	 */
+
 	document.addEventListener('deviceready', function() {
 		$rootScope.$on('initEvent', function() {
 			screenNumber = storageService.getUserScreenNumber();
@@ -30,18 +32,14 @@ var loginCtrl = function($rootScope, $state, $timeout, $cordovaNetwork, $window,
 	 * If this user exist, encrypt the login id in local storage using a random key.
 	 */
 	ctrl.login = function() {
-		$timeout(function() {
-			if (!deviceService.device) {
+		if (!deviceService.device) {
+			doLogin();
+		} else {
+			var network = $cordovaNetwork.getNetwork();
+			if (network === 'wifi' || network === '3g' || network === '4g') {
 				doLogin();
-			} else {
-				var network = $cordovaNetwork.getNetwork();
-				if (network === 'wifi') {
-					doLogin();
-				} else if (network === '3g' || network === '4g') {
-					doLogin();
-				}
 			}
-		}, 100);
+		}
 	};
 
 	function doLogin() {
