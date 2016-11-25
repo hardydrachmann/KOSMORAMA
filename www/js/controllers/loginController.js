@@ -1,4 +1,5 @@
-var loginCtrl = function ($state, $timeout, $cordovaNetwork, tabsService, deviceService, languageService, popupService, dataService, storageService, mediaService) {
+var loginCtrl = function($rootScope, $state, $timeout, $cordovaNetwork, $window, tabsService, deviceService, languageService, popupService, dataService, storageService, mediaService) {
+
 	var ctrl = this;
 
 	var screenNumber;
@@ -6,27 +7,31 @@ var loginCtrl = function ($state, $timeout, $cordovaNetwork, tabsService, device
 	/**
 	 * On launch, check if a user exist in local storage. If so, decrypt user, then place this user on the scope and login.
 	 */
-	document.addEventListener('deviceready', function () {
-		screenNumber = storageService.getUserScreenNumber();
-		if (screenNumber) {
-			if (deviceService.device) {
-				var network = $cordovaNetwork.getNetwork();
-				if (network === 'wifi' || network === '3g' || network === '4g') {
-					ctrl.login();
+
+	document.addEventListener('deviceready', function() {
+		$rootScope.$on('initEvent', function() {
+			screenNumber = storageService.getUserScreenNumber();
+			console.log('SCREENNUMBER', screenNumber);
+			if (screenNumber) {
+				if (deviceService.device) {
+					var network = $cordovaNetwork.getNetwork();
+					if (network === 'wifi' || network === '3g' || network === '4g') {
+						ctrl.login();
+					} else {
+						$state.go('home');
+					}
 				} else {
-					$state.go('home');
+					ctrl.login();
 				}
-			} else {
-				ctrl.login();
 			}
-		}
+		});
 	});
 
 	/**
 	 * If user does not exist, check the DB for a user with the entered login id.
 	 * If this user exist, encrypt the login id in local storage using a random key.
 	 */
-	ctrl.login = function () {
+	ctrl.login = function() {
 		if (!deviceService.device) {
 			doLogin();
 		} else {
@@ -39,7 +44,7 @@ var loginCtrl = function ($state, $timeout, $cordovaNetwork, tabsService, device
 
 	function doLogin() {
 		if (screenNumber) {
-			dataService.getUser(screenNumber, function (result) {
+			dataService.getUser(screenNumber, function(result) {
 				if (result) {
 					storageService.setUserScreenNumber(screenNumber);
 					storageService.setAllowMessage(result.AllowMsgFeedback);
@@ -57,7 +62,7 @@ var loginCtrl = function ($state, $timeout, $cordovaNetwork, tabsService, device
 	/**
 	 * Get the input from the input field (on changed) an update the scope with this value.
 	 */
-	ctrl.setUserScreenNumber = function () {
+	ctrl.setUserScreenNumber = function() {
 		var inputValue = $('#setUserScreenNumber').val();
 		if (inputValue) {
 			screenNumber = inputValue;
@@ -67,8 +72,8 @@ var loginCtrl = function ($state, $timeout, $cordovaNetwork, tabsService, device
 	/**
 	 * At logout, remove the locally stored users data then logout.
 	 */
-	ctrl.logout = function () {
-		popupService.confirmPopup(languageService.getText('logoutText'), '', function () {
+	ctrl.logout = function() {
+		popupService.confirmPopup(languageService.getText('logoutText'), '', function() {
 			storageService.clearUserData();
 			storageService.clearTrainingData();
 			mediaService.removeMedia();

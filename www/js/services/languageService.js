@@ -1,23 +1,24 @@
 // This is a service which gets and sets the chosen language and the appropriate text to display, where needed.
 
-var languageService = function(storageService) {
+var languageService = function($rootScope, $timeout, storageService) {
 	var self = this;
 
 	self.langs = [];
 	self.text = {};
-	self.lang = '';
+	self.lang = 'da_DK';
 
-	(function init() {
+	document.addEventListener('deviceready', function() {
 		loadData();
-		var lang = storageService.getSelectedLanguage();
-		if (!lang) {
-			self.lang = 'da_DK';
-			storageService.setSelectedLanguage(self.lang);
-		}
-		else {
-			self.lang = lang;
-		}
-	})();
+		$rootScope.$on('initEvent', function() {
+			var lang = storageService.getSelectedLanguage();
+			if (!lang) {
+				self.lang = 'da_DK';
+				storageService.setSelectedLanguage(self.lang);
+			} else {
+				self.lang = lang;
+			}
+		});
+	}, false);
 
 	/**
 	 * Sets language equal to picked language from language menu.
