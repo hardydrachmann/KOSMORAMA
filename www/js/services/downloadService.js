@@ -1,6 +1,6 @@
 // This is a service which can download media files related to a users training (audio, video & pictures).
 
-var downloadService = function($cordovaFileTransfer, $cordovaFile, dataService, $interval, loadingService, storageService, languageService, deviceService) {
+var downloadService = function($cordovaFile, dataService, $interval, loadingService, storageService, languageService, deviceService) {
 
 	var self = this;
 	var fileTransfer;
@@ -98,8 +98,7 @@ var downloadService = function($cordovaFileTransfer, $cordovaFile, dataService, 
 						callback();
 					}
 				}, 1000);
-			}
-			catch (error) {
+			} catch (error) {
 				console.log('Download error', error);
 			}
 		}
@@ -119,8 +118,7 @@ var downloadService = function($cordovaFileTransfer, $cordovaFile, dataService, 
 					callback,
 					self.downloadError
 				);
-			}
-			else {
+			} else {
 				toDownload--;
 			}
 		});

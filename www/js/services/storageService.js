@@ -1,7 +1,17 @@
 // This is a service which can save and get needed data onto a physical device.
 
-var storageService = function($window) {
-	const VT = 'VirtualTraining';
+var storageService = function($rootScope, $window, $cordovaFile, $interval, deviceService) {
+
+	var fileName = 'persistent.json';
+	var persistentFilePath;
+	var deviceApplicationPath;
+
+	document.addEventListener('deviceready', function() {
+		deviceApplicationPath = deviceService.getDeviceApplicationPath();
+		persistentFilePath = deviceApplicationPath + 'json';
+		initPersistentJsonFile();
+		verifyData();
+	}, false);
 
 	/**
 	 * User meta data.
@@ -70,9 +80,9 @@ var storageService = function($window) {
 	 * Verify that the service has data. If not acquire it from local storage.
 	 */
 	var verifyData = function() {
-		// console.log('Verifying training data', trainingData);
+		console.log('Verifying training data', trainingData);
 		if (isEmptyObject(trainingData)) {
-			// console.log('Verifying user data', userData);
+			console.log('Verifying user data', userData);
 			if (isEmptyObject(userData)) {
 				loadUserData();
 			}
@@ -88,13 +98,22 @@ var storageService = function($window) {
 	 * Load and decrypt user data from local storage.
 	 */
 	var loadUserData = function() {
-		var decryptionKey = $window.localStorage.getItem(VT + 'Key');
-		var encryptedData = $window.localStorage.getItem(VT + 'UserData');
-		if (decryptionKey && encryptedData) {
-			var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
-			userData = JSON.parse(decryptedData);
-		}
-		// console.log('Loaded user data:', userData);
+		var decryptionKey, encryptedData;
+		loadItem('Key', function(data) {
+			decryptionKey = data;
+			loadItem('UserData', function(data) {
+				encryptedData = data;
+				// var decryptionKey = $window.localStorage.getItem(VT + 'Key');
+				// var encryptedData = $window.localStorage.getItem(VT + 'UserData');
+				if (decryptionKey && encryptedData) {
+					var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
+					userData = JSON.parse(decryptedData);
+					$rootScope.$broadcast('initEvent');
+					console.log('userData', userData);
+				}
+				// console.log('Loaded user data:', userData);
+			});
+		});
 	};
 
 	/**
@@ -126,16 +145,33 @@ var storageService = function($window) {
 		var userDataString = JSON.stringify(userData);
 		var encryptionKey = getRandomKey();
 		var encryptedData = sjcl.encrypt(encryptionKey, userDataString);
-		$window.localStorage.setItem(VT + 'Key', encryptionKey);
-		$window.localStorage.setItem(VT + 'UserData', encryptedData);
+		console.log('userDataString', userDataString);
+		console.log('encryptionKey', encryptionKey);
+		console.log('encryptedData', encryptedData);
+		storeItem('Key', encryptionKey, function() {
+			storeItem('UserData', encryptedData);
+		});
+		// $window.localStorage.setItem(VT + 'Key', encryptionKey);
+		// $window.localStorage.setItem(VT + 'UserData', encryptedData);
 	};
 
 	/**
 	 * Clear all persistent user data from the device.
 	 */
 	this.clearUserData = function() {
-		$window.localStorage.removeItem(VT + 'Key');
-		$window.localStorage.removeItem(VT + 'UserData');
+		console.log('CLEAR STORAGE');
+		if (deviceService.device) {
+			if ($cordovaFile.checkDir(deviceApplicationPath, 'json')) {
+				$cordovaFile.removeRecursively(deviceApplicationPath, 'json');
+				var removeInterval = $interval(function() {
+					if ($cordovaFile.checkDir(deviceApplicationPath, 'json')) {
+						$interval.cancel(removeInterval);
+					}
+				}, 1000);
+			}
+		}
+		// $window.localStorage.removeItem(VT + 'Key');
+		// $window.localStorage.removeItem(VT + 'UserData');
 		userData = {};
 	};
 
@@ -191,9 +227,9 @@ var storageService = function($window) {
 	/**
 	 * Get the user screen number from the local storage.
 	 */
-	this.getUserScreenNumber = function() {
+	this.getUserScreenNumber = function(back) {
 		verifyData();
-		// console.log('Getting userScreenNumber', userData.userScreenNumber);
+		console.log('Getting userScreenNumber', userData.userScreenNumber);
 		return userData.userScreenNumber;
 	};
 
@@ -341,7 +377,12 @@ var storageService = function($window) {
 	this.getCompleted = function() {
 		// console.log('Completed data in memory: ', this.completed);
 		if (!this.completed.length) {
-			var stored = $window.localStorage.getItem(VT + 'Completed');
+			// var stored = $window.localStorage.getItem(VT + 'Completed');
+			var stored;
+			loadItem('Completed', function(data) {
+				stored = data;
+				console.log('loadItem', stored);
+			});
 			// console.log('Getting completed data as string from storage.', stored);
 			if (stored) {
 				stored = JSON.parse(stored);
@@ -380,7 +421,8 @@ var storageService = function($window) {
 		}
 		this.completed[this.passCount].passData = trainingData.passData;
 		trainingData.passData = {};
-		$window.localStorage.setItem(VT + 'Completed', JSON.stringify(this.completed));
+		// $window.localStorage.setItem(VT + 'Completed', JSON.stringify(this.completed));
+		storeItem('Completed', JSON.stringify(this.completed));
 		trainingData.currentTraining = {};
 		this.passCount++;
 	};
@@ -414,6 +456,65 @@ var storageService = function($window) {
 		}
 		return [];
 	};
+
+	// Write to json file.
+	function storeItem(key, value, callback) {
+		// initPersistentJsonFile();
+		readPersistentJsonFile(function(data) {
+			data[key] = value;
+			$window.resolveLocalFileSystemURL(persistentFilePath, function(dir) {
+				var path = dir.toInternalURL();
+				$cordovaFile.writeFile(path, fileName, data, true)
+					.then(function(success) {
+						if (callback) {
+							callback();
+						}
+					}, function(error) {
+						console.log('storeItem error', error);
+					});
+			}, function(error) {
+				console.log('resolveLocalFileSystemURL', error);
+			});
+		});
+	}
+
+	// Read from json file.
+	function loadItem(key, callback) {
+		// initPersistentJsonFile();
+		readPersistentJsonFile(function(data) {
+			console.log('loadItem', data[key]);
+			callback(data[key]);
+		});
+	}
+
+	// Read from json file.
+	function readPersistentJsonFile(callback) {
+		$window.resolveLocalFileSystemURL(persistentFilePath, function(dir) {
+			var path = dir.toInternalURL();
+			$cordovaFile.readAsText(path, fileName)
+				.then(function(success) {
+					if (success) {
+						callback(JSON.parse(success));
+					} else {
+						callback({});
+					}
+				}, function(error) {
+					console.log('read error', error);
+				});
+		});
+	}
+
+	// Create 'json' directory if it does not exist, and create json file.
+	function initPersistentJsonFile() {
+		$cordovaFile.createDir(deviceApplicationPath, 'json').then(createPersistentJsonFile, createPersistentJsonFile);
+	}
+
+	// Create json file in 'json' directory.
+	function createPersistentJsonFile() {
+		$cordovaFile.createFile(persistentFilePath, fileName, true).then(function(success) {}, function(error) {
+			console.log('createFile error', error);
+		});
+	}
 
 	/**
 	 * Print completed training from local storage.
