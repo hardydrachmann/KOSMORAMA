@@ -1,17 +1,21 @@
 // This is a service which can save and get needed data onto a physical device.
 
-var storageService = function($rootScope, $window, $cordovaFile, $interval, deviceService) {
+var storageService = function ($rootScope, $window, $cordovaFile, $interval, deviceService) {
 
+	const VT = 'VirtualTraining'
+	
 	var fileName = 'persistent.json';
 	var persistentFilePath;
 	var deviceApplicationPath;
 
-	document.addEventListener('deviceready', function() {
-		deviceApplicationPath = deviceService.getDeviceApplicationPath();
-		persistentFilePath = deviceApplicationPath + 'json';
-		initPersistentJsonFile();
-		verifyData();
-	}, false);
+
+	//StorageService initialization for the deprecated persistent.json method.
+	//	document.addEventListener('deviceready', function () {
+	//		deviceApplicationPath = deviceService.getDeviceApplicationPath();
+	//		persistentFilePath = deviceApplicationPath + 'json';
+	//		initPersistentJsonFile();
+	//		verifyData();
+	//	}, false);
 
 	/**
 	 * User meta data.
@@ -36,7 +40,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Get a new clone of a user data template.
 	 */
-	var getUserDataTemplate = function() {
+	var getUserDataTemplate = function () {
 		return {
 			userScreenNumber: '',
 			language: '',
@@ -48,7 +52,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Get a new clone of a training data template.
 	 */
-	var getTrainingDataTemplate = function() {
+	var getTrainingDataTemplate = function () {
 		return {
 			isLastPassItem: false,
 			currentTraining: {},
@@ -64,7 +68,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Get a new clone of a completed training pass template.
 	 */
-	var getCompletedTemplate = function() {
+	var getCompletedTemplate = function () {
 		return {
 			reports: [],
 			passData: {
@@ -79,7 +83,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Verify that the service has data. If not acquire it from local storage.
 	 */
-	var verifyData = function() {
+	var verifyData = function () {
 		console.log('Verifying training data', trainingData);
 		if (isEmptyObject(trainingData)) {
 			console.log('Verifying user data', userData);
@@ -97,29 +101,32 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Load and decrypt user data from local storage.
 	 */
-	var loadUserData = function() {
-		var decryptionKey, encryptedData;
-		loadItem('Key', function(data) {
-			decryptionKey = data;
-			loadItem('UserData', function(data) {
-				encryptedData = data;
-				// var decryptionKey = $window.localStorage.getItem(VT + 'Key');
-				// var encryptedData = $window.localStorage.getItem(VT + 'UserData');
-				if (decryptionKey && encryptedData) {
-					var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
-					userData = JSON.parse(decryptedData);
-					$rootScope.$broadcast('initEvent');
-					console.log('userData', userData);
-				}
-				// console.log('Loaded user data:', userData);
-			});
-		});
+	var loadUserData = function () {
+		var decryptionKey = $window.localStorage.getItem(VT + 'Key');
+		var encryptedData = $window.localStorage.getItem(VT + 'UserData');
+		if (decryptionKey && encryptedData) {
+			var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
+			userData = JSON.parse(decryptedData);
+			// console.log('Loaded user data:', userData);
+		}
+		//	var decryptionKey, encryptedData;
+		//	loadItem('Key', function (data) {
+		//		decryptionKey = data;
+		//		loadItem('UserData', function (data) {
+		//			encryptedData = data;
+		//			if (decryptionKey && encryptedData) {
+		//				var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
+		//				userData = JSON.parse(decryptedData);
+		//				$rootScope.$broadcast('initEvent');
+		//			}
+		//		});
+		//	});
 	};
 
 	/**
 	 * Initialize the training data from the user meta data and prepare the first training pass.
 	 */
-	var initTrainingData = function() {
+	var initTrainingData = function () {
 		console.log('Ready to init:', userData);
 		trainingData = getTrainingDataTemplate();
 		var n = userData.training.length;
@@ -140,45 +147,44 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Encrypt and save user data in local storage.
 	 */
-	var saveUserData = function() {
+	var saveUserData = function () {
 		// console.log('Saving user data...:', userData);
 		var userDataString = JSON.stringify(userData);
 		var encryptionKey = getRandomKey();
 		var encryptedData = sjcl.encrypt(encryptionKey, userDataString);
-		console.log('userDataString', userDataString);
-		console.log('encryptionKey', encryptionKey);
-		console.log('encryptedData', encryptedData);
-		storeItem('Key', encryptionKey, function() {
-			storeItem('UserData', encryptedData);
-		});
-		// $window.localStorage.setItem(VT + 'Key', encryptionKey);
-		// $window.localStorage.setItem(VT + 'UserData', encryptedData);
+		//		console.log('userDataString', userDataString);
+		//		console.log('encryptionKey', encryptionKey);
+		//		console.log('encryptedData', encryptedData);
+		//		storeItem('Key', encryptionKey, function() {
+		//			storeItem('UserData', encryptedData);
+		//		});
+		$window.localStorage.setItem(VT + 'Key', encryptionKey);
+		$window.localStorage.setItem(VT + 'UserData', encryptedData);
 	};
 
 	/**
 	 * Clear all persistent user data from the device.
 	 */
-	this.clearUserData = function() {
-		console.log('CLEAR STORAGE');
-		if (deviceService.device) {
-			if ($cordovaFile.checkDir(deviceApplicationPath, 'json')) {
-				$cordovaFile.removeRecursively(deviceApplicationPath, 'json');
-				var removeInterval = $interval(function() {
-					if ($cordovaFile.checkDir(deviceApplicationPath, 'json')) {
-						$interval.cancel(removeInterval);
-					}
-				}, 1000);
-			}
-		}
-		// $window.localStorage.removeItem(VT + 'Key');
-		// $window.localStorage.removeItem(VT + 'UserData');
+	this.clearUserData = function () {
+		//		if (deviceService.device) {
+		//			if ($cordovaFile.checkDir(deviceApplicationPath, 'json')) {
+		//				$cordovaFile.removeRecursively(deviceApplicationPath, 'json');
+		//				var removeInterval = $interval(function() {
+		//					if ($cordovaFile.checkDir(deviceApplicationPath, 'json')) {
+		//						$interval.cancel(removeInterval);
+		//					}
+		//				}, 1000);
+		//			}
+		//		}
+		$window.localStorage.removeItem(VT + 'Key');
+		$window.localStorage.removeItem(VT + 'UserData');
 		userData = {};
 	};
 
 	/**
 	 * Clear completed training data from local storage.
 	 */
-	this.clearTrainingData = function() {
+	this.clearTrainingData = function () {
 		trainingData = {};
 		this.completed = [];
 		userData.training = [];
@@ -190,7 +196,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Get the selected language from local storage.
 	 */
-	this.getSelectedLanguage = function() {
+	this.getSelectedLanguage = function () {
 		verifyData();
 		// console.log('Getting selected language');
 		return userData.language;
@@ -199,7 +205,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Set the selected language chosen by the user.
 	 */
-	this.setSelectedLanguage = function(language) {
+	this.setSelectedLanguage = function (language) {
 		verifyData();
 		// console.log('Setting selected language', language);
 		userData.language = language;
@@ -209,7 +215,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 *  Checks the current selected language from a string input (if it is 'en_US', change it to 'en-GB'), then return it.
 	 */
-	this.getCorrectLanguageStringFromInput = function(language) {
+	this.getCorrectLanguageStringFromInput = function (language) {
 		if (language) {
 			if (language === 'en_US') {
 				language = 'en_GB';
@@ -221,7 +227,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Checks the current selected language (if it is 'en_US', change it to 'en-GB'), then return it.
 	 */
-	this.getCorrectedLanguageString = function() {
+	this.getCorrectedLanguageString = function () {
 		var language = this.getSelectedLanguage();
 		return this.getCorrectLanguageStringFromInput(language);
 	};
@@ -229,7 +235,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Get the user screen number from the local storage.
 	 */
-	this.getUserScreenNumber = function(back) {
+	this.getUserScreenNumber = function (back) {
 		verifyData();
 		console.log('Getting userScreenNumber', userData.userScreenNumber);
 		return userData.userScreenNumber;
@@ -238,7 +244,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Set the user screen number of the current user by encrypting it and storing it locally.
 	 */
-	this.setUserScreenNumber = function(number) {
+	this.setUserScreenNumber = function (number) {
 		verifyData();
 		// console.log('Setting userScreenNumber', number);
 		userData.userScreenNumber = number;
@@ -248,7 +254,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Access whether the user is allowed to send messages to the therapist.
 	 */
-	this.getAllowMessage = function() {
+	this.getAllowMessage = function () {
 		verifyData();
 		// console.log('Getting allowMessage', userData.allowMessage);
 		return userData.allowMessage;
@@ -257,7 +263,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Alter whether the current user is allowed to send messages to the therapist.
 	 */
-	this.setAllowMessage = function(allow) {
+	this.setAllowMessage = function (allow) {
 		verifyData();
 		// console.log('Setting allowMessage', allow);
 		userData.allowMessage = allow;
@@ -268,7 +274,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Get whether this is the last item in the pass.
 	 */
-	this.isLastPassItem = function() {
+	this.isLastPassItem = function () {
 		verifyData();
 		// console.log('Getting isLastPassItem', trainingData.isLastPassItem);
 		return trainingData.isLastPassItem;
@@ -277,7 +283,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Get the currently active training.
 	 */
-	this.getCurrentTraining = function() {
+	this.getCurrentTraining = function () {
 		verifyData();
 		// console.log('Getting current Training', trainingData.currentTraining);
 		return trainingData.currentTraining;
@@ -286,7 +292,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Get the currently active pass data.
 	 */
-	this.getCurrentPassData = function() {
+	this.getCurrentPassData = function () {
 		verifyData();
 		// console.log('Getting current PassData', trainingData.passData);
 		return trainingData.passData;
@@ -295,7 +301,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Get the pain level for the currently active pass.
 	 */
-	this.getCurrentPainLevel = function() {
+	this.getCurrentPainLevel = function () {
 		verifyData();
 		console.log('Getting current Pain Level', trainingData.passData.painLevel);
 		return trainingData.passData.painLevel;
@@ -304,16 +310,16 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Set the pain level for the currently active pass.
 	 */
-	this.setCurrentPainLevel = function(level) {
+	this.setCurrentPainLevel = function (level) {
 		verifyData();
-		console.log('Setting current Pain Level', level);
+		//		console.log('Setting current Pain Level', level);
 		trainingData.passData.painLevel = level;
 	};
 
 	/**
 	 * Get the message for the currently active pass.
 	 */
-	this.getCurrentNotesMessage = function() {
+	this.getCurrentNotesMessage = function () {
 		verifyData();
 		// console.log('Getting current Message', trainingData.passData.message);
 		return trainingData.passData.message;
@@ -322,16 +328,16 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Get the message for the currently active pass.
 	 */
-	this.setCurrentNotesMessage = function(message) {
+	this.setCurrentNotesMessage = function (message) {
 		verifyData();
-		console.log('Setting current Message', message);
+		//		console.log('Setting current Message', message);
 		trainingData.passData.message = message;
 	};
 
 	/**
 	 * Sorting and adding a pass item for each set of training.
 	 */
-	this.sortTraining = function(data) {
+	this.sortTraining = function (data) {
 		if (data.length > 0) {
 			var setCount = data[0].SessionOrderNumber,
 				pass = 1,
@@ -357,7 +363,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Get the amount of remaining training passes to complete.
 	 */
-	this.getPassCount = function() {
+	this.getPassCount = function () {
 		var passCount = 0;
 		if (userData.training) {
 			for (var i = 0; i < userData.training.length; i++) {
@@ -376,15 +382,15 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Get the completed trainings from local storage.
 	 */
-	this.getCompleted = function() {
+	this.getCompleted = function () {
 		// console.log('Completed data in memory: ', this.completed);
 		if (!this.completed.length) {
-			// var stored = $window.localStorage.getItem(VT + 'Completed');
+			var stored = $window.localStorage.getItem(VT + 'Completed');
 			var stored;
-			loadItem('Completed', function(data) {
-				stored = data;
-				console.log('loadItem', stored);
-			});
+			//			loadItem('Completed', function (data) {
+			//				stored = data;
+			//				console.log('loadItem', stored);
+			//			});
 			// console.log('Getting completed data as string from storage.', stored);
 			if (stored) {
 				stored = JSON.parse(stored);
@@ -400,7 +406,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	 * Takes into account that there might be pass headers in the list.
 	 * At the last item in the pass, shift the array twice to remove the header which each pass has.
 	 */
-	this.complete = function(trainingReport) {
+	this.complete = function (trainingReport) {
 		if (!this.completed[this.passCount]) {
 			this.completed[this.passCount] = getCompletedTemplate();
 		}
@@ -416,15 +422,15 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Save the current pass data in local storage.
 	 */
-	this.retainCurrentPassData = function() {
+	this.retainCurrentPassData = function () {
 		console.log('Retaining pass data:', this.completed[this.passCount]);
 		if (!this.completed[this.passCount]) {
 			console.error('Pretty sure this is not ever supposed to happen!');
 		}
 		this.completed[this.passCount].passData = trainingData.passData;
 		trainingData.passData = {};
-		// $window.localStorage.setItem(VT + 'Completed', JSON.stringify(this.completed));
-		storeItem('Completed', JSON.stringify(this.completed));
+		$window.localStorage.setItem(VT + 'Completed', JSON.stringify(this.completed));
+		//		storeItem('Completed', JSON.stringify(this.completed));
 		trainingData.currentTraining = {};
 		this.passCount++;
 	};
@@ -437,7 +443,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	 * which is definitely a header in that case.
 	 * This is why index 1 and 2 are used as opposed to 0 and 1.
 	 */
-	this.nextTraining = function() {
+	this.nextTraining = function () {
 		// Is this the last pass item?
 		var isLastItem = userData.training[2] == undefined;
 		if (!isLastItem) {
@@ -459,69 +465,10 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 		return [];
 	};
 
-	// Write to json file.
-	function storeItem(key, value, callback) {
-		// initPersistentJsonFile();
-		readPersistentJsonFile(function(data) {
-			data[key] = value;
-			$window.resolveLocalFileSystemURL(persistentFilePath, function(dir) {
-				var path = dir.toInternalURL();
-				$cordovaFile.writeFile(path, fileName, data, true)
-					.then(function(success) {
-						if (callback) {
-							callback();
-						}
-					}, function(error) {
-						console.log('storeItem error', error);
-					});
-			}, function(error) {
-				console.log('resolveLocalFileSystemURL', error);
-			});
-		});
-	}
-
-	// Read from json file.
-	function loadItem(key, callback) {
-		// initPersistentJsonFile();
-		readPersistentJsonFile(function(data) {
-			console.log('loadItem', data[key]);
-			callback(data[key]);
-		});
-	}
-
-	// Read from json file.
-	function readPersistentJsonFile(callback) {
-		$window.resolveLocalFileSystemURL(persistentFilePath, function(dir) {
-			var path = dir.toInternalURL();
-			$cordovaFile.readAsText(path, fileName)
-				.then(function(success) {
-					if (success) {
-						callback(JSON.parse(success));
-					} else {
-						callback({});
-					}
-				}, function(error) {
-					console.log('read error', error);
-				});
-		});
-	}
-
-	// Create 'json' directory if it does not exist, and create json file.
-	function initPersistentJsonFile() {
-		$cordovaFile.createDir(deviceApplicationPath, 'json').then(createPersistentJsonFile, createPersistentJsonFile);
-	}
-
-	// Create json file in 'json' directory.
-	function createPersistentJsonFile() {
-		$cordovaFile.createFile(persistentFilePath, fileName, true).then(function(success) {}, function(error) {
-			console.log('createFile error', error);
-		});
-	}
-
 	/**
 	 * Print completed training from local storage.
 	 */
-	this.printStorage = function() {
+	this.printStorage = function () {
 		console.log('Completed data in local storage:', this.getCompleted());
 		console.log('Persistent user data in memory:', userData);
 		console.log('Procedural user data in memory:', trainingData);
@@ -530,14 +477,14 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Determine whether the object is an empty object.
 	 */
-	var isEmptyObject = function(obj) {
+	var isEmptyObject = function (obj) {
 		return JSON.stringify(obj) === JSON.stringify({});
 	};
 
 	/**
 	 * Determine whether the item is a training item.
 	 */
-	var isTrainingItem = function(item) {
+	var isTrainingItem = function (item) {
 		return item.hasOwnProperty('ExerciseId');
 	};
 
@@ -546,7 +493,7 @@ var storageService = function($rootScope, $window, $cordovaFile, $interval, devi
 	/**
 	 * Return a random key generated from a set of ASCII characters, to use with the sjcl encryption-process.
 	 */
-	var getRandomKey = function() {
+	var getRandomKey = function () {
 		var key = "";
 		for (var i = 0; i < 10; i++) {
 			var random = minASCII + (Math.random() * (maxASCII - minASCII));

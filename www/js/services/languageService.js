@@ -1,29 +1,40 @@
 // This is a service which gets and sets the chosen language and the appropriate text to display, where needed.
 
-var languageService = function($rootScope, $timeout, storageService) {
+var languageService = function ($rootScope, $timeout, storageService) {
 	var self = this;
 
 	self.langs = [];
 	self.text = {};
 	self.lang = 'da_DK';
 
-	document.addEventListener('deviceready', function() {
+	(function init() {
 		loadData();
-		$rootScope.$on('initEvent', function() {
-			var lang = storageService.getSelectedLanguage();
-			if (!lang) {
-				self.lang = 'da_DK';
-				storageService.setSelectedLanguage(self.lang);
-			} else {
-				self.lang = lang;
-			}
-		});
-	}, false);
+		var lang = storageService.getSelectedLanguage();
+		if (!lang) {
+			self.lang = 'da_DK';
+			storageService.setSelectedLanguage(self.lang);
+		} else {
+			self.lang = lang;
+		}
+	})();
+
+//	document.addEventListener('deviceready', function () {
+//		loadData();
+//		$rootScope.$on('initEvent', function () {
+//			var lang = storageService.getSelectedLanguage();
+//			if (!lang) {
+//				self.lang = 'da_DK';
+//				storageService.setSelectedLanguage(self.lang);
+//			} else {
+//				self.lang = lang;
+//			}
+//		});
+//	}, false);
 
 	/**
 	 * Sets language equal to picked language from language menu.
 	 */
-	self.setLanguage = function(language) {
+	self.setLanguage = function (language) {
 		self.lang = language.tag;
 		storageService.setSelectedLanguage(self.lang);
 	};
@@ -31,7 +42,7 @@ var languageService = function($rootScope, $timeout, storageService) {
 	/**
 	 * Used in other classes to get appropriate text for titles and other strings, depending on selected language.
 	 */
-	self.getText = function(name) {
+	self.getText = function (name) {
 		if (!self.text) {
 			loadData();
 			return '';
@@ -46,10 +57,10 @@ var languageService = function($rootScope, $timeout, storageService) {
 	 * Loads appropriate data from content.json, depending on which language has been selected.
 	 */
 	function loadData() {
-		$.getJSON('data/content.json', function(data) {
+		$.getJSON('data/content.json', function (data) {
 			self.text = data;
 		});
-		$.getJSON('data/langs.json', function(data) {
+		$.getJSON('data/langs.json', function (data) {
 			self.langs = data;
 		});
 	}
