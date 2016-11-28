@@ -2,7 +2,6 @@ var persistentService = function() {
 
 	// Write to json file.
 	function storeItem(key, value, callback) {
-		// initPersistentJsonFile();
 		readPersistentJsonFile(function(data) {
 			data[key] = value;
 			$window.resolveLocalFileSystemURL(persistentFilePath, function(dir) {
@@ -23,7 +22,6 @@ var persistentService = function() {
 
 	// Read from json file.
 	function loadItem(key, callback) {
-		// initPersistentJsonFile();
 		readPersistentJsonFile(function(data) {
 			console.log('loadItem', data[key]);
 			callback(data[key]);
