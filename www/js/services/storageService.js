@@ -1,13 +1,28 @@
 // This is a service which can save and get needed data onto a physical device.
 
-var storageService = function ($rootScope, $window, $cordovaFile, $interval, deviceService) {
+var storageService = function ($rootScope, $window, $cordovaFile, $interval, deviceService, CacheFactory) {
 
 	const VT = 'VirtualTraining'
-	
+
 	var fileName = 'persistent.json';
 	var persistentFilePath;
 	var deviceApplicationPath;
 
+	document.addEventListener('deviceready', function () {
+		var start = performance.now();
+		console.log('@ Putting data into cache');
+		var testCache = CacheFactory('test');
+		testCache.put('data', {
+			name: 'test'
+		});
+		var done = performance.now();
+		var putTime = +(done - start);
+		console.log('@ Data stored in: ' + putTime.toFixed(2) + 'ms');
+		console.log(testCache.get('data'));
+		var end = performance.now();
+		var getTime = +(end - start - putTime);
+		console.log('@ Data read in: ' + getTime.toFixed(2) + 'ms');
+	});
 
 	//StorageService initialization for the deprecated persistent.json method.
 	//	document.addEventListener('deviceready', function () {

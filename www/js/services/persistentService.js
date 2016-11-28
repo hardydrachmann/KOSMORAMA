@@ -2,4 +2,4 @@ var persistentService = function() {
 
 };
 
-angular.module('virtualTraining').service('persistentService', persistentService);
+angular.module('virtualTrainingApp').service('persistentService', persistentService);

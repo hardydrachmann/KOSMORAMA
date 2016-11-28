@@ -8,28 +8,15 @@ var languageService = function ($rootScope, $timeout, storageService) {
 	self.lang = 'da_DK';
 
 	(function init() {
-		loadData();
-		var lang = storageService.getSelectedLanguage();
-		if (!lang) {
-			self.lang = 'da_DK';
-			storageService.setSelectedLanguage(self.lang);
-		} else {
-			self.lang = lang;
-		}
-	})();
-
-//	document.addEventListener('deviceready', function () {
 //		loadData();
-//		$rootScope.$on('initEvent', function () {
-//			var lang = storageService.getSelectedLanguage();
-//			if (!lang) {
-//				self.lang = 'da_DK';
-//				storageService.setSelectedLanguage(self.lang);
-//			} else {
-//				self.lang = lang;
-//			}
-//		});
-//	}, false);
+//		var lang = storageService.getSelectedLanguage();
+//		if (!lang) {
+//			self.lang = 'da_DK';
+//			storageService.setSelectedLanguage(self.lang);
+//		} else {
+//			self.lang = lang;
+//		}
+	})();
 
 	/**
 	 * Sets language equal to picked language from language menu.

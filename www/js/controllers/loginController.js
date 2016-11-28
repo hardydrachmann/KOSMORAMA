@@ -8,42 +8,21 @@ var loginCtrl = function ($rootScope, $state, $timeout, $cordovaNetwork, $window
 	 * On launch, check if a user exist in local storage. If so, decrypt user, then place this user on the scope and login.
 	 */
 	(function init() {
-		screenNumber = storageService.getUserScreenNumber();
-		if (screenNumber) {
-			if (deviceService.device) {
-				var network = $cordovaNetwork.getNetwork();
-				if (network === 'wifi' || network === '3g' || network === '4g') {
-					ctrl.login();
-				} else {
-					$state.go('home');
-				}
-			} else {
-				ctrl.login();
-			}
-		}
+//		screenNumber = storageService.getUserScreenNumber();
+//		if (screenNumber) {
+//			if (deviceService.device) {
+//				var network = $cordovaNetwork.getNetwork();
+//				if (network === 'wifi' || network === '3g' || network === '4g') {
+//					ctrl.login();
+//				} else {
+//					$state.go('home');
+//				}
+//			} else {
+//				ctrl.login();
+//			}
+//		}
 	})();
-
 	
-	// Initialization for the deprecated persistent.json storage method.
-	
-	//	document.addEventListener('deviceready', function () {
-	//		$rootScope.$on('initEvent', function () {
-	//			screenNumber = storageService.getUserScreenNumber();
-	//			if (screenNumber) {
-	//				if (deviceService.device) {
-	//					var network = $cordovaNetwork.getNetwork();
-	//					if (network === 'wifi' || network === '3g' || network === '4g') {
-	//						ctrl.login();
-	//					} else {
-	//						$state.go('home');
-	//					}
-	//				} else {
-	//					ctrl.login();
-	//				}
-	//			}
-	//		});
-	//	});
-
 	/**
 	 * If user does not exist, check the DB for a user with the entered login id.
 	 * If this user exist, encrypt the login id in local storage using a random key.

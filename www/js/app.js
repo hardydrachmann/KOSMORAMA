@@ -4,9 +4,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 angular
-	.module('virtualTrainingApp', ['ionic', 'ngCordova', 'angular-svg-round-progressbar'])
-	.run(function($ionicPlatform) {
-		$ionicPlatform.ready(function() {
+	.module('virtualTrainingApp', ['ionic', 'ngCordova', 'angular-cache', 'angular-svg-round-progressbar'])
+	.run(function ($ionicPlatform) {
+		$ionicPlatform.ready(function () {
 			if (window.cordova) {
 				screen.lockOrientation('portrait');
 				window.plugins.insomnia.keepAwake();
@@ -25,12 +25,12 @@ angular
 				StatusBar.styleDefault();
 			}
 		});
-		$ionicPlatform.registerBackButtonAction(function(e) {
+		$ionicPlatform.registerBackButtonAction(function (e) {
 			e.preventDefault();
 			return false;
 		}, 101);
 	})
-	.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $sceDelegateProvider) {
+	.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $sceDelegateProvider, CacheFactoryProvider) {
 
 		$stateProvider.state('home', {
 			url: '/home',
@@ -101,6 +101,10 @@ angular
 			'self',
 			'https://welfaredenmark.blob.core.windows.net/**'
 		]);
+
+		angular.extend(CacheFactoryProvider.defaults, {
+			maxAge: 3600000
+		});
 
 		// Disable 'swipe' back function.
 		$ionicConfigProvider.views.swipeBackEnabled(false);
