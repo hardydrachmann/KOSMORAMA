@@ -5,10 +5,8 @@ node_modules/
 platforms/
 plugins/
 lib/
-ionic.config.json
 .io-config.json
 **/.DS_Store
-ionic.project
 resources/ios
 resources/android
 npm-debug.log
