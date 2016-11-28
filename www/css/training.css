@@ -21,3 +21,7 @@
 .icon-position {
     left: 0.5vh;
 }
+
+video {
+	display: none;
+}

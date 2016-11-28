@@ -8,29 +8,29 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 	var persistentFilePath;
 	var deviceApplicationPath;
 
-	document.addEventListener('deviceready', function () {
-		var start = performance.now();
-		console.log('@ Putting data into cache');
-		var testCache = CacheFactory('test');
-		testCache.put('data', {
-			name: 'test'
-		});
-		var done = performance.now();
-		var putTime = +(done - start);
-		console.log('@ Data stored in: ' + putTime.toFixed(2) + 'ms');
-		console.log(testCache.get('data'));
-		var end = performance.now();
-		var getTime = +(end - start - putTime);
-		console.log('@ Data read in: ' + getTime.toFixed(2) + 'ms');
-	});
-
-	//StorageService initialization for the deprecated persistent.json method.
 	//	document.addEventListener('deviceready', function () {
-	//		deviceApplicationPath = deviceService.getDeviceApplicationPath();
-	//		persistentFilePath = deviceApplicationPath + 'json';
-	//		initPersistentJsonFile();
-	//		verifyData();
-	//	}, false);
+	//		var start = performance.now();
+	//		console.log('@ Putting data into cache');
+	//		var testCache = CacheFactory('test');
+	//		testCache.put('data', {
+	//			name: 'test'
+	//		});
+	//		var done = performance.now();
+	//		var putTime = +(done - start);
+	//		console.log('@ Data stored in: ' + putTime.toFixed(2) + 'ms');
+	//		console.log(testCache.get('data'));
+	//		var end = performance.now();
+	//		var getTime = +(end - start - putTime);
+	//		console.log('@ Data read in: ' + getTime.toFixed(2) + 'ms');
+	//	});
+
+	//	StorageService initialization for the deprecated persistent.json method.
+	//		document.addEventListener('deviceready', function () {
+	//			deviceApplicationPath = deviceService.getDeviceApplicationPath();
+	//			persistentFilePath = deviceApplicationPath + 'json';
+	//			initPersistentJsonFile();
+	//			verifyData();
+	//		}, false);
 
 	/**
 	 * User meta data.
@@ -99,9 +99,9 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 	 * Verify that the service has data. If not acquire it from local storage.
 	 */
 	var verifyData = function () {
-		console.log('Verifying training data', trainingData);
+		//		console.log('Verifying training data', trainingData);
 		if (isEmptyObject(trainingData)) {
-			console.log('Verifying user data', userData);
+			//			console.log('Verifying user data', userData);
 			if (isEmptyObject(userData)) {
 				loadUserData();
 			}
@@ -156,7 +156,7 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 		} else {
 			console.warn('Currently no training data to assign.');
 		}
-		console.log('Initialized training data:', trainingData);
+		//		console.log('Initialized training data:', trainingData);
 	};
 
 	/**
@@ -422,6 +422,7 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 	 * At the last item in the pass, shift the array twice to remove the header which each pass has.
 	 */
 	this.complete = function (trainingReport) {
+		this.evaluateLastItem();
 		if (!this.completed[this.passCount]) {
 			this.completed[this.passCount] = getCompletedTemplate();
 		}
@@ -459,12 +460,7 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 	 * This is why index 1 and 2 are used as opposed to 0 and 1.
 	 */
 	this.nextTraining = function () {
-		// Is this the last pass item?
-		var isLastItem = userData.training[2] == undefined;
-		if (!isLastItem) {
-			isLastItem = !isTrainingItem(userData.training[2]);
-		}
-		trainingData.isLastPassItem = isLastItem;
+		this.evaluateLastItem();
 		// Assess the current training item.
 		trainingData.currentTraining = userData.training[1];
 		// Prepare the data for the current training pass.
@@ -475,9 +471,30 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 				painLevel: null,
 				message: null
 			};
+			console.log('Next training list', userData.training);
 			return userData.training;
 		}
 		return [];
+	};
+
+	this.evaluateLastItem = function () {
+		// Is this the last pass item?
+		var isLastItem = userData.training[2] == undefined;
+		if (!isLastItem) {
+			isLastItem = !isTrainingItem(userData.training[2]) && isToday(userData.training[1].date);
+		}
+		trainingData.isLastPassItem = isLastItem;
+	}
+
+	/**
+	 * Compare the exercise date with current date, and return true if date is the same.
+	 */
+	function isToday(date) {
+		var dateToday = new Date();
+		if (date && date.setHours(0, 0, 0, 0) == dateToday.setHours(0, 0, 0, 0)) {
+			return true;
+		}
+		return false;
 	};
 
 	/**

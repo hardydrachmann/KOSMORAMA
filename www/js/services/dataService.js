@@ -101,6 +101,7 @@ var dataService = function($http, deviceService, mockService) {
 				}
 			}
 			if (callback) {
+				console.log('Get training:', train);
 				callback(train);
 			}
 		}).error(function(trainingData, status, headers, config) {
@@ -135,6 +136,7 @@ var dataService = function($http, deviceService, mockService) {
 				'Content-Type': 'application/x-www-form-urlencoded'
 			}
 		}).success(function(trainingData) {
+			console.log(trainingReport);
 			if (callback) {
 				callback(trainingData);
 			}

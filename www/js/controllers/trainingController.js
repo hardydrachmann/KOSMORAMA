@@ -10,15 +10,21 @@ var trainingCtrl = function ($rootScope, $state, $timeout, $ionicHistory, $ionic
 	(function init() {
 		var currentState = $ionicHistory.currentView().stateName;
 		stateAction(currentState);
+		$timeout(function () {
+			$('video').css('display', 'block');
+		}, 1000);
 		ctrl.currentTraining = storageService.getCurrentTraining();
 		$ionicPlatform.on('pause', function () {
-			if (currentState === 'trainingDemo') {
-				$('video').get(0).pause();
-				if (deviceService.isAndroid()) {
-					$('audio').get(0).pause();
-				} else {
-					mediaService.pauseIosAudio();
+			if (currentState.startsWith('training')) {
+				if (currentState === 'trainingDemo') {
+					$('video').get(0).pause();
+					if (deviceService.isAndroid()) {
+						$('audio').get(0).pause();
+					} else {
+						mediaService.pauseIosAudio();
+					}
 				}
+				$state.go('trainingPlan');
 			}
 		});
 		$ionicPlatform.on('resume', function () {

@@ -1,6 +1,8 @@
 var tabsCtrl = function ($rootScope, $state, $timeout, $ionicHistory, $ionicSideMenuDelegate, languageService, tabsService, storageService) {
 	var ctrl = this;
 
+	var continueLock = false;
+
 	/**
 	 * Expand the left side menu.
 	 */
@@ -30,37 +32,43 @@ var tabsCtrl = function ($rootScope, $state, $timeout, $ionicHistory, $ionicSide
 	 * Also broadcasts a continueEvent.
 	 */
 	ctrl.continue = function () {
-		$rootScope.$broadcast('continueEvent');
-		var state = $ionicHistory.currentView().stateName;
-		switch (state) {
-		case 'trainingPlan':
-			$state.go('trainingDemo');
-			break;
-		case 'trainingDemo':
-			$state.go('training');
-			break;
-		case 'training':
-			$state.go('feedback');
-			break;
-		case 'feedback':
-			$timeout(function () {
-				if (storageService.isLastPassItem()) {
-					$state.go('painLevel');
+		if (!continueLock) {
+			$rootScope.$broadcast('continueEvent');
+			var state = $ionicHistory.currentView().stateName;
+			switch (state) {
+			case 'trainingPlan':
+				$state.go('trainingDemo');
+				break;
+			case 'trainingDemo':
+				$state.go('training');
+				break;
+			case 'training':
+				$state.go('feedback');
+				break;
+			case 'feedback':
+				$timeout(function () {
+					if (storageService.isLastPassItem()) {
+						$state.go('painLevel');
+					} else {
+						$state.go('trainingPlan');
+					}
+				}, 100);
+				break;
+			case 'painLevel':
+				if (storageService.getAllowMessage()) {
+					$state.go('notes');
 				} else {
-					$state.go('trainingPlan');
+					$state.go('home');
 				}
-			}, 100);
-			break;
-		case 'painLevel':
-			if (storageService.getAllowMessage()) {
-				$state.go('notes');
-			} else {
+				break;
+			case 'notes':
 				$state.go('home');
+				break;
 			}
-			break;
-		case 'notes':
-			$state.go('home');
-			break;
+			continueLock = true;
+			$timeout(function () {
+				continueLock = false;
+			}, 1000);
 		}
 	};
 	tabsService.continue = ctrl.continue;

@@ -8,14 +8,14 @@ var languageService = function ($rootScope, $timeout, storageService) {
 	self.lang = 'da_DK';
 
 	(function init() {
-//		loadData();
-//		var lang = storageService.getSelectedLanguage();
-//		if (!lang) {
-//			self.lang = 'da_DK';
-//			storageService.setSelectedLanguage(self.lang);
-//		} else {
-//			self.lang = lang;
-//		}
+		loadData();
+		var lang = storageService.getSelectedLanguage();
+		if (!lang) {
+			self.lang = 'da_DK';
+			storageService.setSelectedLanguage(self.lang);
+		} else {
+			self.lang = lang;
+		}
 	})();
 
 	/**
