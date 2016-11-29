@@ -1,4 +1,4 @@
-var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, blobService, dataService, loadingService, mediaService, downloadService, deviceService, tabsService) {
+var homeCtrl = function ($rootScope, $interval, $state, $timeout, $ionicHistory, $cordovaNetwork, languageService, storageService, popupService, blobService, dataService, loadingService, mediaService, downloadService, deviceService, tabsService) {
 	var ctrl = this;
 
 	var syncHasFailed = false;
@@ -20,7 +20,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 	/**
 	 * Compare the exercise date with current date, and return true if date is the same.
 	 */
-	ctrl.isToday = function(date) {
+	ctrl.isToday = function (date) {
 		var dateToday = new Date();
 		if (date && date.setHours(0, 0, 0, 0) == dateToday.setHours(0, 0, 0, 0)) {
 			return true;
@@ -33,7 +33,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 	 * if success, advance to training plan view.
 	 * if error, alert user and return.
 	 */
-	ctrl.startButton = function() {
+	ctrl.startButton = function () {
 		if (syncHasFailed) {
 			popupService.alertPopup(languageService.getText('syncHasFailed'));
 			return;
@@ -57,7 +57,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 			if (networkState === 'wifi') {
 				doSync();
 			} else if (networkState === '4g' || networkState === '3g') {
-				popupService.confirmPopup(languageService.getText('noWifiSyncHeader'), languageService.getText('noWifiSyncTitle'), function() {
+				popupService.confirmPopup(languageService.getText('noWifiSyncHeader'), languageService.getText('noWifiSyncTitle'), function () {
 					doSync();
 				});
 			}
@@ -73,17 +73,19 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 		syncHasFailed = false;
 		if (ctrl.idle) {
 			console.log('Assessing network state...');
-			syncTimeoutPromise = $timeout(function() {
+			syncTimeoutPromise = $timeout(function () {
 				syncHasFailed = true;
 				done();
 				popupService.alertPopup(languageService.getText('syncError'));
 			}, 300000);
 			ctrl.idle = false;
-			if (storageService.getCompleted().length) {
-				syncData();
-			} else {
-				getData();
-			}
+			storageService.getCompleted(function (completed) {
+				if (completed.length) {
+					syncData();
+				} else {
+					getData();
+				}
+			})
 		}
 	}
 
@@ -91,27 +93,28 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 	 * Syncs data to the database and updates current training plan.
 	 */
 	function syncData() {
-		var data = storageService.getCompleted();
-		var feedbackCollection = [];
-		var trainingReportCollection = [];
-		console.log('Syncing stored data.', data);
-		if (data.length) {
-			loadingService.loaderShow();
-			for (var i = 0; i < data.length; i++) {
-				if (data[i]) {
-					for (var x = 0; x < data[i].reports.length; x++) {
-						trainingReportCollection.push(data[i].reports[x][0]);
+		storageService.getCompleted(function (data) {
+			var feedbackCollection = [];
+			var trainingReportCollection = [];
+			console.log('Syncing stored data.', data);
+			if (data.length) {
+				loadingService.loaderShow();
+				for (var i = 0; i < data.length; i++) {
+					if (data[i]) {
+						for (var x = 0; x < data[i].reports.length; x++) {
+							trainingReportCollection.push(data[i].reports[x][0]);
+						}
+						feedbackCollection.push(data[i].passData);
 					}
-					feedbackCollection.push(data[i].passData);
 				}
-			}
-			dataService.postData(trainingReportCollection, function(result) {
+				dataService.postData(trainingReportCollection, function (result) {
+					getData();
+				});
+				dataService.postFeedback(feedbackCollection);
+			} else {
 				getData();
-			});
-			dataService.postFeedback(feedbackCollection);
-		} else {
-			getData();
-		}
+			}
+		});
 	}
 
 	/**
@@ -120,7 +123,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 	function getData() {
 		loadingService.loaderShow();
 		storageService.clearTrainingData();
-		dataService.getUser(storageService.getUserScreenNumber(), function(result) {
+		dataService.getUser(storageService.getUserScreenNumber(), function (result) {
 			ctrl.nameOfUser = result.Name;
 			getTrainingFromDB(result.Id);
 			$rootScope.$broadcast('postSync');
@@ -131,7 +134,7 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 	 * Get training items from service and download media.
 	 */
 	function getTrainingFromDB(userId) {
-		dataService.getTraining(userId, function(data) {
+		dataService.getTraining(userId, function (data) {
 			if (data && data.length) {
 				console.log('All training get!');
 				if (deviceService.device) {
@@ -151,19 +154,19 @@ var homeCtrl = function($rootScope, $interval, $state, $timeout, $ionicHistory, 
 	 * Remove all media files on device, then download all new media files.
 	 */
 	function downloadTraining(trainings) {
-		mediaService.removeMedia(function() {
+		mediaService.removeMedia(function () {
 			ctrl.getAudio = '';
 			if (trainings.length) {
 				var toDownload = trainings.length;
-				var downloadDone = function() {
+				var downloadDone = function () {
 					toDownload--;
 				};
 				console.log('INIT DOWNLOAD ', toDownload);
-				downloadService.createMediaFolders(trainings, function() {
+				downloadService.createMediaFolders(trainings, function () {
 					for (var i = 0; i < trainings.length; i++) {
 						downloadService.downloadMedia(trainings[i].ExerciseId, downloadDone);
 					}
-					var downloadInterval = $interval(function() {
+					var downloadInterval = $interval(function () {
 						console.log('DOWNLOAD BUNDLES...', toDownload);
 						if (toDownload <= 0) {
 							console.log('Download completed');

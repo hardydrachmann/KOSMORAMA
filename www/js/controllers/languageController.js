@@ -1,4 +1,4 @@
-var languageCtrl = function($rootScope, $state, $ionicHistory, $timeout, languageService, dataService, storageService) {
+var languageCtrl = function($rootScope, $state, $ionicHistory, $timeout, languageService, dataService) {
 	var ctrl = this;
 
 	ctrl.service = languageService;

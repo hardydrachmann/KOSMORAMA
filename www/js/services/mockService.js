@@ -19,7 +19,8 @@ var mockService = function() {
 		}]
 	};
 
-	var mockTraining = [{
+	var mockTraining = [
+		{
 		date: new Date(),
 		ExeciseUrl: "https://www.youtube.com/v/csa_VMnnO2U?version=2&rel=0&autohide=1&showinfo=0&theme=light&loop=1&modestbranding=1",
 		ExerciseId: "NoKinect_03",
@@ -127,7 +128,7 @@ var mockService = function() {
      * Mock version of the getUser method.
      */
 	this.getUser = function(userScreenNumber, callback) {
-		console.log('MOCK: Get user with screen number', userScreenNumber);
+//		console.log('MOCK: Get user with screen number', userScreenNumber);
 		if (callback) {
 			callback(mockballeman);
 		}
@@ -137,7 +138,7 @@ var mockService = function() {
      * Mock version of the getTraining method.
      */
 	this.getTraining = function(UserId, callback) {
-		console.log('MOCK: Get training for user with id', UserId);
+//		console.log('MOCK: Get training for user with id', UserId);
 		if (callback) {
 			callback(mockTraining);
 		}
@@ -147,7 +148,7 @@ var mockService = function() {
      * Mock version of the postData method.
      */
 	this.postData = function(trainingReportCollection, callback) {
-		console.log('MOCK: Report received by database', trainingReportCollection);
+//		console.log('MOCK: Report received by database', trainingReportCollection);
 		if (callback) {
 			callback();
 		}
@@ -157,7 +158,7 @@ var mockService = function() {
      * Mock version of the postNoteData method.
      */
 	this.postNoteData = function(noteId, callback) {
-		console.log('MOCK: Message marked as read by database', noteId);
+//		console.log('MOCK: Message marked as read by database', noteId);
 		if (callback) {
 			callback({});
 		}
@@ -167,7 +168,7 @@ var mockService = function() {
      * Mock version of the postFeedback method.
      */
 	this.postFeedback = function(feedbackCollection, callback) {
-		console.log('MOCK: Training pass feedback received by database', feedbackCollection);
+//		console.log('MOCK: Training pass feedback received by database', feedbackCollection);
 		if (callback) {
 			callback();
 		}

@@ -12,7 +12,7 @@ var feedbackCtrl = function ($state, tabsService, dataService, loadingService, s
 			"Id": training.TrainingId,
 			"Exercise": training.ExerciseId,
 			"Score": stats,
-			"Time": training.TimeSet,
+			"Time": training.TimeSet * 60,
 			"Repetitions": [],
 			"IsMobile": true,
 			"Questions": null

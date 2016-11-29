@@ -102,10 +102,6 @@ angular
 			'https://welfaredenmark.blob.core.windows.net/**'
 		]);
 
-		angular.extend(CacheFactoryProvider.defaults, {
-			maxAge: 3600000
-		});
-
 		// Disable 'swipe' back function.
 		$ionicConfigProvider.views.swipeBackEnabled(false);
 	});

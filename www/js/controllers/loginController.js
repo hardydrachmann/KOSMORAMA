@@ -22,7 +22,7 @@ var loginCtrl = function ($rootScope, $state, $timeout, $cordovaNetwork, $window
 	/**
 	 * On launch, check if a user exist in local storage. If so, decrypt user, then place this user on the scope and login.
 	 */
-	(function init() {
+	$rootScope.$on('initEvent', function() {
 		screenNumber = storageService.getUserScreenNumber();
 		if (screenNumber) {
 			if (deviceService.device) {
@@ -36,7 +36,7 @@ var loginCtrl = function ($rootScope, $state, $timeout, $cordovaNetwork, $window
 				ctrl.login();
 			}
 		}
-	})();
+	});
 
 	function doLogin() {
 		if (screenNumber) {

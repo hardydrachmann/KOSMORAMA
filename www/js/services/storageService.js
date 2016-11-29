@@ -1,37 +1,17 @@
 // This is a service which can save and get needed data onto a physical device.
 
-var storageService = function ($rootScope, $window, $cordovaFile, $interval, deviceService, CacheFactory) {
+var storageService = function ($rootScope, $timeout, $window, $cordovaFile, $interval, deviceService, sqlService) {
 
-	const VT = 'VirtualTraining'
+	//	const VT = 'VirtualTraining'
+	//
+	//	var fileName = 'persistent.json';
+	//	var persistentFilePath;
+	//	var deviceApplicationPath;
 
-	var fileName = 'persistent.json';
-	var persistentFilePath;
-	var deviceApplicationPath;
-
-	//	document.addEventListener('deviceready', function () {
-	//		var start = performance.now();
-	//		console.log('@ Putting data into cache');
-	//		var testCache = CacheFactory('test');
-	//		testCache.put('data', {
-	//			name: 'test'
-	//		});
-	//		var done = performance.now();
-	//		var putTime = +(done - start);
-	//		console.log('@ Data stored in: ' + putTime.toFixed(2) + 'ms');
-	//		console.log(testCache.get('data'));
-	//		var end = performance.now();
-	//		var getTime = +(end - start - putTime);
-	//		console.log('@ Data read in: ' + getTime.toFixed(2) + 'ms');
-	//	});
-
-	//	StorageService initialization for the deprecated persistent.json method.
-	//		document.addEventListener('deviceready', function () {
-	//			deviceApplicationPath = deviceService.getDeviceApplicationPath();
-	//			persistentFilePath = deviceApplicationPath + 'json';
-	//			initPersistentJsonFile();
-	//			verifyData();
-	//		}, false);
-
+	(function init() {
+		verifyData();
+	})();
+	
 	/**
 	 * User meta data.
 	 */
@@ -98,17 +78,19 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 	/**
 	 * Verify that the service has data. If not acquire it from local storage.
 	 */
-	var verifyData = function () {
+	function verifyData () {
 		//		console.log('Verifying training data', trainingData);
 		if (isEmptyObject(trainingData)) {
 			//			console.log('Verifying user data', userData);
 			if (isEmptyObject(userData)) {
-				loadUserData();
-			}
-			if (userData.training) {
-				initTrainingData();
-			} else {
-				console.warn('User data initialized, but training data missing. Initializing training data.');
+				loadUserData(function () {
+					if (userData.training) {
+						initTrainingData();
+						$rootScope.$broadcast('initEvent');
+					} else {
+						console.warn('User data initialized, but training data missing. Initializing training data.');
+					}
+				});
 			}
 		}
 	};
@@ -116,33 +98,29 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 	/**
 	 * Load and decrypt user data from local storage.
 	 */
-	var loadUserData = function () {
-		var decryptionKey = $window.localStorage.getItem(VT + 'Key');
-		var encryptedData = $window.localStorage.getItem(VT + 'UserData');
-		if (decryptionKey && encryptedData) {
-			var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
-			userData = JSON.parse(decryptedData);
-			// console.log('Loaded user data:', userData);
-		}
-		//	var decryptionKey, encryptedData;
-		//	loadItem('Key', function (data) {
-		//		decryptionKey = data;
-		//		loadItem('UserData', function (data) {
-		//			encryptedData = data;
-		//			if (decryptionKey && encryptedData) {
-		//				var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
-		//				userData = JSON.parse(decryptedData);
-		//				$rootScope.$broadcast('initEvent');
-		//			}
-		//		});
-		//	});
+	var loadUserData = function (callback) {
+		var decryptionKey, encryptedData;
+		sqlService.load('Key', function (value) {
+			decryptionKey = value;
+			sqlService.load('UserData', function (value) {
+				encryptedData = value;
+				if (decryptionKey && encryptedData) {
+					var decryptedData = sjcl.decrypt(decryptionKey, encryptedData);
+					userData = JSON.parse(decryptedData);
+					callback();
+					// console.log('Loaded user data:', userData);
+				};
+			});
+		});
+		//		var decryptionKey = $window.localStorage.getItem(VT + 'Key');
+		//		var encryptedData = $window.localStorage.getItem(VT + 'UserData');
 	};
 
 	/**
 	 * Initialize the training data from the user meta data and prepare the first training pass.
 	 */
 	var initTrainingData = function () {
-		console.log('Ready to init:', userData);
+		//		console.log('Ready to init:', userData);
 		trainingData = getTrainingDataTemplate();
 		var n = userData.training.length;
 		if (n > 1) {
@@ -154,7 +132,7 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 				trainingData.isLastPassItem = true;
 			}
 		} else {
-			console.warn('Currently no training data to assign.');
+			//			console.warn('Currently no training data to assign.');
 		}
 		//		console.log('Initialized training data:', trainingData);
 	};
@@ -167,32 +145,23 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 		var userDataString = JSON.stringify(userData);
 		var encryptionKey = getRandomKey();
 		var encryptedData = sjcl.encrypt(encryptionKey, userDataString);
-		//		console.log('userDataString', userDataString);
-		//		console.log('encryptionKey', encryptionKey);
-		//		console.log('encryptedData', encryptedData);
-		//		storeItem('Key', encryptionKey, function() {
-		//			storeItem('UserData', encryptedData);
-		//		});
-		$window.localStorage.setItem(VT + 'Key', encryptionKey);
-		$window.localStorage.setItem(VT + 'UserData', encryptedData);
+		sqlService.store('Key', encryptionKey, function () {
+			sqlService.store('UserData', encryptedData, function () {
+//				printStorage();
+			});
+		});
+		//		$window.localStorage.setItem(VT + 'Key', encryptionKey);
+		//		$window.localStorage.setItem(VT + 'UserData', encryptedData);
 	};
 
 	/**
 	 * Clear all persistent user data from the device.
 	 */
 	this.clearUserData = function () {
-		//		if (deviceService.device) {
-		//			if ($cordovaFile.checkDir(deviceApplicationPath, 'json')) {
-		//				$cordovaFile.removeRecursively(deviceApplicationPath, 'json');
-		//				var removeInterval = $interval(function() {
-		//					if ($cordovaFile.checkDir(deviceApplicationPath, 'json')) {
-		//						$interval.cancel(removeInterval);
-		//					}
-		//				}, 1000);
-		//			}
-		//		}
-		$window.localStorage.removeItem(VT + 'Key');
-		$window.localStorage.removeItem(VT + 'UserData');
+		sqlService.remove('Key');
+		sqlService.remove('UserData');
+		//		$window.localStorage.removeItem(VT + 'Key');
+		//		$window.localStorage.removeItem(VT + 'UserData');
 		userData = {};
 	};
 
@@ -252,7 +221,7 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 	 */
 	this.getUserScreenNumber = function (back) {
 		verifyData();
-		console.log('Getting userScreenNumber', userData.userScreenNumber);
+		//		console.log('Getting userScreenNumber', userData.userScreenNumber);
 		return userData.userScreenNumber;
 	};
 
@@ -318,7 +287,7 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 	 */
 	this.getCurrentPainLevel = function () {
 		verifyData();
-		console.log('Getting current Pain Level', trainingData.passData.painLevel);
+		//		console.log('Getting current Pain Level', trainingData.passData.painLevel);
 		return trainingData.passData.painLevel;
 	};
 
@@ -397,23 +366,22 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 	/**
 	 * Get the completed trainings from local storage.
 	 */
-	this.getCompleted = function () {
+	this.getCompleted = function (callback) {
 		// console.log('Completed data in memory: ', this.completed);
 		if (!this.completed.length) {
-			var stored = $window.localStorage.getItem(VT + 'Completed');
+			// Quick hack for escaping service and still retaining it's variables.
+			var service = this;
 			var stored;
-			//			loadItem('Completed', function (data) {
-			//				stored = data;
-			//				console.log('loadItem', stored);
-			//			});
-			// console.log('Getting completed data as string from storage.', stored);
-			if (stored) {
-				stored = JSON.parse(stored);
-				this.completed = stored;
-			}
+			//			var stored = $window.localStorage.getItem(VT + 'Completed');
+			sqlService.load('Completed', function (result) {
+				if (result) {
+					var stored = JSON.parse(result);
+					service.completed = stored;
+				}
+			})
 		}
 		// console.log('Returning completed data:', this.completed);
-		return this.completed;
+		callback(this.completed);
 	};
 
 	/**
@@ -439,14 +407,14 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 	 * Save the current pass data in local storage.
 	 */
 	this.retainCurrentPassData = function () {
-		console.log('Retaining pass data:', this.completed[this.passCount]);
+		//		console.log('Retaining pass data:', this.completed[this.passCount]);
 		if (!this.completed[this.passCount]) {
 			console.error('Pretty sure this is not ever supposed to happen!');
 		}
 		this.completed[this.passCount].passData = trainingData.passData;
 		trainingData.passData = {};
-		$window.localStorage.setItem(VT + 'Completed', JSON.stringify(this.completed));
-		//		storeItem('Completed', JSON.stringify(this.completed));
+		//		$window.localStorage.setItem(VT + 'Completed', JSON.stringify(this.completed));
+		sqlService.store('Completed', JSON.stringify(this.completed));
 		trainingData.currentTraining = {};
 		this.passCount++;
 	};
@@ -471,7 +439,7 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 				painLevel: null,
 				message: null
 			};
-			console.log('Next training list', userData.training);
+			//			console.log('Next training list', userData.training);
 			return userData.training;
 		}
 		return [];
@@ -500,8 +468,8 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 	/**
 	 * Print completed training from local storage.
 	 */
-	this.printStorage = function () {
-		console.log('Completed data in local storage:', this.getCompleted());
+	function printStorage() {
+		console.log('Completed data in local storage:', this.completed);
 		console.log('Persistent user data in memory:', userData);
 		console.log('Procedural user data in memory:', trainingData);
 	};
@@ -509,7 +477,7 @@ var storageService = function ($rootScope, $window, $cordovaFile, $interval, dev
 	/**
 	 * Determine whether the object is an empty object.
 	 */
-	var isEmptyObject = function (obj) {
+	function isEmptyObject (obj) {
 		return JSON.stringify(obj) === JSON.stringify({});
 	};
 
