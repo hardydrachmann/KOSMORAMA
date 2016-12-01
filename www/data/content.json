@@ -286,6 +286,10 @@
     "da_DK": "Synkroniserer træningsdata",
     "en_US": "Synchronizing training data"
   },
+  "spinnerLoginText": {
+    "da_DK": "Starter...",
+    "en_US": "Starting..."
+  },
   "trainingPausedIndicator": {
     "da_DK": "Pause",
     "en_US": "Pause"

@@ -13,6 +13,16 @@ var mediaService = function($ionicLoading, $timeout, languageService) {
 	};
 
 	/**
+	 * Shows Ionic loader.
+	 */
+	this.loaderShowLogin = function() {
+		$ionicLoading.show({
+			template: languageService.getText('spinnerLoginText'),
+			animation: 'fade-in'
+		});
+	};
+
+	/**
 	 * Hides Ionic Loader.
 	 */
 	this.loaderHide = function(time) {
