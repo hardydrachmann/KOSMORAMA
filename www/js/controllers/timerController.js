@@ -1,4 +1,4 @@
-var timerCtrl = function ($interval, $window, $timeout, $state, $ionicHistory, $ionicPlatform, $cordovaProgress, languageService, storageService, mediaService, tabsService, deviceService) {
+var timerCtrl = function($interval, $window, $timeout, $state, $ionicHistory, $ionicPlatform, $cordovaProgress, languageService, storageService, mediaService, tabsService, deviceService) {
 	var ctrl = this;
 
 	var pauseLock = false;
@@ -28,12 +28,11 @@ var timerCtrl = function ($interval, $window, $timeout, $state, $ionicHistory, $
 			time: ((currentTraining.TimeSet * 60) / currentTraining.Sets) + 1,
 			pause: (currentTraining.Pause * 60) + 1
 		};
-		ctrl.training.time = 6; // REMOVE THIS LINE!
 		$window.onresize = refreshRadius;
 		refreshRadius();
 		start(ctrl.training.time);
 		// When minimizing the application during training, return to the plan view.
-		$ionicPlatform.on('pause', function () {
+		$ionicPlatform.on('pause', function() {
 			if ($ionicHistory.currentView().stateName === 'training') {
 				ctrl.reset();
 				$state.go('trainingPlan');
@@ -44,14 +43,14 @@ var timerCtrl = function ($interval, $window, $timeout, $state, $ionicHistory, $
 	/**
 	 * Pause the timer if not in intermission. If paused, resume instead.
 	 */
-	ctrl.pause = function () {
+	ctrl.pause = function() {
 		var seconds = ctrl.training.time - ctrl.seconds;
 		if (ctrl.paused) {
 			ctrl.paused = false;
 			console.log('Resuming', seconds);
 			// Start incrementing.
 			incrementTimer();
-			counter = $interval(function () {
+			counter = $interval(function() {
 				incrementTimer();
 			}, 1000, seconds);
 			playMedia();
@@ -62,21 +61,21 @@ var timerCtrl = function ($interval, $window, $timeout, $state, $ionicHistory, $
 			$interval.cancel(counter);
 			counter = null;
 			// Let interval cancel before pausing video.
-			$timeout(function () {
+			$timeout(function() {
 				pauseMedia();
 			}, 100);
 			pauseLock = true;
-			$timeout(function () {
+			$timeout(function() {
 				pauseLock = false;
 			}, 2000);
 		}
-	}
+	};
 
 	/**
 	 * Reset the timer.
 	 */
-	ctrl.reset = function () {
-		console.log('Resetting...')
+	ctrl.reset = function() {
+		console.log('Resetting...');
 		$interval.cancel(counter);
 		counter = null;
 		ctrl.seconds = 0;
@@ -86,7 +85,7 @@ var timerCtrl = function ($interval, $window, $timeout, $state, $ionicHistory, $
 	/**
 	 * Returns an object containing remaining minutes and seconds.
 	 */
-	ctrl.formattedTime = function () {
+	ctrl.formattedTime = function() {
 		var remainingTime = ctrl.intermission ? ctrl.seconds : ctrl.training.time - ctrl.seconds;
 		var minutes = Math.floor(remainingTime / 60);
 		var seconds = remainingTime - (minutes * 60);
@@ -99,7 +98,7 @@ var timerCtrl = function ($interval, $window, $timeout, $state, $ionicHistory, $
 	/**
 	 * Get the appropriate play/pause icon.
 	 */
-	ctrl.getIcon = function () {
+	ctrl.getIcon = function() {
 		return ctrl.paused ? 'ion-play icon-position' : 'ion-pause';
 	};
 
@@ -110,7 +109,7 @@ var timerCtrl = function ($interval, $window, $timeout, $state, $ionicHistory, $
 		ctrl.capacity = time;
 		ctrl.seconds = ctrl.intermission ? time : 0;
 		incrementTimer();
-		counter = $interval(function () {
+		counter = $interval(function() {
 			incrementTimer();
 		}, 1000, time);
 		$('video').get(0).play();
@@ -196,7 +195,7 @@ var timerCtrl = function ($interval, $window, $timeout, $state, $ionicHistory, $
 					console.warn('Trying to invoke "play()" on non-existing player. This is probably happening due to incorrect browser navigation.');
 				}
 				// Timeout before changing view, so audio can finish playback, removing audio before progressing to eliminate bugs.
-				$timeout(function () {
+				$timeout(function() {
 					audioPlayer[0].remove();
 					tabsService.continue();
 				}, 1200);
