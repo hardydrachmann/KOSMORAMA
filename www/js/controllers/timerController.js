@@ -28,6 +28,7 @@ var timerCtrl = function ($interval, $window, $timeout, $state, $ionicHistory, $
 			time: ((currentTraining.TimeSet * 60) / currentTraining.Sets) + 1,
 			pause: (currentTraining.Pause * 60) + 1
 		};
+		ctrl.training.time = 6; // REMOVE THIS LINE!
 		$window.onresize = refreshRadius;
 		refreshRadius();
 		start(ctrl.training.time);

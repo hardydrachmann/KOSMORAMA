@@ -21,7 +21,7 @@ var sqlService = function () {
 		service.remove(key, function () {
 			db.transaction(function (tx) {
 				//				console.log('Storing...')
-				var statement = 'INSERT INTO ' + key + ' (value) VALUES (?)'
+				var statement = 'INSERT INTO ' + key + ' (value) VALUES (?)';
 				tx.executeSql(statement, [value], function (tx) {
 					onSuccess(arguments);
 					if (callback) {

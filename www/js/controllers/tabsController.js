@@ -46,13 +46,11 @@ var tabsCtrl = function ($rootScope, $state, $timeout, $ionicHistory, $ionicSide
 				$state.go('feedback');
 				break;
 			case 'feedback':
-				$timeout(function () {
-					if (storageService.isLastPassItem()) {
-						$state.go('painLevel');
-					} else {
-						$state.go('trainingPlan');
-					}
-				}, 100);
+				if (storageService.isLastPassItem()) {
+					$state.go('painLevel');
+				} else {
+					$state.go('trainingPlan');
+				}
 				break;
 			case 'painLevel':
 				if (storageService.getAllowMessage()) {

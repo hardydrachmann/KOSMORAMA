@@ -5,8 +5,6 @@ var dataService = function($http, deviceService, mockService) {
 	var url = 'http://176.62.203.178/Comm/DataService';
 	// var url = 'http://localhost:8080/Comm/DataService';
 
-	//var hardcodedScreenNumber = 'AA02';
-
 	// This function gets a user by the Screen number entered on login.
 	this.getUser = function(userScreenNumber, callback) {
 		if (deviceService.mock) {
@@ -136,6 +134,7 @@ var dataService = function($http, deviceService, mockService) {
 			}
 		}).success(function(trainingData) {
 			if (callback) {
+				console.log('Posted training data:', trainingData);
 				callback(trainingData);
 			}
 		}).error(function(trainingData, status, headers, config) {

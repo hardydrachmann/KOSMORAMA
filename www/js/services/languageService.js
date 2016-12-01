@@ -7,16 +7,16 @@ var languageService = function ($rootScope, $timeout, storageService) {
 	self.text = {};
 	self.lang = 'da_DK';
 
-	(function init() {
-		loadData();
-		var lang = storageService.getSelectedLanguage();
-		if (!lang) {
-			self.lang = 'da_DK';
+	loadData();
+
+	$rootScope.$on('initEvent', function () {
+		self.lang = storageService.getSelectedLanguage();
+		console.log('Storage Language', self.lang);
+		if (!self.lang) {
+			self.lang = self.langs[0].tag;
 			storageService.setSelectedLanguage(self.lang);
-		} else {
-			self.lang = lang;
 		}
-	})();
+	});
 
 	/**
 	 * Sets language equal to picked language from language menu.

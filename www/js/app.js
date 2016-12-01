@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 angular
-	.module('virtualTrainingApp', ['ionic', 'ngCordova', 'angular-cache', 'angular-svg-round-progressbar'])
+	.module('virtualTrainingApp', ['ionic', 'ngCordova', 'angular-svg-round-progressbar'])
 	.run(function ($ionicPlatform) {
 		$ionicPlatform.ready(function () {
 			if (window.cordova) {
@@ -30,7 +30,7 @@ angular
 			return false;
 		}, 101);
 	})
-	.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $sceDelegateProvider, CacheFactoryProvider) {
+	.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $sceDelegateProvider) {
 
 		$stateProvider.state('home', {
 			url: '/home',

@@ -11,7 +11,7 @@ var storageService = function ($rootScope, $timeout, $window, $cordovaFile, $int
 	(function init() {
 		verifyData();
 	})();
-	
+
 	/**
 	 * User meta data.
 	 */
@@ -78,15 +78,15 @@ var storageService = function ($rootScope, $timeout, $window, $cordovaFile, $int
 	/**
 	 * Verify that the service has data. If not acquire it from local storage.
 	 */
-	function verifyData () {
+	function verifyData() {
 		//		console.log('Verifying training data', trainingData);
-		if (isEmptyObject(trainingData)) {
+		if (!trainingData || isEmptyObject(trainingData)) {
 			//			console.log('Verifying user data', userData);
-			if (isEmptyObject(userData)) {
+			if (!userData || isEmptyObject(userData)) {
 				loadUserData(function () {
+					$rootScope.$broadcast('initEvent');
 					if (userData.training) {
 						initTrainingData();
-						$rootScope.$broadcast('initEvent');
 					} else {
 						console.warn('User data initialized, but training data missing. Initializing training data.');
 					}
@@ -98,7 +98,7 @@ var storageService = function ($rootScope, $timeout, $window, $cordovaFile, $int
 	/**
 	 * Load and decrypt user data from local storage.
 	 */
-	var loadUserData = function (callback) {
+	function loadUserData(callback) {
 		var decryptionKey, encryptedData;
 		sqlService.load('Key', function (value) {
 			decryptionKey = value;
@@ -147,7 +147,7 @@ var storageService = function ($rootScope, $timeout, $window, $cordovaFile, $int
 		var encryptedData = sjcl.encrypt(encryptionKey, userDataString);
 		sqlService.store('Key', encryptionKey, function () {
 			sqlService.store('UserData', encryptedData, function () {
-//				printStorage();
+				//				printStorage();
 			});
 		});
 		//		$window.localStorage.setItem(VT + 'Key', encryptionKey);
@@ -447,20 +447,33 @@ var storageService = function ($rootScope, $timeout, $window, $cordovaFile, $int
 
 	this.evaluateLastItem = function () {
 		// Is this the last pass item?
-		var isLastItem = userData.training[2] == undefined;
-		if (!isLastItem) {
-			isLastItem = !isTrainingItem(userData.training[2]) && isToday(userData.training[1].date);
+		var trainingItem = userData.training[2];
+		//		console.log('Evaluating training:', userData.training);
+		var hasNextItem = trainingItem != undefined;
+		//		console.log('Next item exists', hasNextItem, trainingItem);
+		if (hasNextItem) {
+			hasNextItem = isTrainingItem(trainingItem);
+			//			console.log('Next item is training item', hasNextItem, trainingItem);
+			if (hasNextItem) {
+				hasNextItem = isToday(trainingItem.date);
+				//				console.log('Next training item is for today', hasNextItem, trainingItem);
+			}
 		}
-		trainingData.isLastPassItem = isLastItem;
+		trainingData.isLastPassItem = !hasNextItem;
 	}
 
 	/**
 	 * Compare the exercise date with current date, and return true if date is the same.
 	 */
 	function isToday(date) {
-		var dateToday = new Date();
-		if (date && date.setHours(0, 0, 0, 0) == dateToday.setHours(0, 0, 0, 0)) {
-			return true;
+		if (date) {
+			var dateToday = new Date().setHours(0, 0, 0, 0);
+			date = date.setHours(0, 0, 0, 0);
+//			console.log('Training date', date);
+//			console.log('Today', dateToday);
+			if (date == dateToday) {
+				return true;
+			}
 		}
 		return false;
 	};
@@ -477,7 +490,7 @@ var storageService = function ($rootScope, $timeout, $window, $cordovaFile, $int
 	/**
 	 * Determine whether the object is an empty object.
 	 */
-	function isEmptyObject (obj) {
+	function isEmptyObject(obj) {
 		return JSON.stringify(obj) === JSON.stringify({});
 	};
 

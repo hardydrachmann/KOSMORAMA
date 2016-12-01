@@ -24,7 +24,11 @@ var trainingCtrl = function ($rootScope, $state, $timeout, $ionicHistory, $ionic
 						mediaService.pauseIosAudio();
 					}
 				}
-				$state.go('trainingPlan');
+				if (ctrl.currentTraining && ctrl.isToday(ctrl.currentTraining.date)) {
+					$state.go('trainingPlan');
+				} else {
+					$state.go('home');
+				}
 			}
 		});
 		$ionicPlatform.on('resume', function () {
