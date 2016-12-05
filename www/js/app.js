@@ -5,8 +5,8 @@
 // the 2nd parameter is an array of 'requires'
 angular
 	.module('virtualTrainingApp', ['ionic', 'ngCordova', 'angular-svg-round-progressbar'])
-	.run(function ($ionicPlatform) {
-		$ionicPlatform.ready(function () {
+	.run(function($ionicPlatform) {
+		$ionicPlatform.ready(function() {
 			if (window.cordova) {
 				screen.lockOrientation('portrait');
 				window.plugins.insomnia.keepAwake();
@@ -22,15 +22,15 @@ angular
 				cordova.plugins.Keyboard.disableScroll(false);
 			}
 			if (window.StatusBar) {
-				StatusBar.styleDefault();
+				StatusBar.hide();
 			}
 		});
-		$ionicPlatform.registerBackButtonAction(function (e) {
+		$ionicPlatform.registerBackButtonAction(function(e) {
 			e.preventDefault();
 			return false;
 		}, 101);
 	})
-	.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $sceDelegateProvider) {
+	.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $sceDelegateProvider) {
 
 		$stateProvider.state('home', {
 			url: '/home',
