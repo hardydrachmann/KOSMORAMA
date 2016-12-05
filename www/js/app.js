@@ -22,13 +22,8 @@ angular
 				cordova.plugins.Keyboard.disableScroll(false);
 			}
 			if (window.StatusBar) {
-				StatusBar.hide();
+				StatusBar.styleDefault();
 			}
-			$ionicPlatform.on('resume', function() {
-				if (window.StatusBar) {
-					StatusBar.hide();
-				}
-			});
 		});
 		$ionicPlatform.registerBackButtonAction(function(e) {
 			e.preventDefault();
