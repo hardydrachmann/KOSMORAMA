@@ -2,7 +2,7 @@
 
 var deviceService = function() {
 	this.mock = true;
-	this.device = false;
+	this.device = true;
 
 	/**
 	 * Return whether the current device is an Android.
