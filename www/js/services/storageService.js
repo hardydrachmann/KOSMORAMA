@@ -78,6 +78,7 @@ var storageService = function($rootScope, $timeout, $window, $cordovaFile, $inte
 			//			console.log('Verifying user data', userData);
 			if (!userData || isEmptyObject(userData)) {
 				loadUserData(function() {
+					console.log('initEvent');
 					$rootScope.$broadcast('initEvent');
 					if (userData.training) {
 						initTrainingData();
@@ -175,7 +176,7 @@ var storageService = function($rootScope, $timeout, $window, $cordovaFile, $inte
 	 * Get the selected language from local storage.
 	 */
 	this.getSelectedLanguage = function() {
-		verifyData();
+//		verifyData();
 		// console.log('Getting selected language');
 		return userData.language;
 	};

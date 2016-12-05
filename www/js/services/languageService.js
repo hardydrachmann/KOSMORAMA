@@ -1,6 +1,6 @@
 // This is a service which gets and sets the chosen language and the appropriate text to display, where needed.
 
-var languageService = function ($rootScope, $timeout, storageService) {
+var languageService = function ($rootScope, $timeout, $ionicPlatform, storageService) {
 	var self = this;
 
 	self.langs = [];
@@ -9,14 +9,26 @@ var languageService = function ($rootScope, $timeout, storageService) {
 
 	loadData();
 
+	(function init() {
+		initLanguage();
+	});
+
 	$rootScope.$on('initEvent', function () {
+		initLanguage();
+	});
+
+	$ionicPlatform.ready(function () {
+		initLanguage();
+	});
+
+	function initLanguage() {
 		self.lang = storageService.getSelectedLanguage();
 		console.log('Storage Language', self.lang);
 		if (!self.lang) {
 			self.lang = self.langs[0].tag;
 			storageService.setSelectedLanguage(self.lang);
 		}
-	});
+	}
 
 	/**
 	 * Sets language equal to picked language from language menu.
