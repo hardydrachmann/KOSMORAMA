@@ -24,6 +24,11 @@ angular
 			if (window.StatusBar) {
 				StatusBar.hide();
 			}
+			$ionicPlatform.on('resume', function() {
+				if (window.StatusBar) {
+					StatusBar.hide();
+				}
+			});
 		});
 		$ionicPlatform.registerBackButtonAction(function(e) {
 			e.preventDefault();
